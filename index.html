@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nostrix Marketing Services - Coming Soon</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons for modern, clean social icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Google Fonts: Using Syncopate as a widely available alternative to Organetto for the wide, geometric look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0a0a0a',
+                        accent1: '#bac8ff',
+                        accent2: '#d28bff',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syncopate', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            margin: 0;
+            overflow: hidden; /* Prevent scrolling, full screen effect */
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+
+        /* Mouse Glow Effect */
+        #glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(210, 139, 255, 0.15) 0%, rgba(186, 200, 255, 0.05) 40%, rgba(10, 10, 10, 0) 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        /* Content Wrapper */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* Subtle base gradient so it's not completely flat black */
+            background: radial-gradient(circle at center, rgba(30,30,40,0.3) 0%, transparent 100%);
+        }
+
+        /* Logo Placeholder Styling */
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+            border-radius: 50%; /* Adjust to preferred shape (e.g., 0 for square) */
+            background: linear-gradient(135deg, rgba(186, 200, 255, 0.1), rgba(210, 139, 255, 0.1));
+            border: 1px dashed rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensures logo fits within the box */
+        }
+        
+        .logo-placeholder:hover {
+            border-color: rgba(210, 139, 255, 0.5);
+            box-shadow: 0 0 15px rgba(210, 139, 255, 0.2);
+        }
+
+        /* Expanding Text Effect */
+        .interactive-text {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2px;
+            cursor: default;
+        }
+
+        .char {
+            display: inline-block;
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.2s ease, text-shadow 0.2s ease;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .char:hover {
+            transform: scale(1.4) translateY(-10px);
+            color: #d28bff; /* Accent 2 on hover */
+            text-shadow: 0 10px 20px rgba(210, 139, 255, 0.6);
+            z-index: 20;
+        }
+        
+        /* Slight effect on siblings for a wave feel */
+        .char:hover + .char,
+        .char:has(+ .char:hover) {
+             transform: scale(1.15) translateY(-4px);
+             color: #bac8ff;
+             text-shadow: 0 5px 15px rgba(186, 200, 255, 0.4);
+        }
+
+        /* Social Links styling */
+        .social-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .social-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(to right, #bac8ff, #d28bff);
+            transition: width 0.3s ease;
+        }
+        .social-link:hover::after {
+            width: 100%;
+        }
+        .social-link:hover {
+            transform: translateY(-2px);
+        }
+        .social-icon-wrapper {
+             transition: all 0.3s ease;
+        }
+        .social-link:hover .social-icon-wrapper {
+            color: #d28bff;
+            filter: drop-shadow(0 0 8px rgba(210, 139, 255, 0.6));
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- The glowing orb that follows the mouse -->
+    <div id="glow"></div>
+
+    <!-- Main Content -->
+    <main class="content-wrapper px-4">
+        
+        <!-- Top Section with Logo and Name -->
+        <div class="flex flex-col items-center mb-6">
+            
+            <div class="logo-placeholder" title="Nostrix Logo">
+                <img src="logo.png" alt="Nostrix Logo" style="display: block;">
+            </div>
+
+            <h2 class="text-xs md:text-sm font-semibold tracking-[0.3em] uppercase text-gray-400 mb-2">
+                Nostrix
+            </h2>
+            <p class="text-sm md:text-base font-light tracking-widest text-accent1/80">
+                Marketing Services
+            </p>
+        </div>
+
+        <!-- Interactive Coming Soon Text -->
+        <h1 class="interactive-text font-display text-4xl md:text-6xl lg:text-8xl uppercase font-bold text-white my-8 text-center" aria-label="Coming Soon">
+            <!-- JavaScript will populate this -->
+        </h1>
+
+        <!-- Contact & Socials -->
+        <div class="mt-12 flex flex-col items-center gap-6 z-20">
+            
+            <div class="flex flex-col sm:flex-row gap-6 md:gap-10 text-sm font-light text-gray-300">
+                
+                <a href="mailto:marketing@nostrix.ae" class="social-link flex items-center gap-2 group">
+                    <span class="social-icon-wrapper text-xl"><i class="ph ph-envelope-simple"></i></span>
+                    marketing@nostrix.ae
+                </a>
+                
+                <!-- Updated Phone Number -->
+                <a href="tel:+971561195226" class="social-link flex items-center gap-2 group">
+                     <span class="social-icon-wrapper text-xl"><i class="ph ph-phone"></i></span>
+                    +971 56 119 5226
+                </a>
+
+            </div>
+
+            <a href="https://www.instagram.com/nostrix.ae/" target="_blank" rel="noopener noreferrer" class="social-link flex items-center gap-2 mt-4 sm:mt-0 text-white font-medium">
+                 <span class="social-icon-wrapper text-2xl text-accent2"><i class="ph-fill ph-instagram-logo"></i></span>
+                 <span class="tracking-widest uppercase text-xs">Follow Us</span>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // --- 1. Text Splitting Logic ---
+        const textElement = document.querySelector('.interactive-text');
+        const textString = "Coming Soon";
+        
+        // Split text into individual spans for the hover effect
+        textString.split('').forEach(char => {
+            const span = document.createElement('span');
+            if (char === ' ') {
+                span.innerHTML = '&nbsp;';
+                span.style.width = '1rem'; // Space width
+            } else {
+                span.textContent = char;
+                span.classList.add('char');
+            }
+            textElement.appendChild(span);
+        });
+
+        // --- 2. Mouse Glow Logic ---
+        const glowElement = document.getElementById('glow');
+        
+        // Show glow when mouse moves
+        document.addEventListener('mousemove', (e) => {
+            // Unhide the element if it was hidden
+            if(glowElement.style.opacity === '0' || glowElement.style.opacity === '') {
+                glowElement.style.opacity = '1';
+            }
+            
+            // Use requestAnimationFrame for smooth performance
+            requestAnimationFrame(() => {
+                glowElement.style.left = e.clientX + 'px';
+                glowElement.style.top = e.clientY + 'px';
+            });
+        });
+
+        // Hide glow when mouse leaves the window
+        document.addEventListener('mouseleave', () => {
+            glowElement.style.opacity = '0';
+        });
+
+        // Show again when it re-enters
+        document.addEventListener('mouseenter', () => {
+             glowElement.style.opacity = '1';
+        });
+    </script>
+</body>
+</html>
