@@ -1094,6 +1094,28 @@
             margin-top: 2.75rem;
         }
 
+
+        .testimonial-empty {
+            width: min(66vw, 52rem);
+            min-height: 18rem;
+            margin: 2.25rem auto 2.75rem;
+            padding: 2rem;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 1.5rem;
+            color: rgb(161 161 170);
+            background: rgba(255, 255, 255, 0.03);
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .testimonial-empty[hidden] {
+            display: none;
+        }
+
         .testimonial-viewport {
             position: relative;
             overflow: hidden;
@@ -1147,6 +1169,43 @@
                 radial-gradient(circle at 82% 15%, rgba(210, 139, 255, 0.12), transparent 22rem),
                 rgba(255, 255, 255, 0.052);
             box-shadow: 0 2.25rem 5rem rgba(0, 0, 0, 0.30);
+        }
+
+
+        /* Match the review language automatically. */
+        .testimonial-card[dir="ltr"] {
+            text-align: left;
+        }
+
+        .testimonial-card[dir="rtl"] {
+            text-align: right;
+        }
+
+        .testimonial-card[dir="rtl"] .testimonial-topline {
+            flex-direction: row-reverse;
+        }
+
+        .testimonial-card[dir="rtl"] .testimonial-quote,
+        .testimonial-card[dir="rtl"] .testimonial-author {
+            margin-right: 0;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .testimonial-card[dir="rtl"] .testimonial-quote {
+            line-height: 1.9;
+        }
+
+        .testimonial-card[dir="rtl"] .testimonial-author span {
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
+        .testimonial-card[dir="ltr"] .testimonial-quote,
+        .testimonial-card[dir="ltr"] .testimonial-author {
+            margin-right: auto;
+            margin-left: 0;
+            text-align: left;
         }
 
         .testimonial-topline {
@@ -1863,59 +1922,8 @@
                     </div>
                     <div class="testimonial-slider reveal" id="testimonial-slider">
                         <div class="testimonial-viewport">
-                            <div class="testimonial-track" id="testimonial-track">
-                                <article class="testimonial-card vip-client">
-                                    <div>
-                                        <div class="testimonial-topline">
-                                            <div class="quote-mark" aria-hidden="true">“</div>
-                                            <span class="vip-badge"><i class="ph-fill ph-crown" aria-hidden="true"></i>VIP Client</span>
-                                        </div>
-                                        <p class="testimonial-quote">We came to Nostrix with a rough idea and a tight timeline. They turned it into a cohesive launch campaign and made the whole process feel organised from start to finish.</p>
-                                    </div>
-                                    <p class="testimonial-author"><strong>Fashion Brand Client</strong><span>Brand launch · Client feedback</span></p>
-                                </article>
-
-                                <article class="testimonial-card">
-                                    <div>
-                                        <div class="testimonial-topline">
-                                            <div class="quote-mark" aria-hidden="true">“</div>
-                                        </div>
-                                        <p class="testimonial-quote">What stood out was how unobtrusive the team was on the day. They captured the atmosphere, the details and the candid moments without making anything feel staged.</p>
-                                    </div>
-                                    <p class="testimonial-author"><strong>Events Client</strong><span>Event coverage · Client feedback</span></p>
-                                </article>
-
-                                <article class="testimonial-card">
-                                    <div>
-                                        <div class="testimonial-topline">
-                                            <div class="quote-mark" aria-hidden="true">“</div>
-                                        </div>
-                                        <p class="testimonial-quote">The final content gave us exactly what we were missing: a consistent visual style we could use across our website, social media and paid campaigns.</p>
-                                    </div>
-                                    <p class="testimonial-author"><strong>E-commerce Client</strong><span>Content production · Client feedback</span></p>
-                                </article>
-
-                                <article class="testimonial-card vip-client">
-                                    <div>
-                                        <div class="testimonial-topline">
-                                            <div class="quote-mark" aria-hidden="true">“</div>
-                                            <span class="vip-badge"><i class="ph-fill ph-crown" aria-hidden="true"></i>VIP Client</span>
-                                        </div>
-                                        <p class="testimonial-quote">The photos made the property feel bright, spacious and premium while still looking true to the space. We were able to publish them immediately.</p>
-                                    </div>
-                                    <p class="testimonial-author"><strong>Real Estate Client</strong><span>Property photography · Client feedback</span></p>
-                                </article>
-
-                                <article class="testimonial-card">
-                                    <div>
-                                        <div class="testimonial-topline">
-                                            <div class="quote-mark" aria-hidden="true">“</div>
-                                        </div>
-                                        <p class="testimonial-quote">They understood the look we wanted for the car and delivered both photos and short-form video that felt clean, dynamic and high-end.</p>
-                                    </div>
-                                    <p class="testimonial-author"><strong>Automotive Client</strong><span>Photo and video · Client feedback</span></p>
-                                </article>
-                            </div>
+                            <div class="testimonial-track" id="testimonial-track"></div>
+                            <p class="testimonial-empty" id="testimonial-empty" hidden>Approved client reviews will appear here once they are published.</p>
                         </div>
                         <div class="testimonial-navigation" aria-label="Testimonial controls">
                             <button type="button" class="testimonial-arrow" id="testimonial-prev" aria-label="Previous testimonial">
@@ -2164,10 +2172,45 @@
         /* Testimonial spotlight slider + approved Google Sheet reviews */
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+        const legacyTestimonialNames = new Set([
+            'Fashion Brand Client',
+            'Events Client',
+            'E-commerce Client',
+            'Real Estate Client',
+            'Automotive Client'
+        ]);
+
+        const legacyTestimonialPhrases = [
+            'We came to Nostrix with a rough idea and a tight timeline',
+            'What stood out was how unobtrusive the team was on the day',
+            'The final content gave us exactly what we were missing',
+            'The photos made the property feel bright, spacious and premium',
+            'They understood the look we wanted for the car'
+        ];
+
+        function isLegacyTestimonial(review) {
+            const name = String(review?.displayName || '').trim();
+            const quote = String(review?.testimonial || '').trim();
+            return legacyTestimonialNames.has(name)
+                || legacyTestimonialPhrases.some((phrase) => quote.startsWith(phrase));
+        }
+
+        function containsArabic(value) {
+            return /[؀-ۿݐ-ݿࢠ-ࣿ]/.test(String(value || ''));
+        }
+
         function buildApprovedTestimonialCard(review) {
             const card = document.createElement('article');
             card.className = `testimonial-card${review.vip ? ' vip-client' : ''}`;
             card.dataset.reviewId = review.id || '';
+
+            const isArabic = containsArabic([
+                review.testimonial,
+                review.displayName,
+                review.service
+            ].join(' '));
+            card.dir = isArabic ? 'rtl' : 'ltr';
+            card.lang = isArabic ? 'ar' : 'en';
 
             const content = document.createElement('div');
             const topLine = document.createElement('div');
@@ -2223,8 +2266,23 @@
             return new Promise((resolve) => {
                 const endpoint = window.NOSTRIX_REVIEWS_WEB_APP_URL || '';
                 const track = document.getElementById('testimonial-track');
+                const emptyState = document.getElementById('testimonial-empty');
 
-                if (!track || !endpoint || endpoint.includes('PASTE_GOOGLE_APPS_SCRIPT')) {
+                if (!track) {
+                    resolve();
+                    return;
+                }
+
+                // Only approved Google Sheet reviews are allowed in this track.
+                track.replaceChildren();
+                if (emptyState) emptyState.hidden = true;
+
+                const showEmptyState = () => {
+                    if (emptyState) emptyState.hidden = track.children.length > 0;
+                };
+
+                if (!endpoint || endpoint.includes('PASTE_GOOGLE_APPS_SCRIPT')) {
+                    showEmptyState();
                     resolve();
                     return;
                 }
@@ -2236,6 +2294,7 @@
                 const finish = () => {
                     if (completed) return;
                     completed = true;
+                    showEmptyState();
                     delete window[callbackName];
                     script.remove();
                     resolve();
@@ -2243,14 +2302,15 @@
 
                 window[callbackName] = (payload) => {
                     const reviews = Array.isArray(payload?.reviews) ? payload.reviews : [];
-                    const existingIds = new Set(
-                        Array.from(track.querySelectorAll('[data-review-id]'))
-                            .map((item) => item.dataset.reviewId)
-                            .filter(Boolean)
-                    );
+                    const existingIds = new Set();
 
                     reviews.forEach((review) => {
-                        if (!review?.testimonial || (review.id && existingIds.has(review.id))) return;
+                        // The slider accepts only live, approved Sheet reviews.
+                        // Known legacy demo cards are rejected even if an old cached
+                        // deployment or test row returns them.
+                        if (!review?.testimonial || isLegacyTestimonial(review)) return;
+                        if (review.id && existingIds.has(review.id)) return;
+                        if (review.id) existingIds.add(review.id);
                         track.appendChild(buildApprovedTestimonialCard(review));
                     });
 
@@ -2273,6 +2333,9 @@
             const testimonialProgress = document.getElementById('testimonial-progress-fill');
             const testimonialPrev = document.getElementById('testimonial-prev');
             const testimonialNext = document.getElementById('testimonial-next');
+            const testimonialNavigation = testimonialSlider?.querySelector('.testimonial-navigation');
+            const testimonialProgressBar = testimonialSlider?.querySelector('.testimonial-progress');
+            const testimonialEmpty = document.getElementById('testimonial-empty');
             const testimonialDelay = 6500;
             let testimonialIndex = 1;
             let testimonialTimer = null;
@@ -2282,7 +2345,38 @@
             testimonialTrack.dataset.sliderReady = 'true';
 
             const originalTestimonials = Array.from(testimonialTrack.children);
-            if (!originalTestimonials.length) return;
+
+            if (!originalTestimonials.length) {
+                if (testimonialEmpty) testimonialEmpty.hidden = false;
+                if (testimonialNavigation) testimonialNavigation.hidden = true;
+                if (testimonialProgressBar) testimonialProgressBar.hidden = true;
+                return;
+            }
+
+            if (testimonialEmpty) testimonialEmpty.hidden = true;
+
+            if (originalTestimonials.length === 1) {
+                if (testimonialNavigation) testimonialNavigation.hidden = true;
+                if (testimonialProgressBar) testimonialProgressBar.hidden = true;
+
+                const onlySlide = originalTestimonials[0];
+                onlySlide.classList.add('is-active');
+                onlySlide.setAttribute('aria-hidden', 'false');
+
+                const centerOnlyTestimonial = () => {
+                    testimonialTrack.style.transition = 'none';
+                    const activeCenter = onlySlide.offsetLeft + onlySlide.offsetWidth / 2;
+                    const viewportCenter = testimonialViewport.clientWidth / 2;
+                    testimonialTrack.style.transform = `translate3d(${viewportCenter - activeCenter}px, 0, 0)`;
+                };
+
+                window.addEventListener('resize', centerOnlyTestimonial, { passive: true });
+                requestAnimationFrame(centerOnlyTestimonial);
+                return;
+            }
+
+            if (testimonialNavigation) testimonialNavigation.hidden = false;
+            if (testimonialProgressBar) testimonialProgressBar.hidden = false;
 
             const firstClone = originalTestimonials[0].cloneNode(true);
             const lastClone = originalTestimonials[originalTestimonials.length - 1].cloneNode(true);
