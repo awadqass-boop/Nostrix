@@ -189,18 +189,29 @@
         }
 
         .nav-brand {
+            display: inline-flex;
             flex: 0 0 auto;
+            align-items: center;
+            gap: 0.65rem;
             color: #fff;
             font-family: 'Syncopate', sans-serif;
             font-size: 0.78rem;
             font-weight: 700;
             letter-spacing: 0.22em;
             text-transform: uppercase;
-            transition: color 300ms ease;
+            transition: color 300ms ease, transform 300ms ease;
+        }
+
+        .nav-brand img {
+            width: 1.65rem;
+            height: 1.65rem;
+            object-fit: contain;
+            flex: 0 0 auto;
         }
 
         .nav-brand:hover {
             color: var(--accent-1);
+            transform: translateY(-1px);
         }
 
         .nav-menu {
@@ -1197,8 +1208,7 @@
         }
 
         .testimonial-card[dir="rtl"] .testimonial-author span {
-            letter-spacing: 0;
-            text-transform: none;
+            letter-spacing: 0.03em;
         }
 
         .testimonial-card[dir="ltr"] .testimonial-quote,
@@ -1268,6 +1278,8 @@
             color: #fff;
             font-size: 0.95rem;
             font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase !important;
         }
 
         .testimonial-author span {
@@ -1277,7 +1289,19 @@
             font-size: 0.72rem;
             font-weight: 500;
             letter-spacing: 0.12em;
-            text-transform: uppercase;
+            text-transform: uppercase !important;
+        }
+
+        .testimonial-meta {
+            direction: ltr;
+            unicode-bidi: isolate;
+            text-transform: uppercase !important;
+        }
+
+        .testimonial-card[dir="rtl"] .testimonial-meta {
+            text-align: right;
+            letter-spacing: 0.12em;
+            text-transform: uppercase !important;
         }
 
         .testimonial-instagram {
@@ -1699,7 +1723,10 @@
     <div class="site-shell">
         <header class="site-nav">
             <nav class="nav-inner" aria-label="Primary navigation">
-                <a href="#home" class="nav-brand" aria-label="Nostrix home">Nostrix</a>
+                <a href="index.html" class="nav-brand" aria-label="Reload Nostrix homepage">
+                    <img src="logo.png" alt="" aria-hidden="true">
+                    <span>Nostrix</span>
+                </a>
 
                 <div class="nav-menu">
                     <a href="#services" class="nav-link">Services</a>
@@ -1712,11 +1739,6 @@
         <main>
             <section id="home" class="hero" aria-labelledby="hero-title">
                 <div class="hero-content">
-                    <div class="logo-placeholder" title="Nostrix Logo">
-                        <img src="logo.png" alt="Nostrix logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="logo-fallback" aria-hidden="true">N</span>
-                    </div>
-
                     <div class="eyebrow">
                         <p class="mb-2 text-xs font-semibold uppercase tracking-[0.32em] text-zinc-400">Nostrix Marketing Services</p>
                         <p class="text-sm font-light tracking-[0.2em] text-accent1/80 md:text-base">Creative strategy · Content · Production</p>
@@ -2280,9 +2302,14 @@
             const author = document.createElement('p');
             author.className = 'testimonial-author';
             const name = document.createElement('strong');
-            name.textContent = review.displayName || 'Anonymous Client';
+            name.textContent = String(review.displayName || 'Anonymous Client').toLocaleUpperCase('en-US');
             const meta = document.createElement('span');
-            meta.textContent = `${review.service || 'Nostrix service'} · Verified client feedback`;
+            meta.className = 'testimonial-meta';
+            meta.lang = 'en';
+            meta.dir = 'ltr';
+            const serviceLabel = String(review.service || 'NOSTRIX SERVICE')
+                .replace(/[a-z]/g, (letter) => letter.toUpperCase());
+            meta.textContent = `${serviceLabel} · VERIFIED CLIENT FEEDBACK`;
             author.append(name, meta);
 
             const instagramHandle = normaliseInstagramHandle(review.instagram);
