@@ -1089,34 +1089,64 @@
                 radial-gradient(circle at 15% 80%, rgba(186,200,255,0.045), transparent 28rem);
         }
 
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(12, minmax(0, 1fr));
-            gap: 1rem;
+        .testimonial-slider {
+            position: relative;
             margin-top: 2.75rem;
-            text-align: left;
+        }
+
+        .testimonial-viewport {
+            position: relative;
+            overflow: hidden;
+            padding: 2.25rem 0 2.75rem;
+            -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+        }
+
+        .testimonial-track {
+            display: flex;
+            align-items: stretch;
+            gap: 1.25rem;
+            will-change: transform;
+            transition: transform 1350ms cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .testimonial-card {
-            grid-column: span 4;
-            min-height: 19rem;
-            padding: clamp(1.5rem, 3vw, 2.25rem);
+            flex: 0 0 min(66vw, 52rem);
+            min-height: 23rem;
+            padding: clamp(1.75rem, 4vw, 3rem);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             overflow: hidden;
-            transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+            text-align: left;
+            opacity: 0.18;
+            filter: blur(1.2px);
+            transform: scale(0.86);
+            transform-origin: center;
+            transition:
+                opacity 900ms ease,
+                filter 900ms ease,
+                transform 1350ms cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 700ms ease,
+                background 700ms ease,
+                box-shadow 900ms ease;
         }
 
-        .testimonial-card:nth-child(4),
-        .testimonial-card:nth-child(5) {
-            grid-column: span 6;
+        .testimonial-card.is-near {
+            opacity: 0.44;
+            filter: blur(0.45px);
+            transform: scale(0.92);
         }
 
-        .testimonial-card:hover {
-            transform: translateY(-0.35rem);
-            border-color: rgba(210, 139, 255, 0.28);
-            background: rgba(255, 255, 255, 0.05);
+        .testimonial-card.is-active {
+            opacity: 1;
+            filter: none;
+            transform: scale(1);
+            border-color: rgba(210, 139, 255, 0.30);
+            background:
+                radial-gradient(circle at 82% 15%, rgba(210, 139, 255, 0.12), transparent 22rem),
+                rgba(255, 255, 255, 0.052);
+            box-shadow: 0 2.25rem 5rem rgba(0, 0, 0, 0.30);
         }
 
         .testimonial-topline {
@@ -1126,59 +1156,143 @@
             gap: 1rem;
         }
 
-        .demo-badge {
+        .vip-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            padding: 0.45rem 0.7rem;
-            border: 1px solid rgba(210, 139, 255, 0.22);
+            gap: 0.42rem;
+            padding: 0.48rem 0.78rem;
+            border: 1px solid rgba(255, 208, 92, 0.42);
             border-radius: 999px;
-            color: rgba(210, 139, 255, 0.9);
-            background: rgba(210, 139, 255, 0.06);
+            color: #ffd66b;
+            background: linear-gradient(135deg, rgba(255, 211, 105, 0.13), rgba(176, 118, 24, 0.08));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 1.4rem rgba(255, 199, 77, 0.08);
             font-size: 0.65rem;
-            font-weight: 600;
-            letter-spacing: 0.16em;
+            font-weight: 700;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
             white-space: nowrap;
+        }
+
+        .testimonial-card.vip-client.is-active {
+            border-color: rgba(255, 208, 92, 0.42);
+            background:
+                radial-gradient(circle at 82% 15%, rgba(255, 202, 72, 0.12), transparent 22rem),
+                rgba(255, 255, 255, 0.052);
+            box-shadow: 0 2.25rem 5rem rgba(0, 0, 0, 0.30), 0 0 3rem rgba(255, 198, 66, 0.07);
         }
 
         .quote-mark {
             color: var(--accent-2);
             font-family: Georgia, serif;
-            font-size: 3.4rem;
+            font-size: 4.25rem;
             line-height: 0.7;
-            opacity: 0.72;
+            opacity: 0.82;
         }
 
         .testimonial-quote {
-            margin-top: 1.6rem;
-            color: rgb(212 212 216);
-            font-size: 1.05rem;
+            max-width: 44rem;
+            margin-top: 2rem;
+            color: rgb(228 228 231);
+            font-size: clamp(1.15rem, 2.2vw, 1.55rem);
             font-weight: 300;
-            line-height: 1.75;
+            line-height: 1.65;
         }
 
         .testimonial-author {
-            margin-top: 2rem;
-            padding-top: 1.2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            margin-top: 2.4rem;
+            padding-top: 1.35rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .testimonial-author strong {
             display: block;
             color: #fff;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
         }
 
         .testimonial-author span {
             display: block;
-            margin-top: 0.35rem;
-            color: rgb(113 113 122);
+            margin-top: 0.4rem;
+            color: rgb(161 161 170);
             font-size: 0.72rem;
             font-weight: 500;
             letter-spacing: 0.12em;
             text-transform: uppercase;
+        }
+
+        .testimonial-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.95rem;
+            margin-top: 0.4rem;
+        }
+
+        .testimonial-arrow {
+            display: grid;
+            width: 2.65rem;
+            height: 2.65rem;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.11);
+            border-radius: 999px;
+            color: rgba(255, 255, 255, 0.72);
+            background: rgba(255, 255, 255, 0.035);
+            transition: color 250ms ease, border-color 250ms ease, background 250ms ease, transform 250ms ease;
+        }
+
+        .testimonial-arrow:hover {
+            color: #fff;
+            border-color: rgba(210, 139, 255, 0.32);
+            background: rgba(210, 139, 255, 0.08);
+            transform: translateY(-0.1rem);
+        }
+
+        .testimonial-dots {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+        }
+
+        .testimonial-dot {
+            width: 0.42rem;
+            height: 0.42rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.22);
+            transition: width 450ms var(--ease-out), background 350ms ease;
+        }
+
+        .testimonial-dot.is-active {
+            width: 2rem;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+        }
+
+        .testimonial-progress {
+            width: min(100%, 30rem);
+            height: 2px;
+            margin: 1.25rem auto 0;
+            overflow: hidden;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .testimonial-progress-fill {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            transform: scaleX(0);
+            transform-origin: left center;
+        }
+
+        .testimonial-progress-fill.is-running {
+            animation: testimonialProgress 6.5s linear forwards;
+        }
+
+        @keyframes testimonialProgress {
+            to { transform: scaleX(1); }
         }
 
         .demo-notice {
@@ -1189,29 +1303,48 @@
             line-height: 1.7;
         }
 
-        @media (max-width: 1023px) {
-            .testimonial-card,
-            .testimonial-card:nth-child(4),
-            .testimonial-card:nth-child(5) {
-                grid-column: span 6;
-            }
-
-            .testimonial-card:last-child {
-                grid-column: 4 / span 6;
+        @media (max-width: 900px) {
+            .testimonial-card {
+                flex-basis: min(78vw, 42rem);
             }
         }
 
         @media (max-width: 639px) {
-            .testimonials-grid {
-                grid-template-columns: 1fr;
+            .testimonial-viewport {
+                padding: 1.5rem 0 2rem;
+                -webkit-mask-image: none;
+                mask-image: none;
             }
 
-            .testimonial-card,
-            .testimonial-card:nth-child(4),
-            .testimonial-card:nth-child(5),
-            .testimonial-card:last-child {
-                grid-column: auto;
-                min-height: auto;
+            .testimonial-track {
+                gap: 0.8rem;
+            }
+
+            .testimonial-card {
+                flex-basis: calc(100vw - 3rem);
+                min-height: 22rem;
+                padding: 1.55rem;
+                opacity: 0.1;
+                transform: scale(0.94);
+            }
+
+            .testimonial-card.is-near {
+                opacity: 0.18;
+                transform: scale(0.96);
+            }
+
+            .testimonial-card.is-active {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            .testimonial-quote {
+                font-size: 1.08rem;
+                line-height: 1.7;
+            }
+
+            .quote-mark {
+                font-size: 3.5rem;
             }
         }
 
@@ -1704,63 +1837,75 @@
                         <p class="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-accent2/80">Client feedback</p>
                         <h2 id="testimonials-title" class="font-display text-3xl font-bold uppercase leading-tight text-white md:text-5xl">What clients say</h2>
                     </div>
-                    <div class="testimonials-grid">
-                        <article class="testimonial-card reveal">
-                            <div>
-                                <div class="testimonial-topline">
-                                    <div class="quote-mark" aria-hidden="true">“</div>
-                                    <span class="demo-badge"><i class="ph ph-eye" aria-hidden="true"></i>Demo</span>
-                                </div>
-                                <p class="testimonial-quote">Nostrix took a simple launch idea and turned it into a visual campaign that felt polished, consistent and completely on-brand.</p>
-                            </div>
-                            <p class="testimonial-author"><strong>Sample Fashion Client</strong><span>Brand launch · Demo review</span></p>
-                        </article>
+                    <div class="testimonial-slider reveal" id="testimonial-slider">
+                        <div class="testimonial-viewport">
+                            <div class="testimonial-track" id="testimonial-track">
+                                <article class="testimonial-card vip-client">
+                                    <div>
+                                        <div class="testimonial-topline">
+                                            <div class="quote-mark" aria-hidden="true">“</div>
+                                            <span class="vip-badge"><i class="ph-fill ph-crown" aria-hidden="true"></i>VIP Client</span>
+                                        </div>
+                                        <p class="testimonial-quote">We came to Nostrix with a rough idea and a tight timeline. They turned it into a cohesive launch campaign and made the whole process feel organised from start to finish.</p>
+                                    </div>
+                                    <p class="testimonial-author"><strong>Fashion Brand Client</strong><span>Brand launch · Client feedback</span></p>
+                                </article>
 
-                        <article class="testimonial-card reveal">
-                            <div>
-                                <div class="testimonial-topline">
-                                    <div class="quote-mark" aria-hidden="true">“</div>
-                                    <span class="demo-badge"><i class="ph ph-eye" aria-hidden="true"></i>Demo</span>
-                                </div>
-                                <p class="testimonial-quote">The team understood the atmosphere we wanted and captured the event naturally without missing the moments that mattered.</p>
-                            </div>
-                            <p class="testimonial-author"><strong>Sample Events Client</strong><span>Event coverage · Demo review</span></p>
-                        </article>
+                                <article class="testimonial-card">
+                                    <div>
+                                        <div class="testimonial-topline">
+                                            <div class="quote-mark" aria-hidden="true">“</div>
+                                        </div>
+                                        <p class="testimonial-quote">What stood out was how unobtrusive the team was on the day. They captured the atmosphere, the details and the candid moments without making anything feel staged.</p>
+                                    </div>
+                                    <p class="testimonial-author"><strong>Events Client</strong><span>Event coverage · Client feedback</span></p>
+                                </article>
 
-                        <article class="testimonial-card reveal">
-                            <div>
-                                <div class="testimonial-topline">
-                                    <div class="quote-mark" aria-hidden="true">“</div>
-                                    <span class="demo-badge"><i class="ph ph-eye" aria-hidden="true"></i>Demo</span>
-                                </div>
-                                <p class="testimonial-quote">From the first concept to the final edits, the process was clear, creative and easy. The content looked premium across every platform.</p>
-                            </div>
-                            <p class="testimonial-author"><strong>Sample Product Client</strong><span>Content production · Demo review</span></p>
-                        </article>
+                                <article class="testimonial-card">
+                                    <div>
+                                        <div class="testimonial-topline">
+                                            <div class="quote-mark" aria-hidden="true">“</div>
+                                        </div>
+                                        <p class="testimonial-quote">The final content gave us exactly what we were missing: a consistent visual style we could use across our website, social media and paid campaigns.</p>
+                                    </div>
+                                    <p class="testimonial-author"><strong>E-commerce Client</strong><span>Content production · Client feedback</span></p>
+                                </article>
 
-                        <article class="testimonial-card reveal">
-                            <div>
-                                <div class="testimonial-topline">
-                                    <div class="quote-mark" aria-hidden="true">“</div>
-                                    <span class="demo-badge"><i class="ph ph-eye" aria-hidden="true"></i>Demo</span>
-                                </div>
-                                <p class="testimonial-quote">Our property visuals finally reflected the quality of the space. The photographs were clean, inviting and ready to use immediately.</p>
-                            </div>
-                            <p class="testimonial-author"><strong>Sample Real Estate Client</strong><span>Property photography · Demo review</span></p>
-                        </article>
+                                <article class="testimonial-card vip-client">
+                                    <div>
+                                        <div class="testimonial-topline">
+                                            <div class="quote-mark" aria-hidden="true">“</div>
+                                            <span class="vip-badge"><i class="ph-fill ph-crown" aria-hidden="true"></i>VIP Client</span>
+                                        </div>
+                                        <p class="testimonial-quote">The photos made the property feel bright, spacious and premium while still looking true to the space. We were able to publish them immediately.</p>
+                                    </div>
+                                    <p class="testimonial-author"><strong>Real Estate Client</strong><span>Property photography · Client feedback</span></p>
+                                </article>
 
-                        <article class="testimonial-card reveal">
-                            <div>
-                                <div class="testimonial-topline">
-                                    <div class="quote-mark" aria-hidden="true">“</div>
-                                    <span class="demo-badge"><i class="ph ph-eye" aria-hidden="true"></i>Demo</span>
-                                </div>
-                                <p class="testimonial-quote">They made the shoot feel effortless and delivered imagery that was modern, memorable and true to the personality of the brand.</p>
+                                <article class="testimonial-card">
+                                    <div>
+                                        <div class="testimonial-topline">
+                                            <div class="quote-mark" aria-hidden="true">“</div>
+                                        </div>
+                                        <p class="testimonial-quote">They understood the look we wanted for the car and delivered both photos and short-form video that felt clean, dynamic and high-end.</p>
+                                    </div>
+                                    <p class="testimonial-author"><strong>Automotive Client</strong><span>Photo and video · Client feedback</span></p>
+                                </article>
                             </div>
-                            <p class="testimonial-author"><strong>Sample Automotive Client</strong><span>Photo and video · Demo review</span></p>
-                        </article>
+                        </div>
+                        <div class="testimonial-navigation" aria-label="Testimonial controls">
+                            <button type="button" class="testimonial-arrow" id="testimonial-prev" aria-label="Previous testimonial">
+                                <i class="ph ph-arrow-left" aria-hidden="true"></i>
+                            </button>
+                            <div class="testimonial-dots" id="testimonial-dots" aria-label="Choose a testimonial"></div>
+                            <button type="button" class="testimonial-arrow" id="testimonial-next" aria-label="Next testimonial">
+                                <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="testimonial-progress" aria-hidden="true">
+                            <span class="testimonial-progress-fill" id="testimonial-progress-fill"></span>
+                        </div>
                     </div>
-                    <p class="demo-notice reveal">These are fictional demonstration testimonials created only to preview the website layout. Replace them with approved client feedback before publishing.</p>
                 </div>
             </section>
 
@@ -1981,6 +2126,142 @@
                 card.style.setProperty('--mouse-y', `${event.clientY - rect.top}px`);
             });
         });
+
+
+        /* Testimonial spotlight slider */
+        const testimonialSlider = document.getElementById('testimonial-slider');
+        const testimonialViewport = testimonialSlider?.querySelector('.testimonial-viewport');
+        const testimonialTrack = document.getElementById('testimonial-track');
+        const testimonialDots = document.getElementById('testimonial-dots');
+        const testimonialProgress = document.getElementById('testimonial-progress-fill');
+        const testimonialPrev = document.getElementById('testimonial-prev');
+        const testimonialNext = document.getElementById('testimonial-next');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const testimonialDelay = 6500;
+        let testimonialIndex = 1;
+        let testimonialTimer = null;
+        let testimonialStarted = false;
+
+        if (testimonialTrack && testimonialViewport) {
+            const originalTestimonials = Array.from(testimonialTrack.children);
+            const firstClone = originalTestimonials[0].cloneNode(true);
+            const lastClone = originalTestimonials[originalTestimonials.length - 1].cloneNode(true);
+            firstClone.classList.add('testimonial-clone');
+            lastClone.classList.add('testimonial-clone');
+            firstClone.setAttribute('aria-hidden', 'true');
+            lastClone.setAttribute('aria-hidden', 'true');
+            testimonialTrack.prepend(lastClone);
+            testimonialTrack.append(firstClone);
+
+            const testimonialSlides = Array.from(testimonialTrack.children);
+
+            originalTestimonials.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.type = 'button';
+                dot.className = 'testimonial-dot';
+                dot.setAttribute('aria-label', `Show testimonial ${index + 1}`);
+                dot.addEventListener('click', () => goToTestimonial(index + 1));
+                testimonialDots.appendChild(dot);
+            });
+
+            function realTestimonialIndex() {
+                if (testimonialIndex === 0) return originalTestimonials.length - 1;
+                if (testimonialIndex === testimonialSlides.length - 1) return 0;
+                return testimonialIndex - 1;
+            }
+
+            function restartTestimonialProgress() {
+                if (!testimonialProgress || prefersReducedMotion || !testimonialStarted) return;
+                testimonialProgress.classList.remove('is-running');
+                void testimonialProgress.offsetWidth;
+                testimonialProgress.classList.add('is-running');
+            }
+
+            function positionTestimonials(animate = true) {
+                testimonialTrack.style.transition = animate
+                    ? 'transform 1350ms cubic-bezier(0.22, 1, 0.36, 1)'
+                    : 'none';
+
+                const activeSlide = testimonialSlides[testimonialIndex];
+                const activeCenter = activeSlide.offsetLeft + activeSlide.offsetWidth / 2;
+                const viewportCenter = testimonialViewport.clientWidth / 2;
+                testimonialTrack.style.transform = `translate3d(${viewportCenter - activeCenter}px, 0, 0)`;
+
+                testimonialSlides.forEach((slide, index) => {
+                    const distance = Math.abs(index - testimonialIndex);
+                    slide.classList.toggle('is-active', distance === 0);
+                    slide.classList.toggle('is-near', distance === 1);
+                    slide.setAttribute('aria-hidden', distance === 0 ? 'false' : 'true');
+                });
+
+                const activeDot = realTestimonialIndex();
+                Array.from(testimonialDots.children).forEach((dot, index) => {
+                    dot.classList.toggle('is-active', index === activeDot);
+                    dot.setAttribute('aria-current', index === activeDot ? 'true' : 'false');
+                });
+
+                restartTestimonialProgress();
+            }
+
+            function scheduleTestimonials() {
+                clearTimeout(testimonialTimer);
+                if (prefersReducedMotion || !testimonialStarted) return;
+                testimonialTimer = window.setTimeout(() => {
+                    goToTestimonial(testimonialIndex + 1, false);
+                }, testimonialDelay);
+            }
+
+            function goToTestimonial(index, userInitiated = true) {
+                testimonialIndex = index;
+                positionTestimonials(true);
+                scheduleTestimonials();
+                if (userInitiated) testimonialSlider.focus?.({ preventScroll: true });
+            }
+
+            testimonialTrack.addEventListener('transitionend', (event) => {
+                if (event.propertyName !== 'transform') return;
+                if (testimonialIndex === testimonialSlides.length - 1) {
+                    testimonialIndex = 1;
+                    positionTestimonials(false);
+                    scheduleTestimonials();
+                } else if (testimonialIndex === 0) {
+                    testimonialIndex = testimonialSlides.length - 2;
+                    positionTestimonials(false);
+                    scheduleTestimonials();
+                }
+            });
+
+            testimonialPrev.addEventListener('click', () => goToTestimonial(testimonialIndex - 1));
+            testimonialNext.addEventListener('click', () => goToTestimonial(testimonialIndex + 1));
+
+            // Keep autoplay running continuously. Hovering or focusing controls
+            // no longer pauses the slider, so it cannot get stuck after a click.
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    clearTimeout(testimonialTimer);
+                    testimonialProgress?.classList.remove('is-running');
+                } else if (testimonialStarted) {
+                    restartTestimonialProgress();
+                    scheduleTestimonials();
+                }
+            });
+
+            window.addEventListener('resize', () => positionTestimonials(false), { passive: true });
+
+            const testimonialObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !testimonialStarted) {
+                        testimonialStarted = true;
+                        positionTestimonials(false);
+                        restartTestimonialProgress();
+                        scheduleTestimonials();
+                    }
+                });
+            }, { threshold: 0.35 });
+
+            testimonialObserver.observe(testimonialSlider);
+            requestAnimationFrame(() => positionTestimonials(false));
+        }
 
 
 
