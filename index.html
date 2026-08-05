@@ -3,260 +3,893 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nostrix Marketing Services - Coming Soon</title>
-    
-    <!-- Tailwind CSS -->
+    <meta name="description" content="Nostrix Marketing Services — creative marketing, content, branding, photography and videography services in the UAE.">
+    <meta name="theme-color" content="#08080b">
+    <title>Nostrix Marketing Services — Coming Soon</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Phosphor Icons for modern, clean social icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <!-- Google Fonts: Using Syncopate as a widely available alternative to Organetto for the wide, geometric look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        darkBg: '#0a0a0a',
+                        darkBg: '#08080b',
                         accent1: '#bac8ff',
-                        accent2: '#d28bff',
+                        accent2: '#d28bff'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        display: ['Syncopate', 'sans-serif'],
+                        display: ['Syncopate', 'sans-serif']
                     }
                 }
             }
-        }
+        };
     </script>
-    
+
     <style>
-        body {
-            background-color: #0a0a0a;
-            color: #ffffff;
-            margin: 0;
-            overflow: hidden; /* Prevent scrolling, full screen effect */
-            font-family: 'Inter', sans-serif;
-            position: relative;
+        :root {
+            --bg: #08080b;
+            --surface: rgba(255, 255, 255, 0.045);
+            --surface-hover: rgba(255, 255, 255, 0.075);
+            --border: rgba(255, 255, 255, 0.10);
+            --muted: #a1a1aa;
+            --accent-1: #bac8ff;
+            --accent-2: #d28bff;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Mouse Glow Effect */
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: var(--bg);
+        }
+
+        body {
+            margin: 0;
+            min-height: 100%;
+            overflow-x: hidden;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(186, 200, 255, 0.08), transparent 34rem),
+                var(--bg);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+        }
+
+        ::selection {
+            color: #08080b;
+            background: var(--accent-1);
+        }
+
+        .page-noise {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.75'/%3E%3C/svg%3E");
+        }
+
+        .ambient-orb {
+            position: fixed;
+            width: 34rem;
+            height: 34rem;
+            border-radius: 999px;
+            filter: blur(90px);
+            opacity: 0.11;
+            pointer-events: none;
+            z-index: 0;
+            animation: drift 14s var(--ease-out) infinite alternate;
+        }
+
+        .ambient-orb.one {
+            top: -14rem;
+            left: -12rem;
+            background: var(--accent-1);
+        }
+
+        .ambient-orb.two {
+            right: -14rem;
+            bottom: 5rem;
+            background: var(--accent-2);
+            animation-delay: -5s;
+        }
+
+        @keyframes drift {
+            from { transform: translate3d(0, 0, 0) scale(0.95); }
+            to { transform: translate3d(4rem, 2rem, 0) scale(1.08); }
+        }
+
         #glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 28rem;
+            height: 28rem;
+            z-index: 1;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            background: radial-gradient(circle, rgba(210, 139, 255, 0.12) 0%, rgba(186, 200, 255, 0.05) 38%, transparent 70%);
+            transform: translate3d(-50%, -50%, 0);
+            transition: opacity 500ms ease;
+            will-change: transform;
+        }
+
+        .site-shell {
+            position: relative;
+            z-index: 2;
+        }
+
+        .site-nav {
             position: absolute;
             top: 0;
             left: 0;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(210, 139, 255, 0.15) 0%, rgba(186, 200, 255, 0.05) 40%, rgba(10, 10, 10, 0) 70%);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 1;
-            transition: opacity 0.3s ease;
-            opacity: 0;
+            right: 0;
+            z-index: 20;
         }
 
-        /* Content Wrapper */
-        .content-wrapper {
+        .nav-link {
             position: relative;
-            z-index: 10;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            /* Subtle base gradient so it's not completely flat black */
-            background: radial-gradient(circle at center, rgba(30,30,40,0.3) 0%, transparent 100%);
+            color: rgba(255, 255, 255, 0.65);
+            transition: color 300ms ease;
         }
 
-        /* Logo Placeholder Styling */
-        .logo-placeholder {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1rem;
-            border-radius: 50%; /* Adjust to preferred shape (e.g., 0 for square) */
-            background: linear-gradient(135deg, rgba(186, 200, 255, 0.1), rgba(210, 139, 255, 0.1));
-            border: 1px dashed rgba(255,255,255,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            transition: all 0.3s ease;
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 100%;
+            bottom: -0.35rem;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            transition: right 450ms var(--ease-out);
         }
-        
+
+        .nav-link:hover {
+            color: #fff;
+        }
+
+        .nav-link:hover::after {
+            right: 0;
+        }
+
+        .hero {
+            min-height: 100svh;
+            display: grid;
+            place-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 7rem 1.25rem 4rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 15% 10%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(30, 30, 44, 0.68), transparent 68%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            width: min(100%, 72rem);
+            text-align: center;
+        }
+
+        .logo-placeholder {
+            width: 5rem;
+            height: 5rem;
+            margin: 0 auto 1.25rem;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(186, 200, 255, 0.12), rgba(210, 139, 255, 0.10));
+            box-shadow: 0 0 0 0 rgba(210, 139, 255, 0);
+            animation: logoReveal 1.1s var(--ease-out) both, logoPulse 4.5s ease-in-out 1.2s infinite;
+        }
+
         .logo-placeholder img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Ensures logo fits within the box */
-        }
-        
-        .logo-placeholder:hover {
-            border-color: rgba(210, 139, 255, 0.5);
-            box-shadow: 0 0 15px rgba(210, 139, 255, 0.2);
+            object-fit: contain;
         }
 
-        /* Expanding Text Effect */
+        .logo-fallback {
+            display: none;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.35rem;
+            color: var(--accent-1);
+        }
+
+        @keyframes logoReveal {
+            from { opacity: 0; transform: translateY(1.25rem) scale(0.82); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(210, 139, 255, 0); }
+            50% { box-shadow: 0 0 2.5rem rgba(210, 139, 255, 0.16); }
+        }
+
+        .eyebrow,
+        .hero-subtitle,
+        .hero-actions,
+        .contact-row {
+            opacity: 0;
+            transform: translateY(1rem);
+            animation: fadeUp 900ms var(--ease-out) forwards;
+        }
+
+        .eyebrow { animation-delay: 180ms; }
+        .hero-subtitle { animation-delay: 950ms; }
+        .hero-actions { animation-delay: 1.1s; }
+        .contact-row { animation-delay: 1.25s; }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .interactive-text {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 2px;
+            gap: 0.03em;
             cursor: default;
+            perspective: 700px;
+        }
+
+        .char,
+        .char-space {
+            display: inline-block;
         }
 
         .char {
-            display: inline-block;
-            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.2s ease, text-shadow 0.2s ease;
-            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            opacity: 0;
+            transform: translateY(1.1em) rotateX(-55deg) scale(0.92);
+            transform-origin: 50% 100%;
+            animation: charReveal 850ms var(--ease-out) forwards;
+            transition:
+                transform 500ms var(--ease-out),
+                color 350ms ease,
+                text-shadow 350ms ease;
+            will-change: transform;
         }
 
         .char:hover {
-            transform: scale(1.4) translateY(-10px);
-            color: #d28bff; /* Accent 2 on hover */
-            text-shadow: 0 10px 20px rgba(210, 139, 255, 0.6);
-            z-index: 20;
-        }
-        
-        /* Slight effect on siblings for a wave feel */
-        .char:hover + .char,
-        .char:has(+ .char:hover) {
-             transform: scale(1.15) translateY(-4px);
-             color: #bac8ff;
-             text-shadow: 0 5px 15px rgba(186, 200, 255, 0.4);
+            color: var(--accent-2);
+            transform: translateY(-0.16em) scale(1.12);
+            text-shadow: 0 0.4em 0.8em rgba(210, 139, 255, 0.38);
         }
 
-        /* Social Links styling */
-        .social-link {
-            transition: all 0.3s ease;
-            position: relative;
+        @keyframes charReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0) scale(1);
+            }
         }
+
+        .primary-button,
+        .secondary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            min-height: 3rem;
+            padding: 0 1.15rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            transition:
+                transform 400ms var(--ease-out),
+                box-shadow 400ms var(--ease-out),
+                border-color 400ms ease,
+                background 400ms ease;
+        }
+
+        .primary-button {
+            color: #09090b;
+            background: linear-gradient(110deg, var(--accent-1), var(--accent-2));
+            box-shadow: 0 0.75rem 2.5rem rgba(186, 200, 255, 0.14);
+        }
+
+        .secondary-button {
+            color: rgba(255, 255, 255, 0.84);
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.035);
+            backdrop-filter: blur(12px);
+        }
+
+        .primary-button:hover,
+        .secondary-button:hover {
+            transform: translateY(-0.2rem);
+        }
+
+        .primary-button:hover {
+            box-shadow: 0 1rem 3rem rgba(210, 139, 255, 0.22);
+        }
+
+        .secondary-button:hover {
+            border-color: rgba(210, 139, 255, 0.36);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .social-link {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            color: rgba(255, 255, 255, 0.65);
+            transition: color 300ms ease, transform 400ms var(--ease-out);
+        }
+
         .social-link::after {
             content: '';
             position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -4px;
             left: 0;
-            background: linear-gradient(to right, #bac8ff, #d28bff);
-            transition: width 0.3s ease;
-        }
-        .social-link:hover::after {
-            width: 100%;
-        }
-        .social-link:hover {
-            transform: translateY(-2px);
-        }
-        .social-icon-wrapper {
-             transition: all 0.3s ease;
-        }
-        .social-link:hover .social-icon-wrapper {
-            color: #d28bff;
-            filter: drop-shadow(0 0 8px rgba(210, 139, 255, 0.6));
+            right: 100%;
+            bottom: -0.35rem;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            transition: right 450ms var(--ease-out);
         }
 
+        .social-link:hover {
+            color: #fff;
+            transform: translateY(-0.15rem);
+        }
+
+        .social-link:hover::after {
+            right: 0;
+        }
+
+        .scroll-cue {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            z-index: 4;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.42);
+            animation: cueFloat 2.1s ease-in-out infinite;
+        }
+
+        @keyframes cueFloat {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, 0.45rem); }
+        }
+
+        .services-section {
+            position: relative;
+            padding: 7rem 1.25rem 8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.015), transparent 18rem),
+                radial-gradient(circle at 50% 35%, rgba(210, 139, 255, 0.055), transparent 34rem);
+        }
+
+        .section-heading {
+            max-width: 50rem;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(2rem);
+            transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out);
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card {
+            position: relative;
+            min-height: 19rem;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            background: var(--surface);
+            backdrop-filter: blur(14px);
+            transition:
+                transform 650ms var(--ease-out),
+                border-color 450ms ease,
+                background 450ms ease,
+                box-shadow 650ms var(--ease-out);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            opacity: 0;
+            pointer-events: none;
+            background: radial-gradient(28rem circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(210, 139, 255, 0.14), transparent 42%);
+            transition: opacity 450ms ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-0.65rem);
+            border-color: rgba(210, 139, 255, 0.27);
+            background: var(--surface-hover);
+            box-shadow: 0 1.6rem 4rem rgba(0, 0, 0, 0.24);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-icon {
+            width: 3.25rem;
+            height: 3.25rem;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 1rem;
+            color: var(--accent-1);
+            background: linear-gradient(135deg, rgba(186, 200, 255, 0.09), rgba(210, 139, 255, 0.08));
+            transition: transform 650ms var(--ease-out), color 350ms ease;
+        }
+
+        .service-card:hover .service-icon {
+            color: var(--accent-2);
+            transform: rotate(-5deg) scale(1.08);
+        }
+
+        .service-number {
+            color: rgba(255, 255, 255, 0.24);
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+        }
+
+        .portfolio-section {
+            position: relative;
+            padding: 7rem 1.25rem 8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            background:
+                radial-gradient(circle at 15% 20%, rgba(186, 200, 255, 0.06), transparent 28rem),
+                radial-gradient(circle at 85% 75%, rgba(210, 139, 255, 0.055), transparent 30rem);
+        }
+
+        .portfolio-card {
+            position: relative;
+            display: block;
+            min-height: 25rem;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            background: rgba(255, 255, 255, 0.035);
+            isolation: isolate;
+            transition:
+                transform 650ms var(--ease-out),
+                border-color 450ms ease,
+                box-shadow 650ms var(--ease-out);
+        }
+
+        .portfolio-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background:
+                radial-gradient(circle at 25% 20%, rgba(186, 200, 255, 0.23), transparent 34%),
+                radial-gradient(circle at 80% 75%, rgba(210, 139, 255, 0.22), transparent 38%),
+                linear-gradient(145deg, #111118 0%, #09090d 100%);
+            transition: transform 900ms var(--ease-out), filter 600ms ease;
+        }
+
+        .portfolio-card:nth-child(2)::before {
+            background:
+                radial-gradient(circle at 75% 18%, rgba(210, 139, 255, 0.25), transparent 35%),
+                radial-gradient(circle at 20% 80%, rgba(186, 200, 255, 0.18), transparent 36%),
+                linear-gradient(145deg, #101016 0%, #08080c 100%);
+        }
+
+        .portfolio-card:nth-child(3)::before {
+            background:
+                radial-gradient(circle at 50% 15%, rgba(186, 200, 255, 0.24), transparent 32%),
+                radial-gradient(circle at 50% 90%, rgba(210, 139, 255, 0.18), transparent 42%),
+                linear-gradient(145deg, #121217 0%, #09090d 100%);
+        }
+
+        .portfolio-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(180deg, transparent 25%, rgba(5, 5, 8, 0.9) 100%);
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-0.65rem);
+            border-color: rgba(210, 139, 255, 0.3);
+            box-shadow: 0 1.8rem 4.5rem rgba(0, 0, 0, 0.3);
+        }
+
+        .portfolio-card:hover::before {
+            transform: scale(1.06);
+            filter: saturate(1.15);
+        }
+
+        .portfolio-card-icon {
+            width: 4.25rem;
+            height: 4.25rem;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 1.25rem;
+            color: var(--accent-1);
+            background: rgba(8, 8, 12, 0.35);
+            backdrop-filter: blur(12px);
+            transition: transform 650ms var(--ease-out), color 350ms ease;
+        }
+
+        .portfolio-card:hover .portfolio-card-icon {
+            color: var(--accent-2);
+            transform: rotate(-5deg) scale(1.08);
+        }
+
+        .portfolio-arrow {
+            transition: transform 450ms var(--ease-out);
+        }
+
+        .portfolio-card:hover .portfolio-arrow {
+            transform: translate(0.25rem, -0.25rem);
+        }
+
+        .footer-line {
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        @media (pointer: coarse), (max-width: 768px) {
+            #glow {
+                display: none;
+            }
+
+            .ambient-orb {
+                width: 24rem;
+                height: 24rem;
+            }
+
+            .service-card {
+                min-height: 17rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .reveal,
+            .char,
+            .eyebrow,
+            .hero-subtitle,
+            .hero-actions,
+            .contact-row {
+                opacity: 1;
+                transform: none;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="page-noise" aria-hidden="true"></div>
+    <div class="ambient-orb one" aria-hidden="true"></div>
+    <div class="ambient-orb two" aria-hidden="true"></div>
+    <div id="glow" aria-hidden="true"></div>
 
-    <!-- The glowing orb that follows the mouse -->
-    <div id="glow"></div>
-
-    <!-- Main Content -->
-    <main class="content-wrapper px-4">
-        
-        <!-- Top Section with Logo and Name -->
-        <div class="flex flex-col items-center mb-6">
-            
-            <div class="logo-placeholder" title="Nostrix Logo">
-                <img src="logo.png" alt="Nostrix Logo" style="display: block;">
+    <div class="site-shell">
+        <nav class="site-nav" aria-label="Main navigation">
+            <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 md:px-8">
+                <a href="#home" class="font-display text-xs tracking-[0.22em] text-white" aria-label="Nostrix home">NOSTRIX</a>
+                <div class="flex items-center gap-6 text-[0.7rem] uppercase tracking-[0.18em] md:gap-9">
+                    <a class="nav-link" href="#services">Services</a>
+                    <a class="nav-link" href="#portfolio">Portfolio</a>
+                    <a class="nav-link" href="https://www.instagram.com/nostrix.ae/" target="_blank" rel="noopener noreferrer">Instagram</a>
+                </div>
             </div>
+        </nav>
 
-            <h2 class="text-xs md:text-sm font-semibold tracking-[0.3em] uppercase text-gray-400 mb-2">
-                Nostrix
-            </h2>
-            <p class="text-sm md:text-base font-light tracking-widest text-accent1/80">
-                Marketing Services
-            </p>
-        </div>
+        <main>
+            <section id="home" class="hero" aria-labelledby="coming-soon-title">
+                <div class="hero-content">
+                    <div class="logo-placeholder" title="Nostrix Logo">
+                        <img src="logo.png" alt="Nostrix logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="logo-fallback" aria-hidden="true">N</span>
+                    </div>
 
-        <!-- Interactive Coming Soon Text -->
-        <h1 class="interactive-text font-display text-4xl md:text-6xl lg:text-8xl uppercase font-bold text-white my-8 text-center" aria-label="Coming Soon">
-            <!-- JavaScript will populate this -->
-        </h1>
+                    <div class="eyebrow">
+                        <p class="mb-2 text-xs font-semibold uppercase tracking-[0.32em] text-zinc-400">Nostrix</p>
+                        <p class="text-sm font-light tracking-[0.2em] text-accent1/80 md:text-base">Marketing Services</p>
+                    </div>
 
-        <!-- Contact & Socials -->
-        <div class="mt-12 flex flex-col items-center gap-6 z-20">
-            
-            <div class="flex flex-col sm:flex-row gap-6 md:gap-10 text-sm font-light text-gray-300">
-                
-                <a href="mailto:marketing@nostrix.ae" class="social-link flex items-center gap-2 group">
-                    <span class="social-icon-wrapper text-xl"><i class="ph ph-envelope-simple"></i></span>
-                    marketing@nostrix.ae
+                    <h1 id="coming-soon-title" class="interactive-text my-8 font-display text-4xl font-bold uppercase leading-[1.15] text-white sm:text-5xl md:text-7xl lg:text-8xl" aria-label="Coming Soon"></h1>
+
+                    <p class="hero-subtitle mx-auto max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">
+                        Made to be seen.
+                    </p>
+
+                    <div class="hero-actions mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                        <a href="#services" class="primary-button">
+                            Explore Services
+                            <i class="ph ph-arrow-down" aria-hidden="true"></i>
+                        </a>
+                        <a href="mailto:marketing@nostrix.ae" class="secondary-button">
+                            Start a Project
+                            <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+
+                    <div class="contact-row mt-10 flex flex-col items-center justify-center gap-5 text-sm sm:flex-row sm:gap-8">
+                        <a href="mailto:marketing@nostrix.ae" class="social-link">
+                            <i class="ph ph-envelope-simple text-lg" aria-hidden="true"></i>
+                            marketing@nostrix.ae
+                        </a>
+                        <a href="tel:+971561195226" class="social-link">
+                            <i class="ph ph-phone text-lg" aria-hidden="true"></i>
+                            +971 56 119 5226
+                        </a>
+                    </div>
+                </div>
+
+                <a href="#services" class="scroll-cue" aria-label="Scroll to services">
+                    <i class="ph ph-caret-down text-xl" aria-hidden="true"></i>
                 </a>
-                
-                <!-- Updated Phone Number -->
-                <a href="tel:+971561195226" class="social-link flex items-center gap-2 group">
-                     <span class="social-icon-wrapper text-xl"><i class="ph ph-phone"></i></span>
-                    +971 56 119 5226
-                </a>
+            </section>
 
+            <section id="services" class="services-section" aria-labelledby="services-title">
+                <div class="mx-auto max-w-7xl">
+                    <div class="section-heading reveal">
+                        <p class="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-accent1/75">What we do</p>
+                        <h2 id="services-title" class="font-display text-3xl font-bold uppercase leading-tight text-white md:text-5xl">Our Services</h2>
+                        <p class="mt-6 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">
+                            Strategy, creativity and execution brought together to help your brand look sharper, speak clearly and grow with purpose.
+                        </p>
+                    </div>
+
+                    <div class="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+                        <article class="service-card reveal p-7" style="transition-delay: 60ms;">
+                            <div class="relative z-10 flex h-full flex-col">
+                                <div class="flex items-start justify-between">
+                                    <div class="service-icon"><i class="ph ph-strategy text-2xl" aria-hidden="true"></i></div>
+                                    <span class="service-number">01</span>
+                                </div>
+                                <div class="mt-auto pt-14">
+                                    <h3 class="text-xl font-semibold text-white">Brand Strategy</h3>
+                                    <p class="mt-4 text-sm font-light leading-6 text-zinc-400">Positioning, identity direction and brand systems that give your business a clear and consistent voice.</p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="service-card reveal p-7" style="transition-delay: 120ms;">
+                            <div class="relative z-10 flex h-full flex-col">
+                                <div class="flex items-start justify-between">
+                                    <div class="service-icon"><i class="ph ph-device-mobile-camera text-2xl" aria-hidden="true"></i></div>
+                                    <span class="service-number">02</span>
+                                </div>
+                                <div class="mt-auto pt-14">
+                                    <h3 class="text-xl font-semibold text-white">Social Media</h3>
+                                    <p class="mt-4 text-sm font-light leading-6 text-zinc-400">Content planning, account management and campaigns designed to build attention and meaningful engagement.</p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="service-card reveal p-7" style="transition-delay: 180ms;">
+                            <div class="relative z-10 flex h-full flex-col">
+                                <div class="flex items-start justify-between">
+                                    <div class="service-icon"><i class="ph ph-camera text-2xl" aria-hidden="true"></i></div>
+                                    <span class="service-number">03</span>
+                                </div>
+                                <div class="mt-auto pt-14">
+                                    <h3 class="text-xl font-semibold text-white">Photo & Video</h3>
+                                    <p class="mt-4 text-sm font-light leading-6 text-zinc-400">Photography, videography and short-form production that present your products, people and story with impact.</p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="service-card reveal p-7" style="transition-delay: 240ms;">
+                            <div class="relative z-10 flex h-full flex-col">
+                                <div class="flex items-start justify-between">
+                                    <div class="service-icon"><i class="ph ph-pencil-circle text-2xl" aria-hidden="true"></i></div>
+                                    <span class="service-number">04</span>
+                                </div>
+                                <div class="mt-auto pt-14">
+                                    <h3 class="text-xl font-semibold text-white">Content Creation</h3>
+                                    <p class="mt-4 text-sm font-light leading-6 text-zinc-400">Creative concepts, campaign visuals and platform-ready content shaped around your audience and goals.</p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="reveal mt-14 flex flex-col items-start justify-between gap-6 rounded-3xl border border-white/10 bg-white/[0.035] p-7 backdrop-blur-xl md:flex-row md:items-center md:p-9">
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-[0.22em] text-accent2/80">Have a project in mind?</p>
+                            <h3 class="mt-3 text-2xl font-semibold text-white md:text-3xl">Let’s create something memorable.</h3>
+                        </div>
+                        <a href="mailto:marketing@nostrix.ae" class="primary-button shrink-0">
+                            Contact Nostrix
+                            <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="portfolio" class="portfolio-section" aria-labelledby="portfolio-title">
+                <div class="mx-auto max-w-7xl">
+                    <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+                        <div class="section-heading reveal">
+                            <p class="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-accent2/80">Selected work</p>
+                            <h2 id="portfolio-title" class="font-display text-3xl font-bold uppercase leading-tight text-white md:text-5xl">Our Portfolio</h2>
+                            <p class="mt-6 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">
+                                Explore a selection of brand, social and visual projects created to stand out and connect with the right audience.
+                            </p>
+                        </div>
+
+                        <!-- Replace this Instagram URL with your full portfolio link whenever it is ready. -->
+                        <a href="https://www.instagram.com/nostrix.ae/" target="_blank" rel="noopener noreferrer" class="secondary-button reveal shrink-0">
+                            View Full Portfolio
+                            <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+
+                    <div class="mt-14 grid gap-5 md:grid-cols-3">
+                        <a href="https://www.instagram.com/nostrix.ae/" target="_blank" rel="noopener noreferrer" class="portfolio-card reveal p-7" style="transition-delay: 60ms;" aria-label="View branding projects">
+                            <div class="flex h-full flex-col">
+                                <div class="flex items-start justify-between">
+                                    <div class="portfolio-card-icon"><i class="ph ph-pen-nib text-3xl" aria-hidden="true"></i></div>
+                                    <i class="portfolio-arrow ph ph-arrow-up-right text-xl text-white/55" aria-hidden="true"></i>
+                                </div>
+                                <div class="mt-auto pt-24">
+                                    <p class="text-xs uppercase tracking-[0.22em] text-accent1/75">Brand Identity</p>
+                                    <h3 class="mt-3 text-2xl font-semibold text-white">Branding Projects</h3>
+                                    <p class="mt-3 text-sm font-light leading-6 text-zinc-400">Logos, visual identities and creative systems built to make brands recognisable.</p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="https://www.instagram.com/nostrix.ae/" target="_blank" rel="noopener noreferrer" class="portfolio-card reveal p-7" style="transition-delay: 120ms;" aria-label="View social media projects">
+                            <div class="flex h-full flex-col">
+                                <div class="flex items-start justify-between">
+                                    <div class="portfolio-card-icon"><i class="ph ph-instagram-logo text-3xl" aria-hidden="true"></i></div>
+                                    <i class="portfolio-arrow ph ph-arrow-up-right text-xl text-white/55" aria-hidden="true"></i>
+                                </div>
+                                <div class="mt-auto pt-24">
+                                    <p class="text-xs uppercase tracking-[0.22em] text-accent2/75">Social Content</p>
+                                    <h3 class="mt-3 text-2xl font-semibold text-white">Campaign Work</h3>
+                                    <p class="mt-3 text-sm font-light leading-6 text-zinc-400">Creative campaigns, content systems and platform-ready visuals designed for attention.</p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="https://www.instagram.com/nostrix.ae/" target="_blank" rel="noopener noreferrer" class="portfolio-card reveal p-7" style="transition-delay: 180ms;" aria-label="View photography and video projects">
+                            <div class="flex h-full flex-col">
+                                <div class="flex items-start justify-between">
+                                    <div class="portfolio-card-icon"><i class="ph ph-aperture text-3xl" aria-hidden="true"></i></div>
+                                    <i class="portfolio-arrow ph ph-arrow-up-right text-xl text-white/55" aria-hidden="true"></i>
+                                </div>
+                                <div class="mt-auto pt-24">
+                                    <p class="text-xs uppercase tracking-[0.22em] text-accent1/75">Photo & Video</p>
+                                    <h3 class="mt-3 text-2xl font-semibold text-white">Visual Stories</h3>
+                                    <p class="mt-3 text-sm font-light leading-6 text-zinc-400">Photography and motion content that bring products, people and experiences to life.</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer-line relative z-10 px-5 py-7 md:px-8">
+            <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-center text-xs text-zinc-500 sm:flex-row sm:text-left">
+                <p>© <span id="year"></span> Nostrix Marketing Services.</p>
+                <a href="https://www.instagram.com/nostrix.ae/" target="_blank" rel="noopener noreferrer" class="social-link uppercase tracking-[0.16em]">@nostrix.ae</a>
             </div>
-
-            <a href="https://www.instagram.com/nostrix.ae/" target="_blank" rel="noopener noreferrer" class="social-link flex items-center gap-2 mt-4 sm:mt-0 text-white font-medium">
-                 <span class="social-icon-wrapper text-2xl text-accent2"><i class="ph-fill ph-instagram-logo"></i></span>
-                 <span class="tracking-widest uppercase text-xs">Follow Us</span>
-            </a>
-        </div>
-    </main>
+        </footer>
+    </div>
 
     <script>
-        // --- 1. Text Splitting Logic ---
         const textElement = document.querySelector('.interactive-text');
-        const textString = "Coming Soon";
-        
-        // Split text into individual spans for the hover effect
-        textString.split('').forEach(char => {
+        const textString = 'Coming Soon';
+
+        textString.split('').forEach((character, index) => {
             const span = document.createElement('span');
-            if (char === ' ') {
+            span.setAttribute('aria-hidden', 'true');
+
+            if (character === ' ') {
                 span.innerHTML = '&nbsp;';
-                span.style.width = '1rem'; // Space width
+                span.className = 'char-space';
+                span.style.width = '0.45em';
             } else {
-                span.textContent = char;
-                span.classList.add('char');
+                span.textContent = character;
+                span.className = 'char';
+                span.style.animationDelay = `${320 + index * 58}ms`;
             }
+
             textElement.appendChild(span);
         });
 
-        // --- 2. Mouse Glow Logic ---
-        const glowElement = document.getElementById('glow');
-        
-        // Show glow when mouse moves
-        document.addEventListener('mousemove', (e) => {
-            // Unhide the element if it was hidden
-            if(glowElement.style.opacity === '0' || glowElement.style.opacity === '') {
-                glowElement.style.opacity = '1';
-            }
-            
-            // Use requestAnimationFrame for smooth performance
-            requestAnimationFrame(() => {
-                glowElement.style.left = e.clientX + 'px';
-                glowElement.style.top = e.clientY + 'px';
+        const glow = document.getElementById('glow');
+        let targetX = window.innerWidth / 2;
+        let targetY = window.innerHeight / 2;
+        let currentX = targetX;
+        let currentY = targetY;
+        let glowVisible = false;
+        let glowHalfSize = glow.getBoundingClientRect().width / 2;
+
+        window.addEventListener('resize', () => {
+            glowHalfSize = glow.getBoundingClientRect().width / 2;
+        }, { passive: true });
+
+        function animateGlow() {
+            currentX += (targetX - currentX) * 0.12;
+            currentY += (targetY - currentY) * 0.12;
+            glow.style.transform = `translate3d(${currentX - glowHalfSize}px, ${currentY - glowHalfSize}px, 0)`;
+            requestAnimationFrame(animateGlow);
+        }
+
+        if (window.matchMedia('(pointer: fine)').matches) {
+            document.addEventListener('mousemove', (event) => {
+                targetX = event.clientX;
+                targetY = event.clientY;
+                if (!glowVisible) {
+                    glow.style.opacity = '1';
+                    glowVisible = true;
+                }
+            }, { passive: true });
+
+            document.addEventListener('mouseleave', () => {
+                glow.style.opacity = '0';
+                glowVisible = false;
+            });
+
+            document.addEventListener('mouseenter', () => {
+                glow.style.opacity = '1';
+                glowVisible = true;
+            });
+
+            requestAnimationFrame(animateGlow);
+        }
+
+        const revealItems = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.14, rootMargin: '0px 0px -5% 0px' });
+
+        revealItems.forEach((item) => revealObserver.observe(item));
+
+        document.querySelectorAll('.service-card').forEach((card) => {
+            card.addEventListener('pointermove', (event) => {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--mouse-x', `${event.clientX - rect.left}px`);
+                card.style.setProperty('--mouse-y', `${event.clientY - rect.top}px`);
             });
         });
 
-        // Hide glow when mouse leaves the window
-        document.addEventListener('mouseleave', () => {
-            glowElement.style.opacity = '0';
-        });
-
-        // Show again when it re-enters
-        document.addEventListener('mouseenter', () => {
-             glowElement.style.opacity = '1';
-        });
+        document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
