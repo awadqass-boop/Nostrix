@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08080b">
+    <meta name="description" content="Privacy Policy for Nostrix Marketing Services, Dubai, United Arab Emirates.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://nostrix.ae/privacy.html">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <title>Privacy Policy — Nostrix Marketing Services</title>
+
+    <style>
+        :root {
+            --bg: #08080b;
+            --surface: rgba(255, 255, 255, 0.045);
+            --surface-strong: rgba(255, 255, 255, 0.065);
+            --text: #ffffff;
+            --muted: #aaaab4;
+            --soft: #7d7d89;
+            --border: rgba(255, 255, 255, 0.11);
+            --accent-1: #bac8ff;
+            --accent-2: #d28bff;
+            --max: 58rem;
+        }
+
+        * { box-sizing: border-box; }
+
+        html {
+            background: var(--bg);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 5%, rgba(186, 200, 255, 0.09), transparent 28rem),
+                radial-gradient(circle at 90% 30%, rgba(210, 139, 255, 0.07), transparent 30rem),
+                var(--bg);
+            font-family: Inter, Arial, sans-serif;
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: var(--accent-1); }
+        a:hover { color: var(--accent-2); }
+
+        .shell {
+            width: min(calc(100% - 2rem), var(--max));
+            margin: 0 auto;
+            padding: clamp(2rem, 7vw, 5rem) 0;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: clamp(3rem, 8vw, 5.5rem);
+        }
+
+        .brand {
+            color: #fff;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.24em;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .back {
+            color: var(--muted);
+            font-size: 0.88rem;
+            text-decoration: none;
+        }
+
+        .eyebrow {
+            margin: 0 0 1rem;
+            color: var(--accent-2);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            max-width: 48rem;
+            margin: 0;
+            font-size: clamp(2.4rem, 8vw, 5.2rem);
+            line-height: 1.02;
+            letter-spacing: -0.045em;
+        }
+
+        .intro {
+            max-width: 47rem;
+            margin: 1.6rem 0 0;
+            color: var(--muted);
+            font-size: clamp(1rem, 2.4vw, 1.12rem);
+        }
+
+        .updated {
+            margin: 1rem 0 0;
+            color: var(--soft);
+            font-size: 0.82rem;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin: 2.5rem 0;
+        }
+
+        .summary-item {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            background: var(--surface);
+        }
+
+        .summary-label {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: var(--soft);
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+        .summary-value {
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .toc {
+            margin: 2.5rem 0 3rem;
+            padding: clamp(1.2rem, 4vw, 1.8rem);
+            border: 1px solid var(--border);
+            border-radius: 1.3rem;
+            background: var(--surface);
+        }
+
+        .toc strong {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 0.78rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .toc-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem 1.1rem;
+        }
+
+        .toc a {
+            color: var(--muted);
+            font-size: 0.86rem;
+            text-decoration: none;
+        }
+
+        .policy {
+            padding: clamp(1.3rem, 5vw, 2.6rem);
+            border: 1px solid var(--border);
+            border-radius: 1.6rem;
+            background: rgba(255, 255, 255, 0.032);
+        }
+
+        section + section {
+            margin-top: 2.8rem;
+            padding-top: 2.8rem;
+            border-top: 1px solid var(--border);
+        }
+
+        h2 {
+            margin: 0 0 1rem;
+            color: #fff;
+            font-size: clamp(1.25rem, 3vw, 1.55rem);
+            line-height: 1.3;
+        }
+
+        h3 {
+            margin: 1.6rem 0 0.55rem;
+            color: #e9e9ed;
+            font-size: 1rem;
+        }
+
+        p { margin: 0.75rem 0; color: var(--muted); }
+        ul { margin: 0.8rem 0 0; padding-left: 1.25rem; }
+        li { margin: 0.5rem 0; color: var(--muted); }
+
+        .notice {
+            margin: 1.4rem 0;
+            padding: 1rem 1.1rem;
+            border-left: 3px solid var(--accent-2);
+            border-radius: 0.8rem;
+            background: rgba(210, 139, 255, 0.075);
+            color: #d6d6dc;
+        }
+
+        .contact-box {
+            margin-top: 1.4rem;
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            background: var(--surface-strong);
+        }
+
+        .contact-box p { margin: 0.35rem 0; }
+
+        footer {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--soft);
+            font-size: 0.78rem;
+        }
+
+        @media (max-width: 700px) {
+            .summary { grid-template-columns: 1fr; }
+            .topbar { align-items: flex-start; }
+            .back { text-align: right; }
+        }
+
+        @media print {
+            body { color: #111; background: #fff; }
+            .shell { width: 100%; padding: 0; }
+            .topbar, .toc { display: none; }
+            .policy { border: 0; padding: 0; background: transparent; }
+            h1, h2, h3, .summary-value { color: #111; }
+            p, li, .intro, .updated, footer { color: #444; }
+            .summary-item, .contact-box { border-color: #ccc; background: #fff; }
+            a { color: #111; }
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <div class="topbar">
+            <a class="brand" href="index.html">Nostrix</a>
+            <a class="back" href="index.html">← Back to the website</a>
+        </div>
+
+        <header>
+            <p class="eyebrow">Nostrix Marketing Services</p>
+            <h1>Privacy Policy</h1>
+            <p class="intro">
+                This Privacy Policy explains how Nostrix Marketing Services collects, uses, shares and protects personal data when you visit nostrix.ae, contact us, submit a project enquiry or provide feedback.
+            </p>
+            <p class="updated">Effective and last updated: 5 August 2026</p>
+        </header>
+
+        <div class="summary" aria-label="Privacy policy summary">
+            <div class="summary-item">
+                <span class="summary-label">Controller</span>
+                <span class="summary-value">Nostrix Marketing Services</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Location</span>
+                <span class="summary-value">Dubai, United Arab Emirates</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Privacy contact</span>
+                <span class="summary-value">marketing@nostrix.ae</span>
+            </div>
+        </div>
+
+        <nav class="toc" aria-label="Privacy policy contents">
+            <strong>Contents</strong>
+            <div class="toc-links">
+                <a href="#scope">1. Scope</a>
+                <a href="#data">2. Data collected</a>
+                <a href="#use">3. How we use data</a>
+                <a href="#sharing">4. Sharing</a>
+                <a href="#transfers">5. International transfers</a>
+                <a href="#cookies">6. Cookies and analytics</a>
+                <a href="#retention">7. Retention</a>
+                <a href="#security">8. Security</a>
+                <a href="#rights">9. Your rights</a>
+                <a href="#children">10. Children</a>
+                <a href="#changes">11. Changes</a>
+                <a href="#contact">12. Contact</a>
+            </div>
+        </nav>
+
+        <article class="policy">
+            <section id="scope">
+                <h2>1. Who we are and when this policy applies</h2>
+                <p>
+                    Nostrix Marketing Services ("Nostrix", "we", "us" or "our") is a marketing and creative-services business based in Dubai, United Arab Emirates. For personal data covered by this policy, Nostrix acts as the data controller and determines why and how that data is processed.
+                </p>
+                <p>
+                    This policy applies to the Nostrix website, project enquiries, business correspondence, testimonial submissions and other direct communications with Nostrix. It does not govern websites, apps or services operated by third parties, even where we link to them.
+                </p>
+                <p>
+                    This policy is intended to reflect the principles and rights in the UAE Federal Decree-Law No. 45 of 2021 Concerning the Protection of Personal Data and other applicable UAE requirements.
+                </p>
+            </section>
+
+            <section id="data">
+                <h2>2. Personal data we collect</h2>
+
+                <h3>Information you provide to us</h3>
+                <p>Depending on how you interact with us, you may provide:</p>
+                <ul>
+                    <li>Your name and contact details, including email address and telephone number.</li>
+                    <li>Your company, brand, job title or professional role.</li>
+                    <li>Project information, requested services, estimated budget, preferred timeline, goals and deliverables.</li>
+                    <li>Messages, attachments and other information sent through email, WhatsApp, Instagram or other communication channels.</li>
+                    <li>Client feedback, testimonial text, name, company details, logo, photograph and your permission to publish them.</li>
+                    <li>Contract, billing and transaction information if you become a client.</li>
+                </ul>
+
+                <h3>Information generated when you use the website</h3>
+                <p>
+                    Our hosting provider and the technical services used to deliver the website may automatically receive limited technical information, such as your Internet Protocol address, browser and device type, operating system, requested pages, date and time of access, referring page and security or error logs. This information is normally generated as part of delivering and securing a website.
+                </p>
+
+                <h3>Sensitive information</h3>
+                <p>
+                    Please do not submit health information, government identification numbers, payment-card details, passwords or other sensitive personal data through the project-enquiry form unless we specifically request it through an appropriate secure channel.
+                </p>
+            </section>
+
+            <section id="use">
+                <h2>3. How and why we use personal data</h2>
+                <p>We may process personal data to:</p>
+                <ul>
+                    <li>Receive, assess and respond to project enquiries.</li>
+                    <li>Prepare proposals, quotations, scopes of work and contracts.</li>
+                    <li>Provide, manage and improve our marketing and creative services.</li>
+                    <li>Communicate about projects, schedules, deliverables, payments and support.</li>
+                    <li>Publish testimonials, names, roles, company names, logos or images where the relevant person or organisation has approved publication.</li>
+                    <li>Operate, maintain, troubleshoot, secure and improve the website.</li>
+                    <li>Maintain appropriate business, accounting, compliance and dispute records.</li>
+                    <li>Comply with applicable laws, lawful requests and legal obligations, and establish, exercise or defend legal claims.</li>
+                </ul>
+
+                <h3>Our legal grounds</h3>
+                <p>Depending on the circumstances, we rely on one or more of the following grounds:</p>
+                <ul>
+                    <li><strong>Consent:</strong> for example, when you tick the form’s privacy checkbox, approve publication of a testimonial, or agree to optional analytics or marketing where applicable. You may withdraw consent, although this does not affect processing that occurred before withdrawal.</li>
+                    <li><strong>Steps requested before entering a contract and performance of a contract:</strong> for example, assessing an enquiry, preparing a proposal and delivering agreed services.</li>
+                    <li><strong>Legal obligations and legal claims:</strong> where processing is needed for accounting, compliance, regulatory requests or the establishment, exercise or defence of rights.</li>
+                    <li><strong>Other grounds permitted by applicable law:</strong> where relevant to a particular processing activity.</li>
+                </ul>
+
+                <div class="notice">
+                    The current project form does not send data to a Nostrix website database. When you choose “Send on WhatsApp” or “Send by Email”, the website prepares a message and opens the selected application. Your enquiry reaches us only after you complete the send action in that application.
+                </div>
+            </section>
+
+            <section id="sharing">
+                <h2>4. Who may receive personal data</h2>
+                <p>We do not sell or rent personal data. We may disclose it only where reasonably necessary to:</p>
+                <ul>
+                    <li>Nostrix personnel and authorised contractors who need the information to handle an enquiry or deliver a project.</li>
+                    <li>Website hosting, content-delivery, email, cloud-storage, security, analytics, communications and professional-service providers acting for us.</li>
+                    <li>WhatsApp and Instagram, operated by Meta, when you choose to communicate through those services.</li>
+                    <li>Your email provider when you choose “Send by Email”.</li>
+                    <li>Google Fonts, Tailwind CSS and Phosphor Icons infrastructure used by the current website to load fonts, styling and icons; those providers may receive standard technical request data such as an IP address.</li>
+                    <li>Accountants, auditors, insurers, lawyers and other professional advisers where needed.</li>
+                    <li>Courts, regulators, law-enforcement bodies or other authorities where disclosure is required or permitted by law.</li>
+                    <li>A buyer, investor or successor in connection with a genuine restructuring, financing, sale or transfer of all or part of the business, subject to appropriate confidentiality measures.</li>
+                </ul>
+                <p>
+                    Providers that process data for us are expected to use it only for authorised purposes and to apply appropriate confidentiality and security safeguards.
+                </p>
+            </section>
+
+            <section id="transfers">
+                <h2>5. International data transfers</h2>
+                <p>
+                    Some external services used for website delivery, email, cloud hosting, WhatsApp, Instagram or other business operations may process data in countries outside the UAE. Where personal data is transferred internationally, we will take reasonable steps to use a transfer method and safeguards permitted by applicable UAE data-protection law, such as transferring to a jurisdiction with an appropriate level of protection or using suitable contractual and organisational safeguards.
+                </p>
+                <p>
+                    By choosing to contact us through a third-party service, you should also review that service’s privacy information because its own international-transfer practices may apply independently of Nostrix.
+                </p>
+            </section>
+
+            <section id="cookies">
+                <h2>6. Cookies, external resources and analytics</h2>
+                <p>
+                    The current Nostrix website does not intentionally use first-party advertising cookies and Google Analytics is disabled in the supplied website code. Basic technical logs may still be created by the hosting provider when the website is requested.
+                </p>
+                <p>
+                    The website currently loads some fonts, styling and icons from external content-delivery services. Requests to those services may include technical data such as your IP address, browser details and the page requesting the resource.
+                </p>
+                <p>
+                    If optional analytics, advertising pixels or non-essential cookies are enabled later, we will update this policy and implement an appropriate notice or consent mechanism before using them where required.
+                </p>
+            </section>
+
+            <section id="retention">
+                <h2>7. How long we keep personal data</h2>
+                <p>We retain personal data only for as long as reasonably necessary for the relevant purpose. Our normal retention approach is:</p>
+                <ul>
+                    <li><strong>Enquiries that do not become projects:</strong> normally up to 12 months after the last meaningful contact, unless a longer period is reasonably needed for follow-up, consent records, disputes or legal requirements.</li>
+                    <li><strong>Client and project records:</strong> for the duration of the relationship and afterwards for the applicable contractual, accounting, tax, limitation and legal-compliance periods.</li>
+                    <li><strong>Published testimonials:</strong> until the testimonial is replaced, withdrawn or no longer relevant, subject to records needed to document the permission originally given.</li>
+                    <li><strong>Technical and security logs:</strong> according to the hosting or security provider’s normal operational retention period, unless required longer for investigation or legal compliance.</li>
+                    <li><strong>Privacy requests and consent records:</strong> for as long as needed to demonstrate how the request or consent was handled.</li>
+                </ul>
+                <p>
+                    When data is no longer required, we will delete it, anonymise it or securely restrict its use, subject to technical backup cycles and legal retention requirements.
+                </p>
+            </section>
+
+            <section id="security">
+                <h2>8. How we protect personal data</h2>
+                <p>
+                    We use reasonable technical and organisational measures designed to protect personal data against accidental loss, misuse, alteration, unauthorised access or disclosure. Measures may include access controls, account security, secure devices, trusted service providers, confidentiality obligations, software updates and appropriate backup practices.
+                </p>
+                <p>
+                    No internet transmission or storage system can be guaranteed completely secure. Please avoid sending confidential or sensitive information through ordinary email, social media or the public enquiry form unless we agree on a more suitable channel.
+                </p>
+            </section>
+
+            <section id="rights">
+                <h2>9. Your data-protection rights</h2>
+                <p>Subject to applicable law and relevant exceptions, you may have the right to:</p>
+                <ul>
+                    <li>Receive information about the personal data we process and how it is used.</li>
+                    <li>Request access to personal data relating to you.</li>
+                    <li>Request correction or completion of inaccurate or incomplete data.</li>
+                    <li>Request deletion where the data is no longer needed, consent is withdrawn or processing is otherwise unlawful.</li>
+                    <li>Request restriction of processing in specified circumstances.</li>
+                    <li>Object to or request that we stop certain processing, including direct marketing.</li>
+                    <li>Receive or transfer certain data in a structured, machine-readable format where the legal conditions for portability apply.</li>
+                    <li>Object to certain decisions based solely on automated processing and request human review. Nostrix does not currently use the website to make decisions that produce legal or similarly significant effects solely through automated processing.</li>
+                    <li>Withdraw consent at any time where processing is based on consent.</li>
+                </ul>
+                <p>
+                    To exercise a right, email <a href="mailto:marketing@nostrix.ae?subject=Privacy%20request">marketing@nostrix.ae</a> and describe your request. We may ask for information reasonably necessary to verify your identity and protect personal data from unauthorised disclosure. We will respond in accordance with applicable law.
+                </p>
+                <p>
+                    You may also submit a complaint to the UAE Data Office or another competent supervisory authority where applicable. We encourage you to contact us first so we can try to resolve the concern directly.
+                </p>
+            </section>
+
+            <section id="children">
+                <h2>10. Children’s privacy</h2>
+                <p>
+                    Our services and website are intended for businesses and individuals seeking professional marketing or creative services. They are not directed to children under 13, and we do not knowingly collect personal data from children under 13 through the website. If you believe a child has provided personal data to us without appropriate authorisation, please contact us so that we can review and, where appropriate, delete it.
+                </p>
+            </section>
+
+            <section id="changes">
+                <h2>11. Changes to this policy</h2>
+                <p>
+                    We may update this policy when our services, website technology, providers or legal obligations change. The current version will be posted on this page with a revised “last updated” date. Where a change materially affects how we use personal data, we will provide an additional notice where reasonably appropriate.
+                </p>
+            </section>
+
+            <section id="contact">
+                <h2>12. Contact us</h2>
+                <p>For privacy questions, requests or complaints, contact:</p>
+                <div class="contact-box">
+                    <p><strong>Nostrix Marketing Services</strong></p>
+                    <p>Dubai, United Arab Emirates</p>
+                    <p>Email: <a href="mailto:marketing@nostrix.ae">marketing@nostrix.ae</a></p>
+                    <p>Telephone: <a href="tel:+971561195226">+971 56 119 5226</a></p>
+                </div>
+            </section>
+        </article>
+
+        <footer>
+            © 2026 Nostrix Marketing Services. This policy should be updated whenever the website’s data collection, service providers or business practices change.
+        </footer>
+    </main>
+</body>
+</html>
