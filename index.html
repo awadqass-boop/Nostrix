@@ -1291,6 +1291,30 @@
             animation: testimonialProgress 6.5s linear forwards;
         }
 
+
+        .testimonial-rating {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.18rem;
+            color: #ffd66b;
+            font-size: 0.8rem;
+            letter-spacing: 0.02em;
+        }
+
+        .review-cta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.85rem;
+            margin-top: 1.75rem;
+        }
+
+        .review-cta-note {
+            color: rgb(113 113 122);
+            font-size: 0.76rem;
+            line-height: 1.6;
+        }
+
         @keyframes testimonialProgress {
             to { transform: scaleX(1); }
         }
@@ -1905,6 +1929,13 @@
                         <div class="testimonial-progress" aria-hidden="true">
                             <span class="testimonial-progress-fill" id="testimonial-progress-fill"></span>
                         </div>
+                        <div class="review-cta">
+                            <a href="review.html" class="secondary-button">
+                                Leave a Review
+                                <i class="ph ph-star" aria-hidden="true"></i>
+                            </a>
+                            <p class="review-cta-note">Reviews remain private until Nostrix approves them for publication.</p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -2029,6 +2060,7 @@
                     <a class="footer-link" href="#services">Services</a>
                     <a class="footer-link" href="./nostrix-portfolio.pdf" target="_blank" rel="noopener noreferrer">Portfolio PDF</a>
                     <a class="footer-link" href="https://www.instagram.com/nostrix.ae/" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    <a class="footer-link" href="review.html">Leave a Review</a>
                     <a class="footer-link" href="privacy.html" target="_blank">Privacy Policy</a>
                 </div>
             </div>
@@ -2040,6 +2072,7 @@
         <span>WhatsApp</span>
     </a>
 
+    <script src="./site-config.js"></script>
     <script>
         const textElement = document.querySelector('.interactive-text');
         const textString = 'Made to be seen.';
@@ -2128,22 +2161,129 @@
         });
 
 
-        /* Testimonial spotlight slider */
-        const testimonialSlider = document.getElementById('testimonial-slider');
-        const testimonialViewport = testimonialSlider?.querySelector('.testimonial-viewport');
-        const testimonialTrack = document.getElementById('testimonial-track');
-        const testimonialDots = document.getElementById('testimonial-dots');
-        const testimonialProgress = document.getElementById('testimonial-progress-fill');
-        const testimonialPrev = document.getElementById('testimonial-prev');
-        const testimonialNext = document.getElementById('testimonial-next');
+        /* Testimonial spotlight slider + approved Google Sheet reviews */
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const testimonialDelay = 6500;
-        let testimonialIndex = 1;
-        let testimonialTimer = null;
-        let testimonialStarted = false;
 
-        if (testimonialTrack && testimonialViewport) {
+        function buildApprovedTestimonialCard(review) {
+            const card = document.createElement('article');
+            card.className = `testimonial-card${review.vip ? ' vip-client' : ''}`;
+            card.dataset.reviewId = review.id || '';
+
+            const content = document.createElement('div');
+            const topLine = document.createElement('div');
+            topLine.className = 'testimonial-topline';
+
+            const quoteMark = document.createElement('div');
+            quoteMark.className = 'quote-mark';
+            quoteMark.setAttribute('aria-hidden', 'true');
+            quoteMark.textContent = '“';
+            topLine.appendChild(quoteMark);
+
+            const badges = document.createElement('div');
+            badges.className = 'flex items-center gap-2';
+
+            if (Number(review.rating) > 0) {
+                const rating = document.createElement('span');
+                rating.className = 'testimonial-rating';
+                rating.setAttribute('aria-label', `${review.rating} out of 5 stars`);
+                rating.textContent = '★'.repeat(Math.max(1, Math.min(5, Number(review.rating))));
+                badges.appendChild(rating);
+            }
+
+            if (review.vip) {
+                const vip = document.createElement('span');
+                vip.className = 'vip-badge';
+                const crown = document.createElement('i');
+                crown.className = 'ph-fill ph-crown';
+                crown.setAttribute('aria-hidden', 'true');
+                vip.append(crown, document.createTextNode('VIP Client'));
+                badges.appendChild(vip);
+            }
+
+            if (badges.childNodes.length) topLine.appendChild(badges);
+
+            const quote = document.createElement('p');
+            quote.className = 'testimonial-quote';
+            quote.textContent = review.testimonial || '';
+            content.append(topLine, quote);
+
+            const author = document.createElement('p');
+            author.className = 'testimonial-author';
+            const name = document.createElement('strong');
+            name.textContent = review.displayName || 'Anonymous Client';
+            const meta = document.createElement('span');
+            meta.textContent = `${review.service || 'Nostrix service'} · Verified client feedback`;
+            author.append(name, meta);
+
+            card.append(content, author);
+            return card;
+        }
+
+        function loadApprovedTestimonials() {
+            return new Promise((resolve) => {
+                const endpoint = window.NOSTRIX_REVIEWS_WEB_APP_URL || '';
+                const track = document.getElementById('testimonial-track');
+
+                if (!track || !endpoint || endpoint.includes('PASTE_GOOGLE_APPS_SCRIPT')) {
+                    resolve();
+                    return;
+                }
+
+                const callbackName = `nostrixApprovedReviews_${Date.now()}`;
+                const script = document.createElement('script');
+                let completed = false;
+
+                const finish = () => {
+                    if (completed) return;
+                    completed = true;
+                    delete window[callbackName];
+                    script.remove();
+                    resolve();
+                };
+
+                window[callbackName] = (payload) => {
+                    const reviews = Array.isArray(payload?.reviews) ? payload.reviews : [];
+                    const existingIds = new Set(
+                        Array.from(track.querySelectorAll('[data-review-id]'))
+                            .map((item) => item.dataset.reviewId)
+                            .filter(Boolean)
+                    );
+
+                    reviews.forEach((review) => {
+                        if (!review?.testimonial || (review.id && existingIds.has(review.id))) return;
+                        track.appendChild(buildApprovedTestimonialCard(review));
+                    });
+
+                    finish();
+                };
+
+                script.src = `${endpoint}?action=approved&callback=${encodeURIComponent(callbackName)}&t=${Date.now()}`;
+                script.async = true;
+                script.onerror = finish;
+                document.head.appendChild(script);
+                window.setTimeout(finish, 7000);
+            });
+        }
+
+        function initTestimonialSlider() {
+            const testimonialSlider = document.getElementById('testimonial-slider');
+            const testimonialViewport = testimonialSlider?.querySelector('.testimonial-viewport');
+            const testimonialTrack = document.getElementById('testimonial-track');
+            const testimonialDots = document.getElementById('testimonial-dots');
+            const testimonialProgress = document.getElementById('testimonial-progress-fill');
+            const testimonialPrev = document.getElementById('testimonial-prev');
+            const testimonialNext = document.getElementById('testimonial-next');
+            const testimonialDelay = 6500;
+            let testimonialIndex = 1;
+            let testimonialTimer = null;
+            let testimonialStarted = false;
+
+            if (!testimonialTrack || !testimonialViewport || testimonialTrack.dataset.sliderReady === 'true') return;
+            testimonialTrack.dataset.sliderReady = 'true';
+
             const originalTestimonials = Array.from(testimonialTrack.children);
+            if (!originalTestimonials.length) return;
+
             const firstClone = originalTestimonials[0].cloneNode(true);
             const lastClone = originalTestimonials[originalTestimonials.length - 1].cloneNode(true);
             firstClone.classList.add('testimonial-clone');
@@ -2154,6 +2294,7 @@
             testimonialTrack.append(firstClone);
 
             const testimonialSlides = Array.from(testimonialTrack.children);
+            testimonialDots.replaceChildren();
 
             originalTestimonials.forEach((_, index) => {
                 const dot = document.createElement('button');
@@ -2183,6 +2324,7 @@
                     : 'none';
 
                 const activeSlide = testimonialSlides[testimonialIndex];
+                if (!activeSlide) return;
                 const activeCenter = activeSlide.offsetLeft + activeSlide.offsetWidth / 2;
                 const viewportCenter = testimonialViewport.clientWidth / 2;
                 testimonialTrack.style.transform = `translate3d(${viewportCenter - activeCenter}px, 0, 0)`;
@@ -2231,11 +2373,9 @@
                 }
             });
 
-            testimonialPrev.addEventListener('click', () => goToTestimonial(testimonialIndex - 1));
-            testimonialNext.addEventListener('click', () => goToTestimonial(testimonialIndex + 1));
+            testimonialPrev?.addEventListener('click', () => goToTestimonial(testimonialIndex - 1));
+            testimonialNext?.addEventListener('click', () => goToTestimonial(testimonialIndex + 1));
 
-            // Keep autoplay running continuously. Hovering or focusing controls
-            // no longer pauses the slider, so it cannot get stuck after a click.
             document.addEventListener('visibilitychange', () => {
                 if (document.hidden) {
                     clearTimeout(testimonialTimer);
@@ -2263,6 +2403,7 @@
             requestAnimationFrame(() => positionTestimonials(false));
         }
 
+        loadApprovedTestimonials().finally(initTestimonialSlider);
 
 
         const projectForm = document.getElementById('project-form');
