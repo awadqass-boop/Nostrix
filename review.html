@@ -147,6 +147,16 @@
                 </div>
 
                 <div class="field">
+                    <label for="instagram">Instagram username <span class="hint">Optional</span></label>
+                    <input id="instagram" name="instagram" type="text" maxlength="31" inputmode="text" autocomplete="off" pattern="@?[A-Za-z0-9._]{1,30}" placeholder="@yourusername">
+                    <span class="hint">Add only your username, such as @yourbrand. It will stay private unless you tick the option below and Nostrix approves the review.</span>
+                    <label class="consent" for="showInstagram">
+                        <input id="showInstagram" name="showInstagram" type="checkbox" value="yes" disabled>
+                        <span>Show my Instagram @ with my approved testimonial.</span>
+                    </label>
+                </div>
+
+                <div class="field">
                     <label for="liked">What did you like most about working with Nostrix? *</label>
                     <textarea id="liked" name="liked" maxlength="1200" required placeholder="Tell us what worked well..."></textarea>
                 </div>
@@ -173,7 +183,7 @@
 
                 <label class="consent" for="publishConsent">
                     <input id="publishConsent" name="publishConsent" type="checkbox" value="yes" required>
-                    <span>I confirm that this feedback reflects my experience and give Nostrix permission to publish the public testimonial, rating and selected display name after approval.</span>
+                    <span>I confirm that this feedback reflects my experience and give Nostrix permission to publish the public testimonial, rating, selected display name and Instagram username when I choose that option, after approval.</span>
                 </label>
 
                 <div class="honeypot" aria-hidden="true">
@@ -196,6 +206,8 @@
         const statusElement = document.getElementById('review-status');
         const nameInput = document.getElementById('name');
         const companyInput = document.getElementById('company');
+        const instagramInput = document.getElementById('instagram');
+        const showInstagramInput = document.getElementById('showInstagram');
 
         function updateDisplayRequirements() {
             const choice = form.elements.displayPreference.value;
@@ -203,13 +215,30 @@
             companyInput.required = choice === 'company';
         }
 
+        function updateInstagramPermission() {
+            const hasHandle = instagramInput.value.trim().length > 0;
+            showInstagramInput.disabled = !hasHandle;
+            if (!hasHandle) showInstagramInput.checked = false;
+        }
+
+        instagramInput.addEventListener('input', updateInstagramPermission);
+
         form.querySelectorAll('input[name="displayPreference"]').forEach((input) => {
             input.addEventListener('change', updateDisplayRequirements);
         });
+        updateInstagramPermission();
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
             updateDisplayRequirements();
+            updateInstagramPermission();
+
+            const instagramValue = instagramInput.value.trim();
+            if (instagramValue && !/^@?[A-Za-z0-9._]{1,30}$/.test(instagramValue)) {
+                instagramInput.setCustomValidity('Enter a valid Instagram username, for example @yourbrand.');
+            } else {
+                instagramInput.setCustomValidity('');
+            }
 
             if (!form.reportValidity()) return;
 
@@ -235,6 +264,7 @@
 
                 form.reset();
                 updateDisplayRequirements();
+                updateInstagramPermission();
                 statusElement.className = 'status success';
                 statusElement.textContent = 'Thank you. Your review was submitted privately and is now awaiting approval.';
             } catch (error) {

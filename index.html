@@ -1280,6 +1280,24 @@
             text-transform: uppercase;
         }
 
+        .testimonial-instagram {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.7rem;
+            color: var(--accent-1);
+            font-size: 0.8rem;
+            font-weight: 600;
+            direction: ltr;
+            text-decoration: none;
+            transition: color 250ms ease, transform 250ms ease;
+        }
+
+        .testimonial-instagram:hover {
+            color: var(--accent-2);
+            transform: translateY(-0.1rem);
+        }
+
         .testimonial-navigation {
             display: flex;
             align-items: center;
@@ -2199,6 +2217,15 @@
             return /[؀-ۿݐ-ݿࢠ-ࣿ]/.test(String(value || ''));
         }
 
+        function normaliseInstagramHandle(value) {
+            const handle = String(value || '')
+                .trim()
+                .replace(/^https?:\/\/(www\.)?instagram\.com\//i, '')
+                .replace(/^@/, '')
+                .split(/[\/?#]/)[0];
+            return /^[A-Za-z0-9._]{1,30}$/.test(handle) ? handle : '';
+        }
+
         function buildApprovedTestimonialCard(review) {
             const card = document.createElement('article');
             card.className = `testimonial-card${review.vip ? ' vip-client' : ''}`;
@@ -2257,6 +2284,22 @@
             const meta = document.createElement('span');
             meta.textContent = `${review.service || 'Nostrix service'} · Verified client feedback`;
             author.append(name, meta);
+
+            const instagramHandle = normaliseInstagramHandle(review.instagram);
+            if (instagramHandle) {
+                const instagram = document.createElement('a');
+                instagram.className = 'testimonial-instagram';
+                instagram.href = `https://www.instagram.com/${encodeURIComponent(instagramHandle)}/`;
+                instagram.target = '_blank';
+                instagram.rel = 'noopener noreferrer';
+                instagram.setAttribute('aria-label', `Open @${instagramHandle} on Instagram`);
+
+                const icon = document.createElement('i');
+                icon.className = 'ph-fill ph-instagram-logo';
+                icon.setAttribute('aria-hidden', 'true');
+                instagram.append(icon, document.createTextNode(`@${instagramHandle}`));
+                author.appendChild(instagram);
+            }
 
             card.append(content, author);
             return card;
