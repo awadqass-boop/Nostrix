@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Share private feedback and an optional public testimonial with Nostrix Marketing Services.">
+        <link rel="icon" type="image/png" href="../favicon.png">
+    <link rel="shortcut icon" href="../favicon.png">
+    <link rel="apple-touch-icon" href="../favicon.png">
+    <title>Leave a Review | Nostrix Marketing Services</title>
+    <link rel="canonical" href="https://nostrix.ae/review/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            --bg: #08080b;
+            --surface: rgba(255,255,255,.045);
+            --border: rgba(255,255,255,.11);
+            --text: #fff;
+            --muted: #a1a1aa;
+            --accent1: #bac8ff;
+            --accent2: #d28bff;
+            --gold: #ffd66b;
+        }
+        * { box-sizing: border-box; }
+        html { color-scheme: dark; }
+        body {
+            min-height: 100vh;
+            margin: 0;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 10%, rgba(186,200,255,.09), transparent 28rem),
+                radial-gradient(circle at 90% 85%, rgba(210,139,255,.08), transparent 32rem),
+                var(--bg);
+            font-family: Inter, sans-serif;
+        }
+        a { color: inherit; }
+        .shell { width: min(100% - 2rem, 72rem); margin: 0 auto; padding: 1.25rem 0 4rem; }
+        .nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0 3rem; }
+        .brand { font-family: Syncopate, sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .22em; text-decoration: none; text-transform: uppercase; }
+        .back { display: inline-flex; align-items: center; gap: .5rem; color: #d4d4d8; font-size: .78rem; text-decoration: none; }
+        .intro { max-width: 48rem; }
+        .eyebrow { color: var(--accent2); font-size: .72rem; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; }
+        h1 { margin: 1rem 0 0; font-family: Syncopate, sans-serif; font-size: clamp(2rem, 7vw, 4.6rem); line-height: 1.12; text-transform: uppercase; }
+        .intro p { max-width: 42rem; margin: 1.4rem 0 0; color: var(--muted); font-size: 1rem; font-weight: 300; line-height: 1.8; }
+        .privacy-note { display: flex; gap: .8rem; margin-top: 1.4rem; padding: 1rem 1.1rem; border: 1px solid rgba(186,200,255,.16); border-radius: 1rem; color: #d4d4d8; background: rgba(186,200,255,.045); font-size: .84rem; line-height: 1.6; }
+        .form-card { margin-top: 2.4rem; padding: clamp(1.25rem, 4vw, 2.5rem); border: 1px solid var(--border); border-radius: 1.75rem; background: var(--surface); backdrop-filter: blur(16px); }
+        .grid { display: grid; gap: 1.15rem; }
+        .two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .field { display: grid; gap: .55rem; }
+        label, legend { color: #f4f4f5; font-size: .8rem; font-weight: 600; letter-spacing: .04em; }
+        .hint { color: #71717a; font-size: .74rem; font-weight: 400; line-height: 1.5; }
+        input, select, textarea {
+            width: 100%;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: .9rem;
+            padding: .9rem 1rem;
+            color: #fff;
+            background: rgba(0,0,0,.23);
+            font: inherit;
+            outline: none;
+            transition: border-color .2s ease, box-shadow .2s ease;
+        }
+        input:focus, select:focus, textarea:focus { border-color: rgba(210,139,255,.58); box-shadow: 0 0 0 3px rgba(210,139,255,.1); }
+        select option { color: #111; background: #fff; }
+        textarea { min-height: 8rem; resize: vertical; }
+        fieldset { margin: 0; padding: 0; border: 0; }
+        .stars { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: .35rem; margin-top: .4rem; }
+        .stars input { position: absolute; opacity: 0; pointer-events: none; }
+        .stars label { cursor: pointer; color: rgba(255,255,255,.2); font-size: 2.25rem; line-height: 1; transition: color .2s ease, transform .2s ease; }
+        .stars label:hover, .stars label:hover ~ label, .stars input:checked ~ label { color: var(--gold); }
+        .stars label:hover { transform: translateY(-.12rem); }
+        .choice-grid { display: grid; gap: .65rem; margin-top: .55rem; }
+        .choice { display: flex; align-items: flex-start; gap: .7rem; padding: .85rem .9rem; border: 1px solid rgba(255,255,255,.09); border-radius: .9rem; background: rgba(255,255,255,.025); }
+        .choice input { width: auto; margin-top: .18rem; accent-color: var(--accent2); }
+        .choice label { cursor: pointer; font-weight: 500; line-height: 1.45; }
+        .consent { display: flex; align-items: flex-start; gap: .7rem; color: #d4d4d8; font-size: .82rem; line-height: 1.6; }
+        .consent input { width: auto; margin-top: .25rem; accent-color: var(--accent2); }
+        .actions { display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; }
+        button { display: inline-flex; min-height: 3.25rem; align-items: center; justify-content: center; gap: .6rem; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; padding: 0 1.4rem; color: #fff; background: linear-gradient(135deg, rgba(186,200,255,.18), rgba(210,139,255,.2)); font: inherit; font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+        button:disabled { cursor: wait; opacity: .55; }
+        .status { color: var(--muted); font-size: .82rem; line-height: 1.5; }
+        .status.success { color: #9ee6b5; }
+        .status.error { color: #ffadad; }
+        .honeypot { position: absolute !important; left: -9999px !important; opacity: 0 !important; }
+        [hidden] { display: none !important; }
+        @media (max-width: 720px) { .two { grid-template-columns: 1fr; } .actions { align-items: stretch; flex-direction: column; } button { width: 100%; } .nav { padding-bottom: 2rem; } }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <nav class="nav">
+            <a class="brand" href="../">Nostrix</a>
+            <a class="back" href="../#testimonials"><i class="ph ph-arrow-left"></i> Back to website</a>
+        </nav>
+
+        <section class="intro">
+            <p class="eyebrow">Client feedback</p>
+            <h1>Tell us how we did</h1>
+            <p>Your feedback helps us improve our service. You can also give us permission to publish a short testimonial on the Nostrix website.</p>
+            <div class="privacy-note">
+                <i class="ph ph-lock-key text-xl" aria-hidden="true"></i>
+                <span><strong>Your improvement feedback stays private.</strong> Nothing appears publicly until Nostrix reviews and approves it, and only the public testimonial is displayed.</span>
+            </div>
+        </section>
+
+        <form class="form-card" id="review-form" novalidate>
+            <div class="grid">
+                <fieldset class="field">
+                    <legend>Overall rating *</legend>
+                    <div class="stars" aria-label="Choose a rating from one to five stars">
+                        <input type="radio" id="star-5" name="rating" value="5" required><label for="star-5" title="5 stars">★</label>
+                        <input type="radio" id="star-4" name="rating" value="4"><label for="star-4" title="4 stars">★</label>
+                        <input type="radio" id="star-3" name="rating" value="3"><label for="star-3" title="3 stars">★</label>
+                        <input type="radio" id="star-2" name="rating" value="2"><label for="star-2" title="2 stars">★</label>
+                        <input type="radio" id="star-1" name="rating" value="1"><label for="star-1" title="1 star">★</label>
+                    </div>
+                </fieldset>
+
+                <div class="grid two">
+                    <div class="field">
+                        <label for="name">Your name</label>
+                        <input id="name" name="name" type="text" maxlength="100" autocomplete="name" placeholder="Your name">
+                    </div>
+                    <div class="field">
+                        <label for="email">Email address * <span class="hint">Private — never published</span></label>
+                        <input id="email" name="email" type="email" maxlength="160" autocomplete="email" required placeholder="you@example.com">
+                    </div>
+                </div>
+
+                <div class="grid two">
+                    <div class="field">
+                        <label for="company">Company or brand</label>
+                        <input id="company" name="company" type="text" maxlength="120" autocomplete="organization" placeholder="Company or brand name">
+                    </div>
+                    <div class="field">
+                        <label for="service">Service received *</label>
+                        <select id="service" name="service" required>
+                            <option value="">Select a service</option>
+                            <option>Brand Strategy</option>
+                            <option>Social Media</option>
+                            <option>Photography</option>
+                            <option>Videography</option>
+                            <option>Content Creation</option>
+                            <option>Events Coverage</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="instagram">Instagram username <span class="hint">Optional</span></label>
+                    <input id="instagram" name="instagram" type="text" maxlength="31" inputmode="text" autocomplete="off" pattern="@?[A-Za-z0-9._]{1,30}" placeholder="@yourusername">
+                    <span class="hint">Add only your username, such as @yourbrand. It will stay private unless you tick the option below and Nostrix approves the review.</span>
+                    <label class="consent" for="showInstagram">
+                        <input id="showInstagram" name="showInstagram" type="checkbox" value="yes" disabled>
+                        <span>Show my Instagram @ with my approved testimonial.</span>
+                    </label>
+                </div>
+
+                <div class="field">
+                    <label for="liked">What did you like most about working with Nostrix? *</label>
+                    <textarea id="liked" name="liked" maxlength="1200" required placeholder="Tell us what worked well..."></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="improve">What could we improve or fix? * <span class="hint">Private — this will never be displayed publicly</span></label>
+                    <textarea id="improve" name="improve" maxlength="1200" required placeholder="Please be honest. Write “Nothing” if you have no suggestions."></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="testimonial">Short public testimonial *</label>
+                    <textarea id="testimonial" name="testimonial" maxlength="700" required placeholder="Write the review you would be happy for us to publish..."></textarea>
+                    <span class="hint">Nostrix may correct minor spelling or punctuation, but will not change the meaning without your approval.</span>
+                </div>
+
+                <fieldset class="field">
+                    <legend>How should your review be displayed? *</legend>
+                    <div class="choice-grid">
+                        <div class="choice"><input id="display-name" type="radio" name="displayPreference" value="name" required><label for="display-name">Use my name</label></div>
+                        <div class="choice"><input id="display-company" type="radio" name="displayPreference" value="company"><label for="display-company">Use my company or brand name</label></div>
+                        <div class="choice"><input id="display-anonymous" type="radio" name="displayPreference" value="anonymous"><label for="display-anonymous">Keep my identity anonymous</label></div>
+                    </div>
+                </fieldset>
+
+                <label class="consent" for="publishConsent">
+                    <input id="publishConsent" name="publishConsent" type="checkbox" value="yes" required>
+                    <span>I confirm that this feedback reflects my experience and give Nostrix permission to publish the public testimonial, rating, selected display name and Instagram username when I choose that option, after approval.</span>
+                </label>
+
+                <div class="honeypot" aria-hidden="true">
+                    <label for="website">Website</label>
+                    <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" id="submit-review">Submit Review <i class="ph ph-paper-plane-tilt"></i></button>
+                <p class="status" id="review-status" role="status" aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <script src="../site-config.js"></script>
+    <script src="../analytics.js"></script>
+    <script>
+        const form = document.getElementById('review-form');
+        const submitButton = document.getElementById('submit-review');
+        const statusElement = document.getElementById('review-status');
+        const nameInput = document.getElementById('name');
+        const companyInput = document.getElementById('company');
+        const instagramInput = document.getElementById('instagram');
+        const showInstagramInput = document.getElementById('showInstagram');
+
+        function updateDisplayRequirements() {
+            const choice = form.elements.displayPreference.value;
+            nameInput.required = choice === 'name';
+            companyInput.required = choice === 'company';
+        }
+
+        function updateInstagramPermission() {
+            const hasHandle = instagramInput.value.trim().length > 0;
+            showInstagramInput.disabled = !hasHandle;
+            if (!hasHandle) showInstagramInput.checked = false;
+        }
+
+        instagramInput.addEventListener('input', updateInstagramPermission);
+
+        form.querySelectorAll('input[name="displayPreference"]').forEach((input) => {
+            input.addEventListener('change', updateDisplayRequirements);
+        });
+        updateInstagramPermission();
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            updateDisplayRequirements();
+            updateInstagramPermission();
+
+            const instagramValue = instagramInput.value.trim();
+            if (instagramValue && !/^@?[A-Za-z0-9._]{1,30}$/.test(instagramValue)) {
+                instagramInput.setCustomValidity('Enter a valid Instagram username, for example @yourbrand.');
+            } else {
+                instagramInput.setCustomValidity('');
+            }
+
+            if (!form.reportValidity()) return;
+
+            const endpoint = window.NOSTRIX_REVIEWS_WEB_APP_URL || '';
+            if (!endpoint || endpoint.includes('PASTE_GOOGLE_APPS_SCRIPT')) {
+                statusElement.className = 'status error';
+                statusElement.textContent = 'The review form has not been connected yet. Please complete the Google Sheets setup first.';
+                return;
+            }
+
+            submitButton.disabled = true;
+            statusElement.className = 'status';
+            statusElement.textContent = 'Submitting your review…';
+
+            try {
+                const body = new URLSearchParams(new FormData(form));
+                await fetch(endpoint, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                    body
+                });
+
+                form.reset();
+                updateDisplayRequirements();
+                updateInstagramPermission();
+                statusElement.className = 'status success';
+                statusElement.textContent = 'Thank you. Your review was submitted privately and is now awaiting approval.';
+            } catch (error) {
+                statusElement.className = 'status error';
+                statusElement.textContent = 'The review could not be submitted. Please try again or contact marketing@nostrix.ae.';
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
