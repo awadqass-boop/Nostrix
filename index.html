@@ -2235,25 +2235,26 @@
                                         <label for="contact-detail">Email or phone *</label>
                                         <input class="form-control" id="contact-detail" name="contact" type="text" autocomplete="email" placeholder="How should we reach you?" required>
                                     </div>
-                                    <div class="form-field">
-                                        <label for="service">Service needed *</label>
-                                        <select class="form-control" id="service" name="service" required>
-                                            <option value="">Select a service</option>
-                                            <option>Brand Strategy</option>
-                                            <option>Social Media</option>
-                                            <option>Photography</option>
-                                            <option>Videography</option>
-                                            <option>Content Creation</option>
-                                            <option>Event Coverage</option>
-                                            <option value="Other">Other</option>
-                                        </select>
+
+                                    <div class="form-field form-field-wide">
+                                        <label>Service(s) needed *</label>
+                                        <p class="field-help">Select all that apply.</p>
+                                        <div class="event-options" id="service-options" role="group" aria-label="Services needed">
+                                            <label class="event-option"><input type="checkbox" name="services" value="Brand Strategy"><span>Brand Strategy</span></label>
+                                            <label class="event-option"><input type="checkbox" name="services" value="Social Media"><span>Social Media</span></label>
+                                            <label class="event-option"><input type="checkbox" name="services" value="Photography"><span>Photography</span></label>
+                                            <label class="event-option"><input type="checkbox" name="services" value="Videography"><span>Videography</span></label>
+                                            <label class="event-option"><input type="checkbox" name="services" value="Content Creation"><span>Content Creation</span></label>
+                                            <label class="event-option"><input id="event-coverage-service" type="checkbox" name="services" value="Event Coverage"><span>Event Coverage</span></label>
+                                            <label class="event-option"><input id="other-service-checkbox" type="checkbox" name="services" value="Other"><span>Other</span></label>
+                                        </div>
+                                        <p class="event-error" id="services-error" aria-live="polite"></p>
                                     </div>
 
                                     <div class="form-field form-field-wide" id="custom-service-field" hidden>
-                                        <label for="custom-service">What service do you need? *</label>
-                                        <input class="form-control" id="custom-service" name="custom_service" type="text" placeholder="Type the service you need">
+                                        <label for="custom-service">Other service *</label>
+                                        <input class="form-control" id="custom-service" name="custom_service" type="text" placeholder="Type the service that is not listed">
                                     </div>
-
                                     <div class="form-field form-field-wide" id="event-types-field" hidden>
                                         <label>Event type(s) *</label>
                                         <p class="field-help">Select all that apply.</p>
@@ -2814,7 +2815,10 @@
         const projectForm = document.getElementById('project-form');
         const emailProjectButton = document.getElementById('email-project');
         const formStatus = document.getElementById('form-status');
-        const serviceSelect = document.getElementById('service');
+        const serviceCheckboxes = Array.from(document.querySelectorAll('input[name="services"]'));
+        const servicesError = document.getElementById('services-error');
+        const eventCoverageService = document.getElementById('event-coverage-service');
+        const otherServiceCheckbox = document.getElementById('other-service-checkbox');
         const customServiceField = document.getElementById('custom-service-field');
         const customServiceInput = document.getElementById('custom-service');
         const eventTypesField = document.getElementById('event-types-field');
@@ -2838,12 +2842,11 @@
         }
 
         function updateServiceFields() {
-            const isOtherService = serviceSelect.value === 'Other';
-            const isEventCoverage = serviceSelect.value === 'Event Coverage';
+            const isOtherService = otherServiceCheckbox.checked;
+            const isEventCoverage = eventCoverageService.checked;
 
             customServiceField.hidden = !isOtherService;
             customServiceInput.required = isOtherService;
-
             eventTypesField.hidden = !isEventCoverage;
 
             if (!isOtherService) {
@@ -2860,11 +2863,15 @@
                 customEventInput.value = '';
             }
 
+            if (serviceCheckboxes.some((checkbox) => checkbox.checked)) {
+                servicesError.textContent = '';
+            }
+
             updateCustomEventField();
         }
 
         function updateCustomEventField() {
-            const showCustomEvent = serviceSelect.value === 'Event Coverage' && otherEventCheckbox.checked;
+            const showCustomEvent = eventCoverageService.checked && otherEventCheckbox.checked;
             customEventField.hidden = !showCustomEvent;
             customEventInput.required = showCustomEvent;
 
@@ -2873,8 +2880,10 @@
             }
         }
 
-        serviceSelect.addEventListener('change', updateServiceFields);
-        otherEventCheckbox.addEventListener('change', updateCustomEventField);
+        serviceCheckboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', updateServiceFields);
+        });
+otherEventCheckbox.addEventListener('change', updateCustomEventField);
         eventTypeCheckboxes.forEach((checkbox) => {
             checkbox.addEventListener('change', () => {
                 if (eventTypeCheckboxes.some((item) => item.checked)) {
@@ -2892,9 +2901,9 @@
             const budget = data.get('budget') === 'custom'
                 ? data.get('custom_budget')
                 : data.get('budget');
-            const selectedService = data.get('service') === 'Other'
-                ? data.get('custom_service')
-                : data.get('service');
+            const selectedServices = data.getAll('services')
+                .map((service) => service === 'Other' ? data.get('custom_service') : service)
+                .filter(Boolean);
             const selectedEventTypes = data.getAll('event_types')
                 .map((eventType) => eventType === 'Other Event' ? data.get('custom_event') : eventType)
                 .filter(Boolean);
@@ -2905,10 +2914,10 @@
                 `Name: ${data.get('name') || ''}`,
                 `Company / Brand: ${data.get('company') || ''}`,
                 `Contact: ${data.get('contact') || ''}`,
-                `Service: ${selectedService || ''}`
+                `Service(s): ${selectedServices.join(', ')}`
             ];
 
-            if (data.get('service') === 'Event Coverage') {
+            if (selectedServices.includes('Event Coverage')) {
                 brief.push(`Event type(s): ${selectedEventTypes.join(', ')}`);
             }
 
@@ -2930,7 +2939,17 @@
                 return false;
             }
 
-            if (serviceSelect.value === 'Event Coverage' && !eventTypeCheckboxes.some((checkbox) => checkbox.checked)) {
+            if (!serviceCheckboxes.some((checkbox) => checkbox.checked)) {
+                servicesError.textContent = 'Please select at least one service.';
+                formStatus.textContent = 'Please select at least one service.';
+                document.getElementById('service-options').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                serviceCheckboxes[0]?.focus({ preventScroll: true });
+                return false;
+            }
+
+            servicesError.textContent = '';
+
+            if (eventCoverageService.checked && !eventTypeCheckboxes.some((checkbox) => checkbox.checked)) {
                 eventTypesError.textContent = 'Please select at least one event type.';
                 formStatus.textContent = 'Please select at least one event type.';
                 eventTypesField.scrollIntoView({ behavior: 'smooth', block: 'center' });
