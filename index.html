@@ -1572,6 +1572,74 @@
             -webkit-text-fill-color: rgba(255,255,255,0.5);
         }
 
+        .form-field-wide {
+            grid-column: 1 / -1;
+        }
+
+        .event-options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.7rem;
+        }
+
+        .event-option {
+            display: flex !important;
+            align-items: center;
+            gap: 0.7rem;
+            min-height: 3rem;
+            margin: 0 !important;
+            padding: 0.78rem 0.85rem;
+            border: 1px solid rgba(255,255,255,0.11);
+            border-radius: 0.9rem;
+            color: rgba(255,255,255,0.82) !important;
+            background: rgba(255,255,255,0.035);
+            font-size: 0.82rem !important;
+            font-weight: 400 !important;
+            letter-spacing: 0 !important;
+            line-height: 1.35;
+            text-transform: none !important;
+            cursor: pointer;
+            transition: border-color 220ms ease, background 220ms ease, transform 220ms ease;
+        }
+
+        .event-option:hover {
+            border-color: rgba(186,200,255,0.36);
+            background: rgba(255,255,255,0.055);
+        }
+
+        .event-option:has(input:checked) {
+            border-color: rgba(210,139,255,0.6);
+            background: linear-gradient(135deg, rgba(186,200,255,0.12), rgba(210,139,255,0.12));
+        }
+
+        .event-option input {
+            width: 1.05rem;
+            height: 1.05rem;
+            flex: 0 0 auto;
+            margin: 0;
+            accent-color: #d28bff;
+        }
+
+        .field-help {
+            margin: -0.1rem 0 0.75rem;
+            color: rgba(255,255,255,0.48);
+            font-size: 0.75rem;
+            line-height: 1.45;
+        }
+
+        .event-error {
+            min-height: 1.15rem;
+            margin-top: 0.55rem;
+            color: #f6a6b8;
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 640px) {
+            .event-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* Prevent browser autofill from changing text to an unreadable colour. */
         .form-control:-webkit-autofill,
         .form-control:-webkit-autofill:hover,
@@ -2177,8 +2245,39 @@
                                             <option>Videography</option>
                                             <option>Content Creation</option>
                                             <option>Event Coverage</option>
-                                            <option>Other</option>
+                                            <option value="Other">Other</option>
                                         </select>
+                                    </div>
+
+                                    <div class="form-field form-field-wide" id="custom-service-field" hidden>
+                                        <label for="custom-service">What service do you need? *</label>
+                                        <input class="form-control" id="custom-service" name="custom_service" type="text" placeholder="Type the service you need">
+                                    </div>
+
+                                    <div class="form-field form-field-wide" id="event-types-field" hidden>
+                                        <label>Event type(s) *</label>
+                                        <p class="field-help">Select all that apply.</p>
+                                        <div class="event-options" id="event-options" role="group" aria-label="Event types">
+                                            <label class="event-option"><input type="checkbox" name="event_types" value="Corporate Event"><span>Corporate Event</span></label>
+                                            <label class="event-option"><input type="checkbox" name="event_types" value="Conference / Seminar"><span>Conference / Seminar</span></label>
+                                            <label class="event-option"><input type="checkbox" name="event_types" value="Product Launch"><span>Product Launch</span></label>
+                                            <label class="event-option"><input type="checkbox" name="event_types" value="Grand Opening"><span>Grand Opening</span></label>
+                                            <label class="event-option"><input type="checkbox" name="event_types" value="Exhibition / Trade Show"><span>Exhibition / Trade Show</span></label>
+                                            <label class="event-option"><input type="checkbox" name="event_types" value="Wedding / Engagement"><span>Wedding / Engagement</span></label>
+                                            <label class="event-option"><input type="checkbox" name="event_types" value="Birthday / Private Celebration"><span>Birthday / Private Celebration</span></label>
+                                            <label class="event-option"><input type="checkbox" name="event_types" value="Graduation"><span>Graduation</span></label>
+                                            <label class="event-option"><input type="checkbox" name="event_types" value="Fashion Show"><span>Fashion Show</span></label>
+                                            <label class="event-option"><input type="checkbox" name="event_types" value="Sports Event"><span>Sports Event</span></label>
+                                            <label class="event-option"><input type="checkbox" name="event_types" value="Concert / Live Performance"><span>Concert / Live Performance</span></label>
+                                            <label class="event-option"><input type="checkbox" name="event_types" value="Community / Cultural Event"><span>Community / Cultural Event</span></label>
+                                            <label class="event-option"><input id="other-event-checkbox" type="checkbox" name="event_types" value="Other Event"><span>Other Event</span></label>
+                                        </div>
+                                        <p class="event-error" id="event-types-error" aria-live="polite"></p>
+                                    </div>
+
+                                    <div class="form-field form-field-wide" id="custom-event-field" hidden>
+                                        <label for="custom-event">Other event type *</label>
+                                        <input class="form-control" id="custom-event" name="custom_event" type="text" placeholder="Type the event that is not listed">
                                     </div>
                                     <div class="form-field">
                                         <label for="budget">Estimated budget *</label>
@@ -2715,6 +2814,15 @@
         const projectForm = document.getElementById('project-form');
         const emailProjectButton = document.getElementById('email-project');
         const formStatus = document.getElementById('form-status');
+        const serviceSelect = document.getElementById('service');
+        const customServiceField = document.getElementById('custom-service-field');
+        const customServiceInput = document.getElementById('custom-service');
+        const eventTypesField = document.getElementById('event-types-field');
+        const eventTypeCheckboxes = Array.from(document.querySelectorAll('input[name="event_types"]'));
+        const eventTypesError = document.getElementById('event-types-error');
+        const otherEventCheckbox = document.getElementById('other-event-checkbox');
+        const customEventField = document.getElementById('custom-event-field');
+        const customEventInput = document.getElementById('custom-event');
         const budgetSelect = document.getElementById('budget');
         const customBudgetField = document.getElementById('custom-budget-field');
         const customBudgetInput = document.getElementById('custom-budget');
@@ -2729,7 +2837,54 @@
             }
         }
 
+        function updateServiceFields() {
+            const isOtherService = serviceSelect.value === 'Other';
+            const isEventCoverage = serviceSelect.value === 'Event Coverage';
+
+            customServiceField.hidden = !isOtherService;
+            customServiceInput.required = isOtherService;
+
+            eventTypesField.hidden = !isEventCoverage;
+
+            if (!isOtherService) {
+                customServiceInput.value = '';
+            }
+
+            if (!isEventCoverage) {
+                eventTypeCheckboxes.forEach((checkbox) => {
+                    checkbox.checked = false;
+                });
+                eventTypesError.textContent = '';
+                customEventField.hidden = true;
+                customEventInput.required = false;
+                customEventInput.value = '';
+            }
+
+            updateCustomEventField();
+        }
+
+        function updateCustomEventField() {
+            const showCustomEvent = serviceSelect.value === 'Event Coverage' && otherEventCheckbox.checked;
+            customEventField.hidden = !showCustomEvent;
+            customEventInput.required = showCustomEvent;
+
+            if (!showCustomEvent) {
+                customEventInput.value = '';
+            }
+        }
+
+        serviceSelect.addEventListener('change', updateServiceFields);
+        otherEventCheckbox.addEventListener('change', updateCustomEventField);
+        eventTypeCheckboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', () => {
+                if (eventTypeCheckboxes.some((item) => item.checked)) {
+                    eventTypesError.textContent = '';
+                }
+            });
+        });
+
         budgetSelect.addEventListener('change', updateCustomBudgetField);
+        updateServiceFields();
         updateCustomBudgetField();
 
         function buildProjectBrief() {
@@ -2737,19 +2892,35 @@
             const budget = data.get('budget') === 'custom'
                 ? data.get('custom_budget')
                 : data.get('budget');
-            return [
+            const selectedService = data.get('service') === 'Other'
+                ? data.get('custom_service')
+                : data.get('service');
+            const selectedEventTypes = data.getAll('event_types')
+                .map((eventType) => eventType === 'Other Event' ? data.get('custom_event') : eventType)
+                .filter(Boolean);
+
+            const brief = [
                 'Hello Nostrix, I would like to discuss a project.',
                 '',
                 `Name: ${data.get('name') || ''}`,
                 `Company / Brand: ${data.get('company') || ''}`,
                 `Contact: ${data.get('contact') || ''}`,
-                `Service: ${data.get('service') || ''}`,
+                `Service: ${selectedService || ''}`
+            ];
+
+            if (data.get('service') === 'Event Coverage') {
+                brief.push(`Event type(s): ${selectedEventTypes.join(', ')}`);
+            }
+
+            brief.push(
                 `Estimated budget: ${budget || ''}`,
                 `Preferred timeline: ${data.get('timeline') || ''}`,
                 '',
                 'Project details:',
                 data.get('details') || ''
-            ].join('\n');
+            );
+
+            return brief.join('\n');
         }
 
         function validateProjectForm() {
@@ -2758,6 +2929,16 @@
                 formStatus.textContent = 'Please answer every question and accept the privacy notice.';
                 return false;
             }
+
+            if (serviceSelect.value === 'Event Coverage' && !eventTypeCheckboxes.some((checkbox) => checkbox.checked)) {
+                eventTypesError.textContent = 'Please select at least one event type.';
+                formStatus.textContent = 'Please select at least one event type.';
+                eventTypesField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                eventTypeCheckboxes[0]?.focus({ preventScroll: true });
+                return false;
+            }
+
+            eventTypesError.textContent = '';
             formStatus.textContent = '';
             return true;
         }
