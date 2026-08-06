@@ -1701,18 +1701,29 @@
             }
 
             .portfolio-preview-link {
-                height: clamp(20rem, 86vw, 24rem);
+                width: 100%;
+                height: auto;
                 min-height: 0;
+                aspect-ratio: 1200 / 1697;
+                overflow: hidden;
             }
 
             .portfolio-preview-link img {
-                position: absolute;
-                inset: 0;
+                position: static;
+                display: block;
                 width: 100%;
+                max-width: 100%;
                 height: 100%;
                 min-height: 0;
-                object-fit: cover;
-                object-position: top center;
+                object-fit: contain;
+                object-position: center;
+                transform: none;
+            }
+
+            .portfolio-showcase,
+            .portfolio-preview-link {
+                min-width: 0;
+                max-width: 100%;
             }
 
             .portfolio-actions,
