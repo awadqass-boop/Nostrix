@@ -2031,6 +2031,306 @@
             .testimonial-card { flex-basis: calc(100vw - 2rem); padding: 1.25rem; }
         }
 
+
+        /* Pricing packages + package enquiry modal */
+        .pricing-block {
+            margin-top: 4.25rem;
+        }
+
+        .pricing-heading {
+            max-width: 42rem;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            align-items: stretch;
+        }
+
+        .pricing-card {
+            position: relative;
+            display: flex;
+            min-height: 31rem;
+            flex-direction: column;
+            overflow: hidden;
+            padding: clamp(1.45rem, 2.5vw, 2rem);
+            border: 1px solid var(--border);
+            border-radius: 1.6rem;
+            background: rgba(255,255,255,0.035);
+            backdrop-filter: blur(14px);
+            transition: transform 600ms var(--ease-out), border-color 350ms ease, background 350ms ease, box-shadow 600ms var(--ease-out);
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            pointer-events: none;
+            opacity: 0;
+            background: radial-gradient(28rem circle at 50% 12%, rgba(210,139,255,0.14), transparent 48%);
+            transition: opacity 400ms ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-0.55rem);
+            border-color: rgba(210,139,255,0.28);
+            background: rgba(255,255,255,0.052);
+            box-shadow: 0 1.8rem 4rem rgba(0,0,0,0.24);
+        }
+
+        .pricing-card:hover::before { opacity: 1; }
+
+        .pricing-card.is-featured {
+            border-color: rgba(210,139,255,0.34);
+            background:
+                radial-gradient(circle at 50% 0%, rgba(210,139,255,0.13), transparent 20rem),
+                rgba(255,255,255,0.055);
+            box-shadow: 0 1.6rem 4rem rgba(0,0,0,0.18), 0 0 3rem rgba(210,139,255,0.05);
+        }
+
+        .pricing-card-inner {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .pricing-topline {
+            display: flex;
+            min-height: 2rem;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .pricing-kicker,
+        .pricing-badge {
+            font-size: 0.67rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .pricing-kicker { color: rgba(255,255,255,0.42); }
+
+        .pricing-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.38rem;
+            padding: 0.48rem 0.7rem;
+            border: 1px solid rgba(210,139,255,0.26);
+            border-radius: 999px;
+            color: #ead1ff;
+            background: rgba(210,139,255,0.08);
+            letter-spacing: 0.1em;
+        }
+
+        .pricing-name {
+            margin-top: 1.2rem;
+            color: #fff;
+            font-size: clamp(1.65rem, 2.4vw, 2.25rem);
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+
+        .pricing-price {
+            display: flex;
+            align-items: baseline;
+            gap: 0.45rem;
+            margin-top: 1rem;
+        }
+
+        .pricing-price strong {
+            color: #fff;
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(1.6rem, 3vw, 2.55rem);
+            line-height: 1;
+        }
+
+        .pricing-price span {
+            color: rgb(113 113 122);
+            font-size: 0.78rem;
+        }
+
+        .pricing-description {
+            margin-top: 1rem;
+            color: rgb(161 161 170);
+            font-size: 0.86rem;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        .pricing-features {
+            display: grid;
+            gap: 0.78rem;
+            margin: 1.65rem 0 2rem;
+        }
+
+        .pricing-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.84rem;
+            line-height: 1.55;
+        }
+
+        .pricing-feature i {
+            flex: 0 0 auto;
+            margin-top: 0.16rem;
+            color: var(--accent-1);
+            font-size: 1rem;
+        }
+
+        .pricing-card .package-contact,
+        .pricing-card .custom-package-contact {
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .package-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            padding: 1.25rem;
+        }
+
+        .package-modal[hidden] { display: none; }
+
+        .package-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            background: rgba(3,3,7,0.76);
+            backdrop-filter: blur(13px);
+            transition: opacity 260ms ease;
+        }
+
+        .package-modal-panel {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 42rem);
+            max-height: min(88vh, 48rem);
+            overflow: auto;
+            padding: clamp(1.35rem, 3vw, 2rem);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 1.7rem;
+            opacity: 0;
+            background:
+                radial-gradient(circle at 80% 0%, rgba(210,139,255,0.14), transparent 24rem),
+                linear-gradient(145deg, rgba(20,20,29,0.98), rgba(8,8,12,0.99));
+            box-shadow: 0 2.5rem 7rem rgba(0,0,0,0.52);
+            transform: translateY(1rem) scale(0.98);
+            transition: opacity 280ms ease, transform 360ms var(--ease-out);
+        }
+
+        .package-modal.is-open .package-modal-backdrop { opacity: 1; }
+        .package-modal.is-open .package-modal-panel { opacity: 1; transform: none; }
+
+        .package-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: grid;
+            width: 2.65rem;
+            height: 2.65rem;
+            place-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 999px;
+            color: rgba(255,255,255,0.72);
+            background: rgba(255,255,255,0.04);
+            transition: color 220ms ease, border-color 220ms ease, background 220ms ease, transform 220ms ease;
+        }
+
+        .package-modal-close:hover {
+            color: #fff;
+            border-color: rgba(210,139,255,0.32);
+            background: rgba(210,139,255,0.08);
+            transform: rotate(5deg);
+        }
+
+        .package-selection {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.85rem;
+            padding: 0.55rem 0.78rem;
+            border: 1px solid rgba(186,200,255,0.2);
+            border-radius: 999px;
+            color: #dce4ff;
+            background: rgba(186,200,255,0.06);
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .package-modal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.9rem;
+            margin-top: 1.5rem;
+        }
+
+        .package-modal-grid .form-field-wide { grid-column: 1 / -1; }
+
+        .package-modal-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.25rem;
+        }
+
+        .package-modal-actions .primary-button,
+        .package-modal-actions .secondary-button { flex: 1 1 12rem; }
+
+        .package-demo-note {
+            margin-top: 1rem;
+            color: rgb(113 113 122);
+            font-size: 0.74rem;
+            line-height: 1.6;
+        }
+
+        .custom-package-context {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.85rem;
+            margin-bottom: 1.25rem;
+            padding: 0.9rem 1rem;
+            border: 1px solid rgba(210,139,255,0.22);
+            border-radius: 1rem;
+            color: rgba(255,255,255,0.82);
+            background: linear-gradient(120deg, rgba(210,139,255,0.075), rgba(186,200,255,0.04));
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        .custom-package-context[hidden] { display: none; }
+        .custom-package-context strong { color: #fff; }
+        body.package-modal-open { overflow: hidden; }
+
+        @media (max-width: 900px) {
+            .pricing-grid { grid-template-columns: 1fr; }
+            .pricing-card { min-height: 0; }
+        }
+
+        @media (max-width: 639px) {
+            .pricing-block { margin-top: 3.25rem; }
+            .package-modal { padding: 0.75rem; }
+            .package-modal-panel { max-height: 92vh; border-radius: 1.35rem; padding: 1.2rem; }
+            .package-modal-grid { grid-template-columns: 1fr; }
+            .package-modal-actions { flex-direction: column; }
+            .package-modal-actions .primary-button,
+            .package-modal-actions .secondary-button { width: 100%; flex-basis: auto; }
+            .custom-package-context { align-items: flex-start; flex-direction: column; }
+        }
+
     </style>
     <!-- Mobile portfolio preview fix: 2026-08-06 v3 -->
 </head>
@@ -2113,7 +2413,7 @@
             <section id="services" class="services-section" aria-labelledby="services-title">
                 <div class="mx-auto max-w-7xl">
                     <div class="section-heading reveal">
-                        <p class="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-accent1/75">What we do</p>
+                        <p class="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-accent1/75">What we offer</p>
                         <h2 id="services-title" class="font-display text-3xl font-bold uppercase leading-tight text-white md:text-5xl">Our Services</h2>
                         <p class="mt-6 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">
                             Strategy, creativity and execution brought together to help your brand look sharper, speak clearly and grow with purpose.
@@ -2174,24 +2474,131 @@
                         </article>
                     </div>
 
-                    <div class="reveal mt-14 flex flex-col items-start justify-between gap-6 rounded-3xl border border-white/10 bg-white/[0.035] p-7 backdrop-blur-xl md:flex-row md:items-center md:p-9">
-                        <div>
-                            <p class="text-xs font-medium uppercase tracking-[0.22em] text-accent2/80">Have a project in mind?</p>
-                            <h3 class="mt-3 text-2xl font-semibold text-white md:text-3xl">Let’s create something memorable.</h3>
+                    <div class="pricing-block reveal" aria-labelledby="packages-title">
+                        <div class="pricing-heading">
+                            <p class="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-accent2/80">Simple packages</p>
+                            <h3 id="packages-title" class="text-2xl font-semibold text-white md:text-3xl">Choose the level that fits your brand.</h3>
+                            <p class="mt-4 text-sm font-light leading-7 text-zinc-400">Start with a clear package or choose a custom scope for campaigns, events and larger productions.</p>
                         </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="#contact" class="primary-button shrink-0">
-                                Start a Project
-                                <i class="ph ph-arrow-down" aria-hidden="true"></i>
-                            </a>
-                            <a href="https://wa.me/971561195226" target="_blank" rel="noopener noreferrer" class="secondary-button shrink-0">
-                                WhatsApp
-                                <i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>
-                            </a>
+
+                        <div class="pricing-grid">
+                            <article class="pricing-card reveal" style="transition-delay: 60ms;">
+                                <div class="pricing-card-inner">
+                                    <div class="pricing-topline">
+                                        <span class="pricing-kicker">01 · Starter</span>
+                                    </div>
+                                    <h4 class="pricing-name">Startup</h4>
+                                    <div class="pricing-price"><strong>AED 1,490</strong><span>/ month</span></div>
+                                    <p class="pricing-description">A clean launch package for new brands that need consistent content and a strong starting point.</p>
+                                    <div class="pricing-features">
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Brand direction & monthly content plan</span></div>
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>8 social posts or designed creatives</span></div>
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>1 short content shoot per month</span></div>
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Basic monthly performance summary</span></div>
+                                    </div>
+                                    <button type="button" class="secondary-button package-contact" data-package="Startup" data-price="AED 1,490 / month">
+                                        Contact Us
+                                        <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </article>
+
+                            <article class="pricing-card is-featured reveal" style="transition-delay: 120ms;">
+                                <div class="pricing-card-inner">
+                                    <div class="pricing-topline">
+                                        <span class="pricing-kicker">02 · Growth</span>
+                                        <span class="pricing-badge"><i class="ph-fill ph-star" aria-hidden="true"></i>Most popular</span>
+                                    </div>
+                                    <h4 class="pricing-name">Premium</h4>
+                                    <div class="pricing-price"><strong>AED 2,990</strong><span>/ month</span></div>
+                                    <p class="pricing-description">For brands ready to publish more often, look more polished and build a stronger monthly presence.</p>
+                                    <div class="pricing-features">
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Strategy, content planning & account direction</span></div>
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>16 social posts / creatives per month</span></div>
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>2 content shoots + short-form reels</span></div>
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Monthly reporting & priority support</span></div>
+                                    </div>
+                                    <button type="button" class="primary-button package-contact" data-package="Premium" data-price="AED 2,990 / month">
+                                        Contact Us
+                                        <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </article>
+
+                            <article class="pricing-card reveal" style="transition-delay: 180ms;">
+                                <div class="pricing-card-inner">
+                                    <div class="pricing-topline">
+                                        <span class="pricing-kicker">03 · Tailored</span>
+                                    </div>
+                                    <h4 class="pricing-name">Custom</h4>
+                                    <div class="pricing-price"><strong>Custom</strong><span>pricing</span></div>
+                                    <p class="pricing-description">Built around your exact campaign, event, production schedule, deliverables and team requirements.</p>
+                                    <div class="pricing-features">
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Custom strategy and deliverables</span></div>
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Events, launches & full productions</span></div>
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Flexible content volume and crew</span></div>
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Tailored timeline and quotation</span></div>
+                                    </div>
+                                    <button type="button" class="secondary-button custom-package-contact">
+                                        Tell Us What You’re Building
+                                        <i class="ph ph-arrow-down" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </article>
                         </div>
                     </div>
                 </div>
             </section>
+
+            <div class="package-modal" id="package-modal" hidden aria-hidden="true">
+                <div class="package-modal-backdrop" data-close-package-modal></div>
+                <div class="package-modal-panel" role="dialog" aria-modal="true" aria-labelledby="package-modal-title">
+                    <button type="button" class="package-modal-close" data-close-package-modal aria-label="Close package enquiry">
+                        <i class="ph ph-x text-xl" aria-hidden="true"></i>
+                    </button>
+
+                    <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent2/80">Package enquiry</p>
+                    <h3 id="package-modal-title" class="mt-3 pr-12 text-2xl font-semibold text-white md:text-3xl">Tell us how we can help.</h3>
+                    <div class="package-selection" id="package-selection"><i class="ph ph-package" aria-hidden="true"></i><span id="package-selection-text">Startup · AED 1,490 / month</span></div>
+                    <p class="mt-4 max-w-xl text-sm font-light leading-7 text-zinc-400">The package you selected is attached automatically. Add your details and a short note, then choose WhatsApp or direct send.</p>
+
+                    <form id="package-form" novalidate>
+                        <input type="hidden" id="package-name" name="package" value="">
+                        <input type="hidden" id="package-price" name="package_price" value="">
+                        <div class="package-modal-grid">
+                            <div class="form-field">
+                                <label for="package-client-name">Name *</label>
+                                <input class="form-control" id="package-client-name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="package-company">Company or brand *</label>
+                                <input class="form-control" id="package-company" name="company" type="text" autocomplete="organization" placeholder="Brand name" required>
+                            </div>
+                            <div class="form-field form-field-wide">
+                                <label for="package-contact-detail">Email or phone *</label>
+                                <input class="form-control" id="package-contact-detail" name="contact" type="text" placeholder="How should we reach you?" required>
+                            </div>
+                            <div class="form-field form-field-wide">
+                                <label for="package-message">What do you need? *</label>
+                                <textarea class="form-control" id="package-message" name="message" placeholder="Tell us what you want included, your goals, timing, or anything we should know." required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="package-modal-actions">
+                            <button type="submit" class="primary-button">
+                                Send on WhatsApp
+                                <i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" id="package-direct-send" class="secondary-button">
+                                Send Directly
+                                <i class="ph ph-paper-plane-tilt" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <p id="package-form-status" class="form-status mt-4" aria-live="polite"></p>
+                        <p class="package-demo-note">Demo mode: the direct email + Google Sheets endpoint is intentionally blank for now. The final connection can be added without changing this layout.</p>
+                    </form>
+                </div>
+            </div>
 
             <section id="why" class="why-section" aria-labelledby="why-title">
                 <div class="mx-auto max-w-7xl">
@@ -2319,7 +2726,7 @@
                         <p class="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-accent1/75">Start a project</p>
                         <h2 id="contact-title" class="font-display text-3xl font-bold uppercase leading-tight text-white md:text-5xl">Tell us what you’re building</h2>
                         <p class="mt-6 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">
-                            Share the basics and choose WhatsApp or email. The form opens your selected app with a ready-to-send project brief.
+                            Share the basics and choose WhatsApp or send directly. Your project brief is prepared instantly and the direct-send connection can be enabled when the backend is ready.
                         </p>
                     </div>
 
@@ -2338,6 +2745,10 @@
 
                         <div class="contact-card reveal" style="transition-delay: 100ms;">
                             <form id="project-form" novalidate>
+                                <div class="custom-package-context" id="custom-package-context" hidden>
+                                    <span><strong>Custom package selected.</strong> Tell us exactly what you need and we’ll build the scope around it.</span>
+                                    <i class="ph ph-sparkle text-xl text-accent2" aria-hidden="true"></i>
+                                </div>
                                 <div class="form-grid two-column">
                                     <div class="form-field">
                                         <label for="client-name">Name *</label>
@@ -2435,8 +2846,8 @@
                                         <i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>
                                     </button>
                                     <button type="button" id="email-project" class="secondary-button">
-                                        Send by Email
-                                        <i class="ph ph-envelope-simple" aria-hidden="true"></i>
+                                        Send Directly
+                                        <i class="ph ph-paper-plane-tilt" aria-hidden="true"></i>
                                     </button>
                                 </div>
                                 <p id="form-status" class="form-status mt-4" aria-live="polite"></p>
@@ -3087,14 +3498,163 @@ otherEventCheckbox.addEventListener('change', updateCustomEventField);
             window.open(`https://wa.me/971561195226?text=${message}`, '_blank', 'noopener,noreferrer');
         });
 
-        emailProjectButton.addEventListener('click', () => {
+        /*
+         * Backend connection intentionally left blank for the visual demo.
+         * Later, point this to your own server / Google Apps Script endpoint.
+         * That endpoint can send the custom Nostrix email and append the same lead to Google Sheets.
+         */
+        const LEAD_SUBMISSION_ENDPOINT = '';
+
+        emailProjectButton.addEventListener('click', async () => {
             if (!validateProjectForm()) return;
 
-            const name = document.getElementById('client-name').value.trim() || 'New client';
-            const subject = encodeURIComponent(`New project enquiry from ${name}`);
-            const body = encodeURIComponent(buildProjectBrief());
-            formStatus.textContent = 'Opening your email app with the project brief…';
-            window.location.href = `mailto:marketing@nostrix.ae?subject=${subject}&body=${body}`;
+            if (!LEAD_SUBMISSION_ENDPOINT) {
+                formStatus.textContent = 'Demo mode — direct email + Google Sheets are not connected yet.';
+                return;
+            }
+
+            formStatus.textContent = 'Sending your project brief…';
+            try {
+                const response = await fetch(LEAD_SUBMISSION_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        source: 'custom-project-form',
+                        brief: buildProjectBrief()
+                    })
+                });
+                if (!response.ok) throw new Error('Submission failed');
+                formStatus.textContent = 'Thanks — your project brief has been sent.';
+            } catch (error) {
+                formStatus.textContent = 'We could not send the form right now. Please try WhatsApp instead.';
+            }
+        });
+
+        const packageModal = document.getElementById('package-modal');
+        const packageForm = document.getElementById('package-form');
+        const packageNameInput = document.getElementById('package-name');
+        const packagePriceInput = document.getElementById('package-price');
+        const packageSelectionText = document.getElementById('package-selection-text');
+        const packageMessage = document.getElementById('package-message');
+        const packageFormStatus = document.getElementById('package-form-status');
+        const packageDirectSend = document.getElementById('package-direct-send');
+        const packageContactButtons = Array.from(document.querySelectorAll('.package-contact'));
+        const customPackageButtons = Array.from(document.querySelectorAll('.custom-package-contact'));
+        const customPackageContext = document.getElementById('custom-package-context');
+        let packageModalTrigger = null;
+
+        function openPackageModal(button) {
+            packageModalTrigger = button;
+            const packageName = button.dataset.package || 'Package';
+            const packagePrice = button.dataset.price || '';
+            packageNameInput.value = packageName;
+            packagePriceInput.value = packagePrice;
+            packageSelectionText.textContent = `${packageName} · ${packagePrice}`;
+            packageMessage.placeholder = `Tell us what you want with the ${packageName} package, your goals, timing, or anything we should know.`;
+            packageFormStatus.textContent = '';
+            packageModal.hidden = false;
+            packageModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('package-modal-open');
+            requestAnimationFrame(() => {
+                packageModal.classList.add('is-open');
+                document.getElementById('package-client-name')?.focus({ preventScroll: true });
+            });
+        }
+
+        function closePackageModal() {
+            packageModal.classList.remove('is-open');
+            packageModal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('package-modal-open');
+            window.setTimeout(() => {
+                packageModal.hidden = true;
+                packageModalTrigger?.focus({ preventScroll: true });
+            }, 260);
+        }
+
+        function buildPackageBrief() {
+            const data = new FormData(packageForm);
+            return [
+                'Hello Nostrix, I am interested in a package.',
+                '',
+                `Package: ${data.get('package') || ''}`,
+                `Price shown: ${data.get('package_price') || ''}`,
+                `Name: ${data.get('name') || ''}`,
+                `Company / Brand: ${data.get('company') || ''}`,
+                `Contact: ${data.get('contact') || ''}`,
+                '',
+                'What I need:',
+                data.get('message') || ''
+            ].join('\n');
+        }
+
+        function validatePackageForm() {
+            if (!packageForm.checkValidity()) {
+                packageForm.reportValidity();
+                packageFormStatus.textContent = 'Please complete all fields before continuing.';
+                return false;
+            }
+            packageFormStatus.textContent = '';
+            return true;
+        }
+
+        packageContactButtons.forEach((button) => {
+            button.addEventListener('click', () => openPackageModal(button));
+        });
+
+        document.querySelectorAll('[data-close-package-modal]').forEach((button) => {
+            button.addEventListener('click', closePackageModal);
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !packageModal.hidden) closePackageModal();
+        });
+
+        packageForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            if (!validatePackageForm()) return;
+
+            const message = encodeURIComponent(buildPackageBrief());
+            packageFormStatus.textContent = 'Opening WhatsApp with your selected package attached…';
+            window.open(`https://wa.me/971561195226?text=${message}`, '_blank', 'noopener,noreferrer');
+        });
+
+        packageDirectSend.addEventListener('click', async () => {
+            if (!validatePackageForm()) return;
+
+            if (!LEAD_SUBMISSION_ENDPOINT) {
+                packageFormStatus.textContent = 'Demo mode — direct email + Google Sheets are intentionally not connected yet.';
+                return;
+            }
+
+            packageFormStatus.textContent = 'Sending your package enquiry…';
+            try {
+                const response = await fetch(LEAD_SUBMISSION_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        source: 'package-popup',
+                        package: packageNameInput.value,
+                        price: packagePriceInput.value,
+                        brief: buildPackageBrief()
+                    })
+                });
+                if (!response.ok) throw new Error('Submission failed');
+                packageFormStatus.textContent = 'Thanks — your package enquiry has been sent.';
+            } catch (error) {
+                packageFormStatus.textContent = 'We could not send the form right now. Please try WhatsApp instead.';
+            }
+        });
+
+        customPackageButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                customPackageContext.hidden = false;
+                const details = document.getElementById('project-details');
+                if (details && !details.value.trim()) {
+                    details.value = 'Custom package — I would like a tailored scope for: ';
+                }
+                document.getElementById('contact').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                window.setTimeout(() => document.getElementById('client-name')?.focus({ preventScroll: true }), 650);
+            });
         });
 
         /* Google Analytics is ready but disabled until you replace the placeholder below. */
