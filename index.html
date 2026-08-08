@@ -3532,40 +3532,45 @@ otherEventCheckbox.addEventListener('change', updateCustomEventField);
             window.open(`https://wa.me/971561195226?text=${message}`, '_blank', 'noopener,noreferrer');
         });
 
-        /*
-         * Backend connection intentionally left blank for the visual demo.
-         * Later, point this to your own server / Google Apps Script endpoint.
-         * That endpoint can send the custom Nostrix email and append the same lead to Google Sheets.
-         */
-        const LEAD_SUBMISSION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx5OSkYbf9ncNCyYG035w41_l-FzmfF7EQYOPW5MRYHN2H5au99AJp5RkgjQIMMy6oK/exec';
+        const LEAD_SUBMISSION_ENDPOINT =
+'https://script.google.com/macros/s/AKfycbx5OSkYbf9ncNCyYG035w41_l-FzmfF7EQYOPW5MRYHN2H5au99AJp5RkgjQIMMy6oK/exec';
 
-        emailProjectButton.addEventListener('click', async () => {
-            if (!validateProjectForm()) return;
 
-            if (!LEAD_SUBMISSION_ENDPOINT) {
-                formStatus.textContent = 'Demo mode — direct email + Google Sheets are not connected yet.';
-                return;
-            }
+// CUSTOM PROJECT FORM
+emailProjectButton.addEventListener('click', async () => {
+    if (!validateProjectForm()) return;
 
-            formStatus.textContent = 'Sending your project brief…';
-            try {
-                await fetch(LEAD_SUBMISSION_ENDPOINT, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
-    },
-    body: JSON.stringify({
-        source: 'custom-project-form',
-        brief: buildProjectBrief()
-    })
-});
-                if (!response.ok) throw new Error('Submission failed');
-                formStatus.textContent = 'Thanks — your project brief has been sent.';
-            } catch (error) {
-                formStatus.textContent = 'We could not send the form right now. Please try WhatsApp instead.';
-            }
+    if (!LEAD_SUBMISSION_ENDPOINT) {
+        formStatus.textContent =
+            'Direct email + Google Sheets are not connected yet.';
+        return;
+    }
+
+    formStatus.textContent = 'Sending your project brief…';
+
+    try {
+        await fetch(LEAD_SUBMISSION_ENDPOINT, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8'
+            },
+            body: JSON.stringify({
+                source: 'custom-project-form',
+                brief: buildProjectBrief()
+            })
         });
+
+        formStatus.textContent =
+            'Thanks — your project brief has been sent.';
+
+    } catch (error) {
+        console.error(error);
+
+        formStatus.textContent =
+            'We could not send the form right now. Please try WhatsApp instead.';
+    }
+});
 
         const packageModal = document.getElementById('package-modal');
         const projectModal = document.getElementById('project-modal');
@@ -3693,40 +3698,44 @@ otherEventCheckbox.addEventListener('change', updateCustomEventField);
             window.open(`https://wa.me/971561195226?text=${message}`, '_blank', 'noopener,noreferrer');
         });
 
-        packageDirectSend.addEventListener('click', async () => {
-            if (!validatePackageForm()) return;
+        // PACKAGE FORM
+packageDirectSend.addEventListener('click', async () => {
+    if (!validatePackageForm()) return;
 
-            if (!LEAD_SUBMISSION_ENDPOINT) {
-                packageFormStatus.textContent = 'Demo mode — direct email + Google Sheets are intentionally not connected yet.';
-                return;
-            }
+    if (!LEAD_SUBMISSION_ENDPOINT) {
+        packageFormStatus.textContent =
+            'Direct email + Google Sheets are not connected yet.';
+        return;
+    }
 
-            packageFormStatus.textContent = 'Sending your package enquiry…';
-            try {
-                await fetch(LEAD_SUBMISSION_ENDPOINT, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
-    },
-    body: JSON.stringify({
-        source: 'package-popup',
-        package: packageNameInput.value,
-        price: packagePriceInput.value,
-        brief: buildPackageBrief()
-    })
+    packageFormStatus.textContent =
+        'Sending your package enquiry…';
+
+    try {
+        await fetch(LEAD_SUBMISSION_ENDPOINT, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8'
+            },
+            body: JSON.stringify({
+                source: 'package-popup',
+                package: packageNameInput.value,
+                price: packagePriceInput.value,
+                brief: buildPackageBrief()
+            })
+        });
+
+        packageFormStatus.textContent =
+            'Thanks — your package enquiry has been sent.';
+
+    } catch (error) {
+        console.error(error);
+
+        packageFormStatus.textContent =
+            'We could not send the form right now. Please try WhatsApp instead.';
+    }
 });
-
-packageFormStatus.textContent =
-    'Thanks — your package enquiry has been sent.';
-            } catch (error) {
-                packageFormStatus.textContent = 'We could not send the form right now. Please try WhatsApp instead.';
-            }
-        });
-
-        customPackageButtons.forEach((button) => {
-            button.addEventListener('click', () => openProjectModal(button));
-        });
 
         /* Google Analytics is ready but disabled until you replace the placeholder below. */
         const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
