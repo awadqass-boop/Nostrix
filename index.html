@@ -3537,7 +3537,7 @@ otherEventCheckbox.addEventListener('change', updateCustomEventField);
          * Later, point this to your own server / Google Apps Script endpoint.
          * That endpoint can send the custom Nostrix email and append the same lead to Google Sheets.
          */
-        const LEAD_SUBMISSION_ENDPOINT = '';
+        const LEAD_SUBMISSION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx5OSkYbf9ncNCyYG035w41_l-FzmfF7EQYOPW5MRYHN2H5au99AJp5RkgjQIMMy6oK/exec';
 
         emailProjectButton.addEventListener('click', async () => {
             if (!validateProjectForm()) return;
@@ -3549,14 +3549,17 @@ otherEventCheckbox.addEventListener('change', updateCustomEventField);
 
             formStatus.textContent = 'Sending your project brief…';
             try {
-                const response = await fetch(LEAD_SUBMISSION_ENDPOINT, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        source: 'custom-project-form',
-                        brief: buildProjectBrief()
-                    })
-                });
+                await fetch(LEAD_SUBMISSION_ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+    },
+    body: JSON.stringify({
+        source: 'custom-project-form',
+        brief: buildProjectBrief()
+    })
+});
                 if (!response.ok) throw new Error('Submission failed');
                 formStatus.textContent = 'Thanks — your project brief has been sent.';
             } catch (error) {
@@ -3700,18 +3703,22 @@ otherEventCheckbox.addEventListener('change', updateCustomEventField);
 
             packageFormStatus.textContent = 'Sending your package enquiry…';
             try {
-                const response = await fetch(LEAD_SUBMISSION_ENDPOINT, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        source: 'package-popup',
-                        package: packageNameInput.value,
-                        price: packagePriceInput.value,
-                        brief: buildPackageBrief()
-                    })
-                });
-                if (!response.ok) throw new Error('Submission failed');
-                packageFormStatus.textContent = 'Thanks — your package enquiry has been sent.';
+                await fetch(LEAD_SUBMISSION_ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+    },
+    body: JSON.stringify({
+        source: 'package-popup',
+        package: packageNameInput.value,
+        price: packagePriceInput.value,
+        brief: buildPackageBrief()
+    })
+});
+
+packageFormStatus.textContent =
+    'Thanks — your package enquiry has been sent.';
             } catch (error) {
                 packageFormStatus.textContent = 'We could not send the form right now. Please try WhatsApp instead.';
             }
