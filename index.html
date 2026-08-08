@@ -2356,6 +2356,820 @@
             .custom-package-context { align-items: flex-start; flex-direction: column; }
         }
 
+    
+        /* =========================================================
+           Nostrix modal polish — modern glass, motion, and typography
+           ========================================================= */
+        .pricing-heading h3 {
+            font-family: 'Syncopate', sans-serif;
+            letter-spacing: -0.025em;
+        }
+
+        .package-modal {
+            isolation: isolate;
+            perspective: 1200px;
+        }
+
+        .package-modal-backdrop {
+            background:
+                radial-gradient(circle at 18% 12%, rgba(186, 200, 255, 0.12), transparent 30rem),
+                radial-gradient(circle at 84% 80%, rgba(210, 139, 255, 0.12), transparent 34rem),
+                rgba(3, 3, 7, 0.82);
+            -webkit-backdrop-filter: blur(18px) saturate(120%);
+            backdrop-filter: blur(18px) saturate(120%);
+            transition: opacity 360ms ease;
+        }
+
+        .package-modal-panel {
+            isolation: isolate;
+            overflow-x: hidden;
+            border-color: rgba(255, 255, 255, 0.16);
+            background:
+                radial-gradient(circle at 88% -8%, rgba(210, 139, 255, 0.18), transparent 22rem),
+                radial-gradient(circle at 0% 105%, rgba(186, 200, 255, 0.10), transparent 24rem),
+                linear-gradient(145deg, rgba(22, 22, 32, 0.985), rgba(8, 8, 13, 0.99));
+            box-shadow:
+                0 3rem 8rem rgba(0, 0, 0, 0.62),
+                inset 0 1px 0 rgba(255, 255, 255, 0.07);
+            transform: translate3d(0, 1.8rem, 0) scale(0.965) rotateX(2deg);
+            filter: blur(5px);
+            transform-origin: center 25%;
+            transition:
+                opacity 300ms ease,
+                transform 520ms cubic-bezier(0.16, 1, 0.3, 1),
+                filter 360ms ease,
+                border-color 360ms ease,
+                box-shadow 420ms ease;
+        }
+
+        .package-modal-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 8%;
+            right: 8%;
+            height: 1px;
+            z-index: 2;
+            pointer-events: none;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(186, 200, 255, 0.85),
+                rgba(210, 139, 255, 0.9),
+                transparent
+            );
+            box-shadow: 0 0 2rem rgba(210, 139, 255, 0.3);
+        }
+
+        .package-modal-panel::after {
+            content: '';
+            position: absolute;
+            width: 18rem;
+            height: 18rem;
+            top: -10rem;
+            right: -7rem;
+            z-index: -1;
+            pointer-events: none;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(210, 139, 255, 0.16), transparent 68%);
+            filter: blur(10px);
+            opacity: 0.75;
+            transform: scale(0.8);
+            transition: transform 800ms var(--ease-out), opacity 500ms ease;
+        }
+
+        .package-modal.is-open .package-modal-panel {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1) rotateX(0);
+            filter: blur(0);
+        }
+
+        .package-modal.is-open .package-modal-panel::after {
+            transform: scale(1.15);
+            opacity: 1;
+        }
+
+        .package-modal-panel > p:first-of-type,
+        .project-modal-heading > p:first-child {
+            font-family: 'Inter', sans-serif;
+            text-shadow: 0 0 1.4rem rgba(210, 139, 255, 0.2);
+        }
+
+        #package-modal-title,
+        #project-modal-title {
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        #package-modal-title {
+            font-size: clamp(1.35rem, 3vw, 2rem);
+            line-height: 1.28;
+            text-transform: uppercase;
+        }
+
+        .package-selection {
+            position: relative;
+            overflow: hidden;
+            border-color: rgba(186, 200, 255, 0.26);
+            background:
+                linear-gradient(120deg, rgba(186, 200, 255, 0.09), rgba(210, 139, 255, 0.07));
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.05),
+                0 0.7rem 2rem rgba(0, 0, 0, 0.12);
+        }
+
+        .package-selection::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(110deg, transparent 15%, rgba(255,255,255,0.10) 48%, transparent 72%);
+            transform: translateX(-130%);
+        }
+
+        .package-modal.is-open .package-selection::after {
+            animation: packageChipSweep 900ms 260ms var(--ease-out) both;
+        }
+
+        @keyframes packageChipSweep {
+            to { transform: translateX(130%); }
+        }
+
+        .package-modal-close {
+            z-index: 5;
+            background: rgba(255, 255, 255, 0.055);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+
+        .package-modal-close:hover {
+            border-color: rgba(210,139,255,0.5);
+            background: rgba(210,139,255,0.12);
+            box-shadow: 0 0.75rem 2rem rgba(0,0,0,0.18), 0 0 1.5rem rgba(210,139,255,0.08);
+            transform: rotate(90deg) scale(1.04);
+        }
+
+        .package-modal .form-control {
+            border-color: rgba(255,255,255,0.12);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.048), rgba(255,255,255,0.028));
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.025);
+            transition:
+                border-color 240ms ease,
+                background 240ms ease,
+                box-shadow 300ms ease,
+                transform 300ms var(--ease-out);
+        }
+
+        .package-modal .form-control:hover {
+            border-color: rgba(255,255,255,0.18);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .package-modal .form-control:focus {
+            border-color: rgba(210,139,255,0.52);
+            background: rgba(255,255,255,0.065);
+            box-shadow:
+                0 0 0 3px rgba(210,139,255,0.09),
+                0 0.9rem 2.4rem rgba(0,0,0,0.12);
+            transform: translateY(-1px);
+        }
+
+        .project-modal-form-card {
+            position: relative;
+            border-color: rgba(255,255,255,0.11);
+            background:
+                linear-gradient(145deg, rgba(255,255,255,0.038), rgba(255,255,255,0.022));
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.035),
+                0 1.25rem 3rem rgba(0,0,0,0.16);
+        }
+
+        .custom-package-context {
+            position: relative;
+            overflow: hidden;
+            border-color: rgba(210,139,255,0.3);
+            background:
+                radial-gradient(circle at 90% 50%, rgba(210,139,255,0.14), transparent 12rem),
+                linear-gradient(120deg, rgba(210,139,255,0.09), rgba(186,200,255,0.045));
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+        }
+
+        .custom-package-context i {
+            filter: drop-shadow(0 0 0.7rem rgba(210,139,255,0.38));
+        }
+
+        .package-modal-actions .primary-button,
+        .package-modal-actions .secondary-button,
+        .project-modal .form-actions .primary-button,
+        .project-modal .form-actions .secondary-button {
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+
+        .package-modal-actions .primary-button::after,
+        .project-modal .form-actions .primary-button::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(105deg, transparent 25%, rgba(255,255,255,0.36) 48%, transparent 70%);
+            transform: translateX(-140%);
+            transition: transform 650ms var(--ease-out);
+        }
+
+        .package-modal-actions .primary-button:hover::after,
+        .project-modal .form-actions .primary-button:hover::after {
+            transform: translateX(140%);
+        }
+
+        .package-modal.is-open .package-modal-grid .form-field,
+        .project-modal.is-open .form-grid .form-field,
+        .project-modal.is-open .project-modal-form-card > form > .form-field,
+        .project-modal.is-open .custom-package-context {
+            animation: modalFieldRise 520ms var(--ease-out) both;
+        }
+
+        .package-modal.is-open .package-modal-grid .form-field:nth-child(1),
+        .project-modal.is-open .form-grid .form-field:nth-child(1) { animation-delay: 90ms; }
+        .package-modal.is-open .package-modal-grid .form-field:nth-child(2),
+        .project-modal.is-open .form-grid .form-field:nth-child(2) { animation-delay: 125ms; }
+        .package-modal.is-open .package-modal-grid .form-field:nth-child(3),
+        .project-modal.is-open .form-grid .form-field:nth-child(3) { animation-delay: 160ms; }
+        .package-modal.is-open .package-modal-grid .form-field:nth-child(4),
+        .project-modal.is-open .form-grid .form-field:nth-child(4) { animation-delay: 195ms; }
+
+        @keyframes modalFieldRise {
+            from {
+                opacity: 0;
+                transform: translateY(0.65rem);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .package-modal-panel,
+            .package-modal-backdrop,
+            .package-selection::after,
+            .package-modal .form-field,
+            .custom-package-context {
+                animation: none !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+
+        /* =========================================================
+           Premium / Custom enquiry highlights — restrained B2B shine
+           ========================================================= */
+        .package-selection.is-premium {
+            border-color: rgba(239, 205, 122, 0.44);
+            color: #f6f1dd;
+            background:
+                radial-gradient(circle at 14% 20%, rgba(186, 200, 255, 0.13), transparent 10rem),
+                radial-gradient(circle at 86% 70%, rgba(210, 139, 255, 0.12), transparent 11rem),
+                linear-gradient(110deg, rgba(255, 214, 107, 0.10), rgba(210, 139, 255, 0.075) 48%, rgba(186, 200, 255, 0.08));
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                inset 0 0 0 1px rgba(255, 220, 135, 0.035),
+                0 0.8rem 2.2rem rgba(0, 0, 0, 0.16),
+                0 0 1.9rem rgba(210, 139, 255, 0.055);
+        }
+
+        .package-selection.is-premium i {
+            color: #f2cf75;
+            filter:
+                drop-shadow(0 0 0.34rem rgba(242, 207, 117, 0.26))
+                drop-shadow(0 0 0.7rem rgba(210, 139, 255, 0.12));
+        }
+
+        .package-selection.is-premium::before {
+            content: '';
+            position: absolute;
+            top: -55%;
+            bottom: -55%;
+            left: -42%;
+            width: 22%;
+            pointer-events: none;
+            opacity: 0;
+            transform: skewX(-20deg) translateX(0);
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 244, 205, 0.14),
+                rgba(255, 220, 126, 0.34),
+                rgba(220, 196, 255, 0.18),
+                transparent
+            );
+            filter: blur(0.5px);
+            animation: premiumPackageShine 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+        }
+
+        .package-selection.is-premium #package-selection-text {
+            text-shadow:
+                0 0 1rem rgba(210, 139, 255, 0.10),
+                0 0 0.8rem rgba(242, 207, 117, 0.06);
+        }
+
+        @keyframes premiumPackageShine {
+            0%, 56% {
+                left: -42%;
+                opacity: 0;
+            }
+            62% {
+                opacity: 0.9;
+            }
+            78% {
+                left: 122%;
+                opacity: 0.62;
+            }
+            84%, 100% {
+                left: 122%;
+                opacity: 0;
+            }
+        }
+
+        .custom-package-context {
+            isolation: isolate;
+            border-color: rgba(210, 139, 255, 0.34);
+            background:
+                radial-gradient(circle at 8% 30%, rgba(186, 200, 255, 0.10), transparent 13rem),
+                radial-gradient(circle at 92% 60%, rgba(210, 139, 255, 0.15), transparent 14rem),
+                linear-gradient(118deg, rgba(18, 18, 28, 0.94), rgba(25, 20, 34, 0.88));
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.07),
+                inset 0 0 0 1px rgba(186, 200, 255, 0.025),
+                0 0.9rem 2.5rem rgba(0,0,0,0.14),
+                0 0 2rem rgba(210,139,255,0.045);
+        }
+
+        .custom-package-context > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .custom-package-context strong {
+            color: #fff;
+            text-shadow: 0 0 1.1rem rgba(210, 139, 255, 0.13);
+        }
+
+        .custom-package-context::before {
+            content: '';
+            position: absolute;
+            top: -80%;
+            bottom: -80%;
+            left: -38%;
+            width: 19%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0;
+            transform: skewX(-18deg);
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(186, 200, 255, 0.10),
+                rgba(255, 226, 151, 0.16),
+                rgba(210, 139, 255, 0.28),
+                transparent
+            );
+            animation: customScopeShine 5.7s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+        }
+
+        .custom-package-context::after {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            right: 1rem;
+            top: 0;
+            height: 1px;
+            z-index: 1;
+            pointer-events: none;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(186, 200, 255, 0.34),
+                rgba(242, 207, 117, 0.28),
+                rgba(210, 139, 255, 0.48),
+                transparent
+            );
+            opacity: 0.78;
+        }
+
+        .custom-package-context i {
+            color: #dba6ff;
+            filter:
+                drop-shadow(0 0 0.55rem rgba(210,139,255,0.40))
+                drop-shadow(0 0 0.95rem rgba(242,207,117,0.08));
+            animation: customScopeSpark 3.8s ease-in-out infinite;
+        }
+
+        @keyframes customScopeShine {
+            0%, 58% {
+                left: -38%;
+                opacity: 0;
+            }
+            64% {
+                opacity: 0.82;
+            }
+            79% {
+                left: 120%;
+                opacity: 0.52;
+            }
+            86%, 100% {
+                left: 120%;
+                opacity: 0;
+            }
+        }
+
+        @keyframes customScopeSpark {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0.9;
+            }
+            50% {
+                transform: translateY(-1px) rotate(5deg) scale(1.06);
+                opacity: 1;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .package-selection.is-premium::before,
+            .custom-package-context::before,
+            .custom-package-context i {
+                animation: none !important;
+            }
+        }
+
+
+        /* =========================================================
+           Seamless experience refresh — smooth, borderless, responsive
+           Keeps the original Nostrix visual system while removing hard
+           section breaks and tightening cross-device behavior.
+           ========================================================= */
+
+        /* Make the page feel like one continuous canvas instead of stacked panels. */
+        .services-section,
+        .portfolio-section,
+        .why-section,
+        .industries-section,
+        .testimonials-section,
+        .contact-section,
+        .footer-line {
+            border-top: 0 !important;
+        }
+
+        .site-shell {
+            overflow: clip;
+            background:
+                radial-gradient(circle at 8% 24%, rgba(186, 200, 255, 0.025), transparent 30rem),
+                radial-gradient(circle at 92% 58%, rgba(210, 139, 255, 0.025), transparent 34rem),
+                var(--bg);
+        }
+
+        @supports not (overflow: clip) {
+            .site-shell { overflow: hidden; }
+        }
+
+        .site-shell main > section:not(.hero) {
+            position: relative;
+            isolation: isolate;
+            border-top: 0 !important;
+        }
+
+        .site-shell main > section:not(.hero) > .mx-auto {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Soft fades replace the old visible separator lines. */
+        .site-shell main > section:not(.hero)::before,
+        .site-shell main > section:not(.hero)::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: clamp(3rem, 7vw, 6rem);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .site-shell main > section:not(.hero)::before {
+            top: 0;
+            background: linear-gradient(180deg, rgba(8, 8, 11, 0.72), rgba(8, 8, 11, 0));
+        }
+
+        .site-shell main > section:not(.hero)::after {
+            bottom: 0;
+            background: linear-gradient(0deg, rgba(8, 8, 11, 0.70), rgba(8, 8, 11, 0));
+        }
+
+        .footer-line {
+            background:
+                linear-gradient(180deg, rgba(8, 8, 11, 0), rgba(8, 8, 11, 0.88) 30%, var(--bg));
+        }
+
+        /* More polished reading rhythm without changing the brand typography. */
+        .section-heading h2,
+        .pricing-heading h3,
+        .contact-card h3,
+        #package-modal-title,
+        #project-modal-title,
+        .portfolio-copy h3 {
+            text-wrap: balance;
+        }
+
+        .hero-description,
+        .section-heading p,
+        .pricing-description,
+        .portfolio-copy p,
+        .why-card p,
+        .testimonial-quote,
+        .contact-card p {
+            text-wrap: pretty;
+        }
+
+        /* Cross-device hardening. */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 6rem;
+            scrollbar-color: rgba(210, 139, 255, 0.34) rgba(8, 8, 11, 0.78);
+            scrollbar-width: thin;
+        }
+
+        body,
+        main,
+        section,
+        footer,
+        .site-shell,
+        .nav-inner,
+        .section-heading,
+        .pricing-card,
+        .pricing-card-inner,
+        .contact-card,
+        .package-modal-panel {
+            min-width: 0;
+        }
+
+        img,
+        video,
+        canvas,
+        svg {
+            max-width: 100%;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .contact-method span,
+        .footer-link,
+        .package-selection span,
+        .custom-package-context span {
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .package-selection {
+            max-width: 100%;
+            flex-wrap: wrap;
+            white-space: normal;
+        }
+
+        .pricing-price {
+            min-width: 0;
+            flex-wrap: wrap;
+        }
+
+        .pricing-price strong {
+            max-width: 100%;
+        }
+
+        /* Make modal scrolling feel native and controlled on iPhone/iPad/Android. */
+        .package-modal {
+            padding:
+                max(0.8rem, env(safe-area-inset-top))
+                max(0.8rem, env(safe-area-inset-right))
+                max(0.8rem, env(safe-area-inset-bottom))
+                max(0.8rem, env(safe-area-inset-left));
+        }
+
+        .package-modal-panel {
+            max-height: min(90vh, calc(100dvh - 1.6rem));
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-gutter: stable;
+        }
+
+        /* Slightly smoother reveal rhythm: premium, not floaty. */
+        @media (prefers-reduced-motion: no-preference) {
+            .reveal {
+                transform: translateY(1.35rem);
+                transition:
+                    opacity 780ms cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 780ms cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            .reveal.is-visible {
+                transform: translateY(0);
+            }
+        }
+
+        /* Refined browser scrollbar on desktop Chromium/Safari. */
+        @media (hover: hover) and (pointer: fine) {
+            ::-webkit-scrollbar {
+                width: 9px;
+                height: 9px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: rgba(8, 8, 11, 0.88);
+            }
+
+            ::-webkit-scrollbar-thumb {
+                border: 2px solid rgba(8, 8, 11, 0.88);
+                border-radius: 999px;
+                background: linear-gradient(180deg, rgba(186, 200, 255, 0.38), rgba(210, 139, 255, 0.42));
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(180deg, rgba(186, 200, 255, 0.56), rgba(210, 139, 255, 0.58));
+            }
+        }
+
+        /* Tablet refinement. */
+        @media (min-width: 768px) and (max-width: 1100px) {
+            .services-section,
+            .why-section,
+            .industries-section,
+            .testimonials-section,
+            .contact-section {
+                padding-left: clamp(1.25rem, 4vw, 2.5rem);
+                padding-right: clamp(1.25rem, 4vw, 2.5rem);
+            }
+
+            .portfolio-section {
+                padding-left: clamp(1.25rem, 4vw, 2.5rem);
+                padding-right: clamp(1.25rem, 4vw, 2.5rem);
+            }
+
+            .pricing-price strong {
+                font-size: clamp(1.45rem, 2.45vw, 2.15rem);
+            }
+        }
+
+        /* Phones: keep the same identity, with less crowding and no overflow. */
+        @media (max-width: 639px) {
+            html {
+                scroll-padding-top: 5.25rem;
+            }
+
+            section[id] {
+                scroll-margin-top: 5.25rem;
+            }
+
+            .services-section,
+            .why-section,
+            .portfolio-section,
+            .industries-section,
+            .testimonials-section,
+            .contact-section {
+                padding-left: max(1rem, env(safe-area-inset-left)) !important;
+                padding-right: max(1rem, env(safe-area-inset-right)) !important;
+            }
+
+            .section-heading h2 {
+                font-size: clamp(1.65rem, 8.4vw, 2.25rem) !important;
+                line-height: 1.18;
+                letter-spacing: -0.02em;
+            }
+
+            .section-heading p {
+                line-height: 1.72;
+            }
+
+            .service-card,
+            .why-card,
+            .pricing-card,
+            .contact-card,
+            .portfolio-copy {
+                border-radius: 1.25rem;
+            }
+
+            .pricing-card {
+                width: 100%;
+                min-height: 0;
+                padding: 1.35rem;
+            }
+
+            .pricing-price strong {
+                font-size: clamp(1.35rem, 7vw, 1.9rem);
+            }
+
+            .package-modal {
+                place-items: end center;
+                padding-top: max(0.55rem, env(safe-area-inset-top));
+                padding-right: max(0.55rem, env(safe-area-inset-right));
+                padding-bottom: max(0.55rem, env(safe-area-inset-bottom));
+                padding-left: max(0.55rem, env(safe-area-inset-left));
+            }
+
+            .package-modal-panel,
+            .project-modal-panel {
+                width: 100%;
+                max-height: calc(100dvh - max(1.1rem, env(safe-area-inset-top) + env(safe-area-inset-bottom)));
+                border-radius: 1.35rem;
+                padding: 1.2rem;
+            }
+
+            #package-modal-title,
+            #project-modal-title {
+                font-size: clamp(1.25rem, 6.5vw, 1.75rem);
+                line-height: 1.32;
+            }
+
+            .package-selection,
+            .custom-package-context {
+                width: 100%;
+            }
+
+            .custom-package-context {
+                gap: 0.65rem;
+            }
+
+            .package-modal-close {
+                top: 0.8rem;
+                right: 0.8rem;
+            }
+
+            .testimonial-card {
+                min-height: 20rem;
+            }
+
+            .whatsapp-float {
+                right: max(0.85rem, env(safe-area-inset-right));
+                bottom: max(0.85rem, env(safe-area-inset-bottom));
+            }
+        }
+
+        /* Very narrow phones (320–374px). */
+        @media (max-width: 374px) {
+            .hero-actions {
+                width: 100%;
+                max-width: 18rem;
+            }
+
+            .section-heading h2 {
+                font-size: clamp(1.45rem, 8.8vw, 1.9rem) !important;
+            }
+
+            .pricing-card,
+            .contact-card,
+            .why-card {
+                padding-left: 1.1rem;
+                padding-right: 1.1rem;
+            }
+
+            .package-modal-panel,
+            .project-modal-panel {
+                padding: 1rem;
+                border-radius: 1.15rem;
+            }
+
+            .form-control {
+                padding-left: 0.85rem;
+                padding-right: 0.85rem;
+            }
+        }
+
+        /* Landscape phones: avoid forcing a full-screen hero when height is tight. */
+        @media (max-height: 650px) and (orientation: landscape) and (max-width: 950px) {
+            .hero {
+                min-height: auto;
+                padding-top: calc(6.5rem + env(safe-area-inset-top));
+                padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+            }
+
+            .scroll-cue {
+                display: none;
+            }
+
+            .package-modal-panel,
+            .project-modal-panel {
+                max-height: calc(100dvh - 1rem);
+            }
+        }
+
     </style>
     <!-- Mobile portfolio preview fix: 2026-08-06 v3 -->
 </head>
@@ -2430,7 +3244,7 @@
                     </div>
                 </div>
 
-                <a href="/services/" class="scroll-cue" aria-label="Explore Nostrix services">
+                <a href="#services" class="scroll-cue" aria-label="Explore Nostrix services">
                     <i class="ph ph-caret-down text-xl" aria-hidden="true"></i>
                 </a>
             </section>
@@ -2502,7 +3316,7 @@
                     <div class="pricing-block reveal" aria-labelledby="packages-title">
                         <div class="pricing-heading">
                             <p class="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-accent2/80">Simple packages</p>
-                            <h3 id="packages-title" class="text-2xl font-semibold text-white md:text-3xl">Choose the level that fits your brand.</h3>
+                            <h3 id="packages-title" class="font-display text-2xl font-bold uppercase leading-tight text-white md:text-3xl">Choose the level that fits your brand.</h3>
                             <p class="mt-4 text-sm font-light leading-7 text-zinc-400">Start with a clear package or choose a custom scope for campaigns, events and larger productions.</p>
                         </div>
 
@@ -2620,7 +3434,7 @@
                             </button>
                         </div>
                         <p id="package-form-status" class="form-status mt-4" aria-live="polite"></p>
-                        <p class="package-demo-note">Demo mode: the direct email + Google Sheets endpoint is intentionally blank for now. The final connection can be added without changing this layout.</p>
+                        <p class="package-demo-note">Your enquiry is sent directly to the Nostrix team for review.</p>
                     </form>
                 </div>
             </div>
@@ -2774,7 +3588,7 @@
                         <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent1/75">Start a project</p>
                         <h3 id="project-modal-title" class="mt-3 pr-12 font-display text-2xl font-bold uppercase leading-tight text-white md:text-4xl">Tell us what you’re building</h3>
                         <p class="mt-4 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">
-                            Share the basics and choose WhatsApp or send directly. Your project brief is prepared instantly and the direct-send connection can be enabled when the backend is ready.
+                            Share the basics and choose WhatsApp or send directly. Your project brief is prepared instantly and sent to the Nostrix team for review.
                         </p>
                     </div>
 
@@ -3577,6 +4391,7 @@ emailProjectButton.addEventListener('click', async () => {
         const packageForm = document.getElementById('package-form');
         const packageNameInput = document.getElementById('package-name');
         const packagePriceInput = document.getElementById('package-price');
+        const packageSelection = document.getElementById('package-selection');
         const packageSelectionText = document.getElementById('package-selection-text');
         const packageMessage = document.getElementById('package-message');
         const packageFormStatus = document.getElementById('package-form-status');
@@ -3594,6 +4409,7 @@ emailProjectButton.addEventListener('click', async () => {
             packageNameInput.value = packageName;
             packagePriceInput.value = packagePrice;
             packageSelectionText.textContent = `${packageName} · ${packagePrice}`;
+            packageSelection?.classList.toggle('is-premium', packageName.trim().toLowerCase() === 'premium');
             packageMessage.placeholder = `Tell us what you want with the ${packageName} package, your goals, timing, or anything we should know.`;
             packageFormStatus.textContent = '';
             packageModal.hidden = false;
@@ -3670,6 +4486,10 @@ emailProjectButton.addEventListener('click', async () => {
 
         packageContactButtons.forEach((button) => {
             button.addEventListener('click', () => openPackageModal(button));
+        });
+
+        customPackageButtons.forEach((button) => {
+            button.addEventListener('click', () => openProjectModal(button));
         });
 
         document.querySelectorAll('[data-close-package-modal]').forEach((button) => {
@@ -3814,5 +4634,87 @@ packageDirectSend.addEventListener('click', async () => {
             }
         });
     </script>
+
+    <script>
+        /* Polished same-page anchor scrolling with interruption support. */
+        (function () {
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            const root = document.documentElement;
+            let animationFrame = 0;
+            let previousInlineScrollBehavior = '';
+
+            const stopSmoothScroll = () => {
+                if (!animationFrame) return;
+                cancelAnimationFrame(animationFrame);
+                animationFrame = 0;
+                root.style.scrollBehavior = previousInlineScrollBehavior;
+            };
+
+            const easeOutQuart = (t) => 1 - Math.pow(1 - t, 4);
+
+            const scrollToPosition = (destination, duration = 880) => {
+                stopSmoothScroll();
+
+                const targetY = Math.max(0, Math.round(destination));
+                if (reduceMotion.matches) {
+                    window.scrollTo({ top: targetY, left: 0, behavior: 'auto' });
+                    return;
+                }
+
+                const startY = window.scrollY;
+                const distance = targetY - startY;
+                if (Math.abs(distance) < 2) return;
+
+                const startTime = performance.now();
+                previousInlineScrollBehavior = root.style.scrollBehavior;
+                root.style.scrollBehavior = 'auto';
+
+                const tick = (now) => {
+                    const progress = Math.min((now - startTime) / duration, 1);
+                    window.scrollTo(0, startY + distance * easeOutQuart(progress));
+
+                    if (progress < 1) {
+                        animationFrame = requestAnimationFrame(tick);
+                    } else {
+                        animationFrame = 0;
+                        root.style.scrollBehavior = previousInlineScrollBehavior;
+                    }
+                };
+
+                animationFrame = requestAnimationFrame(tick);
+            };
+
+            document.addEventListener('click', (event) => {
+                if (event.defaultPrevented || event.button > 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+                const link = event.target.closest('a[href^="#"]');
+                if (!link) return;
+
+                const hash = link.getAttribute('href');
+                if (!hash || hash === '#') return;
+
+                const target = document.getElementById(hash.slice(1));
+                if (!target) return;
+
+                event.preventDefault();
+
+                const nav = document.querySelector('.site-nav');
+                const mobileNav = window.matchMedia('(max-width: 767px)').matches;
+                const offset = mobileNav ? ((nav && nav.offsetHeight) || 0) + 12 : 24;
+                const destination = target.getBoundingClientRect().top + window.scrollY - offset;
+
+                scrollToPosition(destination);
+
+                if (window.location.hash !== hash) {
+                    history.pushState(null, '', hash);
+                }
+            });
+
+            window.addEventListener('wheel', stopSmoothScroll, { passive: true });
+            window.addEventListener('touchstart', stopSmoothScroll, { passive: true });
+            window.addEventListener('pagehide', stopSmoothScroll, { passive: true });
+        }());
+    </script>
+
 </body>
 </html>
