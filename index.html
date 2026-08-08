@@ -1499,6 +1499,12 @@
             margin-top: 3rem;
         }
 
+        .contact-layout-single {
+            width: min(100%, 38rem);
+            grid-template-columns: 1fr !important;
+            margin: 0 auto;
+        }
+
         .contact-card {
             padding: clamp(1.4rem, 3vw, 2.25rem);
         }
@@ -2232,6 +2238,21 @@
         .package-modal.is-open .package-modal-backdrop { opacity: 1; }
         .package-modal.is-open .package-modal-panel { opacity: 1; transform: none; }
 
+        .project-modal-panel {
+            width: min(100%, 64rem);
+            max-height: min(92vh, 58rem);
+        }
+
+        .project-modal-heading {
+            padding-right: 3.5rem;
+        }
+
+        .project-modal-form-card {
+            margin-top: 1.5rem;
+            padding: clamp(1.15rem, 2.5vw, 1.75rem);
+            background: rgba(255,255,255,0.028);
+        }
+
         .package-modal-close {
             position: absolute;
             top: 1rem;
@@ -2324,6 +2345,10 @@
             .pricing-block { margin-top: 3.25rem; }
             .package-modal { padding: 0.75rem; }
             .package-modal-panel { max-height: 92vh; border-radius: 1.35rem; padding: 1.2rem; }
+            .project-modal-panel { width: 100%; max-height: 94vh; }
+            .project-modal-heading { padding-right: 3rem; }
+            .project-modal-form-card { margin-top: 1.15rem; padding: 1rem; }
+            .project-modal .event-options { grid-template-columns: 1fr; }
             .package-modal-grid { grid-template-columns: 1fr; }
             .package-modal-actions { flex-direction: column; }
             .package-modal-actions .primary-button,
@@ -2720,20 +2745,12 @@
                 </div>
             </section>
 
-            <section id="contact" class="contact-section" aria-labelledby="contact-title">
+            <section id="contact" class="contact-section" aria-labelledby="contact-card-title">
                 <div class="mx-auto max-w-7xl">
-                    <div class="section-heading reveal">
-                        <p class="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-accent1/75">Start a project</p>
-                        <h2 id="contact-title" class="font-display text-3xl font-bold uppercase leading-tight text-white md:text-5xl">Tell us what you’re building</h2>
-                        <p class="mt-6 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">
-                            Share the basics and choose WhatsApp or send directly. Your project brief is prepared instantly and the direct-send connection can be enabled when the backend is ready.
-                        </p>
-                    </div>
-
-                    <div class="contact-layout">
+                    <div class="contact-layout contact-layout-single">
                         <aside class="contact-card reveal">
                             <p class="text-xs font-semibold uppercase tracking-[0.22em] text-accent2/80">Contact Nostrix</p>
-                            <h3 class="mt-4 text-2xl font-semibold text-white">Let’s make your next idea visible.</h3>
+                            <h3 id="contact-card-title" class="mt-4 text-2xl font-semibold text-white">Let’s make your next idea visible.</h3>
                             <a class="mt-4 inline-flex text-sm font-light leading-7 text-zinc-400 transition hover:text-white" href="https://www.google.com/maps/search/?api=1&query=American%20University%20of%20Ras%20Al%20Khaimah%20-%20American%20University%20of%20Ras%20Al%20Khaimah%20Road%20-%20Road%20-%20Ras%20Al%20Khaimah" target="_blank" rel="noopener noreferrer" aria-label="Open AURAK, Building H, Office 15 in Google Maps">AURAK, Building H, Office 15, Ras Al Khaimah, UAE</a>
                             <div class="mt-7">
                                 <a class="contact-method" href="mailto:marketing@nostrix.ae"><i class="ph ph-envelope-simple" aria-hidden="true"></i><span>marketing@nostrix.ae</span></a>
@@ -2742,8 +2759,26 @@
                                 <a class="contact-method" href="https://wa.me/971561195226" target="_blank" rel="noopener noreferrer"><i class="ph ph-whatsapp-logo" aria-hidden="true"></i><span>Chat on WhatsApp</span></a>
                             </div>
                         </aside>
+                    </div>
+                </div>
+            </section>
 
-                        <div class="contact-card reveal" style="transition-delay: 100ms;">
+            <div class="package-modal project-modal" id="project-modal" hidden aria-hidden="true">
+                <div class="package-modal-backdrop" data-close-project-modal></div>
+                <div class="package-modal-panel project-modal-panel" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+                    <button type="button" class="package-modal-close" data-close-project-modal aria-label="Close project enquiry">
+                        <i class="ph ph-x text-xl" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="project-modal-heading">
+                        <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent1/75">Start a project</p>
+                        <h3 id="project-modal-title" class="mt-3 pr-12 font-display text-2xl font-bold uppercase leading-tight text-white md:text-4xl">Tell us what you’re building</h3>
+                        <p class="mt-4 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">
+                            Share the basics and choose WhatsApp or send directly. Your project brief is prepared instantly and the direct-send connection can be enabled when the backend is ready.
+                        </p>
+                    </div>
+
+                    <div class="contact-card project-modal-form-card">
                             <form id="project-form" novalidate>
                                 <div class="custom-package-context" id="custom-package-context" hidden>
                                     <span><strong>Custom package selected.</strong> Tell us exactly what you need and we’ll build the scope around it.</span>
@@ -2852,10 +2887,9 @@
                                 </div>
                                 <p id="form-status" class="form-status mt-4" aria-live="polite"></p>
                             </form>
-                        </div>
                     </div>
                 </div>
-            </section>
+            </div>
         </main>
 
         <footer class="footer-line relative z-10 px-5 py-10 md:px-8">
@@ -3531,6 +3565,7 @@ otherEventCheckbox.addEventListener('change', updateCustomEventField);
         });
 
         const packageModal = document.getElementById('package-modal');
+        const projectModal = document.getElementById('project-modal');
         const packageForm = document.getElementById('package-form');
         const packageNameInput = document.getElementById('package-name');
         const packagePriceInput = document.getElementById('package-price');
@@ -3542,6 +3577,7 @@ otherEventCheckbox.addEventListener('change', updateCustomEventField);
         const customPackageButtons = Array.from(document.querySelectorAll('.custom-package-contact'));
         const customPackageContext = document.getElementById('custom-package-context');
         let packageModalTrigger = null;
+        let projectModalTrigger = null;
 
         function openPackageModal(button) {
             packageModalTrigger = button;
@@ -3568,6 +3604,33 @@ otherEventCheckbox.addEventListener('change', updateCustomEventField);
             window.setTimeout(() => {
                 packageModal.hidden = true;
                 packageModalTrigger?.focus({ preventScroll: true });
+            }, 260);
+        }
+
+        function openProjectModal(button) {
+            projectModalTrigger = button;
+            customPackageContext.hidden = false;
+            const details = document.getElementById('project-details');
+            if (details && !details.value.trim()) {
+                details.value = 'Custom package — I would like a tailored scope for: ';
+            }
+            formStatus.textContent = '';
+            projectModal.hidden = false;
+            projectModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('package-modal-open');
+            requestAnimationFrame(() => {
+                projectModal.classList.add('is-open');
+                document.getElementById('client-name')?.focus({ preventScroll: true });
+            });
+        }
+
+        function closeProjectModal() {
+            projectModal.classList.remove('is-open');
+            projectModal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('package-modal-open');
+            window.setTimeout(() => {
+                projectModal.hidden = true;
+                projectModalTrigger?.focus({ preventScroll: true });
             }, 260);
         }
 
@@ -3605,8 +3668,17 @@ otherEventCheckbox.addEventListener('change', updateCustomEventField);
             button.addEventListener('click', closePackageModal);
         });
 
+        document.querySelectorAll('[data-close-project-modal]').forEach((button) => {
+            button.addEventListener('click', closeProjectModal);
+        });
+
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && !packageModal.hidden) closePackageModal();
+            if (event.key !== 'Escape') return;
+            if (!projectModal.hidden) {
+                closeProjectModal();
+            } else if (!packageModal.hidden) {
+                closePackageModal();
+            }
         });
 
         packageForm.addEventListener('submit', (event) => {
@@ -3646,15 +3718,7 @@ otherEventCheckbox.addEventListener('change', updateCustomEventField);
         });
 
         customPackageButtons.forEach((button) => {
-            button.addEventListener('click', () => {
-                customPackageContext.hidden = false;
-                const details = document.getElementById('project-details');
-                if (details && !details.value.trim()) {
-                    details.value = 'Custom package — I would like a tailored scope for: ';
-                }
-                document.getElementById('contact').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                window.setTimeout(() => document.getElementById('client-name')?.focus({ preventScroll: true }), 650);
-            });
+            button.addEventListener('click', () => openProjectModal(button));
         });
 
         /* Google Analytics is ready but disabled until you replace the placeholder below. */
