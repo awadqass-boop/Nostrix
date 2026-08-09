@@ -152,7 +152,7 @@
             border-radius: 50%;
             pointer-events: none;
             opacity: 0;
-            background: radial-gradient(circle, rgba(210, 139, 255, 0.12) 0%, rgba(186, 200, 255, 0.05) 38%, transparent 70%);
+            background: radial-gradient(circle, rgba(210, 139, 255, 0.16) 0%, rgba(186, 200, 255, 0.075) 38%, transparent 70%);
             transform: translate3d(-50%, -50%, 0);
             transition: opacity 500ms ease;
             will-change: transform;
@@ -2826,10 +2826,12 @@
 
         .site-shell {
             overflow: clip;
+            /* Keep this layer transparent so the fixed cursor glow remains visible
+               through the homepage instead of being covered by an opaque page layer. */
             background:
                 radial-gradient(circle at 8% 24%, rgba(186, 200, 255, 0.025), transparent 30rem),
                 radial-gradient(circle at 92% 58%, rgba(210, 139, 255, 0.025), transparent 34rem),
-                var(--bg);
+                transparent;
         }
 
         @supports not (overflow: clip) {
@@ -3327,7 +3329,7 @@
         .photo-calc-backdrop {
             position: absolute;
             inset: 0;
-            background: rgba(2,2,6,.78);
+            background: rgba(2,2,6,.68);
             backdrop-filter: blur(14px);
         }
         .photo-calc-panel {
@@ -3341,12 +3343,12 @@
             border: 1px solid rgba(255,255,255,.13);
             border-radius: 1.8rem;
             background:
-                radial-gradient(circle at 88% 8%, rgba(210,139,255,.12), transparent 25rem),
-                radial-gradient(circle at 5% 85%, rgba(186,200,255,.08), transparent 24rem),
-                rgba(13,13,19,.985);
-            box-shadow: 0 2rem 7rem rgba(0,0,0,.55);
+                radial-gradient(30rem circle at var(--calc-glow-x, 88%) var(--calc-glow-y, 8%), rgba(210,139,255,.20), rgba(210,139,255,.075) 34%, transparent 70%),
+                radial-gradient(24rem circle at var(--calc-glow-x-2, 12%) var(--calc-glow-y-2, 82%), rgba(186,200,255,.105), transparent 72%),
+                rgba(13,13,19,.955);
+            box-shadow: 0 2rem 7rem rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.04);
             transform: translateY(1rem) scale(.985);
-            transition: transform .3s var(--ease-out);
+            transition: transform .3s var(--ease-out), border-color .3s ease;
         }
         .photo-calc-modal.is-open .photo-calc-panel { transform: none; }
         .photo-calc-close {
@@ -3442,6 +3444,128 @@
             font-size: .7rem;
             line-height: 1.6;
         }
+        .photo-price-build {
+            margin-top: 1.15rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,.09);
+        }
+        .photo-price-build-label {
+            display: block;
+            margin-bottom: .72rem;
+            color: rgba(255,255,255,.56);
+            font-size: .66rem;
+            font-weight: 700;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+        }
+        .photo-price-costs {
+            display: grid;
+            gap: .5rem;
+        }
+        .photo-price-cost-line {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            color: rgb(161 161 170);
+            font-size: .74rem;
+            line-height: 1.45;
+        }
+        .photo-price-cost-line strong {
+            color: #f4f4f5;
+            font-weight: 650;
+            text-align: right;
+            white-space: nowrap;
+        }
+        .photo-price-cost-line.total {
+            margin-top: .35rem;
+            padding-top: .7rem;
+            border-top: 1px dashed rgba(255,255,255,.11);
+            color: #fff;
+        }
+        .photo-price-cost-line.total strong {
+            color: var(--accent-1);
+            font-size: .82rem;
+        }
+        .photo-price-method {
+            margin-top: 1.05rem;
+            border: 1px solid rgba(255,255,255,.09);
+            border-radius: 1rem;
+            background: rgba(0,0,0,.13);
+            overflow: hidden;
+        }
+        .photo-price-method summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .75rem;
+            padding: .85rem .9rem;
+            cursor: pointer;
+            list-style: none;
+            color: #fff;
+            font-size: .78rem;
+            font-weight: 650;
+        }
+        .photo-price-method summary::-webkit-details-marker { display: none; }
+        .photo-price-method summary::after {
+            content: '+';
+            flex: 0 0 auto;
+            color: var(--accent-2);
+            font-size: 1.05rem;
+            font-weight: 400;
+            transition: transform .2s ease;
+        }
+        .photo-price-method[open] summary::after { transform: rotate(45deg); }
+        .photo-price-method summary small {
+            color: rgb(113 113 122);
+            font-size: .64rem;
+            font-weight: 500;
+        }
+        .photo-price-explanation {
+            display: grid;
+            gap: .72rem;
+            padding: 0 .9rem .9rem;
+        }
+        .photo-price-reason {
+            display: grid;
+            grid-template-columns: 1.65rem minmax(0,1fr);
+            gap: .65rem;
+            align-items: start;
+        }
+        .photo-price-reason-index {
+            display: grid;
+            width: 1.65rem;
+            height: 1.65rem;
+            place-items: center;
+            border: 1px solid rgba(186,200,255,.17);
+            border-radius: .55rem;
+            color: var(--accent-1);
+            background: rgba(186,200,255,.045);
+            font-size: .58rem;
+            font-weight: 700;
+        }
+        .photo-price-reason strong {
+            display: block;
+            color: #e4e4e7;
+            font-size: .72rem;
+            font-weight: 650;
+            line-height: 1.45;
+        }
+        .photo-price-reason p {
+            margin: .22rem 0 0;
+            color: rgb(113 113 122);
+            font-size: .67rem;
+            line-height: 1.55;
+        }
+        .photo-market-note {
+            margin: .1rem .9rem .9rem;
+            padding-top: .8rem;
+            border-top: 1px solid rgba(255,255,255,.075);
+            color: rgb(113 113 122);
+            font-size: .65rem;
+            line-height: 1.55;
+        }
+        .photo-market-note strong { color: #c8c8d0; font-weight: 650; }
         .photo-calc-contact {
             margin-top: 1.25rem;
             padding-top: 1.35rem;
@@ -3879,7 +4003,22 @@
                                 <strong id="photo-estimate-price">AED 2,250</strong>
                                 <span class="photo-estimate-range" id="photo-estimate-range">Typical market window: AED 2,050–2,600</span>
                                 <div class="photo-estimate-breakdown" id="photo-estimate-breakdown"></div>
-                                <p class="photo-estimate-note">This is a planning estimate, not a binding quote. Final pricing can change if the brief needs special permits, studio rental, complex lighting, assistants, equipment rental or unusual travel.</p>
+
+                                <div class="photo-price-build">
+                                    <span class="photo-price-build-label">Price build-up</span>
+                                    <div class="photo-price-costs" id="photo-estimate-costs"></div>
+                                </div>
+
+                                <details class="photo-price-method" open>
+                                    <summary>
+                                        <span>Why this price?</span>
+                                        <small>See how every choice changes it</small>
+                                    </summary>
+                                    <div class="photo-price-explanation" id="photo-price-explanation"></div>
+                                    <p class="photo-market-note" id="photo-market-note"></p>
+                                </details>
+
+                                <p class="photo-estimate-note">This is a planning estimate, not a binding quote. Final pricing can change if the brief needs special permits, studio rental, complex lighting, assistants, equipment rental, unusually heavy retouching, commercial usage requirements or unusual travel.</p>
                             </aside>
                         </div>
 
@@ -3925,36 +4064,6 @@
                     </form>
                 </div>
             </div>
-
-            <section id="why" class="why-section" aria-labelledby="why-title">
-                <div class="mx-auto max-w-7xl">
-                    <div class="section-heading reveal">
-                        <p class="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-accent1/75">Why Nostrix</p>
-                        <h2 id="why-title" class="font-display text-3xl font-bold uppercase leading-tight text-white md:text-5xl">Creative work with purpose</h2>
-                        <p class="mt-6 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">
-                            We combine clear thinking, strong visuals and platform-ready execution so every project feels distinctive and works hard for your brand.
-                        </p>
-                    </div>
-
-                    <div class="why-grid">
-                        <article class="why-card reveal" style="transition-delay: 70ms;">
-                            <span class="why-icon"><i class="ph ph-compass-tool text-2xl" aria-hidden="true"></i></span>
-                            <h3 class="mt-8 text-xl font-semibold text-white">Strategy first</h3>
-                            <p class="mt-4 text-sm font-light leading-6 text-zinc-400">Every concept begins with your audience, your goals and a clear creative direction.</p>
-                        </article>
-                        <article class="why-card reveal" style="transition-delay: 140ms;">
-                            <span class="why-icon"><i class="ph ph-aperture text-2xl" aria-hidden="true"></i></span>
-                            <h3 class="mt-8 text-xl font-semibold text-white">Made to stand out</h3>
-                            <p class="mt-4 text-sm font-light leading-6 text-zinc-400">We create polished, recognisable visuals designed to earn attention across every touchpoint.</p>
-                        </article>
-                        <article class="why-card reveal" style="transition-delay: 210ms;">
-                            <span class="why-icon"><i class="ph ph-rocket-launch text-2xl" aria-hidden="true"></i></span>
-                            <h3 class="mt-8 text-xl font-semibold text-white">Ready to perform</h3>
-                            <p class="mt-4 text-sm font-light leading-6 text-zinc-400">Content is delivered in practical formats, ready for campaigns, social platforms and launch.</p>
-                        </article>
-                    </div>
-                </div>
-            </section>
 
             <section id="portfolio" class="portfolio-section" aria-labelledby="portfolio-title">
                 <div class="mx-auto max-w-7xl">
@@ -5014,6 +5123,10 @@ emailProjectButton.addEventListener('click', async () => {
         const photoEstimatePrice = document.getElementById('photo-estimate-price');
         const photoEstimateRange = document.getElementById('photo-estimate-range');
         const photoEstimateBreakdown = document.getElementById('photo-estimate-breakdown');
+        const photoEstimateCosts = document.getElementById('photo-estimate-costs');
+        const photoPriceExplanation = document.getElementById('photo-price-explanation');
+        const photoMarketNote = document.getElementById('photo-market-note');
+        const photoCalcPanel = document.querySelector('.photo-calc-panel');
         const photoCalcSubmit = document.getElementById('photo-calc-submit');
         const photoCalcWhatsapp = document.getElementById('photo-calc-whatsapp');
         const photoCalcStatus = document.getElementById('photo-calc-status');
@@ -5023,12 +5136,30 @@ emailProjectButton.addEventListener('click', async () => {
         // Benchmarks are calibrated to recent UAE public market pricing and intentionally
         // produce an estimate rather than a binding quotation.
         const PHOTO_MARKET_RATES = {
-            event:      { label: 'Event / corporate coverage', unit: 'hours', rate: 550, min: 800, defaultQty: 3, max: 24 },
-            fashion:    { label: 'Fashion / modelling', unit: 'hours', rate: 700, min: 900, defaultQty: 2, max: 16 },
-            wedding:    { label: 'Wedding / engagement', unit: 'hours', rate: 550, min: 1200, defaultQty: 6, max: 16 },
-            automotive: { label: 'Automotive', unit: 'hours', rate: 700, min: 900, defaultQty: 2, max: 16 },
-            product:    { label: 'Product / e-commerce', unit: 'edited images', rate: 150, min: 600, defaultQty: 10, max: 200 },
-            realestate: { label: 'Real estate / interiors', unit: 'properties', rate: 500, min: 500, defaultQty: 1, max: 20 }
+            event: {
+                label: 'Event / corporate coverage', unit: 'hours', rate: 550, min: 800, defaultQty: 3, max: 24,
+                marketContext: 'Professional UAE event photography is commonly sold by coverage time. Public Dubai listings frequently begin around AED 500 per hour and rise with experience, event scale, image volume and delivery speed.'
+            },
+            fashion: {
+                label: 'Fashion / modelling', unit: 'hours', rate: 700, min: 900, defaultQty: 2, max: 16,
+                marketContext: 'Fashion and modelling shoots vary more than simple portrait sessions because lighting, look changes, creative direction and retouching add production time. Basic portfolio sessions can start in the hundreds of dirhams, while full campaign productions run much higher.'
+            },
+            wedding: {
+                label: 'Wedding / engagement', unit: 'hours', rate: 550, min: 1200, defaultQty: 6, max: 16,
+                marketContext: 'Wedding and engagement work is priced around continuous coverage, reliability and a much larger edit volume. UAE public packages show engagement sessions around the high hundreds and multi-hour wedding coverage scaling into several thousand dirhams as crew and deliverables increase.'
+            },
+            automotive: {
+                label: 'Automotive', unit: 'hours', rate: 700, min: 900, defaultQty: 2, max: 16,
+                marketContext: 'Automotive photography usually needs controlled reflections, careful positioning, location planning and more deliberate lighting than a basic portrait shoot. UAE car-shoot offers commonly start in the high hundreds to low thousands before special locations, vehicles or production extras.'
+            },
+            product: {
+                label: 'Product / e-commerce', unit: 'edited images', rate: 150, min: 600, defaultQty: 10, max: 200,
+                marketContext: 'Product work is priced per finished image because each item needs setup, capture, selection, colour consistency, cleanup and export. Public UAE product rates commonly sit around AED 150–200 for polished individual images, with volume work sometimes reducing the per-image rate.'
+            },
+            realestate: {
+                label: 'Real estate / interiors', unit: 'properties', rate: 500, min: 500, defaultQty: 1, max: 20,
+                marketContext: 'Real-estate work is normally priced per property because the workload depends on the full space rather than only shutter time. Standard UAE property-photo packages are commonly advertised from roughly AED 500–800 and rise for larger homes, more images, video, twilight work or heavier editing.'
+            }
         };
         const PHOTO_CREW_MULTIPLIER = { '1': 1, '2': 1.75, '3': 2.45 };
         const PHOTO_EDITING_MULTIPLIER = { essential: 1, enhanced: 1.18, campaign: 1.35 };
@@ -5074,7 +5205,18 @@ emailProjectButton.addEventListener('click', async () => {
             const crewAdjusted = base * crewMultiplier;
             const edited = crewAdjusted * editingMultiplier;
             const rushed = edited * turnaroundMultiplier;
+
+            // Round each stage so the displayed additions reconcile exactly to the displayed total.
+            const baseRounded = roundPhotoPrice(base);
+            const crewRoundedTotal = roundPhotoPrice(crewAdjusted);
+            const editedRoundedTotal = roundPhotoPrice(edited);
+            const rushedRoundedTotal = roundPhotoPrice(rushed);
             const estimate = roundPhotoPrice(rushed + travel);
+            const crewAdd = Math.max(0, crewRoundedTotal - baseRounded);
+            const editingAdd = Math.max(0, editedRoundedTotal - crewRoundedTotal);
+            const turnaroundAdd = Math.max(0, rushedRoundedTotal - editedRoundedTotal);
+            const travelAdd = Math.max(0, estimate - rushedRoundedTotal);
+
             const low = roundPhotoPrice(estimate * 0.90);
             const high = roundPhotoPrice(estimate * 1.15);
 
@@ -5087,13 +5229,19 @@ emailProjectButton.addEventListener('click', async () => {
                 turnaround: PHOTO_TURNAROUND_LABEL[photoTurnaround.value],
                 location: PHOTO_LOCATION_LABEL[photoLocation.value],
                 travel,
+                base: baseRounded,
+                crewAdd,
+                editingAdd,
+                turnaroundAdd,
+                travelAdd,
                 estimate,
                 low,
                 high
             };
 
             photoEstimatePrice.textContent = formatAED(estimate);
-            photoEstimateRange.textContent = `Typical market window: ${formatAED(low)}–${formatAED(high).replace('AED ', '')}`;
+            photoEstimateRange.textContent = `Indicative UAE market window: ${formatAED(low)}–${formatAED(high).replace('AED ', '')}`;
+
             photoEstimateBreakdown.innerHTML = `
                 <div class="photo-estimate-line"><span>Photography</span><strong>${rate.label}</strong></div>
                 <div class="photo-estimate-line"><span>Scope</span><strong>${qty} ${rate.unit}</strong></div>
@@ -5102,7 +5250,103 @@ emailProjectButton.addEventListener('click', async () => {
                 <div class="photo-estimate-line"><span>Turnaround</span><strong>${currentPhotoEstimate.turnaround}</strong></div>
                 <div class="photo-estimate-line"><span>Location</span><strong>${currentPhotoEstimate.location}</strong></div>
             `;
+
+            const costRows = [
+                ['Base photography', baseRounded],
+                ['Additional crew', crewAdd],
+                ['Editing level', editingAdd],
+                ['Priority turnaround', turnaroundAdd],
+                ['Travel / location', travelAdd]
+            ];
+            photoEstimateCosts.innerHTML = costRows.map(([label, amount]) => `
+                <div class="photo-price-cost-line">
+                    <span>${label}</span>
+                    <strong>${amount > 0 ? `+${formatAED(amount)}` : 'Included'}</strong>
+                </div>
+            `).join('') + `
+                <div class="photo-price-cost-line total">
+                    <span>Estimated total</span>
+                    <strong>${formatAED(estimate)}</strong>
+                </div>
+            `;
+
+            const unitPriceText = rate.unit === 'hours'
+                ? `${formatAED(rate.rate)} per coverage hour`
+                : rate.unit === 'edited images'
+                    ? `${formatAED(rate.rate)} per final edited image`
+                    : `${formatAED(rate.rate)} per property`;
+
+            const crewReason = currentPhotoEstimate.crew === 1
+                ? 'One photographer is included in the base. No additional crew charge is added.'
+                : `${currentPhotoEstimate.crew} photographers add ${formatAED(crewAdd)}. Extra crew increases coverage, simultaneous angles and equipment needs, while shared planning keeps the increase below a simple ${currentPhotoEstimate.crew}× multiplication.`;
+
+            const editingReason = photoEditing.value === 'essential'
+                ? 'Essential editing is included: colour, exposure, crop and normal cleanup.'
+                : `${currentPhotoEstimate.editing} adds ${formatAED(editingAdd)} (${Math.round((editingMultiplier - 1) * 100)}%). More detailed retouching means additional post-production time per final image.`;
+
+            const turnaroundReason = photoTurnaround.value === 'standard'
+                ? 'Standard delivery is included and lets the edit move through the normal production schedule.'
+                : `${currentPhotoEstimate.turnaround} adds ${formatAED(turnaroundAdd)} (${Math.round((turnaroundMultiplier - 1) * 100)}%). Rush delivery is priced higher because the edit is prioritised ahead of the normal production queue.`;
+
+            const travelReason = photoLocation.value === 'rak'
+                ? 'Ras Al Khaimah is the Nostrix base location, so normal local travel is included.'
+                : `${currentPhotoEstimate.location} adds ${formatAED(travelAdd)} to account for travel time, transport and moving the photography kit from the Ras Al Khaimah base.`;
+
+            photoPriceExplanation.innerHTML = `
+                <div class="photo-price-reason">
+                    <span class="photo-price-reason-index">01</span>
+                    <div>
+                        <strong>Photography type + scope — ${formatAED(baseRounded)}</strong>
+                        <p>${unitPriceText}, with a category minimum of ${formatAED(rate.min)}. The minimum covers planning, equipment preparation, setup and the baseline post-production even on a very small job.</p>
+                    </div>
+                </div>
+                <div class="photo-price-reason">
+                    <span class="photo-price-reason-index">02</span>
+                    <div><strong>Crew</strong><p>${crewReason}</p></div>
+                </div>
+                <div class="photo-price-reason">
+                    <span class="photo-price-reason-index">03</span>
+                    <div><strong>Editing</strong><p>${editingReason}</p></div>
+                </div>
+                <div class="photo-price-reason">
+                    <span class="photo-price-reason-index">04</span>
+                    <div><strong>Turnaround</strong><p>${turnaroundReason}</p></div>
+                </div>
+                <div class="photo-price-reason">
+                    <span class="photo-price-reason-index">05</span>
+                    <div><strong>Location</strong><p>${travelReason}</p></div>
+                </div>
+                <div class="photo-price-reason">
+                    <span class="photo-price-reason-index">06</span>
+                    <div>
+                        <strong>Why there is a market range</strong>
+                        <p>The displayed window is about 10% below to 15% above the calculated benchmark. Real quotes vary with photographer experience, final image count, venue or studio needs, lighting complexity, permits, usage rights and production requirements.</p>
+                    </div>
+                </div>
+            `;
+
+            photoMarketNote.innerHTML = `<strong>Market benchmark refreshed August 2026.</strong> ${rate.marketContext} The calculator is a transparent planning tool, not a promise that every UAE photographer charges the same rate.`;
+
             return currentPhotoEstimate;
+        }
+
+        if (photoCalcPanel && window.matchMedia('(pointer: fine)').matches) {
+            photoCalcPanel.addEventListener('pointermove', (event) => {
+                const rect = photoCalcPanel.getBoundingClientRect();
+                const x = Math.max(0, Math.min(rect.width, event.clientX - rect.left));
+                const y = Math.max(0, Math.min(rect.height, event.clientY - rect.top));
+                photoCalcPanel.style.setProperty('--calc-glow-x', `${x}px`);
+                photoCalcPanel.style.setProperty('--calc-glow-y', `${y}px`);
+                photoCalcPanel.style.setProperty('--calc-glow-x-2', `${Math.max(0, rect.width - x)}px`);
+                photoCalcPanel.style.setProperty('--calc-glow-y-2', `${Math.max(0, rect.height - y)}px`);
+            }, { passive: true });
+
+            photoCalcPanel.addEventListener('pointerleave', () => {
+                photoCalcPanel.style.removeProperty('--calc-glow-x');
+                photoCalcPanel.style.removeProperty('--calc-glow-y');
+                photoCalcPanel.style.removeProperty('--calc-glow-x-2');
+                photoCalcPanel.style.removeProperty('--calc-glow-y-2');
+            }, { passive: true });
         }
 
         function openPhotoCalculator(button) {
