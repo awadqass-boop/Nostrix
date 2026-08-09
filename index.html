@@ -3212,7 +3212,254 @@
             }
         }
 
-    </style>
+    
+
+        /* 2026-08-09 pricing + restored contact polish */
+        #pricing {
+            position: relative;
+            scroll-margin-top: 6.5rem;
+            padding-top: 1.25rem;
+        }
+        #pricing::before {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; top: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(186,200,255,.35), rgba(210,139,255,.48), transparent);
+        }
+        .pricing-heading { max-width: 48rem; }
+        .pricing-grid { gap: 1.15rem; }
+        .pricing-card {
+            border-radius: 1.8rem;
+            background:
+                radial-gradient(circle at 85% -10%, rgba(186,200,255,.08), transparent 17rem),
+                rgba(255,255,255,.034);
+        }
+        .pricing-card::after {
+            content: '';
+            position: absolute;
+            left: 1.5rem; right: 1.5rem; top: 0;
+            height: 1px;
+            opacity: .55;
+            background: linear-gradient(90deg, transparent, var(--accent-1), transparent);
+        }
+        .pricing-card.is-featured {
+            border-color: rgba(210,139,255,.42);
+            background:
+                radial-gradient(circle at 72% -6%, rgba(210,139,255,.18), transparent 20rem),
+                radial-gradient(circle at 0% 100%, rgba(186,200,255,.08), transparent 18rem),
+                rgba(255,255,255,.055);
+        }
+        .pricing-card.is-featured::after {
+            opacity: 1;
+            background: linear-gradient(90deg, transparent, var(--accent-1), var(--accent-2), transparent);
+        }
+        .pricing-fit {
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            gap: .45rem;
+            margin-top: 1.1rem;
+            padding: .5rem .7rem;
+            border: 1px solid rgba(255,255,255,.09);
+            border-radius: 999px;
+            color: rgba(255,255,255,.68);
+            background: rgba(255,255,255,.03);
+            font-size: .69rem;
+            line-height: 1.2;
+        }
+        .pricing-fit i { color: var(--accent-1); font-size: .9rem; }
+        .pricing-card .primary-button,
+        .pricing-card .secondary-button {
+            min-height: 3.25rem;
+            font-size: .7rem;
+            letter-spacing: .11em;
+        }
+        .pricing-guidance {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1.15rem;
+            padding: 1rem 1.1rem;
+            border: 1px solid rgba(255,255,255,.09);
+            border-radius: 1.25rem;
+            background: rgba(255,255,255,.025);
+        }
+        .pricing-guidance strong { display: block; color: #fff; font-size: .86rem; }
+        .pricing-guidance span { display: block; margin-top: .25rem; color: rgb(113 113 122); font-size: .76rem; line-height: 1.5; }
+        .pricing-guidance .secondary-button { flex: 0 0 auto; min-height: 2.75rem; }
+        .package-consent { margin-top: 1rem; }
+        #contact { scroll-margin-top: 6rem; }
+        #contact .contact-layout { align-items: start; }
+        #contact .contact-card {
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+        }
+        #contact .contact-card:first-child { position: sticky; top: 6.5rem; }
+        #contact #project-form .form-actions { flex-wrap: wrap; }
+        button:disabled { opacity: .55; cursor: wait; transform: none !important; }
+        @media (max-width: 1023px) {
+            #contact .contact-card:first-child { position: static; }
+            .pricing-guidance { align-items: stretch; flex-direction: column; }
+            .pricing-guidance .secondary-button { width: 100%; }
+        }
+        @media (max-width: 767px) {
+            #pricing { scroll-margin-top: 5rem; }
+            .pricing-card { border-radius: 1.45rem; }
+            .pricing-fit { white-space: normal; }
+        }
+
+
+        /* UAE photography market calculator */
+        .photo-calc-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 150;
+            display: grid;
+            place-items: center;
+            padding: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .24s ease, visibility .24s ease;
+        }
+        .photo-calc-modal[hidden] { display: none !important; }
+        .photo-calc-modal.is-open { opacity: 1; visibility: visible; }
+        .photo-calc-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(2,2,6,.78);
+            backdrop-filter: blur(14px);
+        }
+        .photo-calc-panel {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 70rem);
+            max-height: min(92dvh, 58rem);
+            overflow: auto;
+            overscroll-behavior: contain;
+            padding: clamp(1.35rem, 3.5vw, 2.5rem);
+            border: 1px solid rgba(255,255,255,.13);
+            border-radius: 1.8rem;
+            background:
+                radial-gradient(circle at 88% 8%, rgba(210,139,255,.12), transparent 25rem),
+                radial-gradient(circle at 5% 85%, rgba(186,200,255,.08), transparent 24rem),
+                rgba(13,13,19,.985);
+            box-shadow: 0 2rem 7rem rgba(0,0,0,.55);
+            transform: translateY(1rem) scale(.985);
+            transition: transform .3s var(--ease-out);
+        }
+        .photo-calc-modal.is-open .photo-calc-panel { transform: none; }
+        .photo-calc-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: grid;
+            width: 2.75rem;
+            height: 2.75rem;
+            place-items: center;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 999px;
+            color: #fff;
+            background: rgba(255,255,255,.04);
+        }
+        .photo-calc-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(18rem, .9fr);
+            gap: 1rem;
+            margin-top: 1.6rem;
+            align-items: start;
+        }
+        .photo-calc-controls,
+        .photo-calc-contact {
+            display: grid;
+            gap: 1rem;
+        }
+        .photo-calc-two {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0,1fr));
+            gap: 1rem;
+        }
+        .photo-calc-hint {
+            display: block;
+            margin-top: .4rem;
+            color: rgb(113 113 122);
+            font-size: .72rem;
+            line-height: 1.45;
+        }
+        .photo-estimate-card {
+            position: sticky;
+            top: 0;
+            padding: 1.4rem;
+            border: 1px solid rgba(186,200,255,.18);
+            border-radius: 1.3rem;
+            background:
+                linear-gradient(145deg, rgba(186,200,255,.085), rgba(210,139,255,.07)),
+                rgba(255,255,255,.025);
+        }
+        .photo-estimate-label {
+            display: block;
+            color: rgb(161 161 170);
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+        }
+        #photo-estimate-price {
+            display: block;
+            margin-top: .65rem;
+            color: #fff;
+            font-size: clamp(2rem, 4.5vw, 3.2rem);
+            line-height: 1;
+            letter-spacing: -.045em;
+        }
+        .photo-estimate-range {
+            display: block;
+            margin-top: .65rem;
+            color: var(--accent-1);
+            font-size: .78rem;
+            line-height: 1.5;
+        }
+        .photo-estimate-breakdown {
+            display: grid;
+            gap: .55rem;
+            margin-top: 1.2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,.09);
+        }
+        .photo-estimate-line {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            color: rgb(161 161 170);
+            font-size: .75rem;
+            line-height: 1.45;
+        }
+        .photo-estimate-line strong { color: #e4e4e7; font-weight: 600; text-align: right; }
+        .photo-estimate-note {
+            margin: 1rem 0 0;
+            color: rgb(113 113 122);
+            font-size: .7rem;
+            line-height: 1.6;
+        }
+        .photo-calc-contact {
+            margin-top: 1.25rem;
+            padding-top: 1.35rem;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .photo-calc-contact-head span { display: block; color: #fff; font-size: 1rem; font-weight: 650; }
+        .photo-calc-contact-head small { display: block; margin-top: .3rem; color: rgb(113 113 122); font-size: .76rem; line-height: 1.5; }
+        .photo-calc-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+        .photo-calc-actions button { flex: 1 1 12rem; }
+        body.photo-calc-open { overflow: hidden; }
+        @media (max-width: 780px) {
+            .photo-calc-layout { grid-template-columns: 1fr; }
+            .photo-estimate-card { position: static; }
+            .photo-calc-two { grid-template-columns: 1fr; }
+            .photo-calc-panel { max-height: 94dvh; border-radius: 1.35rem; padding: 1.25rem; }
+        }
+
+</style>
     <!-- Mobile portfolio preview fix: 2026-08-06 v3 -->
 </head>
 <body>
@@ -3235,6 +3482,7 @@
 
                 <div class="nav-menu" id="primary-menu">
                     <a href="/services/" class="nav-link">Services</a>
+                    <a href="#pricing" class="nav-link">Pricing</a>
                     <a href="/portfolio/" class="nav-link">Portfolio</a>
                     <a href="/review/" class="nav-link">Review</a>
                     <a href="https://www.instagram.com/nostrix.ae/" target="_blank" rel="noopener noreferrer" class="nav-link">Instagram</a>
@@ -3355,11 +3603,11 @@
                         </article>
                     </div>
 
-                    <div class="pricing-block reveal" aria-labelledby="packages-title">
+                    <div id="pricing" class="pricing-block reveal" aria-labelledby="packages-title">
                         <div class="pricing-heading">
-                            <p class="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-accent2/80">Simple packages</p>
-                            <h3 id="packages-title" class="font-display text-2xl font-bold uppercase leading-tight text-white md:text-3xl">Choose the level that fits your brand.</h3>
-                            <p class="mt-4 text-sm font-light leading-7 text-zinc-400">Start with a clear package or choose a custom scope for campaigns, events and larger productions.</p>
+                            <p class="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-accent2/80">Pricing</p>
+                            <h3 id="packages-title" class="font-display text-2xl font-bold uppercase leading-tight text-white md:text-3xl">Clear packages. Flexible scope.</h3>
+                            <p class="mt-4 text-sm font-light leading-7 text-zinc-400">Choose a monthly package for ongoing content, or request a tailored scope for campaigns, events and larger productions.</p>
                         </div>
 
                         <div class="pricing-grid">
@@ -3371,6 +3619,7 @@
                                     <h4 class="pricing-name">Startup</h4>
                                     <div class="pricing-price"><strong>AED 1,490</strong><span>/ month</span></div>
                                     <p class="pricing-description">A clean launch package for new brands that need consistent content and a strong starting point.</p>
+                                    <div class="pricing-fit"><i class="ph ph-target" aria-hidden="true"></i><span>Best for new brands</span></div>
                                     <div class="pricing-features">
                                         <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Brand direction & monthly content plan</span></div>
                                         <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>8 social posts or designed creatives</span></div>
@@ -3378,7 +3627,7 @@
                                         <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Basic monthly performance summary</span></div>
                                     </div>
                                     <button type="button" class="secondary-button package-contact" data-package="Startup" data-price="AED 1,490 / month">
-                                        Contact Us
+                                        Choose Startup
                                         <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -3393,6 +3642,7 @@
                                     <h4 class="pricing-name">Premium</h4>
                                     <div class="pricing-price"><strong>AED 2,990</strong><span>/ month</span></div>
                                     <p class="pricing-description">For brands ready to publish more often, look more polished and build a stronger monthly presence.</p>
+                                    <div class="pricing-fit"><i class="ph ph-trend-up" aria-hidden="true"></i><span>Best for growing brands</span></div>
                                     <div class="pricing-features">
                                         <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Strategy, content planning & account direction</span></div>
                                         <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>16 social posts / creatives per month</span></div>
@@ -3400,7 +3650,7 @@
                                         <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Monthly reporting & priority support</span></div>
                                     </div>
                                     <button type="button" class="primary-button package-contact" data-package="Premium" data-price="AED 2,990 / month">
-                                        Contact Us
+                                        Choose Premium
                                         <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -3409,23 +3659,31 @@
                             <article class="pricing-card reveal" style="transition-delay: 180ms;">
                                 <div class="pricing-card-inner">
                                     <div class="pricing-topline">
-                                        <span class="pricing-kicker">03 · Tailored</span>
+                                        <span class="pricing-kicker">03 · Photography</span>
                                     </div>
                                     <h4 class="pricing-name">Custom</h4>
-                                    <div class="pricing-price"><strong>Custom</strong><span>pricing</span></div>
-                                    <p class="pricing-description">Built around your exact campaign, event, production schedule, deliverables and team requirements.</p>
+                                    <div class="pricing-price"><strong>Instant</strong><span>market estimate</span></div>
+                                    <p class="pricing-description">Build a photography scope and get an instant UAE market-based estimate before you send the enquiry.</p>
+                                    <div class="pricing-fit"><i class="ph ph-calculator" aria-hidden="true"></i><span>Events, fashion, products, property & more</span></div>
                                     <div class="pricing-features">
-                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Custom strategy and deliverables</span></div>
-                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Events, launches & full productions</span></div>
-                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Flexible content volume and crew</span></div>
-                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Tailored timeline and quotation</span></div>
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Automatic estimate from UAE benchmark rates</span></div>
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Adjust shoot length, crew and editing level</span></div>
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Include turnaround and UAE travel</span></div>
+                                        <div class="pricing-feature"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Send your estimate privately to Nostrix</span></div>
                                     </div>
                                     <button type="button" class="secondary-button custom-package-contact">
-                                        Tell Us What You’re Building
-                                        <i class="ph ph-arrow-down" aria-hidden="true"></i>
+                                        Calculate My Price
+                                        <i class="ph ph-calculator" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </article>
+                        </div>
+                        <div class="pricing-guidance">
+                            <div>
+                                <strong>Not sure which option fits?</strong>
+                                <span>Tell us your goals and we’ll use the same project brief to understand the scope.</span>
+                            </div>
+                            <a href="#contact" class="secondary-button">Talk to Nostrix <i class="ph ph-arrow-down" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -3441,7 +3699,7 @@
                     <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent2/80">Package enquiry</p>
                     <h3 id="package-modal-title" class="mt-3 pr-12 text-2xl font-semibold text-white md:text-3xl">Tell us how we can help.</h3>
                     <div class="package-selection" id="package-selection"><i class="ph ph-package" aria-hidden="true"></i><span id="package-selection-text">Startup · AED 1,490 / month</span></div>
-                    <p class="mt-4 max-w-xl text-sm font-light leading-7 text-zinc-400">The package you selected is attached automatically. Add your details and a short note, then choose WhatsApp or direct send.</p>
+                    <p class="mt-4 max-w-xl text-sm font-light leading-7 text-zinc-400">The package you selected is attached automatically. Add your details, timeline and brief, then choose WhatsApp or submit it privately to Nostrix.</p>
 
                     <form id="package-form" novalidate>
                         <input type="hidden" id="package-name" name="package" value="">
@@ -3511,10 +3769,19 @@
                                 </div>
                             </div>
                             <div class="form-field form-field-wide">
+                                <label for="package-timeline">Preferred start / timeline *</label>
+                                <input class="form-control" id="package-timeline" name="timeline" type="text" placeholder="For example: next month" required>
+                            </div>
+                            <div class="form-field form-field-wide">
                                 <label for="package-message">What do you need? *</label>
-                                <textarea class="form-control" id="package-message" name="message" placeholder="Tell us what you want included, your goals, timing, or anything we should know." required></textarea>
+                                <textarea class="form-control" id="package-message" name="message" placeholder="Tell us what you want included, your goals, deliverables, or anything we should know." required></textarea>
                             </div>
                         </div>
+
+                        <label class="consent-row package-consent" for="package-privacy-consent">
+                            <input id="package-privacy-consent" name="privacy" type="checkbox" required>
+                            <span>I agree to share these details with Nostrix so the team can respond to my pricing enquiry. Read the <a href="/privacy/" target="_blank" class="text-accent1 underline underline-offset-4">privacy policy</a>.</span>
+                        </label>
 
                         <div class="package-modal-actions">
                             <button type="submit" class="primary-button">
@@ -3522,12 +3789,139 @@
                                 <i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>
                             </button>
                             <button type="button" id="package-direct-send" class="secondary-button">
-                                Send Directly
+                                Submit Enquiry
                                 <i class="ph ph-paper-plane-tilt" aria-hidden="true"></i>
                             </button>
                         </div>
                         <p id="package-form-status" class="form-status mt-4" aria-live="polite"></p>
-                        <p class="package-demo-note">Your enquiry is sent directly to the Nostrix team for review.</p>
+                        <p class="package-demo-note">Direct submissions are saved privately for the Nostrix team to review.</p>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="photo-calc-modal" id="photo-calc-modal" hidden aria-hidden="true">
+                <div class="photo-calc-backdrop" data-close-photo-calc></div>
+                <div class="photo-calc-panel" role="dialog" aria-modal="true" aria-labelledby="photo-calc-title">
+                    <button type="button" class="photo-calc-close" data-close-photo-calc aria-label="Close photography price calculator">
+                        <i class="ph ph-x text-xl" aria-hidden="true"></i>
+                    </button>
+
+                    <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent2/80">UAE photography pricing</p>
+                    <h3 id="photo-calc-title" class="mt-3 pr-12 text-2xl font-semibold text-white md:text-3xl">Build your photography estimate.</h3>
+                    <p class="mt-4 max-w-2xl text-sm font-light leading-7 text-zinc-400">Choose the type of shoot and scope. The estimate updates instantly using recent UAE market benchmarks, then you can send the exact setup privately to Nostrix.</p>
+
+                    <form id="photo-calc-form" novalidate>
+                        <div class="photo-calc-layout">
+                            <div class="photo-calc-controls">
+                                <div class="form-field">
+                                    <label for="photo-type">Photography type *</label>
+                                    <select class="form-control" id="photo-type" name="photo_type" required>
+                                        <option value="event">Event / corporate coverage</option>
+                                        <option value="fashion">Fashion / modelling</option>
+                                        <option value="wedding">Wedding / engagement</option>
+                                        <option value="automotive">Automotive</option>
+                                        <option value="product">Product / e-commerce</option>
+                                        <option value="realestate">Real estate / interiors</option>
+                                    </select>
+                                </div>
+
+                                <div class="photo-calc-two">
+                                    <div class="form-field">
+                                        <label id="photo-scope-label" for="photo-scope">Coverage hours *</label>
+                                        <input class="form-control" id="photo-scope" name="scope" type="number" min="1" max="24" step="1" value="3" required>
+                                        <span class="photo-calc-hint" id="photo-scope-hint">How many hours of photography coverage?</span>
+                                    </div>
+                                    <div class="form-field">
+                                        <label for="photo-crew">Photographers *</label>
+                                        <select class="form-control" id="photo-crew" name="crew" required>
+                                            <option value="1">1 photographer</option>
+                                            <option value="2">2 photographers</option>
+                                            <option value="3">3 photographers</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="photo-calc-two">
+                                    <div class="form-field">
+                                        <label for="photo-editing">Editing level *</label>
+                                        <select class="form-control" id="photo-editing" name="editing" required>
+                                            <option value="essential">Essential edit</option>
+                                            <option value="enhanced" selected>Enhanced retouching</option>
+                                            <option value="campaign">Campaign-grade retouching</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-field">
+                                        <label for="photo-turnaround">Turnaround *</label>
+                                        <select class="form-control" id="photo-turnaround" name="turnaround" required>
+                                            <option value="standard" selected>Standard delivery</option>
+                                            <option value="48h">48-hour priority</option>
+                                            <option value="24h">24-hour rush</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="photo-location">Shoot location *</label>
+                                    <select class="form-control" id="photo-location" name="location" required>
+                                        <option value="rak">Ras Al Khaimah</option>
+                                        <option value="dubai">Dubai</option>
+                                        <option value="sharjah">Sharjah / Ajman</option>
+                                        <option value="abudhabi">Abu Dhabi</option>
+                                        <option value="alain">Al Ain</option>
+                                        <option value="other">Other UAE location</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <aside class="photo-estimate-card" aria-live="polite">
+                                <span class="photo-estimate-label">Estimated project price</span>
+                                <strong id="photo-estimate-price">AED 2,250</strong>
+                                <span class="photo-estimate-range" id="photo-estimate-range">Typical market window: AED 2,050–2,600</span>
+                                <div class="photo-estimate-breakdown" id="photo-estimate-breakdown"></div>
+                                <p class="photo-estimate-note">This is a planning estimate, not a binding quote. Final pricing can change if the brief needs special permits, studio rental, complex lighting, assistants, equipment rental or unusual travel.</p>
+                            </aside>
+                        </div>
+
+                        <div class="photo-calc-contact">
+                            <div class="photo-calc-contact-head">
+                                <span>Want this exact estimate?</span>
+                                <small>Send the setup privately to Nostrix and we can confirm the final scope.</small>
+                            </div>
+                            <div class="photo-calc-two">
+                                <div class="form-field">
+                                    <label for="photo-client-name">Name *</label>
+                                    <input class="form-control" id="photo-client-name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
+                                </div>
+                                <div class="form-field">
+                                    <label for="photo-company">Company / brand</label>
+                                    <input class="form-control" id="photo-company" name="company" type="text" autocomplete="organization" placeholder="Optional">
+                                </div>
+                            </div>
+                            <div class="photo-calc-two">
+                                <div class="form-field">
+                                    <label for="photo-email">Email *</label>
+                                    <input class="form-control" id="photo-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+                                </div>
+                                <div class="form-field">
+                                    <label for="photo-phone">Phone / WhatsApp</label>
+                                    <input class="form-control" id="photo-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+971 50 123 4567">
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <label for="photo-notes">Anything else?</label>
+                                <textarea class="form-control" id="photo-notes" name="notes" placeholder="Venue, preferred date, number of products, specific deliverables, creative direction, etc."></textarea>
+                            </div>
+                            <label class="consent-row package-consent" for="photo-privacy-consent">
+                                <input id="photo-privacy-consent" name="privacy" type="checkbox" required>
+                                <span>I agree to share these details with Nostrix so the team can respond to my pricing enquiry. Read the <a href="/privacy/" target="_blank" class="text-accent1 underline underline-offset-4">privacy policy</a>.</span>
+                            </label>
+                            <div class="photo-calc-actions">
+                                <button type="button" id="photo-calc-submit" class="primary-button">Send Estimate <i class="ph ph-paper-plane-tilt" aria-hidden="true"></i></button>
+                                <button type="button" id="photo-calc-whatsapp" class="secondary-button">WhatsApp Estimate <i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i></button>
+                            </div>
+                            <p id="photo-calc-status" class="form-status mt-4" aria-live="polite"></p>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -3652,12 +4046,20 @@
                 </div>
             </section>
 
-            <section id="contact" class="contact-section" aria-labelledby="contact-card-title">
+            <section id="contact" class="contact-section" aria-labelledby="contact-title">
                 <div class="mx-auto max-w-7xl">
-                    <div class="contact-layout contact-layout-single">
+                    <div class="section-heading reveal">
+                        <p class="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-accent1/75">Start a project</p>
+                        <h2 id="contact-title" class="font-display text-3xl font-bold uppercase leading-tight text-white md:text-5xl">Tell us what you’re building</h2>
+                        <p class="mt-6 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">
+                            Share the basics, choose the services you need and send your project brief by WhatsApp or submit it privately to Nostrix.
+                        </p>
+                    </div>
+
+                    <div class="contact-layout">
                         <aside class="contact-card reveal">
                             <p class="text-xs font-semibold uppercase tracking-[0.22em] text-accent2/80">Contact Nostrix</p>
-                            <h3 id="contact-card-title" class="mt-4 text-2xl font-semibold text-white">Let’s make your next idea visible.</h3>
+                            <h3 class="mt-4 text-2xl font-semibold text-white">Let’s make your next idea visible.</h3>
                             <a class="mt-4 inline-flex text-sm font-light leading-7 text-zinc-400 transition hover:text-white" href="https://www.google.com/maps/search/?api=1&query=American%20University%20of%20Ras%20Al%20Khaimah%20-%20American%20University%20of%20Ras%20Al%20Khaimah%20Road%20-%20Road%20-%20Ras%20Al%20Khaimah" target="_blank" rel="noopener noreferrer" aria-label="Open AURAK, Building H, Office 15 in Google Maps">AURAK, Building H, Office 15, Ras Al Khaimah, UAE</a>
                             <div class="mt-7">
                                 <a class="contact-method" href="mailto:marketing@nostrix.ae"><i class="ph ph-envelope-simple" aria-hidden="true"></i><span>marketing@nostrix.ae</span></a>
@@ -3666,188 +4068,166 @@
                                 <a class="contact-method" href="https://wa.me/971561195226" target="_blank" rel="noopener noreferrer"><i class="ph ph-whatsapp-logo" aria-hidden="true"></i><span>Chat on WhatsApp</span></a>
                             </div>
                         </aside>
+
+                        <div class="contact-card reveal" style="transition-delay: 100ms;">
+                            <form id="project-form" novalidate="">
+                            <div class="custom-package-context" hidden="" id="custom-package-context">
+                            <span><strong>Custom package selected.</strong> Tell us exactly what you need and we’ll build the scope around it.</span>
+                            <i aria-hidden="true" class="ph ph-sparkle text-xl text-accent2"></i>
+                            </div>
+                            <div class="form-grid two-column">
+                            <div class="form-field">
+                            <label for="client-name">Name *</label>
+                            <input autocomplete="name" class="form-control" id="client-name" name="name" placeholder="Your name" required="" type="text"/>
+                            </div>
+                            <div class="form-field">
+                            <label for="company">Company or brand *</label>
+                            <input autocomplete="organization" class="form-control" id="company" name="company" placeholder="Brand name" required="" type="text"/>
+                            </div>
+                            <div class="form-field">
+                            <label for="project-email">Work email *</label>
+                            <input autocomplete="email" class="form-control" id="project-email" inputmode="email" name="email" placeholder="name@company.com" required="" type="email"/>
+                            </div>
+                            <div class="form-field">
+                            <label for="project-phone">Phone number *</label>
+                            <div class="phone-control">
+                            <select aria-label="Phone country code" class="form-control phone-code" id="project-phone-code" name="phone_code" required="">
+                            <option selected="" value="+971">🇦🇪 +971 UAE</option>
+                            <option value="+966">🇸🇦 +966 Saudi Arabia</option>
+                            <option value="+974">🇶🇦 +974 Qatar</option>
+                            <option value="+965">🇰🇼 +965 Kuwait</option>
+                            <option value="+973">🇧🇭 +973 Bahrain</option>
+                            <option value="+968">🇴🇲 +968 Oman</option>
+                            <option value="+1">🇺🇸 +1 United States</option>
+                            <option value="+1">🇨🇦 +1 Canada</option>
+                            <option value="+44">🇬🇧 +44 United Kingdom</option>
+                            <option value="+33">🇫🇷 +33 France</option>
+                            <option value="+49">🇩🇪 +49 Germany</option>
+                            <option value="+39">🇮🇹 +39 Italy</option>
+                            <option value="+34">🇪🇸 +34 Spain</option>
+                            <option value="+31">🇳🇱 +31 Netherlands</option>
+                            <option value="+41">🇨🇭 +41 Switzerland</option>
+                            <option value="+90">🇹🇷 +90 Türkiye</option>
+                            <option value="+91">🇮🇳 +91 India</option>
+                            <option value="+92">🇵🇰 +92 Pakistan</option>
+                            <option value="+880">🇧🇩 +880 Bangladesh</option>
+                            <option value="+63">🇵🇭 +63 Philippines</option>
+                            <option value="+62">🇮🇩 +62 Indonesia</option>
+                            <option value="+60">🇲🇾 +60 Malaysia</option>
+                            <option value="+65">🇸🇬 +65 Singapore</option>
+                            <option value="+86">🇨🇳 +86 China</option>
+                            <option value="+852">🇭🇰 +852 Hong Kong</option>
+                            <option value="+81">🇯🇵 +81 Japan</option>
+                            <option value="+82">🇰🇷 +82 South Korea</option>
+                            <option value="+61">🇦🇺 +61 Australia</option>
+                            <option value="+64">🇳🇿 +64 New Zealand</option>
+                            <option value="+27">🇿🇦 +27 South Africa</option>
+                            <option value="+20">🇪🇬 +20 Egypt</option>
+                            <option value="+212">🇲🇦 +212 Morocco</option>
+                            <option value="+213">🇩🇿 +213 Algeria</option>
+                            <option value="+216">🇹🇳 +216 Tunisia</option>
+                            <option value="+962">🇯🇴 +962 Jordan</option>
+                            <option value="+961">🇱🇧 +961 Lebanon</option>
+                            <option value="+964">🇮🇶 +964 Iraq</option>
+                            <option value="+963">🇸🇾 +963 Syria</option>
+                            <option value="+967">🇾🇪 +967 Yemen</option>
+                            <option value="+235">🇹🇩 +235 Chad</option>
+                            <option value="+234">🇳🇬 +234 Nigeria</option>
+                            <option value="+254">🇰🇪 +254 Kenya</option>
+                            <option value="+233">🇬🇭 +233 Ghana</option>
+                            </select>
+                            <input autocomplete="tel-national" class="form-control phone-number" id="project-phone" inputmode="tel" name="phone" placeholder="50 123 4567" required="" type="tel"/>
+                            </div>
+                            </div>
+                            <div class="form-field form-field-wide">
+                            <label>Service(s) needed *</label>
+                            <p class="field-help">Select all that apply.</p>
+                            <div aria-label="Services needed" class="event-options" id="service-options" role="group">
+                            <label class="event-option"><input name="services" type="checkbox" value="Brand Strategy"/><span>Brand Strategy</span></label>
+                            <label class="event-option"><input name="services" type="checkbox" value="Social Media"/><span>Social Media</span></label>
+                            <label class="event-option"><input name="services" type="checkbox" value="Photography"/><span>Photography</span></label>
+                            <label class="event-option"><input name="services" type="checkbox" value="Videography"/><span>Videography</span></label>
+                            <label class="event-option"><input name="services" type="checkbox" value="Content Creation"/><span>Content Creation</span></label>
+                            <label class="event-option"><input id="event-coverage-service" name="services" type="checkbox" value="Event Coverage"/><span>Event Coverage</span></label>
+                            <label class="event-option"><input id="other-service-checkbox" name="services" type="checkbox" value="Other"/><span>Other</span></label>
+                            </div>
+                            <p aria-live="polite" class="event-error" id="services-error"></p>
+                            </div>
+                            <div class="form-field form-field-wide" hidden="" id="custom-service-field">
+                            <label for="custom-service">Other service *</label>
+                            <input class="form-control" id="custom-service" name="custom_service" placeholder="Type the service that is not listed" type="text"/>
+                            </div>
+                            <div class="form-field form-field-wide" hidden="" id="event-types-field">
+                            <label>Event type(s) *</label>
+                            <p class="field-help">Select all that apply.</p>
+                            <div aria-label="Event types" class="event-options" id="event-options" role="group">
+                            <label class="event-option"><input name="event_types" type="checkbox" value="Corporate Event"/><span>Corporate Event</span></label>
+                            <label class="event-option"><input name="event_types" type="checkbox" value="Conference / Seminar"/><span>Conference / Seminar</span></label>
+                            <label class="event-option"><input name="event_types" type="checkbox" value="Product Launch"/><span>Product Launch</span></label>
+                            <label class="event-option"><input name="event_types" type="checkbox" value="Grand Opening"/><span>Grand Opening</span></label>
+                            <label class="event-option"><input name="event_types" type="checkbox" value="Exhibition / Trade Show"/><span>Exhibition / Trade Show</span></label>
+                            <label class="event-option"><input name="event_types" type="checkbox" value="Wedding / Engagement"/><span>Wedding / Engagement</span></label>
+                            <label class="event-option"><input name="event_types" type="checkbox" value="Birthday / Private Celebration"/><span>Birthday / Private Celebration</span></label>
+                            <label class="event-option"><input name="event_types" type="checkbox" value="Graduation"/><span>Graduation</span></label>
+                            <label class="event-option"><input name="event_types" type="checkbox" value="Fashion Show"/><span>Fashion Show</span></label>
+                            <label class="event-option"><input name="event_types" type="checkbox" value="Sports Event"/><span>Sports Event</span></label>
+                            <label class="event-option"><input name="event_types" type="checkbox" value="Concert / Live Performance"/><span>Concert / Live Performance</span></label>
+                            <label class="event-option"><input name="event_types" type="checkbox" value="Community / Cultural Event"/><span>Community / Cultural Event</span></label>
+                            <label class="event-option"><input id="other-event-checkbox" name="event_types" type="checkbox" value="Other Event"/><span>Other Event</span></label>
+                            </div>
+                            <p aria-live="polite" class="event-error" id="event-types-error"></p>
+                            </div>
+                            <div class="form-field form-field-wide" hidden="" id="custom-event-field">
+                            <label for="custom-event">Other event type *</label>
+                            <input class="form-control" id="custom-event" name="custom_event" placeholder="Type the event that is not listed" type="text"/>
+                            </div>
+                            <div class="form-field">
+                            <label for="budget">Estimated budget *</label>
+                            <select class="form-control" id="budget" name="budget" required="">
+                            <option value="">Select a range</option>
+                            <option>Below AED 2,500</option>
+                            <option>AED 2,500–5,000</option>
+                            <option>AED 5,000–10,000</option>
+                            <option>AED 10,000–25,000</option>
+                            <option>AED 25,000+</option>
+                            <option>Not sure yet</option>
+                            <option value="custom">Other — enter my own budget</option>
+                            </select>
+                            </div>
+                            <div class="form-field" hidden="" id="custom-budget-field">
+                            <label for="custom-budget">Your budget *</label>
+                            <input class="form-control" id="custom-budget" inputmode="decimal" name="custom_budget" placeholder="For example: AED 7,500" type="text"/>
+                            </div>
+                            <div class="form-field">
+                            <label for="timeline">Preferred timeline *</label>
+                            <input class="form-control" id="timeline" name="timeline" placeholder="For example: this month" required="" type="text"/>
+                            </div>
+                            </div>
+                            <div class="form-field mt-4">
+                            <label for="project-details">Project details *</label>
+                            <textarea class="form-control" id="project-details" name="details" placeholder="Tell us about your project, goals and deliverables." required=""></textarea>
+                            </div>
+                            <label class="consent-row mt-4" for="privacy-consent">
+                            <input id="privacy-consent" name="privacy" required="" type="checkbox"/>
+                            <span>I agree to share these details with Nostrix for the purpose of responding to my enquiry. Read the <a class="text-accent1 underline underline-offset-4" href="/privacy/" target="_blank">privacy policy</a>.</span>
+                            </label>
+                            <div class="form-actions mt-6">
+                            <button class="primary-button" type="submit">
+                                                                    Send on WhatsApp
+                                                                    <i aria-hidden="true" class="ph-fill ph-whatsapp-logo"></i>
+                            </button>
+                            <button class="secondary-button" id="email-project" type="button">
+                                Submit Project Brief
+                                <i aria-hidden="true" class="ph ph-paper-plane-tilt"></i>
+                            </button>
+                            </div>
+                            <p aria-live="polite" class="form-status mt-4" id="form-status"></p>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <div class="package-modal project-modal" id="project-modal" hidden aria-hidden="true">
-                <div class="package-modal-backdrop" data-close-project-modal></div>
-                <div class="package-modal-panel project-modal-panel" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
-                    <button type="button" class="package-modal-close" data-close-project-modal aria-label="Close project enquiry">
-                        <i class="ph ph-x text-xl" aria-hidden="true"></i>
-                    </button>
-
-                    <div class="project-modal-heading">
-                        <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent1/75">Start a project</p>
-                        <h3 id="project-modal-title" class="mt-3 pr-12 font-display text-2xl font-bold uppercase leading-tight text-white md:text-4xl">Tell us what you’re building</h3>
-                        <p class="mt-4 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">
-                            Share the basics and choose WhatsApp or send directly. Your project brief is prepared instantly and sent to the Nostrix team for review.
-                        </p>
-                    </div>
-
-                    <div class="contact-card project-modal-form-card">
-                            <form id="project-form" novalidate>
-                                <div class="custom-package-context" id="custom-package-context" hidden>
-                                    <span><strong>Custom package selected.</strong> Tell us exactly what you need and we’ll build the scope around it.</span>
-                                    <i class="ph ph-sparkle text-xl text-accent2" aria-hidden="true"></i>
-                                </div>
-                                <div class="form-grid two-column">
-                                    <div class="form-field">
-                                        <label for="client-name">Name *</label>
-                                        <input class="form-control" id="client-name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
-                                    </div>
-                                    <div class="form-field">
-                                        <label for="company">Company or brand *</label>
-                                        <input class="form-control" id="company" name="company" type="text" autocomplete="organization" placeholder="Brand name" required>
-                                    </div>
-                                    <div class="form-field">
-                                        <label for="project-email">Work email *</label>
-                                        <input class="form-control" id="project-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="name@company.com" required>
-                                    </div>
-                                    <div class="form-field">
-                                        <label for="project-phone">Phone number *</label>
-                                        <div class="phone-control">
-                                            <select class="form-control phone-code" id="project-phone-code" name="phone_code" aria-label="Phone country code" required>
-                                                <option value="+971" selected>🇦🇪 +971 UAE</option>
-                                                <option value="+966">🇸🇦 +966 Saudi Arabia</option>
-                                                <option value="+974">🇶🇦 +974 Qatar</option>
-                                                <option value="+965">🇰🇼 +965 Kuwait</option>
-                                                <option value="+973">🇧🇭 +973 Bahrain</option>
-                                                <option value="+968">🇴🇲 +968 Oman</option>
-                                                <option value="+1">🇺🇸 +1 United States</option>
-                                                <option value="+1">🇨🇦 +1 Canada</option>
-                                                <option value="+44">🇬🇧 +44 United Kingdom</option>
-                                                <option value="+33">🇫🇷 +33 France</option>
-                                                <option value="+49">🇩🇪 +49 Germany</option>
-                                                <option value="+39">🇮🇹 +39 Italy</option>
-                                                <option value="+34">🇪🇸 +34 Spain</option>
-                                                <option value="+31">🇳🇱 +31 Netherlands</option>
-                                                <option value="+41">🇨🇭 +41 Switzerland</option>
-                                                <option value="+90">🇹🇷 +90 Türkiye</option>
-                                                <option value="+91">🇮🇳 +91 India</option>
-                                                <option value="+92">🇵🇰 +92 Pakistan</option>
-                                                <option value="+880">🇧🇩 +880 Bangladesh</option>
-                                                <option value="+63">🇵🇭 +63 Philippines</option>
-                                                <option value="+62">🇮🇩 +62 Indonesia</option>
-                                                <option value="+60">🇲🇾 +60 Malaysia</option>
-                                                <option value="+65">🇸🇬 +65 Singapore</option>
-                                                <option value="+86">🇨🇳 +86 China</option>
-                                                <option value="+852">🇭🇰 +852 Hong Kong</option>
-                                                <option value="+81">🇯🇵 +81 Japan</option>
-                                                <option value="+82">🇰🇷 +82 South Korea</option>
-                                                <option value="+61">🇦🇺 +61 Australia</option>
-                                                <option value="+64">🇳🇿 +64 New Zealand</option>
-                                                <option value="+27">🇿🇦 +27 South Africa</option>
-                                                <option value="+20">🇪🇬 +20 Egypt</option>
-                                                <option value="+212">🇲🇦 +212 Morocco</option>
-                                                <option value="+213">🇩🇿 +213 Algeria</option>
-                                                <option value="+216">🇹🇳 +216 Tunisia</option>
-                                                <option value="+962">🇯🇴 +962 Jordan</option>
-                                                <option value="+961">🇱🇧 +961 Lebanon</option>
-                                                <option value="+964">🇮🇶 +964 Iraq</option>
-                                                <option value="+963">🇸🇾 +963 Syria</option>
-                                                <option value="+967">🇾🇪 +967 Yemen</option>
-                                                <option value="+235">🇹🇩 +235 Chad</option>
-                                                <option value="+234">🇳🇬 +234 Nigeria</option>
-                                                <option value="+254">🇰🇪 +254 Kenya</option>
-                                                <option value="+233">🇬🇭 +233 Ghana</option>
-                                            </select>
-                                            <input class="form-control phone-number" id="project-phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="50 123 4567" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-field form-field-wide">
-                                        <label>Service(s) needed *</label>
-                                        <p class="field-help">Select all that apply.</p>
-                                        <div class="event-options" id="service-options" role="group" aria-label="Services needed">
-                                            <label class="event-option"><input type="checkbox" name="services" value="Brand Strategy"><span>Brand Strategy</span></label>
-                                            <label class="event-option"><input type="checkbox" name="services" value="Social Media"><span>Social Media</span></label>
-                                            <label class="event-option"><input type="checkbox" name="services" value="Photography"><span>Photography</span></label>
-                                            <label class="event-option"><input type="checkbox" name="services" value="Videography"><span>Videography</span></label>
-                                            <label class="event-option"><input type="checkbox" name="services" value="Content Creation"><span>Content Creation</span></label>
-                                            <label class="event-option"><input id="event-coverage-service" type="checkbox" name="services" value="Event Coverage"><span>Event Coverage</span></label>
-                                            <label class="event-option"><input id="other-service-checkbox" type="checkbox" name="services" value="Other"><span>Other</span></label>
-                                        </div>
-                                        <p class="event-error" id="services-error" aria-live="polite"></p>
-                                    </div>
-
-                                    <div class="form-field form-field-wide" id="custom-service-field" hidden>
-                                        <label for="custom-service">Other service *</label>
-                                        <input class="form-control" id="custom-service" name="custom_service" type="text" placeholder="Type the service that is not listed">
-                                    </div>
-                                    <div class="form-field form-field-wide" id="event-types-field" hidden>
-                                        <label>Event type(s) *</label>
-                                        <p class="field-help">Select all that apply.</p>
-                                        <div class="event-options" id="event-options" role="group" aria-label="Event types">
-                                            <label class="event-option"><input type="checkbox" name="event_types" value="Corporate Event"><span>Corporate Event</span></label>
-                                            <label class="event-option"><input type="checkbox" name="event_types" value="Conference / Seminar"><span>Conference / Seminar</span></label>
-                                            <label class="event-option"><input type="checkbox" name="event_types" value="Product Launch"><span>Product Launch</span></label>
-                                            <label class="event-option"><input type="checkbox" name="event_types" value="Grand Opening"><span>Grand Opening</span></label>
-                                            <label class="event-option"><input type="checkbox" name="event_types" value="Exhibition / Trade Show"><span>Exhibition / Trade Show</span></label>
-                                            <label class="event-option"><input type="checkbox" name="event_types" value="Wedding / Engagement"><span>Wedding / Engagement</span></label>
-                                            <label class="event-option"><input type="checkbox" name="event_types" value="Birthday / Private Celebration"><span>Birthday / Private Celebration</span></label>
-                                            <label class="event-option"><input type="checkbox" name="event_types" value="Graduation"><span>Graduation</span></label>
-                                            <label class="event-option"><input type="checkbox" name="event_types" value="Fashion Show"><span>Fashion Show</span></label>
-                                            <label class="event-option"><input type="checkbox" name="event_types" value="Sports Event"><span>Sports Event</span></label>
-                                            <label class="event-option"><input type="checkbox" name="event_types" value="Concert / Live Performance"><span>Concert / Live Performance</span></label>
-                                            <label class="event-option"><input type="checkbox" name="event_types" value="Community / Cultural Event"><span>Community / Cultural Event</span></label>
-                                            <label class="event-option"><input id="other-event-checkbox" type="checkbox" name="event_types" value="Other Event"><span>Other Event</span></label>
-                                        </div>
-                                        <p class="event-error" id="event-types-error" aria-live="polite"></p>
-                                    </div>
-
-                                    <div class="form-field form-field-wide" id="custom-event-field" hidden>
-                                        <label for="custom-event">Other event type *</label>
-                                        <input class="form-control" id="custom-event" name="custom_event" type="text" placeholder="Type the event that is not listed">
-                                    </div>
-                                    <div class="form-field">
-                                        <label for="budget">Estimated budget *</label>
-                                        <select class="form-control" id="budget" name="budget" required>
-                                            <option value="">Select a range</option>
-                                            <option>Below AED 2,500</option>
-                                            <option>AED 2,500–5,000</option>
-                                            <option>AED 5,000–10,000</option>
-                                            <option>AED 10,000–25,000</option>
-                                            <option>AED 25,000+</option>
-                                            <option>Not sure yet</option>
-                                            <option value="custom">Other — enter my own budget</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-field" id="custom-budget-field" hidden>
-                                        <label for="custom-budget">Your budget *</label>
-                                        <input class="form-control" id="custom-budget" name="custom_budget" type="text" inputmode="decimal" placeholder="For example: AED 7,500">
-                                    </div>
-                                    <div class="form-field">
-                                        <label for="timeline">Preferred timeline *</label>
-                                        <input class="form-control" id="timeline" name="timeline" type="text" placeholder="For example: this month" required>
-                                    </div>
-                                </div>
-
-                                <div class="form-field mt-4">
-                                    <label for="project-details">Project details *</label>
-                                    <textarea class="form-control" id="project-details" name="details" placeholder="Tell us about your project, goals and deliverables." required></textarea>
-                                </div>
-
-                                <label class="consent-row mt-4" for="privacy-consent">
-                                    <input id="privacy-consent" name="privacy" type="checkbox" required>
-                                    <span>I agree to share these details with Nostrix for the purpose of responding to my enquiry. Read the <a href="/privacy/" target="_blank" class="text-accent1 underline underline-offset-4">privacy policy</a>.</span>
-                                </label>
-
-                                <div class="form-actions mt-6">
-                                    <button type="submit" class="primary-button">
-                                        Send on WhatsApp
-                                        <i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" id="email-project" class="secondary-button">
-                                        Send Directly
-                                        <i class="ph ph-paper-plane-tilt" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                                <p id="form-status" class="form-status mt-4" aria-live="polite"></p>
-                            </form>
-                    </div>
-                </div>
-            </div>
         </main>
 
         <footer class="footer-line relative z-10 px-5 py-10 md:px-8">
@@ -3866,6 +4246,7 @@
                 <div>
                     <p class="footer-heading">Explore</p>
                     <a class="footer-link" href="/services/">Services</a>
+                    <a class="footer-link" href="#pricing">Pricing</a>
                     <a class="footer-link" href="/portfolio/">Portfolio PDF</a>
                     <a class="footer-link" href="https://www.instagram.com/nostrix.ae/" target="_blank" rel="noopener noreferrer">Instagram</a>
                     <a class="footer-link" href="/review/">Leave a Review</a>
@@ -4448,7 +4829,9 @@ otherEventCheckbox.addEventListener('change', updateCustomEventField);
                 budget: budget || '',
                 timeline: data.get('timeline') || '',
                 needs: data.get('details') || '',
-                brief: buildProjectBrief()
+                brief: buildProjectBrief(),
+                submittedAt: new Date().toISOString(),
+                pageUrl: window.location.href
             };
         }
 
@@ -4528,40 +4911,34 @@ otherEventCheckbox.addEventListener('change', updateCustomEventField);
             window.open(`https://wa.me/971561195226?text=${message}`, '_blank', 'noopener,noreferrer');
         });
 
-        const LEAD_SUBMISSION_ENDPOINT =
-'https://script.google.com/macros/s/AKfycbx5OSkYbf9ncNCyYG035w41_l-FzmfF7EQYOPW5MRYHN2H5au99AJp5RkgjQIMMy6oK/exec';
+        const LEAD_SUBMISSION_ENDPOINT = String(window.NOSTRIX_PRICING_WEB_APP_URL || '').trim();
 
 
-// CUSTOM PROJECT FORM
+// CUSTOM PROJECT FORM — private Google Sheet submission
 emailProjectButton.addEventListener('click', async () => {
     if (!validateProjectForm()) return;
 
     if (!LEAD_SUBMISSION_ENDPOINT) {
-        formStatus.textContent =
-            'Direct email + Google Sheets are not connected yet.';
+        formStatus.textContent = 'The pricing/project sheet is not connected yet.';
         return;
     }
 
-    formStatus.textContent = 'Sending your project brief…';
+    emailProjectButton.disabled = true;
+    formStatus.textContent = 'Submitting your project brief privately…';
 
     try {
         await fetch(LEAD_SUBMISSION_ENDPOINT, {
             method: 'POST',
             mode: 'no-cors',
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8'
-            },
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(getProjectSubmissionData())
         });
-
-        formStatus.textContent =
-            'Thanks — your project brief has been sent.';
-
+        formStatus.textContent = 'Thanks — your project brief was submitted privately to Nostrix.';
     } catch (error) {
         console.error(error);
-
-        formStatus.textContent =
-            'We could not send the form right now. Please try WhatsApp instead.';
+        formStatus.textContent = 'We could not submit the form right now. Please try WhatsApp instead.';
+    } finally {
+        emailProjectButton.disabled = false;
     }
 });
 
@@ -4609,7 +4986,6 @@ emailProjectButton.addEventListener('click', async () => {
                 packageModalTrigger?.focus({ preventScroll: true });
             }, 260);
         }
-
         function openProjectModal(button) {
             projectModalTrigger = button;
             customPackageContext.hidden = false;
@@ -4617,25 +4993,251 @@ emailProjectButton.addEventListener('click', async () => {
             if (details && !details.value.trim()) {
                 details.value = 'Custom package — I would like a tailored scope for: ';
             }
-            formStatus.textContent = '';
-            projectModal.hidden = false;
-            projectModal.setAttribute('aria-hidden', 'false');
-            document.body.classList.add('package-modal-open');
+            formStatus.textContent = 'Custom package selected — complete the brief below.';
+            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            window.setTimeout(() => document.getElementById('client-name')?.focus({ preventScroll: true }), 550);
+        }
+
+        function closeProjectModal() {}
+
+
+        const photoCalcModal = document.getElementById('photo-calc-modal');
+        const photoCalcForm = document.getElementById('photo-calc-form');
+        const photoType = document.getElementById('photo-type');
+        const photoScope = document.getElementById('photo-scope');
+        const photoScopeLabel = document.getElementById('photo-scope-label');
+        const photoScopeHint = document.getElementById('photo-scope-hint');
+        const photoCrew = document.getElementById('photo-crew');
+        const photoEditing = document.getElementById('photo-editing');
+        const photoTurnaround = document.getElementById('photo-turnaround');
+        const photoLocation = document.getElementById('photo-location');
+        const photoEstimatePrice = document.getElementById('photo-estimate-price');
+        const photoEstimateRange = document.getElementById('photo-estimate-range');
+        const photoEstimateBreakdown = document.getElementById('photo-estimate-breakdown');
+        const photoCalcSubmit = document.getElementById('photo-calc-submit');
+        const photoCalcWhatsapp = document.getElementById('photo-calc-whatsapp');
+        const photoCalcStatus = document.getElementById('photo-calc-status');
+        let photoCalcTrigger = null;
+        let currentPhotoEstimate = null;
+
+        // Benchmarks are calibrated to recent UAE public market pricing and intentionally
+        // produce an estimate rather than a binding quotation.
+        const PHOTO_MARKET_RATES = {
+            event:      { label: 'Event / corporate coverage', unit: 'hours', rate: 550, min: 800, defaultQty: 3, max: 24 },
+            fashion:    { label: 'Fashion / modelling', unit: 'hours', rate: 700, min: 900, defaultQty: 2, max: 16 },
+            wedding:    { label: 'Wedding / engagement', unit: 'hours', rate: 550, min: 1200, defaultQty: 6, max: 16 },
+            automotive: { label: 'Automotive', unit: 'hours', rate: 700, min: 900, defaultQty: 2, max: 16 },
+            product:    { label: 'Product / e-commerce', unit: 'edited images', rate: 150, min: 600, defaultQty: 10, max: 200 },
+            realestate: { label: 'Real estate / interiors', unit: 'properties', rate: 500, min: 500, defaultQty: 1, max: 20 }
+        };
+        const PHOTO_CREW_MULTIPLIER = { '1': 1, '2': 1.75, '3': 2.45 };
+        const PHOTO_EDITING_MULTIPLIER = { essential: 1, enhanced: 1.18, campaign: 1.35 };
+        const PHOTO_EDITING_LABEL = { essential: 'Essential edit', enhanced: 'Enhanced retouching', campaign: 'Campaign-grade retouching' };
+        const PHOTO_TURNAROUND_MULTIPLIER = { standard: 1, '48h': 1.15, '24h': 1.30 };
+        const PHOTO_TURNAROUND_LABEL = { standard: 'Standard delivery', '48h': '48-hour priority', '24h': '24-hour rush' };
+        const PHOTO_TRAVEL = { rak: 0, dubai: 150, sharjah: 150, abudhabi: 300, alain: 300, other: 350 };
+        const PHOTO_LOCATION_LABEL = { rak: 'Ras Al Khaimah', dubai: 'Dubai', sharjah: 'Sharjah / Ajman', abudhabi: 'Abu Dhabi', alain: 'Al Ain', other: 'Other UAE location' };
+
+        function roundPhotoPrice(value) {
+            return Math.max(0, Math.round(Number(value || 0) / 50) * 50);
+        }
+
+        function formatAED(value) {
+            return `AED ${Math.round(value).toLocaleString('en-US')}`;
+        }
+
+        function syncPhotoScopeField(resetValue) {
+            const rate = PHOTO_MARKET_RATES[photoType.value] || PHOTO_MARKET_RATES.event;
+            if (rate.unit === 'hours') {
+                photoScopeLabel.textContent = 'Coverage hours *';
+                photoScopeHint.textContent = 'How many hours of photography coverage?';
+            } else if (rate.unit === 'edited images') {
+                photoScopeLabel.textContent = 'Final edited images *';
+                photoScopeHint.textContent = 'Enter the approximate number of final product images you need.';
+            } else {
+                photoScopeLabel.textContent = 'Number of properties *';
+                photoScopeHint.textContent = 'Enter the number of properties / units to photograph.';
+            }
+            photoScope.max = String(rate.max);
+            if (resetValue) photoScope.value = String(rate.defaultQty);
+        }
+
+        function calculatePhotoEstimate() {
+            const rate = PHOTO_MARKET_RATES[photoType.value] || PHOTO_MARKET_RATES.event;
+            const qty = Math.max(1, Number(photoScope.value || rate.defaultQty));
+            const crewMultiplier = PHOTO_CREW_MULTIPLIER[photoCrew.value] || 1;
+            const editingMultiplier = PHOTO_EDITING_MULTIPLIER[photoEditing.value] || 1;
+            const turnaroundMultiplier = PHOTO_TURNAROUND_MULTIPLIER[photoTurnaround.value] || 1;
+            const travel = PHOTO_TRAVEL[photoLocation.value] || 0;
+
+            const base = Math.max(rate.min, rate.rate * qty);
+            const crewAdjusted = base * crewMultiplier;
+            const edited = crewAdjusted * editingMultiplier;
+            const rushed = edited * turnaroundMultiplier;
+            const estimate = roundPhotoPrice(rushed + travel);
+            const low = roundPhotoPrice(estimate * 0.90);
+            const high = roundPhotoPrice(estimate * 1.15);
+
+            currentPhotoEstimate = {
+                type: rate.label,
+                unit: rate.unit,
+                quantity: qty,
+                crew: Number(photoCrew.value || 1),
+                editing: PHOTO_EDITING_LABEL[photoEditing.value],
+                turnaround: PHOTO_TURNAROUND_LABEL[photoTurnaround.value],
+                location: PHOTO_LOCATION_LABEL[photoLocation.value],
+                travel,
+                estimate,
+                low,
+                high
+            };
+
+            photoEstimatePrice.textContent = formatAED(estimate);
+            photoEstimateRange.textContent = `Typical market window: ${formatAED(low)}–${formatAED(high).replace('AED ', '')}`;
+            photoEstimateBreakdown.innerHTML = `
+                <div class="photo-estimate-line"><span>Photography</span><strong>${rate.label}</strong></div>
+                <div class="photo-estimate-line"><span>Scope</span><strong>${qty} ${rate.unit}</strong></div>
+                <div class="photo-estimate-line"><span>Crew</span><strong>${currentPhotoEstimate.crew} photographer${currentPhotoEstimate.crew > 1 ? 's' : ''}</strong></div>
+                <div class="photo-estimate-line"><span>Editing</span><strong>${currentPhotoEstimate.editing}</strong></div>
+                <div class="photo-estimate-line"><span>Turnaround</span><strong>${currentPhotoEstimate.turnaround}</strong></div>
+                <div class="photo-estimate-line"><span>Location</span><strong>${currentPhotoEstimate.location}</strong></div>
+            `;
+            return currentPhotoEstimate;
+        }
+
+        function openPhotoCalculator(button) {
+            photoCalcTrigger = button;
+            photoCalcStatus.textContent = '';
+            syncPhotoScopeField(false);
+            calculatePhotoEstimate();
+            photoCalcModal.hidden = false;
+            photoCalcModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('photo-calc-open');
             requestAnimationFrame(() => {
-                projectModal.classList.add('is-open');
-                document.getElementById('client-name')?.focus({ preventScroll: true });
+                photoCalcModal.classList.add('is-open');
+                photoType.focus({ preventScroll: true });
             });
         }
 
-        function closeProjectModal() {
-            projectModal.classList.remove('is-open');
-            projectModal.setAttribute('aria-hidden', 'true');
-            document.body.classList.remove('package-modal-open');
+        function closePhotoCalculator() {
+            photoCalcModal.classList.remove('is-open');
+            photoCalcModal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('photo-calc-open');
             window.setTimeout(() => {
-                projectModal.hidden = true;
-                projectModalTrigger?.focus({ preventScroll: true });
-            }, 260);
+                photoCalcModal.hidden = true;
+                photoCalcTrigger?.focus({ preventScroll: true });
+            }, 240);
         }
+
+        function getPhotoEstimateBrief() {
+            const est = calculatePhotoEstimate();
+            const data = new FormData(photoCalcForm);
+            return [
+                'Hello Nostrix, I used the photography price calculator.',
+                '',
+                `Photography type: ${est.type}`,
+                `Scope: ${est.quantity} ${est.unit}`,
+                `Crew: ${est.crew} photographer${est.crew > 1 ? 's' : ''}`,
+                `Editing: ${est.editing}`,
+                `Turnaround: ${est.turnaround}`,
+                `Location: ${est.location}`,
+                `Market-based estimate: ${formatAED(est.estimate)}`,
+                `Typical market window: ${formatAED(est.low)} – ${formatAED(est.high)}`,
+                '',
+                `Name: ${data.get('name') || ''}`,
+                `Company / Brand: ${data.get('company') || ''}`,
+                `Email: ${data.get('email') || ''}`,
+                `Phone / WhatsApp: ${data.get('phone') || ''}`,
+                '',
+                'Notes:',
+                data.get('notes') || ''
+            ].join('\n');
+        }
+
+        function validatePhotoCalculator() {
+            if (!photoCalcForm.checkValidity()) {
+                photoCalcForm.reportValidity();
+                photoCalcStatus.textContent = 'Please complete the required contact fields and accept the privacy notice.';
+                return false;
+            }
+            photoCalcStatus.textContent = '';
+            return true;
+        }
+
+        function getPhotoEstimateSubmissionData() {
+            const est = calculatePhotoEstimate();
+            const data = new FormData(photoCalcForm);
+            return {
+                source: 'photography-market-calculator',
+                package: 'Custom Photography',
+                price: formatAED(est.estimate),
+                name: data.get('name') || '',
+                company: data.get('company') || '',
+                email: data.get('email') || '',
+                phone: data.get('phone') || '',
+                services: est.type,
+                budget: `${formatAED(est.low)} - ${formatAED(est.high)}`,
+                timeline: est.turnaround,
+                needs: `${est.quantity} ${est.unit}; ${est.crew} photographer(s); ${est.editing}; ${est.location}. ${data.get('notes') || ''}`.trim(),
+                brief: getPhotoEstimateBrief(),
+                calculatorType: est.type,
+                calculatorQuantity: est.quantity,
+                calculatorUnit: est.unit,
+                calculatorCrew: est.crew,
+                calculatorEditing: est.editing,
+                calculatorTurnaround: est.turnaround,
+                calculatorLocation: est.location,
+                calculatorEstimate: est.estimate,
+                calculatorRangeLow: est.low,
+                calculatorRangeHigh: est.high,
+                submittedAt: new Date().toISOString(),
+                pageUrl: window.location.href
+            };
+        }
+
+        [photoScope, photoCrew, photoEditing, photoTurnaround, photoLocation].forEach((control) => {
+            control?.addEventListener('input', calculatePhotoEstimate);
+            control?.addEventListener('change', calculatePhotoEstimate);
+        });
+        photoType?.addEventListener('change', () => {
+            syncPhotoScopeField(true);
+            calculatePhotoEstimate();
+        });
+
+        document.querySelectorAll('[data-close-photo-calc]').forEach((button) => {
+            button.addEventListener('click', closePhotoCalculator);
+        });
+
+        photoCalcSubmit?.addEventListener('click', async () => {
+            if (!validatePhotoCalculator()) return;
+            if (!LEAD_SUBMISSION_ENDPOINT) {
+                photoCalcStatus.textContent = 'The pricing sheet is not connected yet.';
+                return;
+            }
+            photoCalcSubmit.disabled = true;
+            photoCalcStatus.textContent = 'Sending your estimate privately to Nostrix…';
+            try {
+                await fetch(LEAD_SUBMISSION_ENDPOINT, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(getPhotoEstimateSubmissionData())
+                });
+                photoCalcStatus.textContent = 'Thanks — your photography estimate was sent privately to Nostrix.';
+            } catch (error) {
+                console.error(error);
+                photoCalcStatus.textContent = 'We could not submit the estimate right now. Please use WhatsApp instead.';
+            } finally {
+                photoCalcSubmit.disabled = false;
+            }
+        });
+
+        photoCalcWhatsapp?.addEventListener('click', () => {
+            if (!validatePhotoCalculator()) return;
+            const message = encodeURIComponent(getPhotoEstimateBrief());
+            photoCalcStatus.textContent = 'Opening WhatsApp with your estimate…';
+            window.open(`https://wa.me/971561195226?text=${message}`, '_blank', 'noopener,noreferrer');
+        });
 
         function getPackageSubmissionData() {
             const data = new FormData(packageForm);
@@ -4650,9 +5252,11 @@ emailProjectButton.addEventListener('click', async () => {
                 phone: formatPhone(data.get('phone_code'), data.get('phone')),
                 services: data.get('package') || '',
                 budget: '',
-                timeline: '',
+                timeline: data.get('timeline') || '',
                 needs: data.get('message') || '',
-                brief: buildPackageBrief()
+                brief: buildPackageBrief(),
+                submittedAt: new Date().toISOString(),
+                pageUrl: window.location.href
             };
         }
 
@@ -4667,6 +5271,7 @@ emailProjectButton.addEventListener('click', async () => {
                 `Company / Brand: ${data.get('company') || ''}`,
                 `Email: ${data.get('email') || ''}`,
                 `Phone: ${formatPhone(data.get('phone_code'), data.get('phone'))}`,
+                `Preferred start / timeline: ${data.get('timeline') || ''}`,
                 '',
                 'What I need:',
                 data.get('message') || ''
@@ -4688,7 +5293,7 @@ emailProjectButton.addEventListener('click', async () => {
         });
 
         customPackageButtons.forEach((button) => {
-            button.addEventListener('click', () => openProjectModal(button));
+            button.addEventListener('click', () => openPhotoCalculator(button));
         });
 
         document.querySelectorAll('[data-close-package-modal]').forEach((button) => {
@@ -4701,9 +5306,11 @@ emailProjectButton.addEventListener('click', async () => {
 
         document.addEventListener('keydown', (event) => {
             if (event.key !== 'Escape') return;
-            if (!projectModal.hidden) {
-                closeProjectModal();
-            } else if (!packageModal.hidden) {
+            if (photoCalcModal && !photoCalcModal.hidden) {
+                closePhotoCalculator();
+                return;
+            }
+            if (packageModal && !packageModal.hidden) {
                 closePackageModal();
             }
         });
@@ -4717,41 +5324,35 @@ emailProjectButton.addEventListener('click', async () => {
             window.open(`https://wa.me/971561195226?text=${message}`, '_blank', 'noopener,noreferrer');
         });
 
-        // PACKAGE FORM
+        // PACKAGE FORM — private Google Sheet submission
 packageDirectSend.addEventListener('click', async () => {
     if (!validatePackageForm()) return;
 
     if (!LEAD_SUBMISSION_ENDPOINT) {
-        packageFormStatus.textContent =
-            'Direct email + Google Sheets are not connected yet.';
+        packageFormStatus.textContent = 'The pricing sheet is not connected yet.';
         return;
     }
 
-    packageFormStatus.textContent =
-        'Sending your package enquiry…';
+    packageDirectSend.disabled = true;
+    packageFormStatus.textContent = 'Submitting your package enquiry privately…';
 
     try {
         await fetch(LEAD_SUBMISSION_ENDPOINT, {
             method: 'POST',
             mode: 'no-cors',
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8'
-            },
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(getPackageSubmissionData())
         });
-
-        packageFormStatus.textContent =
-            'Thanks — your package enquiry has been sent.';
-
+        packageFormStatus.textContent = 'Thanks — your pricing enquiry was submitted privately to Nostrix.';
     } catch (error) {
         console.error(error);
-
-        packageFormStatus.textContent =
-            'We could not send the form right now. Please try WhatsApp instead.';
+        packageFormStatus.textContent = 'We could not submit the form right now. Please try WhatsApp instead.';
+    } finally {
+        packageDirectSend.disabled = false;
     }
 });
 
-        /* Google Analytics is ready but disabled until you replace the placeholder below. */
+        /* Legacy inline GA block retained as a no-op; analytics.js handles consent-aware GA4. */
         const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
         if (!GA_MEASUREMENT_ID.includes('X')) {
             const analyticsScript = document.createElement('script');
