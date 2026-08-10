@@ -53,11 +53,18 @@ function walk(root,lang){
 }
 function buttonState(){document.querySelectorAll('.language-toggle').forEach(b=>{
   const isArabic=current==='ar';
-  b.dataset.active=isArabic?'ar':'en';
-  b.innerHTML=
-    '<span class="lang-label lang-en">EN</span>'+
-    '<span class="lang-switch" aria-hidden="true"><span class="lang-switch-knob"></span></span>'+
-    '<span class="lang-label lang-ar">AR</span>';
+  const nextState=isArabic?'ar':'en';
+
+  // Do not rebuild the button if it is already in the correct state.
+  // This prevents the MutationObserver from triggering itself forever.
+  if(b.dataset.active!==nextState || !b.querySelector('.lang-switch')){
+    b.dataset.active=nextState;
+    b.innerHTML=
+      '<span class="lang-label lang-en">EN</span>'+
+      '<span class="lang-switch" aria-hidden="true"><span class="lang-switch-knob"></span></span>'+
+      '<span class="lang-label lang-ar">AR</span>';
+  }
+
   b.setAttribute('aria-label',isArabic?'Switch website to English':'تحويل الموقع إلى العربية');
   b.setAttribute('title',isArabic?'Switch to English':'Switch to Arabic');
 });}
@@ -138,6 +145,19 @@ html[dir=rtl] .ph-arrow-up-right,html[dir=rtl] .ph-arrow-right,html[dir=rtl] .ph
 .nav-menu .language-toggle{margin-inline-start:.1rem}
 }
 `;document.head.appendChild(s);}
-function init(){css();current=preferred(); document.documentElement.dataset.enTitle=document.title; document.addEventListener('click',e=>{const b=e.target.closest('.language-toggle');if(!b)return;apply(current==='ar'?'en':'ar',true);}); const obs=new MutationObserver(ms=>{if(applying)return;ms.forEach(m=>{if(m.type==='characterData')translateTextNode(m.target,current);m.addedNodes&&m.addedNodes.forEach(n=>walk(n,current));});buttonState();});obs.observe(document.documentElement,{childList:true,subtree:true,characterData:true,attributes:false});apply(current,false);window.addEventListener('storage',e=>{if(e.key===KEY)apply(e.newValue==='ar'?'ar':'en',false);});window.NostrixLanguage={get:()=>current,set:v=>apply(v,true),translate:s=>current==='ar'?dyn(s):s};}
+function init(){css();current=preferred(); document.documentElement.dataset.enTitle=document.title; document.addEventListener('click',e=>{const b=e.target.closest('.language-toggle');if(!b)return;apply(current==='ar'?'en':'ar',true);}); const obs=new MutationObserver(ms=>{
+  if(applying)return;
+  let needsButtonRefresh=false;
+  ms.forEach(m=>{
+    if(m.type==='characterData') translateTextNode(m.target,current);
+    if(m.addedNodes){
+      m.addedNodes.forEach(n=>{
+        walk(n,current);
+        if(n.nodeType===Node.ELEMENT_NODE && (n.matches?.('.language-toggle') || n.querySelector?.('.language-toggle'))) needsButtonRefresh=true;
+      });
+    }
+  });
+  if(needsButtonRefresh) buttonState();
+});obs.observe(document.documentElement,{childList:true,subtree:true,characterData:true,attributes:false});apply(current,false);window.addEventListener('storage',e=>{if(e.key===KEY)apply(e.newValue==='ar'?'ar':'en',false);});window.NostrixLanguage={get:()=>current,set:v=>apply(v,true),translate:s=>current==='ar'?dyn(s):s};}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
