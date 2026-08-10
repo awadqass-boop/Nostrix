@@ -39,7 +39,7 @@
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Syncopate:wght@700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
 <script>
         tailwind.config = {
             theme: {
@@ -3815,6 +3815,151 @@
   letter-spacing:0;
 }
 
+
+
+/* =========================================================
+   ARABIC TYPOGRAPHY + RTL TEXT ALIGNMENT
+   IBM Plex Sans Arabic is used whenever Arabic mode is active.
+   Layout geometry stays unchanged; only text flow/alignment changes.
+   ========================================================= */
+:root {
+  --font-arabic: 'IBM Plex Sans Arabic', 'Inter', sans-serif;
+}
+
+html[lang="ar"] body,
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6,
+html[lang="ar"] p,
+html[lang="ar"] span,
+html[lang="ar"] small,
+html[lang="ar"] strong,
+html[lang="ar"] label,
+html[lang="ar"] a,
+html[lang="ar"] button,
+html[lang="ar"] input,
+html[lang="ar"] textarea,
+html[lang="ar"] select,
+html[lang="ar"] option,
+html[lang="ar"] summary,
+html[lang="ar"] li,
+html[lang="ar"] .font-display,
+html[lang="ar"] .interactive-text,
+html[lang="ar"] .pricing-heading h3,
+html[lang="ar"] .pricing-price strong,
+html[lang="ar"] .consultation-card h2 {
+  font-family: var(--font-arabic) !important;
+}
+
+/* Arabic text reads RTL, but cards/grids/buttons keep their existing positions. */
+html[lang="ar"] .pricing-card,
+html[lang="ar"] .service-card,
+html[lang="ar"] .why-card,
+html[lang="ar"] .portfolio-copy,
+html[lang="ar"] .consultation-copy,
+html[lang="ar"] .project-modal-panel,
+html[lang="ar"] .photo-calc-panel,
+html[lang="ar"] .photo-estimate-card,
+html[lang="ar"] .photo-calc-contact-head,
+html[lang="ar"] .public-price-method-copy,
+html[lang="ar"] .custom-package-context {
+  text-align: right;
+}
+
+/* Apply RTL to the text itself, not to parent flex/grid containers. */
+html[lang="ar"] :is(
+  .pricing-card,
+  .service-card,
+  .why-card,
+  .portfolio-copy,
+  .consultation-copy,
+  .project-modal-panel,
+  .photo-calc-panel,
+  .photo-estimate-card,
+  .photo-calc-contact-head,
+  .public-price-method-copy,
+  .custom-package-context
+) :is(h1,h2,h3,h4,h5,h6,p,span,small,strong,label,li),
+html[lang="ar"] .photo-estimate-note,
+html[lang="ar"] .photo-no-payment-note span,
+html[lang="ar"] .form-field > label,
+html[lang="ar"] .photo-calc-hint {
+  direction: rtl;
+  unicode-bidi: plaintext;
+  text-align: right;
+}
+
+/* Keep intentionally centred areas centred in Arabic too. */
+html[lang="ar"] .text-center,
+html[lang="ar"] .section-heading,
+html[lang="ar"] .hero-content,
+html[lang="ar"] .hero-description,
+html[lang="ar"] .hero-service-line,
+html[lang="ar"] .contact-row,
+html[lang="ar"] .follow-row {
+  text-align: center !important;
+}
+
+/* Dynamic testimonial text follows the review language. */
+.testimonial-card[lang="ar"],
+.testimonial-card[lang="ar"] .testimonial-quote,
+.testimonial-card[lang="ar"] .testimonial-author,
+.testimonial-card[lang="ar"] .testimonial-meta {
+  font-family: var(--font-arabic) !important;
+}
+
+/* Estimate explainer: stack title/subtitle cleanly instead of squeezing them into one row. */
+.photo-price-method summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "method-title method-control"
+    "method-subtitle method-control";
+  column-gap: .8rem;
+  row-gap: .18rem;
+  align-items: center;
+}
+
+.photo-price-method summary > span {
+  grid-area: method-title;
+  min-width: 0;
+}
+
+.photo-price-method summary > small {
+  grid-area: method-subtitle;
+  display: block;
+  min-width: 0;
+  line-height: 1.45;
+}
+
+.photo-price-method summary::after {
+  grid-area: method-control;
+  align-self: center;
+}
+
+html[lang="ar"] .photo-price-method summary > span,
+html[lang="ar"] .photo-price-method summary > small,
+html[lang="ar"] .public-price-method-copy p {
+  direction: rtl;
+  unicode-bidi: plaintext;
+  text-align: right;
+}
+
+/* Arabic form copy aligns naturally; numeric/email values remain usable. */
+html[lang="ar"] input:not([type="email"]):not([type="tel"]),
+html[lang="ar"] textarea,
+html[lang="ar"] select {
+  text-align: right;
+}
+
+html[lang="ar"] input[type="email"],
+html[lang="ar"] input[type="tel"] {
+  direction: ltr;
+  text-align: left;
+}
 
 /* =========================================================
    MOBILE POLISH — production price spacing + hero centering
