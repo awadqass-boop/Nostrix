@@ -3764,6 +3764,38 @@
     margin-left:0;
     font-size:.78rem;
 }
+
+/* Requested pricing + conversion polish */
+.production-built-note{
+  margin-top:-.2rem;
+  margin-bottom:1.35rem;
+  color:#9898a5;
+  font-size:.76rem;
+  font-weight:520;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.photo-no-payment-note{
+  margin-top:12px;
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  padding:10px 12px;
+  border:1px solid rgba(184,195,255,.14);
+  border-radius:12px;
+  color:#aaaab6;
+  background:rgba(184,195,255,.045);
+  font-size:.72rem;
+  line-height:1.5;
+}
+.photo-no-payment-note i{
+  margin-top:2px;
+  color:#b8c3ff;
+  flex:0 0 auto;
+}
+#photo-event-type-wrap[hidden]{
+  display:none!important;
+}
 </style>
 <!-- Mobile portfolio preview fix: 2026-08-06 v3 -->
 </head>
@@ -3954,7 +3986,7 @@
 <span class="pricing-kicker">03 · PRODUCTION</span>
 </div>
 <h4 class="pricing-name">Photo &amp; Video</h4>
-<div class="pricing-price"><strong>Custom</strong><span>estimate</span></div>
+<div class="pricing-price"><strong>Custom</strong><span>estimate</span></div><div class="production-built-note">Built around your exact shoot</div>
 <p class="pricing-description">Build a photography, videography or combined production scope and see your estimate update instantly.</p>
 <div class="pricing-fit"><i aria-hidden="true" class="ph ph-calculator"></i><span>Best for one-off productions</span></div>
 <div class="pricing-features">
@@ -4316,6 +4348,23 @@
 <option value="product">Product / e-commerce</option>
 <option value="realestate">Real estate / interiors</option>
 </select>
+</div><div class="form-field mt-4" id="photo-event-type-wrap">
+<label for="photo-event-type">Event type *</label>
+<select class="form-control" id="photo-event-type" name="event_type">
+<option value="corporate">Corporate event</option>
+<option value="conference">Conference / seminar</option>
+<option value="launch">Product launch</option>
+<option value="opening">Grand opening</option>
+<option value="exhibition">Exhibition / trade show</option>
+<option value="wedding">Wedding / engagement</option>
+<option value="graduation">Graduation</option>
+<option value="sports">Sports event</option>
+<option value="concert">Concert / live performance</option>
+<option value="private">Private celebration</option>
+<option value="community">Community / cultural event</option>
+<option value="other">Other event</option>
+</select>
+<span class="photo-calc-hint">We’ll suggest a starting scope for the event type. You can still change the hours and photo quantity.</span>
 </div>
 <div class="public-calc-service-panel" id="public-photo-fields">
 <p class="photo-calc-section-label">2. Photography</p>
@@ -4350,13 +4399,11 @@
 </div>
 <div class="form-field">
 <label for="video-deliverable">Final video deliverable *</label>
-<select class="form-control" id="video-deliverable" name="video_deliverable">
-<option value="reel30">1 short reel — up to 30 sec</option>
-<option selected="" value="reel60">1 reel — up to 60 sec</option>
-<option value="highlight">1 highlight video — 1 to 2 min</option>
-<option value="reels2">2 short reels</option>
-<option value="reels3">3 short reels</option>
-</select>
+<select class="form-control" id="video-deliverable" name="video_deliverable"><option value="reel30">Short reel — up to 30 sec</option><option selected="" value="reel60">Reel — 30 to 60 sec</option><option value="highlight">Highlight video — 1 to 2 min</option></select>
+</div><div class="form-field">
+<label for="video-quantity">Number of final videos *</label>
+<input class="form-control" id="video-quantity" max="12" min="1" name="video_quantity" step="1" type="number" value="1"/>
+<span class="photo-calc-hint">Choose how many reels / videos you want delivered.</span>
 </div>
 </div>
 <div class="form-field">
@@ -4421,7 +4468,10 @@
 <aside aria-live="polite" class="photo-estimate-card">
 <span class="photo-estimate-label">Estimated project price</span>
 <strong id="photo-estimate-price">AED 0</strong>
-<span class="photo-estimate-range" id="photo-estimate-range">Planning range updates with your selections.</span>
+<span class="photo-estimate-range" id="photo-estimate-range">Planning range updates with your selections.</span><div class="photo-no-payment-note" id="photo-no-payment-note">
+<i aria-hidden="true" class="ph ph-lock-key"></i>
+<span>No payment required. This is an instant planning estimate only.</span>
+</div>
 <div class="photo-estimate-breakdown" id="photo-estimate-breakdown"></div>
 <div class="photo-price-build">
 <span class="photo-price-build-label">Price build-up</span>
@@ -5267,6 +5317,8 @@ emailProjectButton.addEventListener('click', async () => {
         const publicVideoFields = document.getElementById('public-video-fields');
 
         const photoType = document.getElementById('photo-type');
+        const photoEventTypeWrap = document.getElementById('photo-event-type-wrap');
+        const photoEventType = document.getElementById('photo-event-type');
         const photoScope = document.getElementById('photo-scope');
         const photoScopeLabel = document.getElementById('photo-scope-label');
         const photoScopeHint = document.getElementById('photo-scope-hint');
@@ -5275,6 +5327,7 @@ emailProjectButton.addEventListener('click', async () => {
 
         const videoHours = document.getElementById('video-hours');
         const videoDeliverable = document.getElementById('video-deliverable');
+        const videoQuantity = document.getElementById('video-quantity');
         const videoEditing = document.getElementById('video-editing');
 
         const photoCrew = document.getElementById('photo-crew');
@@ -5373,11 +5426,9 @@ emailProjectButton.addEventListener('click', async () => {
             captureHour: 750,
             minimumHours: 2,
             deliverables: {
-                reel30: { label: '1 short reel — up to 30 sec', edit: 650 },
-                reel60: { label: '1 reel — up to 60 sec', edit: 900 },
-                highlight: { label: '1 highlight video — 1 to 2 min', edit: 1500 },
-                reels2: { label: '2 short reels', edit: 1500 },
-                reels3: { label: '3 short reels', edit: 2100 }
+                reel30: { label: 'Short reel — up to 30 sec', edit: 650 },
+                reel60: { label: 'Reel — 30 to 60 sec', edit: 900 },
+                highlight: { label: 'Highlight video — 1 to 2 min', edit: 1500 }
             },
             editing: {
                 standard: { label: 'Standard edit', multiplier: 1 },
@@ -5411,6 +5462,36 @@ emailProjectButton.addEventListener('click', async () => {
             yes: { label: 'Studio allowance included', amount: 650 },
             unsure: { label: 'Studio not confirmed', amount: 0 }
         };
+        const PUBLIC_EVENT_PRESETS = {
+            corporate: { label: 'Corporate event', hours: 3, photos: 60 },
+            conference: { label: 'Conference / seminar', hours: 6, photos: 120 },
+            launch: { label: 'Product launch', hours: 4, photos: 80 },
+            opening: { label: 'Grand opening', hours: 3, photos: 60 },
+            exhibition: { label: 'Exhibition / trade show', hours: 6, photos: 120 },
+            wedding: { label: 'Wedding / engagement', hours: 6, photos: 150 },
+            graduation: { label: 'Graduation', hours: 3, photos: 70 },
+            sports: { label: 'Sports event', hours: 4, photos: 100 },
+            concert: { label: 'Concert / live performance', hours: 4, photos: 100 },
+            private: { label: 'Private celebration', hours: 3, photos: 70 },
+            community: { label: 'Community / cultural event', hours: 4, photos: 90 },
+            other: { label: 'Other event', hours: 3, photos: 60 }
+        };
+
+        function syncEventPricingFields(applyPreset = false) {
+            const isEvent = photoType.value === 'event';
+            if (photoEventTypeWrap) photoEventTypeWrap.hidden = !isEvent;
+            if (!isEvent || !photoEventType || !applyPreset) return;
+
+            const preset = PUBLIC_EVENT_PRESETS[photoEventType.value] || PUBLIC_EVENT_PRESETS.corporate;
+            if (servicePhotography?.checked) {
+                photoScope.value = String(preset.hours);
+                photoFinalImages.value = String(preset.photos);
+            }
+            if (serviceVideo?.checked) {
+                videoHours.value = String(Math.max(2, preset.hours));
+            }
+        }
+
 
         function formatAED(value) {
             return `AED ${Math.round(Number(value || 0)).toLocaleString('en-US')}`;
@@ -5505,7 +5586,8 @@ emailProjectButton.addEventListener('click', async () => {
 
                 const deliverable = PUBLIC_VIDEO.deliverables[videoDeliverable.value] || PUBLIC_VIDEO.deliverables.reel60;
                 const editing = PUBLIC_VIDEO.editing[videoEditing.value] || PUBLIC_VIDEO.editing.standard;
-                videoPost = roundPublicPrice(deliverable.edit * editing.multiplier);
+                const quantity = Math.max(1, Math.min(12, Math.round(Number(videoQuantity?.value || 1))));
+                videoPost = roundPublicPrice(deliverable.edit * quantity * editing.multiplier);
             }
 
             const crew = PUBLIC_CREW[photoCrew.value] || PUBLIC_CREW['1'];
@@ -5530,11 +5612,15 @@ emailProjectButton.addEventListener('click', async () => {
             currentPhotoEstimate = {
                 services,
                 type: rate.label,
+                eventType: photoType.value === 'event' && photoEventType
+                    ? (PUBLIC_EVENT_PRESETS[photoEventType.value]?.label || photoEventType.options[photoEventType.selectedIndex]?.text || '')
+                    : '',
                 quantity: qty,
                 unit: rate.unit,
                 finalImages,
                 photoEditing: photoEdit.label,
                 videoHours: serviceVideo.checked ? videoProductionHours : 0,
+                videoQuantity: serviceVideo.checked ? Math.max(1, Math.min(12, Math.round(Number(videoQuantity?.value || 1)))) : 0,
                 videoDeliverable: serviceVideo.checked ? deliverable.label : '',
                 videoEditing: serviceVideo.checked ? videoEdit.label : '',
                 crew: crew.label,
@@ -5563,6 +5649,7 @@ emailProjectButton.addEventListener('click', async () => {
             const detailLines = [
                 ['Services', services.join(' + ')],
                 ['Project category', rate.label],
+                ...(photoType.value === 'event' && currentPhotoEstimate.eventType ? [['Event type', currentPhotoEstimate.eventType]] : []),
                 ['Crew', crew.label],
                 ['Turnaround', turnaround.label],
                 ['Location', travel.label]
@@ -5580,7 +5667,7 @@ emailProjectButton.addEventListener('click', async () => {
                 const insertAt = servicePhotography.checked ? 5 : 2;
                 detailLines.splice(insertAt, 0,
                     ['Video production', `${videoProductionHours} hours`],
-                    ['Video deliverable', deliverable.label],
+                    ['Final videos', `${currentPhotoEstimate.videoQuantity} × ${deliverable.label}`],
                     ['Video editing', videoEdit.label]
                 );
             }
@@ -5646,6 +5733,7 @@ emailProjectButton.addEventListener('click', async () => {
             photoCalcStatus.textContent = '';
             syncPhotoScopeField(false);
             syncPublicServicePanels();
+            syncEventPricingFields(false);
             calculatePhotoEstimate();
             photoCalcModal.hidden = false;
             photoCalcModal.setAttribute('aria-hidden', 'false');
@@ -5679,6 +5767,10 @@ emailProjectButton.addEventListener('click', async () => {
                 `Project category: ${est.type}`
             ];
 
+            if (est.eventType) {
+                lines.push(`Event type: ${est.eventType}`);
+            }
+
             if (est.services.includes('Photography')) {
                 lines.push(
                     `Photography scope: ${est.quantity} ${est.unit}`,
@@ -5690,7 +5782,7 @@ emailProjectButton.addEventListener('click', async () => {
             if (est.services.includes('Videography')) {
                 lines.push(
                     `Video production: ${est.videoHours} hours`,
-                    `Video deliverable: ${est.videoDeliverable}`,
+                    `Final videos: ${est.videoQuantity} × ${est.videoDeliverable}`,
                     `Video editing: ${est.videoEditing}`
                 );
             }
@@ -5738,7 +5830,7 @@ emailProjectButton.addEventListener('click', async () => {
                 est.services.join(' + '),
                 est.type,
                 est.services.includes('Photography') ? `${est.quantity} ${est.unit}; ${est.finalImages} final photos; ${est.photoEditing}` : '',
-                est.services.includes('Videography') ? `${est.videoHours} video hours; ${est.videoDeliverable}; ${est.videoEditing}` : '',
+                est.services.includes('Videography') ? `${est.videoHours} video hours; ${est.videoQuantity} × ${est.videoDeliverable}; ${est.videoEditing}` : '',
                 est.crew,
                 est.studio,
                 est.location,
@@ -5761,6 +5853,7 @@ emailProjectButton.addEventListener('click', async () => {
                 needs: detailSummary,
                 brief: getPhotoEstimateBrief(),
                 calculatorType: est.type,
+                calculatorEventType: est.eventType,
                 calculatorQuantity: est.quantity,
                 calculatorUnit: est.unit,
                 calculatorCrew: est.crew,
@@ -5772,7 +5865,8 @@ emailProjectButton.addEventListener('click', async () => {
                 calculatorRangeHigh: est.high,
                 calculatorFinalImages: est.finalImages,
                 calculatorStudio: est.studio,
-                calculatorVideo: est.services.includes('Videography') ? est.videoDeliverable : 'No video',
+                calculatorVideo: est.services.includes('Videography') ? `${est.videoQuantity} × ${est.videoDeliverable}` : 'No video',
+                calculatorVideoQuantity: est.videoQuantity,
                 calculatorShootDate: est.shootDate,
                 calculatorVenue: est.venue,
                 submittedAt: new Date().toISOString(),
@@ -5786,6 +5880,7 @@ emailProjectButton.addEventListener('click', async () => {
             photoEditing,
             videoHours,
             videoDeliverable,
+            videoQuantity,
             videoEditing,
             photoCrew,
             photoTurnaround,
@@ -5815,6 +5910,12 @@ emailProjectButton.addEventListener('click', async () => {
 
         photoType?.addEventListener('change', () => {
             syncPhotoScopeField(true);
+            syncEventPricingFields(photoType.value === 'event');
+            calculatePhotoEstimate();
+        });
+
+        photoEventType?.addEventListener('change', () => {
+            syncEventPricingFields(true);
             calculatePhotoEstimate();
         });
 
