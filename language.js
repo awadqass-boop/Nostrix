@@ -71,11 +71,30 @@ function buttonState(){document.querySelectorAll('.language-toggle').forEach(b=>
 function bilingual(){document.querySelectorAll('[data-bilingual-ar]').forEach(e=>e.hidden=current==='ar');document.querySelectorAll('[data-bilingual-en]').forEach(e=>e.hidden=current!=='ar');}
 function apply(lang,store){
  if(applying)return; applying=true; current=lang==='ar'?'ar':'en'; if(store)save(current);
- document.documentElement.lang=current; document.documentElement.dir='ltr'; document.body&&document.body.classList.toggle('nostrix-ar',current==='ar');
+ document.documentElement.lang=current; document.documentElement.dir=current==='ar'?'rtl':'ltr'; document.body&&document.body.classList.toggle('nostrix-ar',current==='ar');
  walk(document.body||document,current); document.title=current==='ar'?(T[document.title]||document.title):((document.documentElement.dataset.enTitle)||document.title);
  if(!document.documentElement.dataset.enTitle && current==='en') document.documentElement.dataset.enTitle=document.title;
  buttonState(); bilingual(); applying=false;
  document.dispatchEvent(new CustomEvent('nostrixlanguagechange',{detail:{language:current}}));
+}
+function loadArabicFont(){
+ if(document.getElementById('nostrix-arabic-font'))return;
+ const pre1=document.createElement('link');
+ pre1.rel='preconnect';
+ pre1.href='https://fonts.googleapis.com';
+ document.head.appendChild(pre1);
+
+ const pre2=document.createElement('link');
+ pre2.rel='preconnect';
+ pre2.href='https://fonts.gstatic.com';
+ pre2.crossOrigin='anonymous';
+ document.head.appendChild(pre2);
+
+ const font=document.createElement('link');
+ font.id='nostrix-arabic-font';
+ font.rel='stylesheet';
+ font.href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap';
+ document.head.appendChild(font);
 }
 function css(){if(document.getElementById('nostrix-language-css'))return;const s=document.createElement('style');s.id='nostrix-language-css';s.textContent=`
 .language-toggle{
@@ -125,6 +144,113 @@ transition:left .22s ease
 
 
 
+
+/* Arabic typography + RTL alignment */
+html[lang="ar"] body{
+direction:rtl;
+text-align:right;
+font-family:"IBM Plex Sans Arabic",Arial,sans-serif!important;
+line-height:1.7;
+}
+
+html[lang="ar"] body h1,
+html[lang="ar"] body h2,
+html[lang="ar"] body h3,
+html[lang="ar"] body h4,
+html[lang="ar"] body h5,
+html[lang="ar"] body h6,
+html[lang="ar"] body p,
+html[lang="ar"] body a,
+html[lang="ar"] body button,
+html[lang="ar"] body label,
+html[lang="ar"] body span:not(.ph):not([class^="ph-"]):not([class*=" ph-"]),
+html[lang="ar"] body strong,
+html[lang="ar"] body em,
+html[lang="ar"] body small,
+html[lang="ar"] body li,
+html[lang="ar"] body input,
+html[lang="ar"] body textarea,
+html[lang="ar"] body select,
+html[lang="ar"] body option,
+html[lang="ar"] body blockquote,
+html[lang="ar"] body figcaption,
+html[lang="ar"] body .font-display{
+font-family:"IBM Plex Sans Arabic",Arial,sans-serif!important;
+letter-spacing:normal!important;
+}
+
+html[lang="ar"] body p,
+html[lang="ar"] body h1,
+html[lang="ar"] body h2,
+html[lang="ar"] body h3,
+html[lang="ar"] body h4,
+html[lang="ar"] body h5,
+html[lang="ar"] body h6,
+html[lang="ar"] body label,
+html[lang="ar"] body li,
+html[lang="ar"] body blockquote,
+html[lang="ar"] body figcaption{
+text-align:right;
+direction:rtl;
+}
+
+html[lang="ar"] body input:not([type="email"]):not([type="tel"]):not([type="url"]):not([type="number"]):not([type="date"]),
+html[lang="ar"] body textarea,
+html[lang="ar"] body select{
+direction:rtl;
+text-align:right;
+}
+
+html[lang="ar"] body .text-center,
+html[lang="ar"] body [style*="text-align: center"],
+html[lang="ar"] body [style*="text-align:center"]{
+text-align:center!important;
+}
+
+html[lang="ar"] body .text-left{
+text-align:right!important;
+}
+
+html[lang="ar"] body .text-right{
+text-align:right!important;
+}
+
+html[lang="ar"] body [dir="ltr"]{
+direction:ltr;
+}
+
+html[lang="ar"] body [dir="rtl"]{
+direction:rtl;
+text-align:right;
+font-family:"IBM Plex Sans Arabic",Arial,sans-serif!important;
+}
+
+html[lang="ar"] .testimonial-card{
+direction:rtl;
+text-align:right;
+font-family:"IBM Plex Sans Arabic",Arial,sans-serif!important;
+}
+
+html[lang="ar"] .testimonial-card .testimonial-quote,
+html[lang="ar"] .testimonial-card .testimonial-author,
+html[lang="ar"] .testimonial-card .testimonial-meta{
+text-align:right!important;
+font-family:"IBM Plex Sans Arabic",Arial,sans-serif!important;
+}
+
+html[lang="ar"] .testimonial-card .testimonial-topline{
+flex-direction:row-reverse;
+}
+
+html[lang="ar"] .language-toggle{
+direction:ltr;
+font-family:Inter,Arial,sans-serif!important;
+}
+
+html[lang="ar"] .language-toggle .lang-ar{
+font-family:"IBM Plex Sans Arabic",Arial,sans-serif!important;
+}
+
 html[lang="ar"] .hero-arabic-title{direction:rtl;unicode-bidi:isolate}
 html[lang="ar"] a[href^="tel:"],html[lang="ar"] a[href^="mailto:"]{direction:ltr;unicode-bidi:isolate}
 html[lang="ar"] input[type=email],html[lang="ar"] input[type=tel],html[lang="ar"] input[type=url],html[lang="ar"] input[type=number],html[lang="ar"] input[type=date]{direction:ltr;text-align:left}
@@ -148,7 +274,7 @@ html[lang="ar"] input[type=email],html[lang="ar"] input[type=tel],html[lang="ar"
 .nav-menu .language-toggle{margin-inline-start:.1rem}
 }
 `;document.head.appendChild(s);}
-function init(){css();current=preferred(); document.documentElement.dataset.enTitle=document.title; document.addEventListener('click',e=>{const b=e.target.closest('.language-toggle');if(!b)return;apply(current==='ar'?'en':'ar',true);}); const obs=new MutationObserver(ms=>{
+function init(){loadArabicFont();css();current=preferred(); document.documentElement.dataset.enTitle=document.title; document.addEventListener('click',e=>{const b=e.target.closest('.language-toggle');if(!b)return;apply(current==='ar'?'en':'ar',true);}); const obs=new MutationObserver(ms=>{
   if(applying)return;
   let needsButtonRefresh=false;
   ms.forEach(m=>{
