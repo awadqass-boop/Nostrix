@@ -71,7 +71,7 @@ function buttonState(){document.querySelectorAll('.language-toggle').forEach(b=>
 function bilingual(){document.querySelectorAll('[data-bilingual-ar]').forEach(e=>e.hidden=current==='ar');document.querySelectorAll('[data-bilingual-en]').forEach(e=>e.hidden=current!=='ar');}
 function apply(lang,store){
  if(applying)return; applying=true; current=lang==='ar'?'ar':'en'; if(store)save(current);
- document.documentElement.lang=current; document.documentElement.dir=current==='ar'?'rtl':'ltr'; document.body&&document.body.classList.toggle('nostrix-ar',current==='ar');
+ document.documentElement.lang=current; document.documentElement.dir='ltr'; document.body&&document.body.classList.toggle('nostrix-ar',current==='ar');
  walk(document.body||document,current); document.title=current==='ar'?(T[document.title]||document.title):((document.documentElement.dataset.enTitle)||document.title);
  if(!document.documentElement.dataset.enTitle && current==='en') document.documentElement.dataset.enTitle=document.title;
  buttonState(); bilingual(); applying=false;
@@ -120,11 +120,14 @@ box-shadow:0 2px 8px rgba(210,139,255,.32);
 transition:left .22s ease
 }
 .language-toggle[data-active="ar"] .lang-switch-knob{left:1.09rem}
-html[dir=rtl] body{font-family:Tahoma,"Segoe UI",Arial,sans-serif}
-html[dir=rtl] .language-toggle{direction:ltr;font-family:Inter,Arial,sans-serif}
-html[dir=rtl] input[type=email],html[dir=rtl] input[type=tel],html[dir=rtl] input[type=url],html[dir=rtl] input[type=number],html[dir=rtl] input[type=date]{direction:ltr;text-align:left}
-html[dir=rtl] .photo-estimate-line strong,html[dir=rtl] .photo-price-cost-line strong{direction:ltr;text-align:left}
-html[dir=rtl] .ph-arrow-up-right,html[dir=rtl] .ph-arrow-right,html[dir=rtl] .ph-arrow-left{transform:scaleX(-1)}
+
+
+
+
+
+html[lang="ar"] .hero-arabic-title{direction:rtl;unicode-bidi:isolate}
+html[lang="ar"] a[href^="tel:"],html[lang="ar"] a[href^="mailto:"]{direction:ltr;unicode-bidi:isolate}
+html[lang="ar"] input[type=email],html[lang="ar"] input[type=tel],html[lang="ar"] input[type=url],html[lang="ar"] input[type=number],html[lang="ar"] input[type=date]{direction:ltr;text-align:left}
 .bilingual-touch{margin-top:.75rem;color:rgba(210,139,255,.78);font-size:.8rem;letter-spacing:.04em}
 .bilingual-touch [hidden]{display:none!important}
 @media(max-width:767px){
