@@ -3686,6 +3686,66 @@
     .nostrix-proof-strip{gap:9px 13px}
     .nostrix-proof-strip span+span::before{display:none}
 }
+
+/* Public production estimator — client-facing version */
+.public-service-options{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+}
+.public-service-option{
+    display:block;
+    cursor:pointer;
+}
+.public-service-option input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
+.public-service-option span{
+    min-height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    padding:12px 16px;
+    border:1px solid rgba(255,255,255,.11);
+    border-radius:16px;
+    color:#b8b8c2;
+    background:rgba(255,255,255,.025);
+    font-size:.82rem;
+    font-weight:650;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    transition:border-color .2s ease,background .2s ease,color .2s ease,transform .2s ease;
+}
+.public-service-option input:checked + span{
+    border-color:rgba(199,139,255,.65);
+    color:#fff;
+    background:linear-gradient(120deg,rgba(184,195,255,.14),rgba(214,121,255,.16));
+    box-shadow:0 0 0 1px rgba(184,195,255,.08) inset;
+}
+.public-service-option:hover span{transform:translateY(-1px)}
+.public-calc-service-panel{
+    margin-top:18px;
+    padding:18px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    background:rgba(255,255,255,.018);
+}
+.public-calc-service-panel[hidden]{display:none!important}
+.public-price-method-copy{
+    display:grid;
+    gap:10px;
+    padding-top:12px;
+    color:#9b9ba7;
+    font-size:.78rem;
+    line-height:1.65;
+}
+.public-price-method-copy p{margin:0}
+@media(max-width:640px){
+    .public-service-options{grid-template-columns:1fr}
+}
 </style>
 <!-- Mobile portfolio preview fix: 2026-08-06 v3 -->
 </head>
@@ -3873,17 +3933,17 @@
 <article class="pricing-card reveal" style="transition-delay: 180ms;">
 <div class="pricing-card-inner">
 <div class="pricing-topline">
-<span class="pricing-kicker">03 · Photo &amp; Video</span>
+<span class="pricing-kicker">03 · Production</span>
 </div>
-<h4 class="pricing-name">Production</h4>
+<h4 class="pricing-name">Photo &amp; Video</h4>
 <div class="pricing-price"><strong>Instant</strong><span>estimate</span></div>
-<p class="pricing-description">Build a photography or photo + video scope and get an instant UAE market-based estimate before you send the enquiry.</p>
-<div class="pricing-fit"><i aria-hidden="true" class="ph ph-calculator"></i><span>Events, fashion, products, property, reels &amp; more</span></div>
+<p class="pricing-description">Build a photography, videography or combined production scope and see the estimate update instantly.</p>
+<div class="pricing-fit"><i aria-hidden="true" class="ph ph-calculator"></i><span>Events, brands, products, cafés, automotive, property &amp; more</span></div>
 <div class="pricing-features">
-<div class="pricing-feature"><i aria-hidden="true" class="ph ph-check-circle"></i><span>Automatic estimate from UAE benchmark rates</span></div>
-<div class="pricing-feature"><i aria-hidden="true" class="ph ph-check-circle"></i><span>Photography with optional short-form or highlight video</span></div>
-<div class="pricing-feature"><i aria-hidden="true" class="ph ph-check-circle"></i><span>Adjust shoot length, crew, editing and turnaround</span></div>
-<div class="pricing-feature"><i aria-hidden="true" class="ph ph-check-circle"></i><span>Send your estimate privately to Nostrix</span></div>
+<div class="pricing-feature"><i aria-hidden="true" class="ph ph-check-circle"></i><span>Choose photography, videography or both</span></div>
+<div class="pricing-feature"><i aria-hidden="true" class="ph ph-check-circle"></i><span>Adjust shoot scope, final deliverables and editing</span></div>
+<div class="pricing-feature"><i aria-hidden="true" class="ph ph-check-circle"></i><span>Include crew, studio, location and turnaround</span></div>
+<div class="pricing-feature"><i aria-hidden="true" class="ph ph-check-circle"></i><span>Send the exact estimate privately to Nostrix</span></div>
 </div>
 <button class="secondary-button custom-package-contact" type="button">
                                         Build My Estimate
@@ -4206,17 +4266,30 @@
 <div aria-hidden="true" class="photo-calc-modal" hidden="" id="photo-calc-modal">
 <div class="photo-calc-backdrop" data-close-photo-calc=""></div>
 <div aria-labelledby="photo-calc-title" aria-modal="true" class="photo-calc-panel" role="dialog">
-<button aria-label="Close photography price calculator" class="photo-calc-close" data-close-photo-calc="" type="button">
+<button aria-label="Close project price calculator" class="photo-calc-close" data-close-photo-calc="" type="button">
 <i aria-hidden="true" class="ph ph-x text-xl"></i>
 </button>
-<p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent2/80">UAE photography pricing</p>
-<h3 class="mt-3 pr-12 text-2xl font-semibold text-white md:text-3xl" id="photo-calc-title">Build your photo &amp; video estimate.</h3>
-<p class="mt-4 max-w-2xl text-sm font-light leading-7 text-zinc-400">Choose the type of shoot and scope. The estimate updates instantly using recent UAE market benchmarks, then you can send the exact setup privately to Nostrix.</p>
+<p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent2/80">Nostrix project pricing</p>
+<h3 class="mt-3 pr-12 text-2xl font-semibold text-white md:text-3xl" id="photo-calc-title">Build your production estimate.</h3>
+<p class="mt-4 max-w-2xl text-sm font-light leading-7 text-zinc-400">
+      Choose photography, videography or both. Adjust the scope and the estimate updates instantly.
+    </p>
 <form id="photo-calc-form" novalidate="">
 <div class="photo-calc-layout">
 <div class="photo-calc-controls">
-<div class="form-field">
-<label for="photo-type">Photography type *</label>
+<p class="photo-calc-section-label">1. What do you need?</p>
+<div aria-label="Production services" class="public-service-options" id="public-service-options" role="group">
+<label class="public-service-option">
+<input checked="" id="service-photography" name="calc_services" type="checkbox" value="Photography"/>
+<span><i aria-hidden="true" class="ph ph-camera"></i> Photography</span>
+</label>
+<label class="public-service-option">
+<input id="service-video" name="calc_services" type="checkbox" value="Videography"/>
+<span><i aria-hidden="true" class="ph ph-video-camera"></i> Videography</span>
+</label>
+</div>
+<div class="form-field mt-4">
+<label for="photo-type">Project category *</label>
 <select class="form-control" id="photo-type" name="photo_type" required="">
 <option value="event">Event / corporate coverage</option>
 <option value="fashion">Fashion / modelling</option>
@@ -4226,56 +4299,79 @@
 <option value="realestate">Real estate / interiors</option>
 </select>
 </div>
+<div class="public-calc-service-panel" id="public-photo-fields">
+<p class="photo-calc-section-label">2. Photography</p>
 <div class="photo-calc-two">
 <div class="form-field">
 <label for="photo-scope" id="photo-scope-label">Coverage hours *</label>
-<input class="form-control" id="photo-scope" max="24" min="1" name="scope" required="" step="1" type="number" value="3"/>
+<input class="form-control" id="photo-scope" max="24" min="1" name="scope" step="1" type="number" value="3"/>
 <span class="photo-calc-hint" id="photo-scope-hint">How many hours of photography coverage?</span>
 </div>
 <div class="form-field">
-<label for="photo-crew">Photographers *</label>
-<select class="form-control" id="photo-crew" name="crew" required="">
-<option value="1">1 photographer</option>
-<option value="2">2 photographers</option>
-<option value="3">3 photographers</option>
-</select>
+<label for="photo-final-images">Final edited photos *</label>
+<input class="form-control" id="photo-final-images" max="2000" min="1" name="final_images" step="1" type="number" value="60"/>
+<span class="photo-calc-hint">Approximate number of finished photos you want delivered.</span>
 </div>
 </div>
-<div class="photo-calc-two">
 <div class="form-field">
-<label for="photo-editing">Editing level *</label>
-<select class="form-control" id="photo-editing" name="editing" required="">
+<label for="photo-editing">Photography editing *</label>
+<select class="form-control" id="photo-editing" name="editing">
 <option value="essential">Essential edit</option>
 <option selected="" value="enhanced">Enhanced retouching</option>
 <option value="campaign">Campaign-grade retouching</option>
 </select>
 </div>
+</div>
+<div class="public-calc-service-panel" hidden="" id="public-video-fields">
+<p class="photo-calc-section-label">3. Videography</p>
+<div class="photo-calc-two">
+<div class="form-field">
+<label for="video-hours">Video production hours *</label>
+<input class="form-control" id="video-hours" max="24" min="1" name="video_hours" step="0.5" type="number" value="2"/>
+<span class="photo-calc-hint">Planning minimum is 2 production hours.</span>
+</div>
+<div class="form-field">
+<label for="video-deliverable">Final video deliverable *</label>
+<select class="form-control" id="video-deliverable" name="video_deliverable">
+<option value="reel30">1 short reel — up to 30 sec</option>
+<option selected="" value="reel60">1 reel — up to 60 sec</option>
+<option value="highlight">1 highlight video — 1 to 2 min</option>
+<option value="reels2">2 short reels</option>
+<option value="reels3">3 short reels</option>
+</select>
+</div>
+</div>
+<div class="form-field">
+<label for="video-editing">Video editing *</label>
+<select class="form-control" id="video-editing" name="video_editing">
+<option selected="" value="standard">Standard edit</option>
+<option value="cinematic">Cinematic / advanced edit</option>
+</select>
+</div>
+</div>
+<p class="photo-calc-section-label">4. Production details</p>
+<div class="photo-calc-two">
+<div class="form-field">
+<label for="photo-crew">Production crew *</label>
+<select class="form-control" id="photo-crew" name="crew">
+<option selected="" value="1">1 person</option>
+<option value="2">2-person team</option>
+<option value="3">3-person team</option>
+</select>
+</div>
 <div class="form-field">
 <label for="photo-turnaround">Turnaround *</label>
-<select class="form-control" id="photo-turnaround" name="turnaround" required="">
+<select class="form-control" id="photo-turnaround" name="turnaround">
 <option selected="" value="standard">Standard delivery</option>
 <option value="48h">48-hour priority</option>
 <option value="24h">24-hour rush</option>
 </select>
 </div>
 </div>
-<p class="photo-calc-section-label">Project details</p>
-<div class="photo-calc-two">
-<div class="form-field">
-<label for="photo-date">Preferred shoot date</label>
-<input class="form-control" id="photo-date" name="shoot_date" type="date"/>
-<span class="photo-calc-hint">Used for availability planning. The date itself does not add an automatic surcharge.</span>
-</div>
-<div class="form-field">
-<label for="photo-final-images">Expected final images *</label>
-<input class="form-control" id="photo-final-images" max="2000" min="1" name="final_images" required="" step="1" type="number" value="60"/>
-<span class="photo-calc-hint">A larger final selection increases culling, editing and export time.</span>
-</div>
-</div>
 <div class="photo-calc-two">
 <div class="form-field">
 <label for="photo-location">Emirate / area *</label>
-<select class="form-control" id="photo-location" name="location" required="">
+<select class="form-control" id="photo-location" name="location">
 <option value="rak">Ras Al Khaimah</option>
 <option value="dubai">Dubai</option>
 <option value="sharjah">Sharjah / Ajman</option>
@@ -4285,64 +4381,53 @@
 </select>
 </div>
 <div class="form-field">
-<label for="photo-venue">Venue / exact location</label>
-<input class="form-control" id="photo-venue" name="venue" placeholder="Hotel, venue, studio, property, area…" type="text"/>
-</div>
-</div>
-<p class="photo-calc-section-label">Usage &amp; production</p>
-<div class="photo-calc-three">
-<div class="form-field">
-<label for="photo-usage">Image usage *</label>
-<select class="form-control" id="photo-usage" name="usage" required="">
-<option selected="" value="organic">Website + organic social</option>
-<option value="paid">Paid digital advertising</option>
-<option value="campaign">Regional commercial campaign</option>
-<option value="print">Print / OOH / broad commercial</option>
-</select>
-</div>
-<div class="form-field">
-<label for="photo-studio">Studio required? *</label>
-<select class="form-control" id="photo-studio" name="studio" required="">
+<label for="photo-studio">Studio *</label>
+<select class="form-control" id="photo-studio" name="studio">
 <option selected="" value="no">No / on-location</option>
-<option value="yes">Yes — include allowance</option>
+<option value="yes">Include studio allowance</option>
 <option value="unsure">Not sure yet</option>
 </select>
 </div>
+</div>
+<div class="photo-calc-two">
 <div class="form-field">
-<label for="photo-video">Video add-on *</label>
-<select class="form-control" id="photo-video" name="video" required="">
-<option selected="" value="none">Photography only</option>
-<option value="clips">Photography + short-form video clips</option>
-<option value="highlight">Photography + highlight video</option>
-</select>
+<label for="photo-date">Preferred shoot date</label>
+<input class="form-control" id="photo-date" name="shoot_date" type="date"/>
+</div>
+<div class="form-field">
+<label for="photo-venue">Venue / exact location</label>
+<input class="form-control" id="photo-venue" name="venue" placeholder="Cafe, hotel, studio, property, area…" type="text"/>
 </div>
 </div>
 </div>
 <aside aria-live="polite" class="photo-estimate-card">
 <span class="photo-estimate-label">Estimated project price</span>
-<strong id="photo-estimate-price">AED 2,250</strong>
-<span class="photo-estimate-range" id="photo-estimate-range">Typical market window: AED 2,050–2,600</span>
+<strong id="photo-estimate-price">AED 0</strong>
+<span class="photo-estimate-range" id="photo-estimate-range">Planning range updates with your selections.</span>
 <div class="photo-estimate-breakdown" id="photo-estimate-breakdown"></div>
 <div class="photo-price-build">
 <span class="photo-price-build-label">Price build-up</span>
 <div class="photo-price-costs" id="photo-estimate-costs"></div>
 </div>
-<div aria-label="Visual price composition" class="photo-cost-visual" id="photo-cost-visual"></div>
-<details class="photo-price-method" open="">
+<details class="photo-price-method">
 <summary>
-<span>Why this price?</span>
-<small>See how every choice changes it</small>
+<span>How this estimate works</span>
+<small>Simple client-facing pricing</small>
 </summary>
-<div class="photo-price-explanation" id="photo-price-explanation"></div>
-<p class="photo-market-note" id="photo-market-note"></p>
+<div class="public-price-method-copy">
+<p>The estimate is built from the services you select, the amount of production required, the final deliverables, crew size, location, studio needs and delivery speed.</p>
+<p>It does not show Nostrix internal costs, profit calculations, discounts, toll calculations or admin-only pricing settings.</p>
+</div>
 </details>
-<p class="photo-estimate-note">This is a planning estimate, not a binding quote. Final pricing can change if the brief needs special permits, studio rental, complex lighting, assistants, equipment rental, unusually heavy retouching, commercial usage requirements or unusual travel.</p>
+<p class="photo-estimate-note">
+            This is a planning estimate, not a binding quotation. Final pricing can change for permits, specialist equipment, unusual locations, complex production requirements or commercial licensing.
+          </p>
 </aside>
 </div>
 <div class="photo-calc-contact">
 <div class="photo-calc-contact-head">
-<span>Want this exact estimate?</span>
-<small>Send the setup privately to Nostrix and we can confirm the final scope.</small>
+<span>Want us to confirm this estimate?</span>
+<small>Send the exact setup privately to Nostrix and we’ll confirm the final scope.</small>
 </div>
 <div class="photo-calc-two">
 <div class="form-field">
@@ -4366,7 +4451,7 @@
 </div>
 <div class="form-field">
 <label for="photo-notes">Anything else?</label>
-<textarea class="form-control" id="photo-notes" name="notes" placeholder="Venue, preferred date, number of products, specific deliverables, creative direction, etc."></textarea>
+<textarea class="form-control" id="photo-notes" name="notes" placeholder="Tell us anything else about the project, deliverables or creative direction."></textarea>
 </div>
 <label class="consent-row package-consent" for="photo-privacy-consent">
 <input id="photo-privacy-consent" name="privacy" required="" type="checkbox"/>
@@ -5153,206 +5238,361 @@ emailProjectButton.addEventListener('click', async () => {
 
         const photoCalcModal = document.getElementById('photo-calc-modal');
         const photoCalcForm = document.getElementById('photo-calc-form');
-        const photoType = document.getElementById('photo-type');
-        const photoScope = document.getElementById('photo-scope');
-        const photoScopeLabel = document.getElementById('photo-scope-label');
-        const photoScopeHint = document.getElementById('photo-scope-hint');
-        const photoCrew = document.getElementById('photo-crew');
-        const photoEditing = document.getElementById('photo-editing');
-        const photoTurnaround = document.getElementById('photo-turnaround');
-        const photoLocation = document.getElementById('photo-location');
-        const photoDate = document.getElementById('photo-date');
-        const photoFinalImages = document.getElementById('photo-final-images');
-        const photoVenue = document.getElementById('photo-venue');
-        const photoUsage = document.getElementById('photo-usage');
-        const photoStudio = document.getElementById('photo-studio');
-        const photoVideo = document.getElementById('photo-video');
-        const photoEstimatePrice = document.getElementById('photo-estimate-price');
-        const photoEstimateRange = document.getElementById('photo-estimate-range');
-        const photoEstimateBreakdown = document.getElementById('photo-estimate-breakdown');
-        const photoEstimateCosts = document.getElementById('photo-estimate-costs');
-        const photoCostVisual = document.getElementById('photo-cost-visual');
-        const photoPriceExplanation = document.getElementById('photo-price-explanation');
-        const photoMarketNote = document.getElementById('photo-market-note');
         const photoCalcPanel = document.querySelector('.photo-calc-panel');
         const photoCalcSubmit = document.getElementById('photo-calc-submit');
         const photoCalcWhatsapp = document.getElementById('photo-calc-whatsapp');
         const photoCalcStatus = document.getElementById('photo-calc-status');
+
+        const servicePhotography = document.getElementById('service-photography');
+        const serviceVideo = document.getElementById('service-video');
+        const publicPhotoFields = document.getElementById('public-photo-fields');
+        const publicVideoFields = document.getElementById('public-video-fields');
+
+        const photoType = document.getElementById('photo-type');
+        const photoScope = document.getElementById('photo-scope');
+        const photoScopeLabel = document.getElementById('photo-scope-label');
+        const photoScopeHint = document.getElementById('photo-scope-hint');
+        const photoFinalImages = document.getElementById('photo-final-images');
+        const photoEditing = document.getElementById('photo-editing');
+
+        const videoHours = document.getElementById('video-hours');
+        const videoDeliverable = document.getElementById('video-deliverable');
+        const videoEditing = document.getElementById('video-editing');
+
+        const photoCrew = document.getElementById('photo-crew');
+        const photoTurnaround = document.getElementById('photo-turnaround');
+        const photoLocation = document.getElementById('photo-location');
+        const photoStudio = document.getElementById('photo-studio');
+        const photoDate = document.getElementById('photo-date');
+        const photoVenue = document.getElementById('photo-venue');
+
+        const photoEstimatePrice = document.getElementById('photo-estimate-price');
+        const photoEstimateRange = document.getElementById('photo-estimate-range');
+        const photoEstimateBreakdown = document.getElementById('photo-estimate-breakdown');
+        const photoEstimateCosts = document.getElementById('photo-estimate-costs');
+
         let photoCalcTrigger = null;
         let currentPhotoEstimate = null;
 
-        // Benchmarks are calibrated to recent UAE public market pricing and intentionally
-        // produce an estimate rather than a binding quotation.
-        const PHOTO_MARKET_RATES = {
+        // Public-facing planning rates. These are client estimate values, not the
+        // internal admin calculator's direct-cost / profit / discount system.
+        const PUBLIC_PHOTO_RATES = {
             event: {
-                label: 'Event / corporate coverage', unit: 'hours', rate: 550, min: 800, defaultQty: 3, max: 24,
-                defaultFinalImages: 60, includedImages: 50, extraImageRate: 6,
-                marketContext: 'Professional UAE event photography is commonly sold by coverage time. Public Dubai listings frequently begin around AED 500 per hour and rise with experience, event scale, image volume and delivery speed.'
+                label: 'Event / corporate coverage',
+                unit: 'hours',
+                rate: 550,
+                min: 800,
+                defaultQty: 3,
+                max: 24,
+                defaultFinalImages: 60,
+                includedImages: 50,
+                extraImageRate: 6
             },
             fashion: {
-                label: 'Fashion / modelling', unit: 'hours', rate: 700, min: 900, defaultQty: 2, max: 16,
-                defaultFinalImages: 12, includedImages: 12, extraImageRate: 15,
-                marketContext: 'Fashion and modelling shoots vary more than simple portrait sessions because lighting, look changes, creative direction and retouching add production time. Basic portfolio sessions can start in the hundreds of dirhams, while full campaign productions run much higher.'
+                label: 'Fashion / modelling',
+                unit: 'hours',
+                rate: 700,
+                min: 900,
+                defaultQty: 2,
+                max: 16,
+                defaultFinalImages: 12,
+                includedImages: 12,
+                extraImageRate: 15
             },
             wedding: {
-                label: 'Wedding / engagement', unit: 'hours', rate: 550, min: 1200, defaultQty: 6, max: 16,
-                defaultFinalImages: 150, includedImages: 150, extraImageRate: 5,
-                marketContext: 'Wedding and engagement work is priced around continuous coverage, reliability and a much larger edit volume. UAE public packages show engagement sessions around the high hundreds and multi-hour wedding coverage scaling into several thousand dirhams as crew and deliverables increase.'
+                label: 'Wedding / engagement',
+                unit: 'hours',
+                rate: 550,
+                min: 1200,
+                defaultQty: 6,
+                max: 16,
+                defaultFinalImages: 150,
+                includedImages: 150,
+                extraImageRate: 5
             },
             automotive: {
-                label: 'Automotive', unit: 'hours', rate: 700, min: 900, defaultQty: 2, max: 16,
-                defaultFinalImages: 15, includedImages: 12, extraImageRate: 18,
-                marketContext: 'Automotive photography usually needs controlled reflections, careful positioning, location planning and more deliberate lighting than a basic portrait shoot. UAE car-shoot offers commonly start in the high hundreds to low thousands before special locations, vehicles or production extras.'
+                label: 'Automotive',
+                unit: 'hours',
+                rate: 700,
+                min: 900,
+                defaultQty: 2,
+                max: 16,
+                defaultFinalImages: 15,
+                includedImages: 12,
+                extraImageRate: 18
             },
             product: {
-                label: 'Product / e-commerce', unit: 'edited images', rate: 150, min: 600, defaultQty: 10, max: 200,
-                defaultFinalImages: 10, includedImages: 10, extraImageRate: 0,
-                marketContext: 'Product work is priced per finished image because each item needs setup, capture, selection, colour consistency, cleanup and export. Public UAE product rates commonly sit around AED 150–200 for polished individual images, with volume work sometimes reducing the per-image rate.'
+                label: 'Product / e-commerce',
+                unit: 'edited images',
+                rate: 150,
+                min: 600,
+                defaultQty: 10,
+                max: 200,
+                defaultFinalImages: 10,
+                includedImages: 10,
+                extraImageRate: 0
             },
             realestate: {
-                label: 'Real estate / interiors', unit: 'properties', rate: 500, min: 500, defaultQty: 1, max: 20,
-                defaultFinalImages: 25, includedImages: 25, extraImageRate: 8,
-                marketContext: 'Real-estate work is normally priced per property because the workload depends on the full space rather than only shutter time. Standard UAE property-photo packages are commonly advertised from roughly AED 500–800 and rise for larger homes, more images, video, twilight work or heavier editing.'
+                label: 'Real estate / interiors',
+                unit: 'properties',
+                rate: 500,
+                min: 500,
+                defaultQty: 1,
+                max: 20,
+                defaultFinalImages: 25,
+                includedImages: 25,
+                extraImageRate: 8
             }
         };
-        const PHOTO_CREW_MULTIPLIER = { '1': 1, '2': 1.75, '3': 2.45 };
-        const PHOTO_EDITING_MULTIPLIER = { essential: 1, enhanced: 1.18, campaign: 1.35 };
-        const PHOTO_EDITING_LABEL = { essential: 'Essential edit', enhanced: 'Enhanced retouching', campaign: 'Campaign-grade retouching' };
-        const PHOTO_TURNAROUND_MULTIPLIER = { standard: 1, '48h': 1.15, '24h': 1.30 };
-        const PHOTO_TURNAROUND_LABEL = { standard: 'Standard delivery', '48h': '48-hour priority', '24h': '24-hour rush' };
-        const PHOTO_TRAVEL = { rak: 0, dubai: 150, sharjah: 150, abudhabi: 300, alain: 300, other: 350 };
-        const PHOTO_LOCATION_LABEL = { rak: 'Ras Al Khaimah', dubai: 'Dubai', sharjah: 'Sharjah / Ajman', abudhabi: 'Abu Dhabi', alain: 'Al Ain', other: 'Other UAE location' };
-        const PHOTO_USAGE_MULTIPLIER = { organic: 1, paid: 1.10, campaign: 1.20, print: 1.25 };
-        const PHOTO_USAGE_LABEL = { organic: 'Website + organic social', paid: 'Paid digital advertising', campaign: 'Regional commercial campaign', print: 'Print / OOH / broad commercial' };
-        const PHOTO_STUDIO_ALLOWANCE = { no: 0, yes: 650, unsure: 0 };
-        const PHOTO_STUDIO_LABEL = { no: 'No / on-location', yes: 'Studio allowance included', unsure: 'Studio not confirmed' };
-        const PHOTO_VIDEO_ALLOWANCE = { none: 0, clips: 900, highlight: 1600 };
-        const PHOTO_VIDEO_LABEL = { none: 'Photography only', clips: 'Short-form video clips', highlight: 'Highlight video' };
 
-        function roundPhotoPrice(value) {
+        const PUBLIC_PHOTO_EDITING = {
+            essential: { label: 'Essential edit', multiplier: 1 },
+            enhanced: { label: 'Enhanced retouching', multiplier: 1.18 },
+            campaign: { label: 'Campaign-grade retouching', multiplier: 1.35 }
+        };
+
+        const PUBLIC_VIDEO = {
+            captureHour: 750,
+            minimumHours: 2,
+            deliverables: {
+                reel30: { label: '1 short reel — up to 30 sec', edit: 650 },
+                reel60: { label: '1 reel — up to 60 sec', edit: 900 },
+                highlight: { label: '1 highlight video — 1 to 2 min', edit: 1500 },
+                reels2: { label: '2 short reels', edit: 1500 },
+                reels3: { label: '3 short reels', edit: 2100 }
+            },
+            editing: {
+                standard: { label: 'Standard edit', multiplier: 1 },
+                cinematic: { label: 'Cinematic / advanced edit', multiplier: 1.25 }
+            }
+        };
+
+        const PUBLIC_CREW = {
+            '1': { label: '1 person', multiplier: 1 },
+            '2': { label: '2-person team', multiplier: 1.55 },
+            '3': { label: '3-person team', multiplier: 2.05 }
+        };
+
+        const PUBLIC_TURNAROUND = {
+            standard: { label: 'Standard delivery', multiplier: 1 },
+            '48h': { label: '48-hour priority', multiplier: 1.15 },
+            '24h': { label: '24-hour rush', multiplier: 1.30 }
+        };
+
+        const PUBLIC_TRAVEL = {
+            rak: { label: 'Ras Al Khaimah', amount: 0 },
+            dubai: { label: 'Dubai', amount: 150 },
+            sharjah: { label: 'Sharjah / Ajman', amount: 150 },
+            abudhabi: { label: 'Abu Dhabi', amount: 300 },
+            alain: { label: 'Al Ain', amount: 300 },
+            other: { label: 'Other UAE location', amount: 350 }
+        };
+
+        const PUBLIC_STUDIO = {
+            no: { label: 'No / on-location', amount: 0 },
+            yes: { label: 'Studio allowance included', amount: 650 },
+            unsure: { label: 'Studio not confirmed', amount: 0 }
+        };
+
+        function formatAED(value) {
+            return `AED ${Math.round(Number(value || 0)).toLocaleString('en-US')}`;
+        }
+
+        function roundPublicPrice(value) {
             return Math.max(0, Math.round(Number(value || 0) / 50) * 50);
         }
 
-        function formatAED(value) {
-            return `AED ${Math.round(value).toLocaleString('en-US')}`;
+        function selectedPublicServices() {
+            return [
+                servicePhotography?.checked ? 'Photography' : '',
+                serviceVideo?.checked ? 'Videography' : ''
+            ].filter(Boolean);
+        }
+
+        function ensurePublicServiceSelection(changed) {
+            if (servicePhotography.checked || serviceVideo.checked) return;
+            if (changed === servicePhotography) serviceVideo.checked = true;
+            else servicePhotography.checked = true;
+        }
+
+        function syncPublicServicePanels() {
+            publicPhotoFields.hidden = !servicePhotography.checked;
+            publicVideoFields.hidden = !serviceVideo.checked;
         }
 
         function syncPhotoScopeField(resetValue) {
-            const rate = PHOTO_MARKET_RATES[photoType.value] || PHOTO_MARKET_RATES.event;
+            const rate = PUBLIC_PHOTO_RATES[photoType.value] || PUBLIC_PHOTO_RATES.event;
+
             if (rate.unit === 'hours') {
                 photoScopeLabel.textContent = 'Coverage hours *';
                 photoScopeHint.textContent = 'How many hours of photography coverage?';
             } else if (rate.unit === 'edited images') {
-                photoScopeLabel.textContent = 'Final edited images *';
-                photoScopeHint.textContent = 'Enter the approximate number of final product images you need.';
+                photoScopeLabel.textContent = 'Final product images *';
+                photoScopeHint.textContent = 'How many finished product images do you need?';
             } else {
                 photoScopeLabel.textContent = 'Number of properties *';
-                photoScopeHint.textContent = 'Enter the number of properties / units to photograph.';
+                photoScopeHint.textContent = 'How many properties / units need to be photographed?';
             }
+
             photoScope.max = String(rate.max);
+
             if (resetValue) {
                 photoScope.value = String(rate.defaultQty);
-                if (photoFinalImages) photoFinalImages.value = String(rate.defaultFinalImages);
+                photoFinalImages.value = String(rate.defaultFinalImages);
             }
-            if (photoType.value === 'product' && photoFinalImages) {
+
+            if (photoType.value === 'product') {
                 photoFinalImages.value = String(Math.max(1, Number(photoScope.value || rate.defaultQty)));
             }
         }
 
         function calculatePhotoEstimate() {
-            const rate = PHOTO_MARKET_RATES[photoType.value] || PHOTO_MARKET_RATES.event;
+            ensurePublicServiceSelection();
+            syncPublicServicePanels();
+
+            const rate = PUBLIC_PHOTO_RATES[photoType.value] || PUBLIC_PHOTO_RATES.event;
+            const services = selectedPublicServices();
             const qty = Math.max(1, Number(photoScope.value || rate.defaultQty));
-            if (photoType.value === 'product' && photoFinalImages) photoFinalImages.value = String(qty);
-            const finalImages = Math.max(1, Number(photoFinalImages?.value || rate.defaultFinalImages));
-            const crewMultiplier = PHOTO_CREW_MULTIPLIER[photoCrew.value] || 1;
-            const editingMultiplier = PHOTO_EDITING_MULTIPLIER[photoEditing.value] || 1;
-            const turnaroundMultiplier = PHOTO_TURNAROUND_MULTIPLIER[photoTurnaround.value] || 1;
-            const usageMultiplier = PHOTO_USAGE_MULTIPLIER[photoUsage?.value] || 1;
-            const travelAdd = PHOTO_TRAVEL[photoLocation.value] || 0;
-            const studioAdd = PHOTO_STUDIO_ALLOWANCE[photoStudio?.value] || 0;
-            const videoAdd = PHOTO_VIDEO_ALLOWANCE[photoVideo?.value] || 0;
+            const finalImages = Math.max(1, Number(photoFinalImages.value || rate.defaultFinalImages));
 
-            const baseRounded = roundPhotoPrice(Math.max(rate.min, rate.rate * qty));
-            const includedImages = rate.unit === 'edited images' ? finalImages : Math.max(rate.includedImages, rate.unit === 'properties' ? rate.includedImages * qty : rate.includedImages);
-            const extraImages = Math.max(0, finalImages - includedImages);
-            const imageVolumeAdd = roundPhotoPrice(extraImages * (rate.extraImageRate || 0));
-            const crewAdd = roundPhotoPrice(baseRounded * Math.max(0, crewMultiplier - 1));
-            const editingBase = baseRounded + imageVolumeAdd + crewAdd;
-            const editingAdd = roundPhotoPrice(editingBase * Math.max(0, editingMultiplier - 1));
-            const usageBase = editingBase + editingAdd;
-            const usageAdd = roundPhotoPrice(usageBase * Math.max(0, usageMultiplier - 1));
-            const preRush = usageBase + usageAdd + studioAdd + videoAdd;
-            const turnaroundAdd = roundPhotoPrice(preRush * Math.max(0, turnaroundMultiplier - 1));
-            const estimate = roundPhotoPrice(preRush + turnaroundAdd + travelAdd);
+            let photoBase = 0;
+            let photoImageAdd = 0;
+            let photoEditingAdd = 0;
 
-            const low = roundPhotoPrice(estimate * 0.90);
-            const high = roundPhotoPrice(estimate * 1.15);
-            const shootDate = photoDate?.value || '';
-            const venue = (photoVenue?.value || '').trim();
+            if (servicePhotography.checked) {
+                photoBase = roundPublicPrice(Math.max(rate.min, rate.rate * qty));
+
+                const includedImages = rate.unit === 'edited images'
+                    ? finalImages
+                    : Math.max(
+                        rate.includedImages,
+                        rate.unit === 'properties' ? rate.includedImages * qty : rate.includedImages
+                    );
+
+                const extraImages = Math.max(0, finalImages - includedImages);
+                photoImageAdd = roundPublicPrice(extraImages * (rate.extraImageRate || 0));
+
+                const editing = PUBLIC_PHOTO_EDITING[photoEditing.value] || PUBLIC_PHOTO_EDITING.enhanced;
+                photoEditingAdd = roundPublicPrice(
+                    (photoBase + photoImageAdd) * Math.max(0, editing.multiplier - 1)
+                );
+            }
+
+            let videoCapture = 0;
+            let videoPost = 0;
+            let videoProductionHours = Math.max(PUBLIC_VIDEO.minimumHours, Number(videoHours.value || 0));
+
+            if (serviceVideo.checked) {
+                videoCapture = roundPublicPrice(videoProductionHours * PUBLIC_VIDEO.captureHour);
+
+                const deliverable = PUBLIC_VIDEO.deliverables[videoDeliverable.value] || PUBLIC_VIDEO.deliverables.reel60;
+                const editing = PUBLIC_VIDEO.editing[videoEditing.value] || PUBLIC_VIDEO.editing.standard;
+                videoPost = roundPublicPrice(deliverable.edit * editing.multiplier);
+            }
+
+            const crew = PUBLIC_CREW[photoCrew.value] || PUBLIC_CREW['1'];
+            const captureBase = photoBase + videoCapture;
+            const crewAdd = roundPublicPrice(captureBase * Math.max(0, crew.multiplier - 1));
+
+            const studio = PUBLIC_STUDIO[photoStudio.value] || PUBLIC_STUDIO.no;
+            const travel = PUBLIC_TRAVEL[photoLocation.value] || PUBLIC_TRAVEL.rak;
+            const turnaround = PUBLIC_TURNAROUND[photoTurnaround.value] || PUBLIC_TURNAROUND.standard;
+
+            const preRush = photoBase + photoImageAdd + photoEditingAdd + videoCapture + videoPost + crewAdd + studio.amount;
+            const turnaroundAdd = roundPublicPrice(preRush * Math.max(0, turnaround.multiplier - 1));
+            const estimate = roundPublicPrice(preRush + turnaroundAdd + travel.amount);
+
+            const low = roundPublicPrice(estimate * 0.90);
+            const high = roundPublicPrice(estimate * 1.15);
+
+            const deliverable = PUBLIC_VIDEO.deliverables[videoDeliverable.value] || PUBLIC_VIDEO.deliverables.reel60;
+            const videoEdit = PUBLIC_VIDEO.editing[videoEditing.value] || PUBLIC_VIDEO.editing.standard;
+            const photoEdit = PUBLIC_PHOTO_EDITING[photoEditing.value] || PUBLIC_PHOTO_EDITING.enhanced;
 
             currentPhotoEstimate = {
+                services,
                 type: rate.label,
-                unit: rate.unit,
                 quantity: qty,
+                unit: rate.unit,
                 finalImages,
-                crew: Number(photoCrew.value || 1),
-                editing: PHOTO_EDITING_LABEL[photoEditing.value],
-                turnaround: PHOTO_TURNAROUND_LABEL[photoTurnaround.value],
-                location: PHOTO_LOCATION_LABEL[photoLocation.value],
-                venue,
-                shootDate,
-                usage: PHOTO_USAGE_LABEL[photoUsage?.value],
-                studio: PHOTO_STUDIO_LABEL[photoStudio?.value],
-                video: PHOTO_VIDEO_LABEL[photoVideo?.value],
-                base: baseRounded,
-                imageVolumeAdd,
+                photoEditing: photoEdit.label,
+                videoHours: serviceVideo.checked ? videoProductionHours : 0,
+                videoDeliverable: serviceVideo.checked ? deliverable.label : '',
+                videoEditing: serviceVideo.checked ? videoEdit.label : '',
+                crew: crew.label,
+                turnaround: turnaround.label,
+                location: travel.label,
+                studio: studio.label,
+                shootDate: photoDate.value || '',
+                venue: (photoVenue.value || '').trim(),
+                photoBase,
+                photoImageAdd,
+                photoEditingAdd,
+                videoCapture,
+                videoPost,
                 crewAdd,
-                editingAdd,
-                usageAdd,
-                studioAdd,
-                videoAdd,
+                studioAdd: studio.amount,
+                travelAdd: travel.amount,
                 turnaroundAdd,
-                travelAdd,
                 estimate,
                 low,
                 high
             };
 
             photoEstimatePrice.textContent = formatAED(estimate);
-            photoEstimateRange.textContent = `Indicative UAE market window: ${formatAED(low)}–${formatAED(high).replace('AED ', '')}`;
+            photoEstimateRange.textContent = `Planning range: ${formatAED(low)}–${formatAED(high).replace('AED ', '')}`;
 
-            photoEstimateBreakdown.innerHTML = `
-                <div class="photo-estimate-line"><span>Photography</span><strong>${rate.label}</strong></div>
-                <div class="photo-estimate-line"><span>Scope</span><strong>${qty} ${rate.unit}</strong></div>
-                <div class="photo-estimate-line"><span>Final images</span><strong>${finalImages}</strong></div>
-                <div class="photo-estimate-line"><span>Crew</span><strong>${currentPhotoEstimate.crew} photographer${currentPhotoEstimate.crew > 1 ? 's' : ''}</strong></div>
-                <div class="photo-estimate-line"><span>Usage</span><strong>${currentPhotoEstimate.usage}</strong></div>
-                <div class="photo-estimate-line"><span>Editing</span><strong>${currentPhotoEstimate.editing}</strong></div>
-                <div class="photo-estimate-line"><span>Turnaround</span><strong>${currentPhotoEstimate.turnaround}</strong></div>
-                <div class="photo-estimate-line"><span>Location</span><strong>${currentPhotoEstimate.location}</strong></div>
+            const detailLines = [
+                ['Services', services.join(' + ')],
+                ['Project category', rate.label],
+                ['Crew', crew.label],
+                ['Turnaround', turnaround.label],
+                ['Location', travel.label]
+            ];
+
+            if (servicePhotography.checked) {
+                detailLines.splice(2, 0,
+                    ['Photography scope', `${qty} ${rate.unit}`],
+                    ['Final photos', String(finalImages)],
+                    ['Photo editing', photoEdit.label]
+                );
+            }
+
+            if (serviceVideo.checked) {
+                const insertAt = servicePhotography.checked ? 5 : 2;
+                detailLines.splice(insertAt, 0,
+                    ['Video production', `${videoProductionHours} hours`],
+                    ['Video deliverable', deliverable.label],
+                    ['Video editing', videoEdit.label]
+                );
+            }
+
+            photoEstimateBreakdown.innerHTML = detailLines.map(([label, value]) => `
+                <div class="photo-estimate-line"><span>${label}</span><strong>${value}</strong></div>
+            `).join('') + `
                 <div class="photo-estimate-context">
-                    <div class="photo-estimate-pill"><span>Shoot date</span><strong>${shootDate || 'To be confirmed'}</strong></div>
-                    <div class="photo-estimate-pill"><span>Venue</span><strong>${venue || 'To be confirmed'}</strong></div>
-                    <div class="photo-estimate-pill"><span>Studio</span><strong>${currentPhotoEstimate.studio}</strong></div>
-                    <div class="photo-estimate-pill"><span>Video</span><strong>${currentPhotoEstimate.video}</strong></div>
+                    <div class="photo-estimate-pill"><span>Shoot date</span><strong>${currentPhotoEstimate.shootDate || 'To be confirmed'}</strong></div>
+                    <div class="photo-estimate-pill"><span>Venue</span><strong>${currentPhotoEstimate.venue || 'To be confirmed'}</strong></div>
+                    <div class="photo-estimate-pill"><span>Studio</span><strong>${studio.label}</strong></div>
                 </div>
             `;
 
             const costRows = [
-                ['Base photography', baseRounded, 'base'],
-                ['Final image volume', imageVolumeAdd, ''],
-                ['Additional crew', crewAdd, ''],
-                ['Editing level', editingAdd, ''],
-                ['Usage rights allowance', usageAdd, ''],
-                ['Studio allowance', studioAdd, ''],
-                ['Video add-on', videoAdd, ''],
-                ['Priority turnaround', turnaroundAdd, ''],
-                ['Travel / location', travelAdd, '']
-            ];
+                ['Photography', photoBase],
+                ['Photo image volume', photoImageAdd],
+                ['Photo editing', photoEditingAdd],
+                ['Video production', videoCapture],
+                ['Video editing', videoPost],
+                ['Additional crew', crewAdd],
+                ['Studio allowance', studio.amount],
+                ['Priority turnaround', turnaroundAdd],
+                ['Travel / location', travel.amount]
+            ].filter(([, amount]) => amount > 0);
+
             photoEstimateCosts.innerHTML = costRows.map(([label, amount]) => `
                 <div class="photo-price-cost-line">
                     <span>${label}</span>
-                    <strong>${amount > 0 ? `+${formatAED(amount)}` : 'Included / none'}</strong>
+                    <strong>${formatAED(amount)}</strong>
                 </div>
             `).join('') + `
                 <div class="photo-price-cost-line total">
@@ -5361,64 +5601,6 @@ emailProjectButton.addEventListener('click', async () => {
                 </div>
             `;
 
-            const visualRows = costRows.filter(([, amount]) => amount > 0);
-            photoCostVisual.innerHTML = `<span class="photo-cost-visual-label">Where the estimate goes</span>` + visualRows.map(([label, amount, cls]) => {
-                const share = Math.max(2, Math.min(100, Math.round((amount / Math.max(estimate, 1)) * 100)));
-                return `<div class="photo-cost-bar-row ${cls}">
-                    <div class="photo-cost-bar-top"><span>${label}</span><strong>${formatAED(amount)} · ${Math.round((amount / Math.max(estimate, 1)) * 100)}%</strong></div>
-                    <div class="photo-cost-bar-track"><span class="photo-cost-bar-fill" style="width:${share}%"></span></div>
-                </div>`;
-            }).join('');
-
-            const unitPriceText = rate.unit === 'hours'
-                ? `${formatAED(rate.rate)} per coverage hour`
-                : rate.unit === 'edited images'
-                    ? `${formatAED(rate.rate)} per final edited image`
-                    : `${formatAED(rate.rate)} per property`;
-
-            const imageReason = rate.unit === 'edited images'
-                ? `Product photography is already priced by finished image, so ${finalImages} final images are built into the base calculation.`
-                : extraImages > 0
-                    ? `${finalImages} final images is ${extraImages} above the planning allowance of ${includedImages}. That adds ${formatAED(imageVolumeAdd)} for extra culling, retouching, quality control and export.`
-                    : `${finalImages} final images sits within the planning allowance of ${includedImages}, so there is no extra image-volume charge.`;
-            const crewReason = currentPhotoEstimate.crew === 1
-                ? 'One photographer is included in the base. No additional crew charge is added.'
-                : `${currentPhotoEstimate.crew} photographers add ${formatAED(crewAdd)}. Extra crew increases simultaneous coverage, angles and equipment while shared planning keeps the increase below a simple ${currentPhotoEstimate.crew}× multiplication.`;
-            const editingReason = photoEditing.value === 'essential'
-                ? 'Essential editing is included: colour, exposure, crop and normal cleanup.'
-                : `${currentPhotoEstimate.editing} adds ${formatAED(editingAdd)} (${Math.round((editingMultiplier - 1) * 100)}%). More detailed retouching increases post-production time across the final image selection.`;
-            const usageReason = photoUsage.value === 'organic'
-                ? 'Website and organic social use is included in this planning estimate.'
-                : `${currentPhotoEstimate.usage} adds ${formatAED(usageAdd)} as a planning allowance for broader commercial usage. Exact licence territory, duration, media and exclusivity are confirmed in the final quote.`;
-            const studioReason = photoStudio.value === 'yes'
-                ? `${formatAED(studioAdd)} is included as a provisional studio allowance. The final studio cost depends on size, location, hours and equipment.`
-                : photoStudio.value === 'unsure'
-                    ? 'No studio charge is included yet. If the brief later needs a studio, the actual rental will be added before confirmation.'
-                    : 'The estimate assumes an on-location shoot, so there is no studio rental allowance.';
-            const videoReason = photoVideo.value === 'none'
-                ? 'Photography only is selected, so no video production allowance is added.'
-                : `${currentPhotoEstimate.video} adds ${formatAED(videoAdd)} as a planning allowance for additional capture and post-production. The exact video deliverables are confirmed with the final brief.`;
-            const turnaroundReason = photoTurnaround.value === 'standard'
-                ? 'Standard delivery is included and lets the edit move through the normal production schedule.'
-                : `${currentPhotoEstimate.turnaround} adds ${formatAED(turnaroundAdd)} (${Math.round((turnaroundMultiplier - 1) * 100)}%). Rush delivery is priced higher because the edit is prioritised ahead of the normal production queue.`;
-            const travelReason = photoLocation.value === 'rak'
-                ? 'Ras Al Khaimah is the Nostrix base location, so normal local travel is included.'
-                : `${currentPhotoEstimate.location} adds ${formatAED(travelAdd)} to account for travel time, transport and moving the photography kit from the Ras Al Khaimah base.`;
-
-            photoPriceExplanation.innerHTML = `
-                <div class="photo-price-reason"><span class="photo-price-reason-index">01</span><div><strong>Photography type + scope — ${formatAED(baseRounded)}</strong><p>${unitPriceText}, with a category minimum of ${formatAED(rate.min)}. The minimum covers planning, equipment preparation, setup and baseline post-production even on a small job.</p></div></div>
-                <div class="photo-price-reason"><span class="photo-price-reason-index">02</span><div><strong>Final image volume</strong><p>${imageReason}</p></div></div>
-                <div class="photo-price-reason"><span class="photo-price-reason-index">03</span><div><strong>Crew</strong><p>${crewReason}</p></div></div>
-                <div class="photo-price-reason"><span class="photo-price-reason-index">04</span><div><strong>Editing</strong><p>${editingReason}</p></div></div>
-                <div class="photo-price-reason"><span class="photo-price-reason-index">05</span><div><strong>Usage</strong><p>${usageReason}</p></div></div>
-                <div class="photo-price-reason"><span class="photo-price-reason-index">06</span><div><strong>Studio</strong><p>${studioReason}</p></div></div>
-                <div class="photo-price-reason"><span class="photo-price-reason-index">07</span><div><strong>Video add-on</strong><p>${videoReason}</p></div></div>
-                <div class="photo-price-reason"><span class="photo-price-reason-index">08</span><div><strong>Turnaround</strong><p>${turnaroundReason}</p></div></div>
-                <div class="photo-price-reason"><span class="photo-price-reason-index">09</span><div><strong>Location</strong><p>${travelReason}</p></div></div>
-                <div class="photo-price-reason"><span class="photo-price-reason-index">10</span><div><strong>Why there is a market range</strong><p>The displayed window is about 10% below to 15% above the calculated benchmark. Final quotes still depend on venue access, exact deliverables, lighting complexity, permits, licensing terms, specialist equipment and production requirements.</p></div></div>
-            `;
-
-            photoMarketNote.innerHTML = `<strong>Market benchmark refreshed August 2026.</strong> ${rate.marketContext} Studio, video and usage values are planning allowances so the calculator can show the likely direction of cost; the final written quote confirms actual third-party costs and licensing terms.`;
             return currentPhotoEstimate;
         }
 
@@ -5445,10 +5627,12 @@ emailProjectButton.addEventListener('click', async () => {
             photoCalcTrigger = button;
             photoCalcStatus.textContent = '';
             syncPhotoScopeField(false);
+            syncPublicServicePanels();
             calculatePhotoEstimate();
             photoCalcModal.hidden = false;
             photoCalcModal.setAttribute('aria-hidden', 'false');
             document.body.classList.add('photo-calc-open');
+
             requestAnimationFrame(() => {
                 photoCalcModal.classList.add('is-open');
                 photoType.focus({ preventScroll: true });
@@ -5459,6 +5643,7 @@ emailProjectButton.addEventListener('click', async () => {
             photoCalcModal.classList.remove('is-open');
             photoCalcModal.setAttribute('aria-hidden', 'true');
             document.body.classList.remove('photo-calc-open');
+
             window.setTimeout(() => {
                 photoCalcModal.hidden = true;
                 photoCalcTrigger?.focus({ preventScroll: true });
@@ -5468,23 +5653,39 @@ emailProjectButton.addEventListener('click', async () => {
         function getPhotoEstimateBrief() {
             const est = calculatePhotoEstimate();
             const data = new FormData(photoCalcForm);
-            return [
-                'Hello Nostrix, I used the photography price calculator.',
+
+            const lines = [
+                'Hello Nostrix, I used the project price calculator.',
                 '',
-                `Photography type: ${est.type}`,
-                `Scope: ${est.quantity} ${est.unit}`,
-                `Expected final images: ${est.finalImages}`,
-                `Crew: ${est.crew} photographer${est.crew > 1 ? 's' : ''}`,
-                `Editing: ${est.editing}`,
-                `Usage: ${est.usage}`,
+                `Services: ${est.services.join(' + ')}`,
+                `Project category: ${est.type}`
+            ];
+
+            if (est.services.includes('Photography')) {
+                lines.push(
+                    `Photography scope: ${est.quantity} ${est.unit}`,
+                    `Final edited photos: ${est.finalImages}`,
+                    `Photography editing: ${est.photoEditing}`
+                );
+            }
+
+            if (est.services.includes('Videography')) {
+                lines.push(
+                    `Video production: ${est.videoHours} hours`,
+                    `Video deliverable: ${est.videoDeliverable}`,
+                    `Video editing: ${est.videoEditing}`
+                );
+            }
+
+            lines.push(
+                `Crew: ${est.crew}`,
                 `Studio: ${est.studio}`,
-                `Video add-on: ${est.video}`,
                 `Turnaround: ${est.turnaround}`,
                 `Location: ${est.location}`,
                 `Venue / exact location: ${est.venue || 'To be confirmed'}`,
                 `Preferred shoot date: ${est.shootDate || 'To be confirmed'}`,
-                `Market-based estimate: ${formatAED(est.estimate)}`,
-                `Indicative market window: ${formatAED(est.low)} – ${formatAED(est.high)}`,
+                `Estimated project price: ${formatAED(est.estimate)}`,
+                `Planning range: ${formatAED(est.low)} – ${formatAED(est.high)}`,
                 '',
                 `Name: ${data.get('name') || ''}`,
                 `Company / Brand: ${data.get('company') || ''}`,
@@ -5493,15 +5694,20 @@ emailProjectButton.addEventListener('click', async () => {
                 '',
                 'Notes:',
                 data.get('notes') || ''
-            ].join('\n');
+            );
+
+            return lines.join('\n');
         }
 
         function validatePhotoCalculator() {
+            ensurePublicServiceSelection();
+
             if (!photoCalcForm.checkValidity()) {
                 photoCalcForm.reportValidity();
                 photoCalcStatus.textContent = 'Please complete the required contact fields and accept the privacy notice.';
                 return false;
             }
+
             photoCalcStatus.textContent = '';
             return true;
         }
@@ -5509,28 +5715,29 @@ emailProjectButton.addEventListener('click', async () => {
         function getPhotoEstimateSubmissionData() {
             const est = calculatePhotoEstimate();
             const data = new FormData(photoCalcForm);
+
             const detailSummary = [
-                `${est.quantity} ${est.unit}`,
-                `${est.finalImages} final images`,
-                `${est.crew} photographer(s)`,
-                est.editing,
-                est.usage,
+                est.services.join(' + '),
+                est.type,
+                est.services.includes('Photography') ? `${est.quantity} ${est.unit}; ${est.finalImages} final photos; ${est.photoEditing}` : '',
+                est.services.includes('Videography') ? `${est.videoHours} video hours; ${est.videoDeliverable}; ${est.videoEditing}` : '',
+                est.crew,
                 est.studio,
-                est.video,
                 est.location,
                 est.venue ? `Venue: ${est.venue}` : '',
                 est.shootDate ? `Shoot date: ${est.shootDate}` : '',
                 data.get('notes') || ''
             ].filter(Boolean).join('; ');
+
             return {
-                source: 'photography-market-calculator',
-                package: 'Custom Photography',
+                source: 'public-production-calculator',
+                package: 'Custom Production',
                 price: formatAED(est.estimate),
                 name: data.get('name') || '',
                 company: data.get('company') || '',
                 email: data.get('email') || '',
                 phone: data.get('phone') || '',
-                services: est.type,
+                services: est.services.join(' + '),
                 budget: `${formatAED(est.low)} - ${formatAED(est.high)}`,
                 timeline: est.shootDate ? `${est.shootDate}; ${est.turnaround}` : est.turnaround,
                 needs: detailSummary,
@@ -5539,16 +5746,15 @@ emailProjectButton.addEventListener('click', async () => {
                 calculatorQuantity: est.quantity,
                 calculatorUnit: est.unit,
                 calculatorCrew: est.crew,
-                calculatorEditing: est.editing,
+                calculatorEditing: est.photoEditing,
                 calculatorTurnaround: est.turnaround,
                 calculatorLocation: est.location,
                 calculatorEstimate: est.estimate,
                 calculatorRangeLow: est.low,
                 calculatorRangeHigh: est.high,
                 calculatorFinalImages: est.finalImages,
-                calculatorUsage: est.usage,
                 calculatorStudio: est.studio,
-                calculatorVideo: est.video,
+                calculatorVideo: est.services.includes('Videography') ? est.videoDeliverable : 'No video',
                 calculatorShootDate: est.shootDate,
                 calculatorVenue: est.venue,
                 submittedAt: new Date().toISOString(),
@@ -5556,14 +5762,39 @@ emailProjectButton.addEventListener('click', async () => {
             };
         }
 
-        [photoScope, photoFinalImages, photoCrew, photoEditing, photoTurnaround, photoLocation, photoUsage, photoStudio, photoVideo].forEach((control) => {
+        [
+            photoScope,
+            photoFinalImages,
+            photoEditing,
+            videoHours,
+            videoDeliverable,
+            videoEditing,
+            photoCrew,
+            photoTurnaround,
+            photoLocation,
+            photoStudio,
+            photoDate,
+            photoVenue
+        ].forEach((control) => {
             control?.addEventListener('input', calculatePhotoEstimate);
             control?.addEventListener('change', calculatePhotoEstimate);
         });
+
+        [servicePhotography, serviceVideo].forEach((control) => {
+            control?.addEventListener('change', () => {
+                ensurePublicServiceSelection(control);
+                syncPublicServicePanels();
+                calculatePhotoEstimate();
+            });
+        });
+
         photoScope?.addEventListener('change', () => {
-            if (photoType.value === 'product' && photoFinalImages) photoFinalImages.value = String(Math.max(1, Number(photoScope.value || 1)));
+            if (photoType.value === 'product') {
+                photoFinalImages.value = String(Math.max(1, Number(photoScope.value || 1)));
+            }
             calculatePhotoEstimate();
         });
+
         photoType?.addEventListener('change', () => {
             syncPhotoScopeField(true);
             calculatePhotoEstimate();
@@ -5575,12 +5806,15 @@ emailProjectButton.addEventListener('click', async () => {
 
         photoCalcSubmit?.addEventListener('click', async () => {
             if (!validatePhotoCalculator()) return;
+
             if (!LEAD_SUBMISSION_ENDPOINT) {
                 photoCalcStatus.textContent = 'The pricing sheet is not connected yet.';
                 return;
             }
+
             photoCalcSubmit.disabled = true;
             photoCalcStatus.textContent = 'Sending your estimate privately to Nostrix…';
+
             try {
                 await fetch(LEAD_SUBMISSION_ENDPOINT, {
                     method: 'POST',
@@ -5588,7 +5822,7 @@ emailProjectButton.addEventListener('click', async () => {
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(getPhotoEstimateSubmissionData())
                 });
-                photoCalcStatus.textContent = 'Thanks — your photography estimate was sent privately to Nostrix.';
+                photoCalcStatus.textContent = 'Thanks — your project estimate was sent privately to Nostrix.';
             } catch (error) {
                 console.error(error);
                 photoCalcStatus.textContent = 'We could not submit the estimate right now. Please use WhatsApp instead.';
