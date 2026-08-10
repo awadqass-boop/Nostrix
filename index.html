@@ -3814,6 +3814,91 @@
   unicode-bidi:isolate;
   letter-spacing:0;
 }
+
+
+/* =========================================================
+   MOBILE POLISH — production price spacing + hero centering
+   ========================================================= */
+@media (max-width: 767px) {
+  /* Keep the opening screen mathematically centered on phone. */
+  .hero {
+    width: 100%;
+    margin: 0 auto;
+    padding-left: max(1rem, env(safe-area-inset-left)) !important;
+    padding-right: max(1rem, env(safe-area-inset-right)) !important;
+    overflow-x: clip;
+  }
+
+  .hero-content {
+    width: 100% !important;
+    max-width: 34rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    text-align: center !important;
+  }
+
+  .hero-content > *,
+  .hero-description,
+  .hero-service-line,
+  .hero-actions,
+  .contact-row,
+  .follow-row {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .interactive-text {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .hero-description,
+  .hero-service-line {
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-actions {
+    left: auto !important;
+    right: auto !important;
+  }
+
+  .contact-row,
+  .follow-row {
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  /* Pull "Custom estimate" closer to "Photo & Video" on mobile. */
+  #pricing .pricing-card:nth-of-type(3) .pricing-name {
+    margin-bottom: 0 !important;
+  }
+
+  #pricing .pricing-card:nth-of-type(3) .pricing-price {
+    margin-top: 0.38rem !important;
+    gap: 0.42rem !important;
+  }
+
+  #pricing .pricing-card:nth-of-type(3) .production-built-note {
+    margin-top: 0.22rem !important;
+    margin-bottom: 1.2rem !important;
+    line-height: 1.35;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    max-width: 100% !important;
+  }
+
+  #pricing .pricing-card:nth-of-type(3) .pricing-price strong {
+    line-height: 1 !important;
+  }
+}
+
 </style>
 <!-- Mobile portfolio preview fix: 2026-08-06 v3 -->
 </head>
