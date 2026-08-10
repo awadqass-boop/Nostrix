@@ -1,19 +1,20 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Share private feedback and an optional public testimonial with Nostrix Marketing Services.">
-        <link rel="icon" type="image/png" href="../favicon.png">
-    <link rel="shortcut icon" href="../favicon.png">
-    <link rel="apple-touch-icon" href="../favicon.png">
-    <title>Leave a Review | Nostrix Marketing Services</title>
-    <link rel="canonical" href="https://nostrix.ae/review/">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Share private feedback and an optional public testimonial with Nostrix Marketing Services." name="description"/>
+<link href="../favicon.png" rel="icon" type="image/png"/>
+<link href="../favicon.png" rel="shortcut icon"/>
+<link href="../favicon.png" rel="apple-touch-icon"/>
+<title>Leave a Review | Nostrix Marketing Services</title>
+<link href="https://nostrix.ae/review/" rel="canonical"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<style>
         :root {
             --bg: #08080b;
             --surface: rgba(255,255,255,.045);
@@ -246,157 +247,143 @@
             button { width: 100%; }
             .nav { padding-bottom: 2rem; }
         }
-    </style>
+    
+.nav{gap:.8rem;flex-wrap:wrap}.nav .language-toggle{margin-inline-start:auto}@media(max-width:640px){.nav .language-toggle{order:3;margin-inline-start:0}}
+</style>
 </head>
 <body>
-    <main class="shell">
-        <nav class="nav">
-            <a class="brand" href="../">Nostrix</a>
-            <a class="back" href="../#testimonials"><i class="ph ph-arrow-left"></i> Back to website</a>
-        </nav>
-
-        <section class="intro">
-            <p class="eyebrow">Client feedback</p>
-            <h1>Tell us how we did</h1>
-            <p>Your feedback helps us improve our service. You can also give us permission to publish a short testimonial on the Nostrix website.</p>
-            <div class="privacy-note">
-                <i class="ph ph-lock-key text-xl" aria-hidden="true"></i>
-                <span><strong>Your improvement feedback stays private.</strong> Nothing appears publicly until Nostrix reviews and approves it, and only the public testimonial is displayed.</span>
-            </div>
-        </section>
-
-        <form class="form-card" id="review-form" novalidate>
-            <div class="grid">
-                <fieldset class="field">
-                    <legend>Overall rating *</legend>
-                    <div class="stars" aria-label="Choose a rating from one to five stars">
-                        <input type="radio" id="star-5" name="rating" value="5" required><label for="star-5" title="5 stars">★</label>
-                        <input type="radio" id="star-4" name="rating" value="4"><label for="star-4" title="4 stars">★</label>
-                        <input type="radio" id="star-3" name="rating" value="3"><label for="star-3" title="3 stars">★</label>
-                        <input type="radio" id="star-2" name="rating" value="2"><label for="star-2" title="2 stars">★</label>
-                        <input type="radio" id="star-1" name="rating" value="1"><label for="star-1" title="1 star">★</label>
-                    </div>
-                </fieldset>
-
-                <div class="grid two">
-                    <div class="field">
-                        <label for="name">Your name</label>
-                        <input id="name" name="name" type="text" maxlength="100" autocomplete="name" placeholder="Your name">
-                    </div>
-                    <div class="field">
-                        <label for="email">Email address * <span class="hint">Private — never published</span></label>
-                        <input id="email" name="email" type="email" maxlength="160" autocomplete="email" required placeholder="you@example.com">
-                    </div>
-                </div>
-
-                <div class="grid two">
-                    <div class="field">
-                        <label for="company">Company or brand</label>
-                        <input id="company" name="company" type="text" maxlength="120" autocomplete="organization" placeholder="Company or brand name">
-                    </div>
-                </div>
-
-                <fieldset class="field" id="services-field">
-                    <legend>Service(s) received *</legend>
-                    <span class="hint">Select all that apply.</span>
-                    <div class="event-options" id="service-options" role="group" aria-label="Services received">
-                        <label class="event-option"><input type="checkbox" name="services" value="Brand Strategy"><span>Brand Strategy</span></label>
-                        <label class="event-option"><input type="checkbox" name="services" value="Social Media"><span>Social Media</span></label>
-                        <label class="event-option"><input type="checkbox" name="services" value="Photography"><span>Photography</span></label>
-                        <label class="event-option"><input type="checkbox" name="services" value="Videography"><span>Videography</span></label>
-                        <label class="event-option"><input type="checkbox" name="services" value="Content Creation"><span>Content Creation</span></label>
-                        <label class="event-option"><input id="event-coverage-service" type="checkbox" name="services" value="Event Coverage"><span>Event Coverage</span></label>
-                        <label class="event-option"><input id="other-service-checkbox" type="checkbox" name="services" value="Other"><span>Other</span></label>
-                    </div>
-                    <p class="event-error" id="services-error" aria-live="polite"></p>
-                </fieldset>
-
-                <div class="field" id="custom-service-field" hidden>
-                    <label for="custom-service">Other service received *</label>
-                    <input id="custom-service" name="custom_service" type="text" maxlength="160" placeholder="Type the service that is not listed">
-                </div>
-                <fieldset class="field" id="event-types-field" hidden>
-                    <legend>Event type(s) *</legend>
-                    <span class="hint">Select all that apply.</span>
-                    <div class="event-options" role="group" aria-label="Event types">
-                        <label class="event-option"><input type="checkbox" name="event_types" value="Corporate Event"><span>Corporate Event</span></label>
-                        <label class="event-option"><input type="checkbox" name="event_types" value="Conference / Seminar"><span>Conference / Seminar</span></label>
-                        <label class="event-option"><input type="checkbox" name="event_types" value="Product Launch"><span>Product Launch</span></label>
-                        <label class="event-option"><input type="checkbox" name="event_types" value="Grand Opening"><span>Grand Opening</span></label>
-                        <label class="event-option"><input type="checkbox" name="event_types" value="Exhibition / Trade Show"><span>Exhibition / Trade Show</span></label>
-                        <label class="event-option"><input type="checkbox" name="event_types" value="Wedding / Engagement"><span>Wedding / Engagement</span></label>
-                        <label class="event-option"><input type="checkbox" name="event_types" value="Birthday / Private Celebration"><span>Birthday / Private Celebration</span></label>
-                        <label class="event-option"><input type="checkbox" name="event_types" value="Graduation"><span>Graduation</span></label>
-                        <label class="event-option"><input type="checkbox" name="event_types" value="Fashion Show"><span>Fashion Show</span></label>
-                        <label class="event-option"><input type="checkbox" name="event_types" value="Sports Event"><span>Sports Event</span></label>
-                        <label class="event-option"><input type="checkbox" name="event_types" value="Concert / Live Performance"><span>Concert / Live Performance</span></label>
-                        <label class="event-option"><input type="checkbox" name="event_types" value="Community / Cultural Event"><span>Community / Cultural Event</span></label>
-                        <label class="event-option"><input id="other-event-checkbox" type="checkbox" name="event_types" value="Other Event"><span>Other Event</span></label>
-                    </div>
-                    <p class="event-error" id="event-types-error" aria-live="polite"></p>
-                </fieldset>
-
-                <div class="field" id="custom-event-field" hidden>
-                    <label for="custom-event">Other event type *</label>
-                    <input id="custom-event" name="custom_event" type="text" maxlength="160" placeholder="Type the event that is not listed">
-                </div>
-
-                <div class="field">
-                    <label for="instagram">Instagram username <span class="hint">Optional</span></label>
-                    <input id="instagram" name="instagram" type="text" maxlength="31" inputmode="text" autocomplete="off" pattern="@?[A-Za-z0-9._]{1,30}" placeholder="@yourusername">
-                    <span class="hint">Add only your username, such as @yourbrand. It will stay private unless you tick the option below and Nostrix approves the review.</span>
-                    <label class="consent" for="showInstagram">
-                        <input id="showInstagram" name="showInstagram" type="checkbox" value="yes" disabled>
-                        <span>Show my Instagram @ with my approved testimonial.</span>
-                    </label>
-                </div>
-
-                <div class="field">
-                    <label for="liked">What did you like most about working with Nostrix? *</label>
-                    <textarea id="liked" name="liked" maxlength="1200" required placeholder="Tell us what worked well..."></textarea>
-                </div>
-
-                <div class="field">
-                    <label for="improve">What could we improve or fix? * <span class="hint">Private — this will never be displayed publicly</span></label>
-                    <textarea id="improve" name="improve" maxlength="1200" required placeholder="Please be honest. Write “Nothing” if you have no suggestions."></textarea>
-                </div>
-
-                <div class="field">
-                    <label for="testimonial">Short public testimonial *</label>
-                    <textarea id="testimonial" name="testimonial" maxlength="700" required placeholder="Write the review you would be happy for us to publish..."></textarea>
-                    <span class="hint">Nostrix may correct minor spelling or punctuation, but will not change the meaning without your approval.</span>
-                </div>
-
-                <fieldset class="field">
-                    <legend>How should your review be displayed? *</legend>
-                    <div class="choice-grid">
-                        <div class="choice"><input id="display-name" type="radio" name="displayPreference" value="name" required><label for="display-name">Use my name</label></div>
-                        <div class="choice"><input id="display-company" type="radio" name="displayPreference" value="company"><label for="display-company">Use my company or brand name</label></div>
-                        <div class="choice"><input id="display-anonymous" type="radio" name="displayPreference" value="anonymous"><label for="display-anonymous">Keep my identity anonymous</label></div>
-                    </div>
-                </fieldset>
-
-                <label class="consent" for="publishConsent">
-                    <input id="publishConsent" name="publishConsent" type="checkbox" value="yes" required>
-                    <span>I confirm that this feedback reflects my experience and give Nostrix permission to publish the public testimonial, rating, selected display name and Instagram username when I choose that option, after approval.</span>
-                </label>
-
-                <div class="honeypot" aria-hidden="true">
-                    <label for="website">Website</label>
-                    <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
-                </div>
-            </div>
-
-            <div class="actions">
-                <button type="submit" id="submit-review">Submit Review <i class="ph ph-paper-plane-tilt"></i></button>
-                <p class="status" id="review-status" role="status" aria-live="polite"></p>
-            </div>
-        </form>
-    </main>
-
-    <script src="../site-config.js"></script>
-    <script src="../analytics.js"></script>
-    <script>
+<main class="shell">
+<nav class="nav">
+<a class="brand" href="../">Nostrix</a>
+<a class="back" href="../#testimonials"><i class="ph ph-arrow-left"></i> Back to website</a>
+<button aria-label="تحويل الموقع إلى العربية" class="language-toggle" type="button">العربية</button></nav>
+<section class="intro">
+<p class="eyebrow">Client feedback</p>
+<h1>Tell us how we did</h1>
+<p>Your feedback helps us improve our service. You can also give us permission to publish a short testimonial on the Nostrix website.</p>
+<div class="privacy-note">
+<i aria-hidden="true" class="ph ph-lock-key text-xl"></i>
+<span><strong>Your improvement feedback stays private.</strong> Nothing appears publicly until Nostrix reviews and approves it, and only the public testimonial is displayed.</span>
+</div>
+</section>
+<form class="form-card" id="review-form" novalidate="">
+<div class="grid">
+<fieldset class="field">
+<legend>Overall rating *</legend>
+<div aria-label="Choose a rating from one to five stars" class="stars">
+<input id="star-5" name="rating" required="" type="radio" value="5"/><label for="star-5" title="5 stars">★</label>
+<input id="star-4" name="rating" type="radio" value="4"/><label for="star-4" title="4 stars">★</label>
+<input id="star-3" name="rating" type="radio" value="3"/><label for="star-3" title="3 stars">★</label>
+<input id="star-2" name="rating" type="radio" value="2"/><label for="star-2" title="2 stars">★</label>
+<input id="star-1" name="rating" type="radio" value="1"/><label for="star-1" title="1 star">★</label>
+</div>
+</fieldset>
+<div class="grid two">
+<div class="field">
+<label for="name">Your name</label>
+<input autocomplete="name" id="name" maxlength="100" name="name" placeholder="Your name" type="text"/>
+</div>
+<div class="field">
+<label for="email">Email address * <span class="hint">Private — never published</span></label>
+<input autocomplete="email" id="email" maxlength="160" name="email" placeholder="you@example.com" required="" type="email"/>
+</div>
+</div>
+<div class="grid two">
+<div class="field">
+<label for="company">Company or brand</label>
+<input autocomplete="organization" id="company" maxlength="120" name="company" placeholder="Company or brand name" type="text"/>
+</div>
+</div>
+<fieldset class="field" id="services-field">
+<legend>Service(s) received *</legend>
+<span class="hint">Select all that apply.</span>
+<div aria-label="Services received" class="event-options" id="service-options" role="group">
+<label class="event-option"><input name="services" type="checkbox" value="Brand Strategy"/><span>Brand Strategy</span></label>
+<label class="event-option"><input name="services" type="checkbox" value="Social Media"/><span>Social Media</span></label>
+<label class="event-option"><input name="services" type="checkbox" value="Photography"/><span>Photography</span></label>
+<label class="event-option"><input name="services" type="checkbox" value="Videography"/><span>Videography</span></label>
+<label class="event-option"><input name="services" type="checkbox" value="Content Creation"/><span>Content Creation</span></label>
+<label class="event-option"><input id="event-coverage-service" name="services" type="checkbox" value="Event Coverage"/><span>Event Coverage</span></label>
+<label class="event-option"><input id="other-service-checkbox" name="services" type="checkbox" value="Other"/><span>Other</span></label>
+</div>
+<p aria-live="polite" class="event-error" id="services-error"></p>
+</fieldset>
+<div class="field" hidden="" id="custom-service-field">
+<label for="custom-service">Other service received *</label>
+<input id="custom-service" maxlength="160" name="custom_service" placeholder="Type the service that is not listed" type="text"/>
+</div>
+<fieldset class="field" hidden="" id="event-types-field">
+<legend>Event type(s) *</legend>
+<span class="hint">Select all that apply.</span>
+<div aria-label="Event types" class="event-options" role="group">
+<label class="event-option"><input name="event_types" type="checkbox" value="Corporate Event"/><span>Corporate Event</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Conference / Seminar"/><span>Conference / Seminar</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Product Launch"/><span>Product Launch</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Grand Opening"/><span>Grand Opening</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Exhibition / Trade Show"/><span>Exhibition / Trade Show</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Wedding / Engagement"/><span>Wedding / Engagement</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Birthday / Private Celebration"/><span>Birthday / Private Celebration</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Graduation"/><span>Graduation</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Fashion Show"/><span>Fashion Show</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Sports Event"/><span>Sports Event</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Concert / Live Performance"/><span>Concert / Live Performance</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Community / Cultural Event"/><span>Community / Cultural Event</span></label>
+<label class="event-option"><input id="other-event-checkbox" name="event_types" type="checkbox" value="Other Event"/><span>Other Event</span></label>
+</div>
+<p aria-live="polite" class="event-error" id="event-types-error"></p>
+</fieldset>
+<div class="field" hidden="" id="custom-event-field">
+<label for="custom-event">Other event type *</label>
+<input id="custom-event" maxlength="160" name="custom_event" placeholder="Type the event that is not listed" type="text"/>
+</div>
+<div class="field">
+<label for="instagram">Instagram username <span class="hint">Optional</span></label>
+<input autocomplete="off" id="instagram" inputmode="text" maxlength="31" name="instagram" pattern="@?[A-Za-z0-9._]{1,30}" placeholder="@yourusername" type="text"/>
+<span class="hint">Add only your username, such as @yourbrand. It will stay private unless you tick the option below and Nostrix approves the review.</span>
+<label class="consent" for="showInstagram">
+<input disabled="" id="showInstagram" name="showInstagram" type="checkbox" value="yes"/>
+<span>Show my Instagram @ with my approved testimonial.</span>
+</label>
+</div>
+<div class="field">
+<label for="liked">What did you like most about working with Nostrix? *</label>
+<textarea id="liked" maxlength="1200" name="liked" placeholder="Tell us what worked well..." required=""></textarea>
+</div>
+<div class="field">
+<label for="improve">What could we improve or fix? * <span class="hint">Private — this will never be displayed publicly</span></label>
+<textarea id="improve" maxlength="1200" name="improve" placeholder="Please be honest. Write “Nothing” if you have no suggestions." required=""></textarea>
+</div>
+<div class="field">
+<label for="testimonial">Short public testimonial *</label>
+<textarea id="testimonial" maxlength="700" name="testimonial" placeholder="Write the review you would be happy for us to publish..." required=""></textarea>
+<span class="hint">Nostrix may correct minor spelling or punctuation, but will not change the meaning without your approval.</span>
+</div>
+<fieldset class="field">
+<legend>How should your review be displayed? *</legend>
+<div class="choice-grid">
+<div class="choice"><input id="display-name" name="displayPreference" required="" type="radio" value="name"/><label for="display-name">Use my name</label></div>
+<div class="choice"><input id="display-company" name="displayPreference" type="radio" value="company"/><label for="display-company">Use my company or brand name</label></div>
+<div class="choice"><input id="display-anonymous" name="displayPreference" type="radio" value="anonymous"/><label for="display-anonymous">Keep my identity anonymous</label></div>
+</div>
+</fieldset>
+<label class="consent" for="publishConsent">
+<input id="publishConsent" name="publishConsent" required="" type="checkbox" value="yes"/>
+<span>I confirm that this feedback reflects my experience and give Nostrix permission to publish the public testimonial, rating, selected display name and Instagram username when I choose that option, after approval.</span>
+</label>
+<div aria-hidden="true" class="honeypot">
+<label for="website">Website</label>
+<input autocomplete="off" id="website" name="website" tabindex="-1" type="text"/>
+</div>
+</div>
+<div class="actions">
+<button id="submit-review" type="submit">Submit Review <i class="ph ph-paper-plane-tilt"></i></button>
+<p aria-live="polite" class="status" id="review-status" role="status"></p>
+</div>
+</form>
+<div class="legal-mini-footer"><a href="/privacy/">Privacy Policy</a><a href="/terms/">Terms &amp; Conditions</a></div></main>
+<script src="../site-config.js"></script>
+<script src="../language.js"></script><script src="../analytics.js"></script>
+<script>
         const form = document.getElementById('review-form');
         const submitButton = document.getElementById('submit-review');
         const statusElement = document.getElementById('review-status');
