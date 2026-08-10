@@ -1,9 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="noindex" name="robots"/>
 <title>Page Not Found — Nostrix</title>
 <style>
 :root{
@@ -170,31 +171,29 @@ h1{
   .actions{display:grid}
   .btn{width:min(100%,320px)}
 }
+
+.error-language-toggle{position:fixed!important;top:max(1rem,env(safe-area-inset-top));inset-inline-end:max(1rem,env(safe-area-inset-right));z-index:20}.legal-mini-footer{position:fixed;left:50%;bottom:max(.85rem,env(safe-area-inset-bottom));transform:translateX(-50%);width:max-content;max-width:calc(100% - 2rem);margin:0;padding:.8rem 1rem;border:0;background:rgba(8,9,13,.7);backdrop-filter:blur(10px);border-radius:999px}
 </style>
 </head>
-<body>
+<body><button aria-label="تحويل الموقع إلى العربية" class="language-toggle error-language-toggle" type="button">العربية</button>
 <main class="error-scene">
-  <div class="error-number" aria-hidden="true">404</div>
-
-  <div class="error-content">
-    <a class="brand" href="/" aria-label="Nostrix home">
-      <span class="brand-mark" aria-hidden="true"></span>
-      <span class="brand-name">Nostrix</span>
-    </a>
-
-    <p class="kicker">Page not found</p>
-    <h1>This page slipped out of frame.</h1>
-
-    <p class="copy">
+<div aria-hidden="true" class="error-number">404</div>
+<div class="error-content">
+<a aria-label="Nostrix home" class="brand" href="/">
+<span aria-hidden="true" class="brand-mark"></span>
+<span class="brand-name">Nostrix</span>
+</a>
+<p class="kicker">Page not found</p>
+<h1>This page slipped out of frame.</h1>
+<p class="copy">
       The page you’re looking for may have moved or no longer exists.
       <span class="tagline">Made to be seen. Not lost.</span>
-    </p>
-
-    <div class="actions">
-      <a class="btn primary" href="/">Back to Nostrix <span aria-hidden="true">↗</span></a>
-      <a class="btn secondary" href="/portfolio/">View Portfolio</a>
-    </div>
-  </div>
+</p>
+<div class="actions">
+<a class="btn primary" href="/">Back to Nostrix <span aria-hidden="true">↗</span></a>
+<a class="btn secondary" href="/portfolio/">View Portfolio</a>
+</div>
+</div>
 </main>
-</body>
+<div class="legal-mini-footer"><a href="/privacy/">Privacy Policy</a><a href="/terms/">Terms &amp; Conditions</a></div><script src="/language.js"></script></body>
 </html>

@@ -3796,6 +3796,16 @@
 #photo-event-type-wrap[hidden]{
   display:none!important;
 }
+
+.hero-service-line{margin:1rem auto 0;max-width:52rem;color:rgba(255,255,255,.62);font-size:.72rem;font-weight:650;letter-spacing:.12em;text-transform:uppercase;line-height:1.7}
+.consultation-section{position:relative;z-index:10;padding:6rem max(1.25rem,env(safe-area-inset-right)) 6rem max(1.25rem,env(safe-area-inset-left));}
+.consultation-card{width:min(100%,80rem);margin:0 auto;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(16rem,.65fr);gap:2rem;align-items:center;padding:clamp(1.6rem,4vw,3.2rem);border:1px solid rgba(255,255,255,.11);border-radius:2rem;background:radial-gradient(circle at 85% 15%,rgba(210,139,255,.13),transparent 28rem),rgba(255,255,255,.028);box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+.consultation-kicker{margin:0 0 .9rem;color:var(--accent-2);font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase}.consultation-card h2{margin:0;color:#fff;font-family:var(--font-display,Inter,sans-serif);font-size:clamp(2rem,4vw,4rem);font-weight:750;line-height:1;letter-spacing:-.045em}.consultation-copy>p:not(.consultation-kicker):not(.consultation-note){margin:1.25rem 0 0;max-width:48rem;color:rgb(161 161 170);font-size:.95rem;line-height:1.8}.consultation-points{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.4rem}.consultation-points span{padding:.55rem .8rem;border:1px solid rgba(255,255,255,.1);border-radius:999px;color:#d4d4d8;background:rgba(255,255,255,.025);font-size:.72rem}.consultation-note{margin:1rem 0 0;color:rgb(113 113 122);font-size:.72rem;line-height:1.6}.consultation-actions{display:flex;flex-direction:column;gap:.75rem}.consultation-actions a{width:100%;justify-content:center}
+@media(min-width:720px){.site-footer-grid{grid-template-columns:1.35fr .75fr .75fr .75fr!important}}
+@media(max-width:767px){
+ .hero-service-line{font-size:.62rem;letter-spacing:.08em}.consultation-section{padding:4.5rem 1rem}.consultation-card{grid-template-columns:1fr;border-radius:1.45rem}.consultation-actions{margin-top:.5rem}
+ body.photo-calc-open{overflow:hidden!important;touch-action:none}.photo-calc-modal{display:block!important;padding:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:none!important;-webkit-overflow-scrolling:touch;background:#0d0d13}.photo-calc-backdrop{display:none!important}.photo-calc-panel{width:100%!important;max-width:none!important;max-height:none!important;min-height:100dvh!important;overflow:visible!important;margin:0!important;padding:calc(4.6rem + env(safe-area-inset-top)) max(1rem,env(safe-area-inset-right)) calc(2rem + env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left))!important;border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important;transition:none!important;background:linear-gradient(180deg,rgba(210,139,255,.055),transparent 24rem),#0d0d13!important}.photo-calc-modal.is-open .photo-calc-panel{transform:none!important}.photo-calc-layout,.photo-calc-two{grid-template-columns:1fr!important}.photo-estimate-card{position:static!important;top:auto!important}.photo-calc-close{position:fixed!important;top:calc(.75rem + env(safe-area-inset-top))!important;inset-inline-end:max(.75rem,env(safe-area-inset-right))!important;right:auto!important;z-index:220!important;background:rgba(18,18,25,.94)!important;backdrop-filter:blur(12px)}.photo-calc-panel *{max-width:100%;}.photo-calc-controls,.photo-calc-contact{min-width:0}.photo-estimate-line,.photo-price-cost-line{min-width:0}.photo-estimate-line strong,.photo-price-cost-line strong{overflow-wrap:anywhere}
+}
 </style>
 <!-- Mobile portfolio preview fix: 2026-08-06 v3 -->
 </head>
@@ -3818,7 +3828,7 @@
 <a class="nav-link" href="#what-we-do">What We Do</a><a class="nav-link" href="#pricing">Pricing</a>
 <a class="nav-link" href="/portfolio/">Portfolio</a>
 <a class="nav-link" href="https://www.instagram.com/nostrix.ae/" rel="noopener noreferrer" target="_blank">Instagram</a>
-<a class="nav-link nav-cta" href="#contact">Start a Project</a></div>
+<a class="nav-link nav-cta" href="#contact">Start a Project</a><button aria-label="تحويل الموقع إلى العربية" class="language-toggle" type="button">العربية</button></div>
 </nav>
 </header>
 <main>
@@ -3831,7 +3841,7 @@
 <h1 aria-label="Made to be seen." class="interactive-text my-10 font-display font-bold uppercase text-white" id="hero-title">Made to be seen.</h1>
 <p class="hero-description">
                         We create distinctive brands, social campaigns, photography and video that help ambitious businesses stand out and connect with the right audience.
-                    </p>
+                    </p><p class="hero-service-line">Photography · Videography &amp; Reels · Social Content · Event Coverage</p>
 <div class="hero-actions">
 <a class="primary-button" href="/portfolio/">
                             View Portfolio
@@ -3866,32 +3876,32 @@
 <div class="mx-auto max-w-7xl">
 <div class="section-heading reveal">
 <p class="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-accent1/75">What we do</p>
-<h2 class="font-display text-3xl font-bold uppercase leading-tight text-white md:text-5xl" id="what-we-do-title">Creative built to be seen</h2>
-<p class="mt-6 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">Focused creative production for brands that need stronger visuals, sharper social content and coverage that feels intentional.</p>
+<h2 class="font-display text-3xl font-bold uppercase leading-tight text-white md:text-5xl" id="what-we-do-title">Photography, video, social content &amp; event coverage</h2>
+<p class="mt-6 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">Four core services, one creative team. Choose exactly what your brand needs and we’ll shape the production around it.</p>
 </div>
 <div class="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
 <article class="service-card reveal p-6 sm:p-7" style="transition-delay:60ms">
 <div class="relative z-10 flex h-full flex-col">
 <div class="flex items-start justify-between"><div class="service-icon"><i aria-hidden="true" class="ph ph-camera text-2xl"></i></div><span class="service-number">01</span></div>
-<div class="service-body"><h3 class="text-xl font-semibold text-white">Photography</h3><p class="mt-4 text-sm font-light leading-6 text-zinc-400">Brand, product, lifestyle, automotive, property and campaign photography built around the way your business should look.</p></div>
+<div class="service-body"><h3 class="text-xl font-semibold text-white">Photography</h3><p class="mt-4 text-sm font-light leading-6 text-zinc-400">Brand campaigns, products, events, automotive, fashion, interiors and more.</p></div>
 </div>
 </article>
 <article class="service-card reveal p-6 sm:p-7" style="transition-delay:120ms">
 <div class="relative z-10 flex h-full flex-col">
 <div class="flex items-start justify-between"><div class="service-icon"><i aria-hidden="true" class="ph ph-video-camera text-2xl"></i></div><span class="service-number">02</span></div>
-<div class="service-body"><h3 class="text-xl font-semibold text-white">Videography &amp; Reels</h3><p class="mt-4 text-sm font-light leading-6 text-zinc-400">Short-form reels, highlight videos and cinematic brand content designed for the platforms people actually watch.</p></div>
+<div class="service-body"><h3 class="text-xl font-semibold text-white">Videography &amp; Reels</h3><p class="mt-4 text-sm font-light leading-6 text-zinc-400">Short-form reels, event films, promotional videos and social-first content.</p></div>
 </div>
 </article>
 <article class="service-card reveal p-6 sm:p-7" style="transition-delay:180ms">
 <div class="relative z-10 flex h-full flex-col">
 <div class="flex items-start justify-between"><div class="service-icon"><i aria-hidden="true" class="ph ph-device-mobile-camera text-2xl"></i></div><span class="service-number">03</span></div>
-<div class="service-body"><h3 class="text-xl font-semibold text-white">Social Content</h3><p class="mt-4 text-sm font-light leading-6 text-zinc-400">Platform-ready visuals, creative concepts and recurring content that keep your brand consistent without feeling repetitive.</p></div>
+<div class="service-body"><h3 class="text-xl font-semibold text-white">Social Content</h3><p class="mt-4 text-sm font-light leading-6 text-zinc-400">Photo and video content designed for Instagram, TikTok and digital campaigns.</p></div>
 </div>
 </article>
 <article class="service-card reveal p-6 sm:p-7" style="transition-delay:240ms">
 <div class="relative z-10 flex h-full flex-col">
 <div class="flex items-start justify-between"><div class="service-icon"><i aria-hidden="true" class="ph ph-confetti text-2xl"></i></div><span class="service-number">04</span></div>
-<div class="service-body"><h3 class="text-xl font-semibold text-white">Event Coverage</h3><p class="mt-4 text-sm font-light leading-6 text-zinc-400">Photo and video coverage for launches, activations, celebrations and live moments, from key shots to recap reels.</p></div>
+<div class="service-body"><h3 class="text-xl font-semibold text-white">Event Coverage</h3><p class="mt-4 text-sm font-light leading-6 text-zinc-400">Photography and video coverage for launches, exhibitions, corporate events, celebrations and live experiences.</p></div>
 </div>
 </article>
 </div>
@@ -4027,6 +4037,20 @@
 <span class="industry-chip"><i aria-hidden="true" class="ph ph-car-profile"></i>Automotive</span>
 <span class="industry-chip"><i aria-hidden="true" class="ph ph-package"></i>Products</span>
 <span class="industry-chip"><i aria-hidden="true" class="ph ph-buildings"></i>Real Estate</span>
+</div>
+</div>
+</section><section aria-labelledby="consultation-title" class="consultation-section" id="free-consultation">
+<div class="consultation-card reveal">
+<div class="consultation-copy">
+<p class="consultation-kicker">Free creative strategy call</p>
+<h2 id="consultation-title">Not sure what your brand needs?</h2>
+<p>Book a free 15-minute creative call. Tell us what you’re launching, promoting or planning and we’ll help you choose the right mix of photography, video and content.</p>
+<div class="consultation-points"><span>15-minute call</span><span>Clear creative direction</span><span>No obligation</span></div>
+<p class="consultation-note">The call is free. Any production work is quoted separately.</p>
+</div>
+<div class="consultation-actions">
+<a class="primary-button" data-lang-href-ar="https://wa.me/971561195226?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%86%D9%88%D8%B3%D8%AA%D8%B1%D9%8A%D9%83%D8%B3%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%AD%D8%AC%D8%B2%20%D9%85%D9%83%D8%A7%D9%84%D9%85%D8%A9%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9%20%D8%A5%D8%A8%D8%AF%D8%A7%D8%B9%D9%8A%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9%20%D9%84%D9%85%D8%AF%D8%A9%2015%20%D8%AF%D9%82%D9%8A%D9%82%D8%A9." data-lang-href-en="https://wa.me/971561195226?text=Hi%20Nostrix%2C%20I%27d%20like%20to%20book%20a%20free%2015-minute%20creative%20strategy%20call." href="https://wa.me/971561195226?text=Hi%20Nostrix%2C%20I%27d%20like%20to%20book%20a%20free%2015-minute%20creative%20strategy%20call." rel="noopener noreferrer" target="_blank">Book a Free Call <i aria-hidden="true" class="ph-fill ph-whatsapp-logo"></i></a>
+<a class="secondary-button" href="#contact">Send Your Brief <i aria-hidden="true" class="ph ph-arrow-down"></i></a>
 </div>
 </div>
 </section><section aria-labelledby="contact-title" class="contact-section" id="contact">
@@ -4554,9 +4578,9 @@
 <a class="footer-link" href="/portfolio/">Portfolio</a>
 <a class="footer-link" href="https://www.instagram.com/nostrix.ae/" rel="noopener noreferrer" target="_blank">Instagram</a>
 <a class="footer-link" href="/review/">Leave a Review</a>
-<a class="footer-link" href="/privacy/" target="_blank">Privacy Policy</a>
+
 </div>
-</div>
+<div class="footer-legal"><p class="footer-heading">Legal</p><a class="footer-link" href="/privacy/">Privacy Policy</a><a class="footer-link" href="/terms/">Terms &amp; Conditions</a></div></div>
 </footer>
 </div>
 <a aria-label="Chat with Nostrix on WhatsApp" class="whatsapp-float" href="https://wa.me/971561195226" rel="noopener noreferrer" target="_blank">
@@ -4564,7 +4588,7 @@
 <span>WhatsApp</span>
 </a>
 <script src="/site-config.js"></script>
-<script src="/analytics.js"></script>
+<script src="/language.js"></script><script src="/analytics.js"></script>
 <script>
         const textElement = document.querySelector('.interactive-text');
         const textString = 'Made to be seen.';
