@@ -3707,7 +3707,6 @@
 <div class="nav-menu" id="primary-menu">
 <a class="nav-link" href="#what-we-do">What We Do</a><a class="nav-link" href="#pricing">Pricing</a>
 <a class="nav-link" href="/portfolio/">Portfolio</a>
-
 <a class="nav-link" href="https://www.instagram.com/nostrix.ae/" rel="noopener noreferrer" target="_blank">Instagram</a>
 <a class="nav-link nav-cta" href="#contact">Start a Project</a></div>
 </nav>
@@ -3924,8 +3923,10 @@
 <div class="mx-auto max-w-7xl">
 <div class="section-heading reveal">
 <p class="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-accent1/75">Start a project</p>
-<h2 class="font-display text-3xl font-bold uppercase leading-tight text-white md:text-5xl" id="contact-title">Start with the basics</h2>
-<p class="mt-6 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">Tell us what you need and how to reach you. We’ll handle the detailed scope, timing and budget once we understand the idea.</p>
+<h2 class="font-display text-3xl font-bold uppercase leading-tight text-white md:text-5xl" id="contact-title">Tell us what you’re building</h2>
+<p class="mt-6 max-w-2xl text-sm font-light leading-7 text-zinc-400 md:text-base">
+                            Share the basics, choose the services you need and send your project brief by WhatsApp or submit it privately to Nostrix.
+                        </p>
 </div>
 <div class="contact-layout">
 <aside class="contact-card reveal">
@@ -3940,69 +3941,156 @@
 </div>
 </aside>
 <div class="contact-card reveal" style="transition-delay: 100ms;">
-<form id="project-form" novalidate=""><div class="custom-package-context" hidden="" id="custom-package-context">
+<form id="project-form" novalidate="">
+<div class="custom-package-context" hidden="" id="custom-package-context">
 <span><strong>Custom package selected.</strong> Tell us exactly what you need and we’ll build the scope around it.</span>
 <i aria-hidden="true" class="ph ph-sparkle text-xl text-accent2"></i>
 </div>
-<div class="form-grid two-column simple-project-grid">
+<div class="form-grid two-column">
 <div class="form-field">
 <label for="client-name">Name *</label>
 <input autocomplete="name" class="form-control" id="client-name" name="name" placeholder="Your name" required="" type="text"/>
 </div>
 <div class="form-field">
-<label for="company">Brand / Instagram *</label>
-<input autocomplete="organization" class="form-control" id="company" name="company" placeholder="@brand or brand name" required="" type="text"/>
+<label for="company">Company or brand *</label>
+<input autocomplete="organization" class="form-control" id="company" name="company" placeholder="Brand name" required="" type="text"/>
 </div>
 <div class="form-field">
-<label for="project-email">Email</label>
-<input autocomplete="email" class="form-control" id="project-email" inputmode="email" name="email" placeholder="you@brand.com" type="email"/>
+<label for="project-email">Work email *</label>
+<input autocomplete="email" class="form-control" id="project-email" inputmode="email" name="email" placeholder="name@company.com" required="" type="email"/>
 </div>
 <div class="form-field">
-<label for="project-phone">WhatsApp / phone</label>
+<label for="project-phone">Phone number *</label>
 <div class="phone-control">
-<select aria-label="Phone country code" class="form-control phone-code" id="project-phone-code" name="phone_code">
+<select aria-label="Phone country code" class="form-control phone-code" id="project-phone-code" name="phone_code" required="">
 <option selected="" value="+971">🇦🇪 +971 UAE</option>
 <option value="+966">🇸🇦 +966 Saudi Arabia</option>
 <option value="+974">🇶🇦 +974 Qatar</option>
 <option value="+965">🇰🇼 +965 Kuwait</option>
 <option value="+973">🇧🇭 +973 Bahrain</option>
 <option value="+968">🇴🇲 +968 Oman</option>
-<option value="+20">🇪🇬 +20 Egypt</option>
+<option value="+1">🇺🇸 +1 United States</option>
+<option value="+1">🇨🇦 +1 Canada</option>
 <option value="+44">🇬🇧 +44 United Kingdom</option>
-<option value="+1">+1 US / Canada</option>
+<option value="+33">🇫🇷 +33 France</option>
+<option value="+49">🇩🇪 +49 Germany</option>
+<option value="+39">🇮🇹 +39 Italy</option>
+<option value="+34">🇪🇸 +34 Spain</option>
+<option value="+31">🇳🇱 +31 Netherlands</option>
+<option value="+41">🇨🇭 +41 Switzerland</option>
+<option value="+90">🇹🇷 +90 Türkiye</option>
 <option value="+91">🇮🇳 +91 India</option>
-<option value="+63">🇵🇭 +63 Philippines</option>
 <option value="+92">🇵🇰 +92 Pakistan</option>
+<option value="+880">🇧🇩 +880 Bangladesh</option>
+<option value="+63">🇵🇭 +63 Philippines</option>
+<option value="+62">🇮🇩 +62 Indonesia</option>
+<option value="+60">🇲🇾 +60 Malaysia</option>
+<option value="+65">🇸🇬 +65 Singapore</option>
+<option value="+86">🇨🇳 +86 China</option>
+<option value="+852">🇭🇰 +852 Hong Kong</option>
+<option value="+81">🇯🇵 +81 Japan</option>
+<option value="+82">🇰🇷 +82 South Korea</option>
+<option value="+61">🇦🇺 +61 Australia</option>
+<option value="+64">🇳🇿 +64 New Zealand</option>
 <option value="+27">🇿🇦 +27 South Africa</option>
-<option value="+other">Other</option>
+<option value="+20">🇪🇬 +20 Egypt</option>
+<option value="+212">🇲🇦 +212 Morocco</option>
+<option value="+213">🇩🇿 +213 Algeria</option>
+<option value="+216">🇹🇳 +216 Tunisia</option>
+<option value="+962">🇯🇴 +962 Jordan</option>
+<option value="+961">🇱🇧 +961 Lebanon</option>
+<option value="+964">🇮🇶 +964 Iraq</option>
+<option value="+963">🇸🇾 +963 Syria</option>
+<option value="+967">🇾🇪 +967 Yemen</option>
+<option value="+235">🇹🇩 +235 Chad</option>
+<option value="+234">🇳🇬 +234 Nigeria</option>
+<option value="+254">🇰🇪 +254 Kenya</option>
+<option value="+233">🇬🇭 +233 Ghana</option>
 </select>
-<input autocomplete="tel-national" class="form-control phone-number" id="project-phone" inputmode="tel" name="phone" placeholder="50 123 4567" type="tel"/>
+<input autocomplete="tel-national" class="form-control phone-number" id="project-phone" inputmode="tel" name="phone" placeholder="50 123 4567" required="" type="tel"/>
 </div>
 </div>
 <div class="form-field form-field-wide">
-<label for="project-service">What do you need? *</label>
-<select class="form-control" id="project-service" name="services" required="">
-<option value="">Choose one</option>
-<option>Photography</option>
-<option>Videography / Reels</option>
-<option>Photography + Videography</option>
-<option>Social Content</option>
-<option>Event Coverage</option>
+<label>Service(s) needed *</label>
+<p class="field-help">Select all that apply.</p>
+<div aria-label="Services needed" class="event-options" id="service-options" role="group">
+<label class="event-option"><input name="services" type="checkbox" value="Brand Strategy"/><span>Brand Strategy</span></label>
+<label class="event-option"><input name="services" type="checkbox" value="Social Media"/><span>Social Media</span></label>
+<label class="event-option"><input name="services" type="checkbox" value="Photography"/><span>Photography</span></label>
+<label class="event-option"><input name="services" type="checkbox" value="Videography"/><span>Videography</span></label>
+<label class="event-option"><input name="services" type="checkbox" value="Content Creation"/><span>Content Creation</span></label>
+<label class="event-option"><input id="event-coverage-service" name="services" type="checkbox" value="Event Coverage"/><span>Event Coverage</span></label>
+<label class="event-option"><input id="other-service-checkbox" name="services" type="checkbox" value="Other"/><span>Other</span></label>
+</div>
+<p aria-live="polite" class="event-error" id="services-error"></p>
+</div>
+<div class="form-field form-field-wide" hidden="" id="custom-service-field">
+<label for="custom-service">Other service *</label>
+<input class="form-control" id="custom-service" name="custom_service" placeholder="Type the service that is not listed" type="text"/>
+</div>
+<div class="form-field form-field-wide" hidden="" id="event-types-field">
+<label>Event type(s) *</label>
+<p class="field-help">Select all that apply.</p>
+<div aria-label="Event types" class="event-options" id="event-options" role="group">
+<label class="event-option"><input name="event_types" type="checkbox" value="Corporate Event"/><span>Corporate Event</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Conference / Seminar"/><span>Conference / Seminar</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Product Launch"/><span>Product Launch</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Grand Opening"/><span>Grand Opening</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Exhibition / Trade Show"/><span>Exhibition / Trade Show</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Wedding / Engagement"/><span>Wedding / Engagement</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Birthday / Private Celebration"/><span>Birthday / Private Celebration</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Graduation"/><span>Graduation</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Fashion Show"/><span>Fashion Show</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Sports Event"/><span>Sports Event</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Concert / Live Performance"/><span>Concert / Live Performance</span></label>
+<label class="event-option"><input name="event_types" type="checkbox" value="Community / Cultural Event"/><span>Community / Cultural Event</span></label>
+<label class="event-option"><input id="other-event-checkbox" name="event_types" type="checkbox" value="Other Event"/><span>Other Event</span></label>
+</div>
+<p aria-live="polite" class="event-error" id="event-types-error"></p>
+</div>
+<div class="form-field form-field-wide" hidden="" id="custom-event-field">
+<label for="custom-event">Other event type *</label>
+<input class="form-control" id="custom-event" name="custom_event" placeholder="Type the event that is not listed" type="text"/>
+</div>
+<div class="form-field">
+<label for="budget">Estimated budget *</label>
+<select class="form-control" id="budget" name="budget" required="">
+<option value="">Select a range</option>
+<option>Below AED 2,500</option>
+<option>AED 2,500–5,000</option>
+<option>AED 5,000–10,000</option>
+<option>AED 10,000–25,000</option>
+<option>AED 25,000+</option>
 <option>Not sure yet</option>
+<option value="custom">Other — enter my own budget</option>
 </select>
+</div>
+<div class="form-field" hidden="" id="custom-budget-field">
+<label for="custom-budget">Your budget *</label>
+<input class="form-control" id="custom-budget" inputmode="decimal" name="custom_budget" placeholder="For example: AED 7,500" type="text"/>
+</div>
+<div class="form-field">
+<label for="timeline">Preferred timeline *</label>
+<input class="form-control" id="timeline" name="timeline" placeholder="For example: this month" required="" type="text"/>
 </div>
 </div>
 <div class="form-field mt-4">
-<label for="project-details">Tell us about the project *</label>
-<textarea class="form-control" id="project-details" name="details" placeholder="What are you looking to create? Add any dates, location, deliverables or ideas you already have." required=""></textarea>
+<label for="project-details">Project details *</label>
+<textarea class="form-control" id="project-details" name="details" placeholder="Tell us about your project, goals and deliverables." required=""></textarea>
 </div>
 <label class="consent-row mt-4" for="privacy-consent">
 <input id="privacy-consent" name="privacy" required="" type="checkbox"/>
-<span>I agree to share these details with Nostrix so the team can respond to my enquiry. Read the <a class="text-accent1 underline underline-offset-4" href="/privacy/" target="_blank">privacy policy</a>.</span>
+<span>I agree to share these details with Nostrix for the purpose of responding to my enquiry. Read the <a class="text-accent1 underline underline-offset-4" href="/privacy/" target="_blank">privacy policy</a>.</span>
 </label>
 <div class="form-actions mt-6">
-<button class="primary-button" type="submit">Send on WhatsApp <i aria-hidden="true" class="ph-fill ph-whatsapp-logo"></i></button>
-<button class="secondary-button" id="email-project" type="button">Submit Enquiry <i aria-hidden="true" class="ph ph-paper-plane-tilt"></i></button>
+<button class="primary-button" type="submit">
+                                                                    Send on WhatsApp
+                                                                    <i aria-hidden="true" class="ph-fill ph-whatsapp-logo"></i>
+</button>
+<button class="secondary-button" id="email-project" type="button">
+                                Submit Project Brief
+                                <i aria-hidden="true" class="ph ph-paper-plane-tilt"></i>
+</button>
 </div>
 <p aria-live="polite" class="form-status mt-4" id="form-status"></p>
 </form>
@@ -4293,10 +4381,6 @@
 </form>
 </div>
 </div>
-
-
-
-
 </main>
 <footer class="footer-line relative z-10 px-5 py-10 md:px-8">
 <div class="site-footer-grid">
@@ -4781,28 +4865,119 @@
         const projectForm = document.getElementById('project-form');
         const emailProjectButton = document.getElementById('email-project');
         const formStatus = document.getElementById('form-status');
+        const serviceCheckboxes = Array.from(document.querySelectorAll('input[name="services"]'));
+        const servicesError = document.getElementById('services-error');
+        const eventCoverageService = document.getElementById('event-coverage-service');
+        const otherServiceCheckbox = document.getElementById('other-service-checkbox');
+        const customServiceField = document.getElementById('custom-service-field');
+        const customServiceInput = document.getElementById('custom-service');
+        const eventTypesField = document.getElementById('event-types-field');
+        const eventTypeCheckboxes = Array.from(document.querySelectorAll('input[name="event_types"]'));
+        const eventTypesError = document.getElementById('event-types-error');
+        const otherEventCheckbox = document.getElementById('other-event-checkbox');
+        const customEventField = document.getElementById('custom-event-field');
+        const customEventInput = document.getElementById('custom-event');
+        const budgetSelect = document.getElementById('budget');
+        const customBudgetField = document.getElementById('custom-budget-field');
+        const customBudgetInput = document.getElementById('custom-budget');
+
+        function updateCustomBudgetField() {
+            const usesCustomBudget = budgetSelect.value === 'custom';
+            customBudgetField.hidden = !usesCustomBudget;
+            customBudgetInput.required = usesCustomBudget;
+
+            if (!usesCustomBudget) {
+                customBudgetInput.value = '';
+            }
+        }
+
+        function updateServiceFields() {
+            const isOtherService = otherServiceCheckbox.checked;
+            const isEventCoverage = eventCoverageService.checked;
+
+            customServiceField.hidden = !isOtherService;
+            customServiceInput.required = isOtherService;
+            eventTypesField.hidden = !isEventCoverage;
+
+            if (!isOtherService) {
+                customServiceInput.value = '';
+            }
+
+            if (!isEventCoverage) {
+                eventTypeCheckboxes.forEach((checkbox) => {
+                    checkbox.checked = false;
+                });
+                eventTypesError.textContent = '';
+                customEventField.hidden = true;
+                customEventInput.required = false;
+                customEventInput.value = '';
+            }
+
+            if (serviceCheckboxes.some((checkbox) => checkbox.checked)) {
+                servicesError.textContent = '';
+            }
+
+            updateCustomEventField();
+        }
+
+        function updateCustomEventField() {
+            const showCustomEvent = eventCoverageService.checked && otherEventCheckbox.checked;
+            customEventField.hidden = !showCustomEvent;
+            customEventInput.required = showCustomEvent;
+
+            if (!showCustomEvent) {
+                customEventInput.value = '';
+            }
+        }
+
+        serviceCheckboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', updateServiceFields);
+        });
+otherEventCheckbox.addEventListener('change', updateCustomEventField);
+        eventTypeCheckboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', () => {
+                if (eventTypeCheckboxes.some((item) => item.checked)) {
+                    eventTypesError.textContent = '';
+                }
+            });
+        });
+
+        budgetSelect.addEventListener('change', updateCustomBudgetField);
+        updateServiceFields();
+        updateCustomBudgetField();
 
         function formatPhone(countryCode, localNumber) {
             const code = String(countryCode || '').trim();
             const number = String(localNumber || '').trim().replace(/^0+/, '');
-            if (!number) return '';
-            return [code === '+other' ? '' : code, number].filter(Boolean).join(' ').trim();
+            return [code, number].filter(Boolean).join(' ').trim();
         }
 
         function getProjectSubmissionData() {
             const data = new FormData(projectForm);
+            const budget = data.get('budget') === 'custom'
+                ? data.get('custom_budget')
+                : data.get('budget');
+
+            const services = data.getAll('services')
+                .map((service) => service === 'Other' ? data.get('custom_service') : service)
+                .filter(Boolean);
+
+            const eventTypes = data.getAll('event_types')
+                .map((eventType) => eventType === 'Other Event' ? data.get('custom_event') : eventType)
+                .filter(Boolean);
+
             return {
-                source: 'simple-project-form',
+                source: 'custom-project-form',
                 package: 'Custom',
                 price: 'Custom Pricing',
                 name: data.get('name') || '',
                 company: data.get('company') || '',
                 email: data.get('email') || '',
                 phone: formatPhone(data.get('phone_code'), data.get('phone')),
-                services: data.get('services') || '',
-                eventTypes: '',
-                budget: '',
-                timeline: '',
+                services: services.join(', '),
+                eventTypes: eventTypes.join(', '),
+                budget: budget || '',
+                timeline: data.get('timeline') || '',
                 needs: data.get('details') || '',
                 brief: buildProjectBrief(),
                 submittedAt: new Date().toISOString(),
@@ -4812,39 +4987,67 @@
 
         function buildProjectBrief() {
             const data = new FormData(projectForm);
-            const email = String(data.get('email') || '').trim();
-            const phone = formatPhone(data.get('phone_code'), data.get('phone'));
-            return [
+            const budget = data.get('budget') === 'custom'
+                ? data.get('custom_budget')
+                : data.get('budget');
+            const selectedServices = data.getAll('services')
+                .map((service) => service === 'Other' ? data.get('custom_service') : service)
+                .filter(Boolean);
+            const selectedEventTypes = data.getAll('event_types')
+                .map((eventType) => eventType === 'Other Event' ? data.get('custom_event') : eventType)
+                .filter(Boolean);
+
+            const brief = [
                 'Hello Nostrix, I would like to discuss a project.',
                 '',
                 `Name: ${data.get('name') || ''}`,
-                `Brand / Instagram: ${data.get('company') || ''}`,
-                `Email: ${email || 'Not provided'}`,
-                `WhatsApp / phone: ${phone || 'Not provided'}`,
-                `What I need: ${data.get('services') || ''}`,
+                `Company / Brand: ${data.get('company') || ''}`,
+                `Email: ${data.get('email') || ''}`,
+                `Phone: ${formatPhone(data.get('phone_code'), data.get('phone'))}`,
+                `Service(s): ${selectedServices.join(', ')}`
+            ];
+
+            if (selectedServices.includes('Event Coverage')) {
+                brief.push(`Event type(s): ${selectedEventTypes.join(', ')}`);
+            }
+
+            brief.push(
+                `Estimated budget: ${budget || ''}`,
+                `Preferred timeline: ${data.get('timeline') || ''}`,
                 '',
                 'Project details:',
                 data.get('details') || ''
-            ].join('\n');
+            );
+
+            return brief.join('\n');
         }
 
         function validateProjectForm() {
             if (!projectForm.checkValidity()) {
                 projectForm.reportValidity();
-                formStatus.textContent = 'Please complete the required fields and accept the privacy notice.';
+                formStatus.textContent = 'Please answer every question and accept the privacy notice.';
                 return false;
             }
 
-            const data = new FormData(projectForm);
-            const email = String(data.get('email') || '').trim();
-            const phone = String(data.get('phone') || '').trim();
-
-            if (!email && !phone) {
-                formStatus.textContent = 'Please add either an email address or WhatsApp / phone number so we can reach you.';
-                document.getElementById('project-email')?.focus({ preventScroll: false });
+            if (!serviceCheckboxes.some((checkbox) => checkbox.checked)) {
+                servicesError.textContent = 'Please select at least one service.';
+                formStatus.textContent = 'Please select at least one service.';
+                document.getElementById('service-options').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                serviceCheckboxes[0]?.focus({ preventScroll: true });
                 return false;
             }
 
+            servicesError.textContent = '';
+
+            if (eventCoverageService.checked && !eventTypeCheckboxes.some((checkbox) => checkbox.checked)) {
+                eventTypesError.textContent = 'Please select at least one event type.';
+                formStatus.textContent = 'Please select at least one event type.';
+                eventTypesField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                eventTypeCheckboxes[0]?.focus({ preventScroll: true });
+                return false;
+            }
+
+            eventTypesError.textContent = '';
             formStatus.textContent = '';
             return true;
         }
@@ -4854,7 +5057,7 @@
             if (!validateProjectForm()) return;
 
             const message = encodeURIComponent(buildProjectBrief());
-            formStatus.textContent = 'Opening WhatsApp with your enquiry…';
+            formStatus.textContent = 'Opening WhatsApp with your project brief…';
             window.open(`https://wa.me/971561195226?text=${message}`, '_blank', 'noopener,noreferrer');
         });
 
