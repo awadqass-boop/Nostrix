@@ -3806,6 +3806,14 @@
  .hero-service-line{font-size:.62rem;letter-spacing:.08em}.consultation-section{padding:4.5rem 1rem}.consultation-card{grid-template-columns:1fr;border-radius:1.45rem}.consultation-actions{margin-top:.5rem}
  body.photo-calc-open{overflow:hidden!important;touch-action:none}.photo-calc-modal{display:block!important;padding:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:none!important;-webkit-overflow-scrolling:touch;background:#0d0d13}.photo-calc-backdrop{display:none!important}.photo-calc-panel{width:100%!important;max-width:none!important;max-height:none!important;min-height:100dvh!important;overflow:visible!important;margin:0!important;padding:calc(4.6rem + env(safe-area-inset-top)) max(1rem,env(safe-area-inset-right)) calc(2rem + env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left))!important;border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important;transition:none!important;background:linear-gradient(180deg,rgba(210,139,255,.055),transparent 24rem),#0d0d13!important}.photo-calc-modal.is-open .photo-calc-panel{transform:none!important}.photo-calc-layout,.photo-calc-two{grid-template-columns:1fr!important}.photo-estimate-card{position:static!important;top:auto!important}.photo-calc-close{position:fixed!important;top:calc(.75rem + env(safe-area-inset-top))!important;inset-inline-end:max(.75rem,env(safe-area-inset-right))!important;right:auto!important;z-index:220!important;background:rgba(18,18,25,.94)!important;backdrop-filter:blur(12px)}.photo-calc-panel *{max-width:100%;}.photo-calc-controls,.photo-calc-contact{min-width:0}.photo-estimate-line,.photo-price-cost-line{min-width:0}.photo-estimate-line strong,.photo-price-cost-line strong{overflow-wrap:anywhere}
 }
+
+/* LANGUAGE TEXT-ONLY FIX: do not move or mirror the layout */
+#hero-title .hero-arabic-title{
+  display:inline-block;
+  direction:rtl;
+  unicode-bidi:isolate;
+  letter-spacing:0;
+}
 </style>
 <!-- Mobile portfolio preview fix: 2026-08-06 v3 -->
 </head>
@@ -4591,29 +4599,48 @@
 <script src="/language.js"></script><script src="/analytics.js"></script>
 <script>
         const textElement = document.querySelector('.interactive-text');
-        const textString = 'Made to be seen.';
-        textElement.textContent = '';
 
-        textString.split('').forEach((character, index) => {
-            const span = document.createElement('span');
-            span.setAttribute('aria-hidden', 'true');
+        function renderHeroTitle() {
+            if (!textElement) return;
 
-            if (character === ' ') {
-                span.innerHTML = '&nbsp;';
-                span.className = 'char-space';
-                span.style.width = '0.34em';
-            } else {
-                span.className = 'char';
-                span.style.animationDelay = `${320 + index * 58}ms`;
+            const isArabic = document.documentElement.lang === 'ar';
+            const textString = isArabic ? 'صُمّم ليُرى.' : 'Made to be seen.';
 
-                const inner = document.createElement('span');
-                inner.className = 'char-inner';
-                inner.textContent = character;
-                span.appendChild(inner);
+            textElement.textContent = '';
+            textElement.setAttribute('aria-label', textString);
+
+            if (isArabic) {
+                const arabicTitle = document.createElement('span');
+                arabicTitle.className = 'hero-arabic-title';
+                arabicTitle.textContent = textString;
+                textElement.appendChild(arabicTitle);
+                return;
             }
 
-            textElement.appendChild(span);
-        });
+            textString.split('').forEach((character, index) => {
+                const span = document.createElement('span');
+                span.setAttribute('aria-hidden', 'true');
+
+                if (character === ' ') {
+                    span.innerHTML = '&nbsp;';
+                    span.className = 'char-space';
+                    span.style.width = '0.34em';
+                } else {
+                    span.className = 'char';
+                    span.style.animationDelay = `${320 + index * 58}ms`;
+
+                    const inner = document.createElement('span');
+                    inner.className = 'char-inner';
+                    inner.textContent = character;
+                    span.appendChild(inner);
+                }
+
+                textElement.appendChild(span);
+            });
+        }
+
+        renderHeroTitle();
+        document.addEventListener('nostrixlanguagechange', renderHeroTitle);
 
         const glow = document.getElementById('glow');
         let targetX = window.innerWidth / 2;
