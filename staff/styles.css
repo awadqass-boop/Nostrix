@@ -15,3 +15,38 @@ footer{display:flex;justify-content:space-between;gap:1rem;width:min(100%,100rem
 .empty{padding:1rem;color:var(--soft);font-size:.62rem;text-align:center}
 html[lang=ar] body{font-family:"IBM Plex Sans Arabic",Inter,sans-serif}html[lang=ar] .eyebrow{letter-spacing:0}html[lang=ar] .hero,html[lang=ar] .modal-head,html[lang=ar] .task,html[lang=ar] .project-card{text-align:right;direction:rtl}
 @media(max-width:1200px){.board{grid-template-columns:repeat(2,1fr)}.project-cards{grid-template-columns:repeat(2,1fr)}.controls{flex-direction:column}.filters{width:100%}.stats{grid-template-columns:repeat(3,1fr)}}@media(max-width:760px){.topbar{padding:.6rem 1rem}.profile-btn>span:nth-child(2){display:none}.main{padding:2rem 1rem}.hero{align-items:flex-start;flex-direction:column}.hero-actions{width:100%}.hero-actions>*{flex:1}.stats{grid-template-columns:repeat(2,1fr)}.project-cards{grid-template-columns:1fr}.filters{grid-template-columns:1fr 1fr}.board{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.column{flex:0 0 min(88vw,22rem);scroll-snap-align:start}.resources{grid-template-columns:1fr}.link-form{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.task-tabs{overflow-x:auto}.task-tab{min-width:8rem}.modal-box{padding:1rem}.project-row{grid-template-columns:1fr auto}.project-row>*:nth-child(2){display:none}footer{flex-direction:column;padding:1.5rem 1rem}}
+
+/* =========================================================
+   DROPDOWN VISIBILITY FIX
+   Windows/Chrome can render the native dropdown menu white.
+   Force dark text on that white popup while keeping the
+   closed controls dark with white text.
+   ========================================================= */
+select {
+  color: #f7f7fa !important;
+  background-color: #111118 !important;
+  color-scheme: light !important;
+}
+
+select option,
+select optgroup {
+  color: #111318 !important;
+  background-color: #ffffff !important;
+}
+
+select option:checked {
+  color: #ffffff !important;
+  background: #236fd1 !important;
+}
+
+/* Keep every staff form/dropdown consistent */
+.filters select,
+#task-assignee,
+#task-project,
+#task-priority,
+#task-status,
+#project-status {
+  color: #f7f7fa !important;
+  background-color: #111118 !important;
+  border-color: rgba(255,255,255,.12) !important;
+}
