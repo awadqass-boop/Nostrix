@@ -111,7 +111,20 @@
         <label>Details<textarea id="task-details" rows="4" maxlength="2000"></textarea></label>
         <div class="form-grid">
           <label>Project<select id="task-project"></select></label>
-          <label>Assignee<select id="task-assignee"></select></label>
+          <label class="assignee-field">Assignee
+  <select id="task-assignee" class="native-assignee-select" tabindex="-1" aria-hidden="true"></select>
+  <div id="assignee-picker" class="assignee-picker">
+    <button id="assignee-trigger" class="assignee-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+      <span id="assignee-trigger-icon" class="assignee-choice-icon"><i class="ph ph-user"></i></span>
+      <span class="assignee-trigger-copy">
+        <strong id="assignee-trigger-name">Choose assignee</strong>
+        <small id="assignee-trigger-sub">Select one person or everyone</small>
+      </span>
+      <i class="ph ph-caret-down assignee-caret"></i>
+    </button>
+    <div id="assignee-menu" class="assignee-menu" role="listbox" hidden></div>
+  </div>
+</label>
           <label>Due date<input id="task-due" type="date"></label>
           <label>Priority<select id="task-priority"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option><option value="urgent">Urgent</option></select></label>
           <label>Status<select id="task-status"><option value="todo">To do</option><option value="progress">In progress</option><option value="review">Review</option><option value="done">Done</option></select></label>
