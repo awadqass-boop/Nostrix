@@ -1,136 +1,15 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-const CONFIG = window.NOSTRIX_STAFF_CONFIG || {};
+const config = window.NOSTRIX_STAFF_CONFIG || {};
+const configured =
+  config.SUPABASE_URL &&
+  config.SUPABASE_PUBLISHABLE_KEY &&
+  !config.SUPABASE_URL.includes("PASTE_") &&
+  !config.SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
 
-const $ = (selector, root = document) => root.querySelector(selector);
-const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-
-const TRANSLATIONS = {
-  en: {
-    staffWorkspace: "Staff workspace",
-    welcome: "Welcome back.",
-    loginHelp: "Sign in using an approved Nostrix work email. We’ll send you a secure sign-in link.",
-    workEmail: "Work email",
-    sendLink: "Send sign-in link",
-    inviteOnly: "Invite-only access",
-    workspace: "Workspace",
-    profile: "Profile",
-    signOut: "Sign out",
-    teamTasks: "Team tasks",
-    hello: "Hello",
-    dashboardIntro: "Keep track of what needs to be done, who owns it and what is coming up next.",
-    newTask: "New task",
-    toDo: "To do",
-    inProgress: "In progress",
-    dueSoon: "Due soon",
-    completed: "Completed",
-    myTasks: "My tasks",
-    allTasks: "All tasks",
-    searchTasks: "Search tasks",
-    allPriorities: "All priorities",
-    urgent: "Urgent",
-    high: "High",
-    medium: "Medium",
-    low: "Low",
-    review: "Review",
-    done: "Done",
-    nothingHere: "Nothing here yet.",
-    emptyHelp: "Create a task or change the filters to see more.",
-    privateWorkspace: "Private staff workspace",
-    taskDetails: "Task details",
-    title: "Title",
-    details: "Details",
-    assignee: "Assignee",
-    dueDate: "Due date",
-    priority: "Priority",
-    status: "Status",
-    delete: "Delete",
-    cancel: "Cancel",
-    saveTask: "Save task",
-    yourAccount: "Your account",
-    displayName: "Display name",
-    jobTitle: "Job title",
-    save: "Save"
-  },
-  ar: {
-    staffWorkspace: "مساحة فريق العمل",
-    welcome: "مرحباً بعودتك.",
-    loginHelp: "سجّل الدخول باستخدام بريد نوستريكس المعتمد. سنرسل لك رابط دخول آمن.",
-    workEmail: "بريد العمل",
-    sendLink: "إرسال رابط الدخول",
-    inviteOnly: "الدخول بالدعوة فقط",
-    workspace: "مساحة العمل",
-    profile: "الملف الشخصي",
-    signOut: "تسجيل الخروج",
-    teamTasks: "مهام الفريق",
-    hello: "مرحباً",
-    dashboardIntro: "تابع ما يجب إنجازه، ومن المسؤول عنه، وما هي المواعيد القادمة.",
-    newTask: "مهمة جديدة",
-    toDo: "للإنجاز",
-    inProgress: "قيد التنفيذ",
-    dueSoon: "قريب الاستحقاق",
-    completed: "مكتملة",
-    myTasks: "مهامي",
-    allTasks: "كل المهام",
-    searchTasks: "ابحث في المهام",
-    allPriorities: "كل الأولويات",
-    urgent: "عاجل",
-    high: "مرتفع",
-    medium: "متوسط",
-    low: "منخفض",
-    review: "للمراجعة",
-    done: "تم",
-    nothingHere: "لا توجد مهام هنا بعد.",
-    emptyHelp: "أنشئ مهمة أو غيّر عوامل التصفية.",
-    privateWorkspace: "مساحة عمل خاصة بالفريق",
-    taskDetails: "تفاصيل المهمة",
-    title: "العنوان",
-    details: "التفاصيل",
-    assignee: "المسؤول",
-    dueDate: "تاريخ الاستحقاق",
-    priority: "الأولوية",
-    status: "الحالة",
-    delete: "حذف",
-    cancel: "إلغاء",
-    saveTask: "حفظ المهمة",
-    yourAccount: "حسابك",
-    displayName: "الاسم الظاهر",
-    jobTitle: "المسمى الوظيفي",
-    save: "حفظ"
-  }
-};
-
-const WORDS = {
-  en: {
-    unassigned: "Unassigned",
-    noDate: "No due date",
-    overdue: "Overdue",
-    dueToday: "Due today",
-    dueTomorrow: "Due tomorrow",
-    saved: "Task saved.",
-    deleted: "Task deleted.",
-    refreshed: "Updated.",
-    profileSaved: "Profile saved.",
-    genericAuth: "If this is an approved Nostrix account, a secure sign-in link has been sent.",
-    error: "Something went wrong. Please try again.",
-    deleteConfirm: "Delete this task permanently?"
-  },
-  ar: {
-    unassigned: "غير مخصص",
-    noDate: "بدون تاريخ",
-    overdue: "متأخرة",
-    dueToday: "مستحقة اليوم",
-    dueTomorrow: "مستحقة غداً",
-    saved: "تم حفظ المهمة.",
-    deleted: "تم حذف المهمة.",
-    refreshed: "تم التحديث.",
-    profileSaved: "تم حفظ الملف الشخصي.",
-    genericAuth: "إذا كان الحساب معتمداً لدى نوستريكس، فقد تم إرسال رابط دخول آمن.",
-    error: "حدث خطأ. يرجى المحاولة مرة أخرى.",
-    deleteConfirm: "هل تريد حذف هذه المهمة نهائياً؟"
-  }
-};
-
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+const langKey = "nostrix_language_v1";
 const state = {
   supabase: null,
   user: null,
@@ -138,1004 +17,392 @@ const state = {
   profiles: [],
   tasks: [],
   view: "mine",
-  priority: "all",
   search: "",
-  language: localStorage.getItem("nostrix_staff_language") === "ar" ? "ar" : "en",
+  priority: "all",
+  language: localStorage.getItem(langKey) === "ar" ? "ar" : "en",
   realtime: null
 };
 
-function t(key) {
-  return TRANSLATIONS[state.language]?.[key] || TRANSLATIONS.en[key] || key;
-}
+const T = {
+  en: {
+    staffWorkspace:"Staff workspace", welcome:"Welcome back.", loginHelp:"Sign in using an approved Nostrix work email. We’ll send you a secure sign-in link.",
+    workEmail:"Work email", sendLink:"Send sign-in link", inviteOnly:"Invite-only access", workspace:"Workspace", teamTasks:"Team tasks",
+    hello:"Hello", dashboardIntro:"Keep track of what needs to be done, who owns it and what is coming up next.", newTask:"New task",
+    toDo:"To do", inProgress:"In progress", dueSoon:"Due soon", completed:"Completed", myTasks:"My tasks", allTasks:"All tasks",
+    searchTasks:"Search tasks", allPriorities:"All priorities", urgent:"Urgent", high:"High", medium:"Medium", low:"Low", review:"Review",
+    done:"Done", nothingHere:"Nothing here yet.", emptyHelp:"Create a task or change the filters to see more.", privateWorkspace:"Private staff workspace",
+    taskDetails:"Task details", title:"Title", details:"Details", assignee:"Assignee", dueDate:"Due date", priority:"Priority", status:"Status",
+    delete:"Delete", cancel:"Cancel", saveTask:"Save task", taskTitlePlaceholder:"What needs to be done?", detailsPlaceholder:"Add context, links or notes",
+    yourAccount:"Your account", profile:"Profile", displayName:"Display name", jobTitle:"Job title", jobPlaceholder:"e.g. Chief Creative Officer",
+    save:"Save", signOut:"Sign out", unassigned:"Unassigned", taskSaved:"Task saved.", taskDeleted:"Task deleted.", profileSaved:"Profile saved.",
+    linkSent:"If this is an approved Nostrix account, a secure sign-in link has been sent to the work mailbox.", invalidEmail:"Please use an approved Nostrix work email.", loginError:"We could not send the sign-in link.",
+    loading:"Loading…", deleteConfirm:"Delete this task permanently?", refresh:"Refresh", overdue:"Overdue", dueToday:"Due today", dueTomorrow:"Due tomorrow",
+    noDueDate:"No due date", assignedTo:"Assigned to", createdBy:"Created by"
+  },
+  ar: {
+    staffWorkspace:"مساحة فريق العمل", welcome:"مرحباً بعودتك.", loginHelp:"سجّل الدخول باستخدام بريد نوستريكس المعتمد للعمل، وسنرسل لك رابط دخول آمن.",
+    workEmail:"البريد الإلكتروني للعمل", sendLink:"إرسال رابط الدخول", inviteOnly:"الدخول للمدعوين فقط", workspace:"مساحة العمل", teamTasks:"مهام الفريق",
+    hello:"مرحباً", dashboardIntro:"تابع المهام المطلوب إنجازها والمسؤول عنها والمواعيد القادمة.", newTask:"مهمة جديدة",
+    toDo:"للإنجاز", inProgress:"قيد التنفيذ", dueSoon:"موعد قريب", completed:"مكتملة", myTasks:"مهامي", allTasks:"كل المهام",
+    searchTasks:"ابحث في المهام", allPriorities:"كل الأولويات", urgent:"عاجل", high:"مرتفع", medium:"متوسط", low:"منخفض", review:"للمراجعة",
+    done:"تم", nothingHere:"لا توجد مهام هنا.", emptyHelp:"أنشئ مهمة جديدة أو غيّر عوامل التصفية.", privateWorkspace:"مساحة عمل خاصة بفريق نوستريكس",
+    taskDetails:"تفاصيل المهمة", title:"العنوان", details:"التفاصيل", assignee:"المسؤول", dueDate:"تاريخ الاستحقاق", priority:"الأولوية", status:"الحالة",
+    delete:"حذف", cancel:"إلغاء", saveTask:"حفظ المهمة", taskTitlePlaceholder:"ما المطلوب إنجازه؟", detailsPlaceholder:"أضف التفاصيل أو الروابط أو الملاحظات",
+    yourAccount:"حسابك", profile:"الملف الشخصي", displayName:"الاسم الظاهر", jobTitle:"المسمى الوظيفي", jobPlaceholder:"مثال: المدير الإبداعي",
+    save:"حفظ", signOut:"تسجيل الخروج", unassigned:"غير مخصص", taskSaved:"تم حفظ المهمة.", taskDeleted:"تم حذف المهمة.", profileSaved:"تم حفظ الملف الشخصي.",
+    linkSent:"إذا كان هذا حساب نوستريكس معتمداً، فقد تم إرسال رابط دخول آمن إلى بريد العمل.", invalidEmail:"يرجى استخدام بريد عمل معتمد تابع لنوستريكس.", loginError:"تعذر إرسال رابط تسجيل الدخول.",
+    loading:"جارٍ التحميل…", deleteConfirm:"هل تريد حذف هذه المهمة نهائياً؟", refresh:"تحديث", overdue:"متأخرة", dueToday:"مستحقة اليوم", dueTomorrow:"مستحقة غداً",
+    noDueDate:"بدون تاريخ", assignedTo:"المسؤول", createdBy:"أنشأها"
+  }
+};
 
-function w(key) {
-  return WORDS[state.language]?.[key] || WORDS.en[key] || key;
-}
-
-function escapeHTML(value = "") {
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  }[char]));
-}
-
-function initials(name = "N") {
-  const parts = String(name).trim().split(/\s+/).filter(Boolean);
-  return ((parts[0]?.[0] || "N") + (parts[1]?.[0] || "")).toUpperCase();
-}
-
-function showOnly(id) {
-  ["setup-screen", "auth-screen", "app-screen"].forEach(screenId => {
-    const el = $("#" + screenId);
-    if (el) el.hidden = screenId !== id;
-  });
-}
-
-function showToast(message) {
-  const toast = $("#toast");
-  if (!toast) return;
-
-  toast.textContent = message;
-  toast.hidden = false;
-
-  clearTimeout(showToast.timer);
-
-  showToast.timer = setTimeout(() => {
-    toast.hidden = true;
-  }, 2400);
-}
-
-function applyLanguage() {
+function tr(key){ return T[state.language][key] || T.en[key] || key; }
+function applyLanguage(){
   document.documentElement.lang = state.language;
   document.documentElement.dir = state.language === "ar" ? "rtl" : "ltr";
-
-  localStorage.setItem("nostrix_staff_language", state.language);
-
-  $$("[data-t]").forEach(el => {
-    const key = el.dataset.t;
-
-    if (TRANSLATIONS[state.language]?.[key]) {
-      el.textContent = TRANSLATIONS[state.language][key];
-    }
-  });
-
-  $$("[data-placeholder-t]").forEach(el => {
-    const key = el.dataset.placeholderT;
-
-    if (TRANSLATIONS[state.language]?.[key]) {
-      el.placeholder = TRANSLATIONS[state.language][key];
-    }
-  });
-
-  $$(".language-toggle").forEach(btn => {
-    btn.textContent = state.language === "ar" ? "EN" : "AR";
-  });
-
-  if (state.user) renderTasks();
+  localStorage.setItem(langKey, state.language);
+  $$("[data-t]").forEach(el => { el.textContent = tr(el.dataset.t); });
+  $$("[data-placeholder-t]").forEach(el => { el.placeholder = tr(el.dataset.placeholderT); });
+  $$(".language-toggle").forEach(btn => { btn.textContent = state.language === "ar" ? "EN" : "AR"; });
+  renderTasks();
 }
+function toggleLanguage(){ state.language = state.language === "ar" ? "en" : "ar"; applyLanguage(); }
 
-function toggleLanguage() {
-  state.language = state.language === "ar" ? "en" : "ar";
-  applyLanguage();
+function showOnly(id){
+  ["setup-screen","auth-screen","app-screen"].forEach(x => { const el = $("#"+x); if(el) el.hidden = x !== id; });
 }
-
-function dateDiff(dateString) {
-  if (!dateString) return null;
-
-  const target = new Date(dateString + "T12:00:00");
-  const today = new Date();
-
-  today.setHours(0, 0, 0, 0);
-  target.setHours(0, 0, 0, 0);
-
-  return Math.round((target - today) / 86400000);
+function toast(message){
+  const el = $("#toast"); if(!el) return;
+  el.textContent = message; el.hidden = false;
+  clearTimeout(toast.timer); toast.timer = setTimeout(() => { el.hidden = true; }, 2400);
 }
-
-function dueLabel(dateString) {
-  const diff = dateDiff(dateString);
-
-  if (diff === null) return w("noDate");
-  if (diff < 0) return w("overdue");
-  if (diff === 0) return w("dueToday");
-  if (diff === 1) return w("dueTomorrow");
-
-  return new Intl.DateTimeFormat(
-    state.language === "ar" ? "ar-AE" : "en-GB",
-    {
-      day: "numeric",
-      month: "short"
-    }
-  ).format(new Date(dateString + "T12:00:00"));
+function initials(nameOrEmail="N"){
+  const base = String(nameOrEmail).split("@")[0].replace(/[._-]+/g," ").trim();
+  const parts = base.split(/\s+/).filter(Boolean);
+  return (parts[0]?.[0] || "N") + (parts[1]?.[0] || "");
 }
-
-function profileFor(userId) {
-  return state.profiles.find(profile => profile.user_id === userId);
+function cleanNameFromEmail(email){
+  return String(email||"").split("@")[0].replace(/[._-]+/g," ").replace(/\b\w/g,c=>c.toUpperCase());
 }
-
-function profileName(userId) {
-  if (!userId) return w("unassigned");
-
-  const profile = profileFor(userId);
-
-  return profile?.display_name || profile?.email || w("unassigned");
+function allowedEmail(email){
+  const domain = (config.ALLOWED_EMAIL_DOMAIN || "nostrix.ae").toLowerCase();
+  return String(email||"").trim().toLowerCase().endsWith("@"+domain);
 }
+function dateValue(s){ return s ? new Date(`${s}T12:00:00`) : null; }
+function todayMid(){ const d=new Date(); d.setHours(0,0,0,0); return d; }
+function daysFromToday(s){
+  const d=dateValue(s); if(!d) return null;
+  const t=todayMid(); d.setHours(0,0,0,0);
+  return Math.round((d-t)/86400000);
+}
+function formatDue(s){
+  const diff = daysFromToday(s);
+  if(diff === null) return tr("noDueDate");
+  if(diff < 0) return tr("overdue");
+  if(diff === 0) return tr("dueToday");
+  if(diff === 1) return tr("dueTomorrow");
+  return new Intl.DateTimeFormat(state.language === "ar" ? "ar-AE" : "en-GB",{day:"numeric",month:"short"}).format(dateValue(s));
+}
+function profileName(id){
+  const p = state.profiles.find(x => x.user_id === id);
+  return p?.display_name || p?.email || tr("unassigned");
+}
+function profileFor(id){ return state.profiles.find(x => x.user_id === id); }
 
-async function loadOwnProfile() {
+async function loadOwnProfile(){
+  if(!state.user) return false;
   const { data, error } = await state.supabase
     .from("profiles")
     .select("*")
     .eq("user_id", state.user.id)
     .maybeSingle();
-
-  if (error) {
-    console.error("Profile load error:", error);
+  if(error || !data){
+    console.warn("Staff access denied or profile missing.", error?.message || "No profile");
+    return false;
   }
-
-  state.profile = data || {
-    user_id: state.user.id,
-    email: state.user.email,
-    display_name: state.user.email?.split("@")[0] || "Nostrix",
-    job_title: ""
-  };
+  state.profile = data;
+  return true;
 }
 
-async function loadProfiles() {
-  const { data, error } = await state.supabase
-    .from("profiles")
-    .select("user_id,email,display_name,job_title")
-    .order("display_name", {
-      ascending: true
-    });
-
-  if (error) {
-    console.error("Profiles load error:", error);
-    showToast(w("error"));
-    return;
-  }
-
+async function loadProfiles(){
+  const { data, error } = await state.supabase.from("profiles").select("*").order("display_name",{ascending:true});
+  if(error){ console.error(error); return; }
   state.profiles = data || [];
-
-  fillAssigneeSelect();
+  populateAssigneeOptions();
+}
+function populateAssigneeOptions(){
+  const select = $("#task-assignee"); if(!select) return;
+  const current = select.value;
+  select.innerHTML = `<option value="">${escapeHtml(tr("unassigned"))}</option>` + state.profiles.map(p =>
+    `<option value="${escapeHtml(p.user_id)}">${escapeHtml(p.display_name || p.email)}</option>`
+  ).join("");
+  if([...select.options].some(o=>o.value===current)) select.value=current;
 }
 
-async function loadTasks() {
+async function loadTasks(){
   const { data, error } = await state.supabase
     .from("tasks")
     .select("*")
-    .order("created_at", {
-      ascending: false
-    });
-
-  if (error) {
-    console.error("Tasks load error:", error);
-    showToast(w("error"));
-    return;
-  }
-
+    .order("created_at",{ascending:false});
+  if(error){ toast(error.message); console.error(error); return; }
   state.tasks = data || [];
-
   renderTasks();
 }
 
-function fillAssigneeSelect() {
-  const select = $("#task-assignee");
-
-  if (!select) return;
-
-  const current = select.value;
-
-  select.innerHTML =
-    `<option value="">${escapeHTML(w("unassigned"))}</option>` +
-    state.profiles.map(profile => {
-      const title = profile.job_title
-        ? ` — ${escapeHTML(profile.job_title)}`
-        : "";
-
-      return `
-        <option value="${escapeHTML(profile.user_id)}">
-          ${escapeHTML(profile.display_name || profile.email)}${title}
-        </option>
-      `;
-    }).join("");
-
-  if ([...select.options].some(option => option.value === current)) {
-    select.value = current;
+function filteredTasks(){
+  let tasks = state.tasks.slice();
+  if(state.view === "mine") tasks = tasks.filter(t => t.assigned_to === state.user?.id || t.created_by === state.user?.id);
+  if(state.priority !== "all") tasks = tasks.filter(t => t.priority === state.priority);
+  if(state.search){
+    const q=state.search.toLowerCase();
+    tasks=tasks.filter(t => `${t.title} ${t.details||""} ${profileName(t.assigned_to)}`.toLowerCase().includes(q));
   }
-}
-
-function filteredTasks() {
-  let tasks = [...state.tasks];
-
-  if (state.view === "mine") {
-    tasks = tasks.filter(task =>
-      task.assigned_to === state.user?.id ||
-      task.created_by === state.user?.id
-    );
-  }
-
-  if (state.priority !== "all") {
-    tasks = tasks.filter(task =>
-      task.priority === state.priority
-    );
-  }
-
-  if (state.search) {
-    const query = state.search.toLowerCase();
-
-    tasks = tasks.filter(task => {
-      const haystack = [
-        task.title,
-        task.details || "",
-        profileName(task.assigned_to)
-      ].join(" ").toLowerCase();
-
-      return haystack.includes(query);
-    });
-  }
-
   return tasks;
 }
 
-function taskCard(task) {
-  const assignee = profileName(task.assigned_to);
-  const diff = dateDiff(task.due_date);
-
-  const overdue =
-    diff !== null &&
-    diff < 0 &&
-    task.status !== "done";
-
-  return `
-    <article
-      class="task-card"
-      draggable="true"
-      data-task-id="${escapeHTML(task.id)}"
-    >
-      <div class="task-top">
-        <span class="priority-badge ${escapeHTML(task.priority)}">
-          ${escapeHTML(t(task.priority))}
-        </span>
-
-        <button
-          class="task-menu-button"
-          type="button"
-          data-edit-task="${escapeHTML(task.id)}"
-          aria-label="Edit task"
-        >
-          <i class="ph ph-dots-three"></i>
-        </button>
-      </div>
-
-      <h3>${escapeHTML(task.title)}</h3>
-
-      ${
-        task.details
-          ? `<p class="task-description">${escapeHTML(task.details)}</p>`
-          : ""
-      }
-
-      <div class="task-meta">
-        <span class="${overdue ? "overdue" : ""}">
-          <i class="ph ph-calendar-blank"></i>
-          ${escapeHTML(dueLabel(task.due_date))}
-        </span>
-
-        <span>
-          <span class="mini-avatar">
-            ${escapeHTML(initials(assignee))}
-          </span>
-
-          ${escapeHTML(assignee)}
-        </span>
-      </div>
-    </article>
-  `;
+function renderStats(){
+  const all=state.tasks;
+  $("#stat-todo").textContent=all.filter(t=>t.status==="todo").length;
+  $("#stat-progress").textContent=all.filter(t=>t.status==="progress").length;
+  $("#stat-done").textContent=all.filter(t=>t.status==="done").length;
+  $("#stat-due").textContent=all.filter(t=>t.status!=="done" && t.due_date && daysFromToday(t.due_date) >= 0 && daysFromToday(t.due_date) <= 3).length;
 }
-
-function renderTasks() {
-  if (!state.user) return;
-
-  const tasks = filteredTasks();
-
-  ["todo", "progress", "review", "done"].forEach(status => {
-    const matching = tasks.filter(task =>
-      task.status === status
-    );
-
-    const list = $(`#list-${status}`);
-    const count = $(`#count-${status}`);
-
-    if (list) {
-      list.innerHTML = matching
-        .map(taskCard)
-        .join("");
-    }
-
-    if (count) {
-      count.textContent = matching.length;
-    }
+function escapeHtml(v=""){ return String(v).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[ch])); }
+function taskCard(t){
+  const p = profileFor(t.assigned_to);
+  const dueDiff = daysFromToday(t.due_date);
+  const overdue = dueDiff !== null && dueDiff < 0 && t.status !== "done";
+  const name = p?.display_name || p?.email || tr("unassigned");
+  return `
+  <article class="task-card" draggable="true" tabindex="0" role="button" aria-label="Open task ${escapeHtml(t.title)}" data-task-id="${escapeHtml(t.id)}">
+    <div class="task-top">
+      <span class="priority-chip ${escapeHtml(t.priority)}">${escapeHtml(tr(t.priority))}</span>
+      <button class="task-menu-btn" type="button" data-edit-task="${escapeHtml(t.id)}" aria-label="Edit task"><i class="ph ph-dots-three"></i></button>
+    </div>
+    <h3>${escapeHtml(t.title)}</h3>
+    ${t.details ? `<p class="task-details-preview">${escapeHtml(t.details)}</p>` : ""}
+    <div class="task-meta">
+      <span class="${overdue?"overdue":""}"><i class="ph ph-calendar-blank"></i>${escapeHtml(formatDue(t.due_date))}</span>
+      <span class="assignee-pill"><span class="mini-avatar">${escapeHtml(initials(name))}</span>${escapeHtml(name)}</span>
+    </div>
+  </article>`;
+}
+function renderTasks(){
+  if(!$("#board")) return;
+  renderStats();
+  const tasks=filteredTasks();
+  ["todo","progress","review","done"].forEach(status=>{
+    const list=$(`#list-${status}`);
+    const subset=tasks.filter(t=>t.status===status);
+    list.innerHTML=subset.map(taskCard).join("");
+    $(`#count-${status}`).textContent=subset.length;
   });
-
-  const todoTotal = state.tasks.filter(task =>
-    task.status === "todo"
-  ).length;
-
-  const progressTotal = state.tasks.filter(task =>
-    task.status === "progress"
-  ).length;
-
-  const doneTotal = state.tasks.filter(task =>
-    task.status === "done"
-  ).length;
-
-  const dueSoonTotal = state.tasks.filter(task => {
-    const diff = dateDiff(task.due_date);
-
-    return (
-      task.status !== "done" &&
-      diff !== null &&
-      diff >= 0 &&
-      diff <= 3
-    );
-  }).length;
-
-  $("#stat-todo").textContent = todoTotal;
-  $("#stat-progress").textContent = progressTotal;
-  $("#stat-done").textContent = doneTotal;
-  $("#stat-due").textContent = dueSoonTotal;
-
-  $("#empty-state").hidden = tasks.length > 0;
-
+  $("#empty-state").hidden = tasks.length !== 0;
   bindTaskCards();
 }
-
-function bindTaskCards() {
-  $$("[data-edit-task]").forEach(button => {
-    button.onclick = () =>
-      openTaskModal(button.dataset.editTask);
+function bindTaskCards(){
+  $$("[data-edit-task]").forEach(btn=>{
+    btn.addEventListener("click",e=>{
+      e.stopPropagation();
+      openTaskModal(btn.dataset.editTask);
+    });
   });
 
-  $$(".task-card").forEach(card => {
-    card.ondblclick = () =>
-      openTaskModal(card.dataset.taskId);
+  $$(".task-card").forEach(card=>{
+    let dragged = false;
 
-    card.ondragstart = event => {
+    card.addEventListener("dragstart",e=>{
+      dragged = true;
       card.classList.add("dragging");
+      e.dataTransfer.setData("text/plain",card.dataset.taskId);
+      e.dataTransfer.effectAllowed="move";
+    });
 
-      event.dataTransfer.setData(
-        "text/plain",
-        card.dataset.taskId
-      );
-    };
-
-    card.ondragend = () => {
+    card.addEventListener("dragend",()=>{
       card.classList.remove("dragging");
-    };
+      setTimeout(()=>{ dragged = false; },0);
+    });
+
+    // Makes task cards easy to open on mobile as well as desktop.
+    card.addEventListener("click",e=>{
+      if(dragged || e.target.closest("button")) return;
+      openTaskModal(card.dataset.taskId);
+    });
+
+    card.addEventListener("keydown",e=>{
+      if((e.key==="Enter" || e.key===" ") && !e.target.closest("button")){
+        e.preventDefault();
+        openTaskModal(card.dataset.taskId);
+      }
+    });
   });
 }
 
-function updateUserUI() {
-  const name =
-    state.profile?.display_name ||
-    state.user.email?.split("@")[0] ||
-    "Nostrix";
-
-  const firstName = name.split(" ")[0];
-
-  $("#user-name").textContent = name;
-  $("#user-email").textContent = state.user.email || "";
-  $("#greeting-name").textContent = firstName;
-  $("#user-avatar").textContent = initials(name);
-}
-
-function openTaskModal(taskId = null) {
-  const task = taskId
-    ? state.tasks.find(item => item.id === taskId)
-    : null;
-
+function openTaskModal(taskId=null){
+  const task = taskId ? state.tasks.find(t=>t.id===taskId) : null;
   $("#task-id").value = task?.id || "";
   $("#task-title").value = task?.title || "";
   $("#task-details").value = task?.details || "";
-  $("#task-assignee").value =
-    task?.assigned_to || state.user.id;
-
-  $("#task-due").value =
-    task?.due_date || "";
-
-  $("#task-priority").value =
-    task?.priority || "medium";
-
-  $("#task-status").value =
-    task?.status || "todo";
-
-  $("#task-modal-title").textContent =
-    task
-      ? state.language === "ar"
-        ? "تعديل المهمة"
-        : "Edit task"
-      : t("newTask");
-
+  $("#task-assignee").value = task?.assigned_to || state.user?.id || "";
+  $("#task-due").value = task?.due_date || "";
+  $("#task-priority").value = task?.priority || "medium";
+  $("#task-status").value = task?.status || "todo";
+  $("#task-modal-title").textContent = task ? task.title : tr("newTask");
   $("#delete-task-btn").hidden = !task;
-
-  $("#task-message").textContent = "";
-  $("#task-message").className = "form-message";
-
-  $("#task-modal").hidden = false;
-
-  document.body.style.overflow = "hidden";
-
-  setTimeout(() => {
-    $("#task-title")?.focus();
-  }, 50);
+  $("#task-message").textContent="";
+  $("#task-modal").hidden=false;
+  document.body.style.overflow="hidden";
+  setTimeout(()=>$("#task-title").focus(),40);
 }
-
-function closeTaskModal() {
-  $("#task-modal").hidden = true;
-  document.body.style.overflow = "";
+function closeTaskModal(){ $("#task-modal").hidden=true; document.body.style.overflow=""; }
+function openProfile(){
+  $("#profile-name").value=state.profile?.display_name || cleanNameFromEmail(state.user?.email);
+  $("#profile-role").value=state.profile?.job_title || "";
+  $("#profile-message").textContent="";
+  $("#profile-modal").hidden=false; document.body.style.overflow="hidden";
 }
+function closeProfile(){ $("#profile-modal").hidden=true; document.body.style.overflow=""; }
 
-function openProfileModal() {
-  $("#profile-name").value =
-    state.profile?.display_name || "";
-
-  $("#profile-role").value =
-    state.profile?.job_title || "";
-
-  $("#profile-message").textContent = "";
-  $("#profile-message").className = "form-message";
-
-  $("#profile-modal").hidden = false;
-
-  document.body.style.overflow = "hidden";
-}
-
-function closeProfileModal() {
-  $("#profile-modal").hidden = true;
-  document.body.style.overflow = "";
-}
-
-async function saveTask(event) {
-  event.preventDefault();
-
-  const id = $("#task-id").value;
-
-  const payload = {
-    title: $("#task-title").value.trim(),
-    details:
-      $("#task-details").value.trim() || null,
-    assigned_to:
-      $("#task-assignee").value || null,
-    due_date:
-      $("#task-due").value || null,
-    priority:
-      $("#task-priority").value,
-    status:
-      $("#task-status").value
+async function saveTask(e){
+  e.preventDefault();
+  const id=$("#task-id").value;
+  const payload={
+    title:$("#task-title").value.trim(),
+    details:$("#task-details").value.trim() || null,
+    assigned_to:$("#task-assignee").value || null,
+    due_date:$("#task-due").value || null,
+    priority:$("#task-priority").value,
+    status:$("#task-status").value
   };
-
-  if (!payload.title) return;
-
-  const message = $("#task-message");
-
-  message.textContent =
-    state.language === "ar"
-      ? "جارٍ الحفظ…"
-      : "Saving…";
-
-  const result = id
-    ? await state.supabase
-        .from("tasks")
-        .update(payload)
-        .eq("id", id)
-    : await state.supabase
-        .from("tasks")
-        .insert(payload);
-
-  if (result.error) {
-    console.error(
-      "Save task error:",
-      result.error
-    );
-
-    message.textContent =
-      result.error.message;
-
-    message.className =
-      "form-message error";
-
-    return;
+  if(!payload.title) return;
+  $("#task-message").textContent=tr("loading");
+  let result;
+  if(id){
+    result=await state.supabase.from("tasks").update(payload).eq("id",id);
+  }else{
+    result=await state.supabase.from("tasks").insert({...payload,created_by:state.user.id});
   }
-
-  closeTaskModal();
-
-  await loadTasks();
-
-  showToast(w("saved"));
+  if(result.error){ $("#task-message").textContent=result.error.message; $("#task-message").className="form-message error"; return; }
+  closeTaskModal(); await loadTasks(); toast(tr("taskSaved"));
 }
-
-async function deleteTask() {
-  const id = $("#task-id").value;
-
-  if (!id) return;
-
-  if (!confirm(w("deleteConfirm"))) {
-    return;
-  }
-
-  const { error } = await state.supabase
-    .from("tasks")
-    .delete()
-    .eq("id", id);
-
-  if (error) {
-    console.error(
-      "Delete task error:",
-      error
-    );
-
-    showToast(w("error"));
-
-    return;
-  }
-
-  closeTaskModal();
-
-  await loadTasks();
-
-  showToast(w("deleted"));
+async function deleteTask(){
+  const id=$("#task-id").value; if(!id) return;
+  if(!confirm(tr("deleteConfirm"))) return;
+  const {error}=await state.supabase.from("tasks").delete().eq("id",id);
+  if(error){ toast(error.message); return; }
+  closeTaskModal(); await loadTasks(); toast(tr("taskDeleted"));
 }
-
-async function moveTask(taskId, status) {
-  const { error } = await state.supabase
-    .from("tasks")
-    .update({ status })
-    .eq("id", taskId);
-
-  if (error) {
-    console.error(
-      "Move task error:",
-      error
-    );
-
-    showToast(w("error"));
-
-    return;
-  }
-
-  const task = state.tasks.find(
-    item => item.id === taskId
-  );
-
-  if (task) {
-    task.status = status;
-  }
-
+async function changeStatus(id,status){
+  const {error}=await state.supabase.from("tasks").update({status}).eq("id",id);
+  if(error){ toast(error.message); return; }
+  const task=state.tasks.find(t=>t.id===id); if(task) task.status=status;
   renderTasks();
 }
-
-async function saveProfile(event) {
-  event.preventDefault();
-
-  const payload = {
-    display_name:
-      $("#profile-name").value.trim(),
-
-    job_title:
-      $("#profile-role").value.trim() || null
+async function saveProfile(e){
+  e.preventDefault();
+  const payload={
+    display_name:$("#profile-name").value.trim(),
+    job_title:$("#profile-role").value.trim() || null
   };
-
-  const { data, error } = await state.supabase
-    .from("profiles")
-    .update(payload)
-    .eq("user_id", state.user.id)
-    .select()
-    .single();
-
-  if (error) {
-    console.error(
-      "Profile save error:",
-      error
-    );
-
-    $("#profile-message").textContent =
-      error.message;
-
-    $("#profile-message").className =
-      "form-message error";
-
-    return;
-  }
-
-  state.profile = data;
-
-  await loadProfiles();
-
-  updateUserUI();
-
-  closeProfileModal();
-
-  showToast(w("profileSaved"));
+  const {data,error}=await state.supabase.from("profiles").update(payload).eq("user_id",state.user.id).select().single();
+  if(error){ $("#profile-message").textContent=error.message; $("#profile-message").className="form-message error"; return; }
+  state.profile=data; await loadProfiles(); updateUserUI(); closeProfile(); toast(tr("profileSaved"));
+}
+function updateUserUI(){
+  const name=state.profile?.display_name || cleanNameFromEmail(state.user?.email);
+  $("#user-name").textContent=name; $("#user-email").textContent=state.user?.email || "";
+  $("#greeting-name").textContent=name.split(" ")[0] || name;
+  $("#user-avatar").textContent=initials(name).toUpperCase();
 }
 
-async function handleLogin(event) {
-  event.preventDefault();
-
-  const email =
-    $("#email")
-      .value
-      .trim()
-      .toLowerCase();
-
-  const message =
-    $("#auth-message");
-
-  const button =
-    $("#login-form button[type='submit']");
-
-  if (!email) return;
-
-  button.disabled = true;
-
-  message.textContent =
-    state.language === "ar"
-      ? "جارٍ الإرسال…"
-      : "Sending…";
-
-  message.className =
-    "form-message";
-
-  const redirectTo =
-    `${window.location.origin}/staff/`;
-
-  const { error } =
-    await state.supabase.auth.signInWithOtp({
-      email,
-
-      options: {
-        shouldCreateUser: false,
-        emailRedirectTo: redirectTo
-      }
-    });
-
-  button.disabled = false;
-
-  if (error) {
-    console.warn(
-      "Auth response:",
-      error.message
-    );
-  }
-
-  message.textContent =
-    w("genericAuth");
-
-  message.className =
-    "form-message success";
+async function login(e){
+  e.preventDefault();
+  const email=$("#email").value.trim().toLowerCase();
+  const msg=$("#auth-message");
+  msg.className="form-message";
+  if(!allowedEmail(email)){ msg.textContent=tr("invalidEmail"); msg.classList.add("error"); return; }
+  msg.textContent=tr("loading");
+  const redirectTo = `${location.origin}${config.STAFF_PATH || "/staff/"}`;
+  const {error}=await state.supabase.auth.signInWithOtp({
+    email,
+    options:{ shouldCreateUser:false, emailRedirectTo:redirectTo }
+  });
+  if(error) console.warn("Auth request:", error.message);
+  msg.textContent=tr("linkSent"); msg.classList.add("success");
 }
-
-async function signOut() {
-  if (state.realtime) {
-    await state.supabase.removeChannel(
-      state.realtime
-    );
-
-    state.realtime = null;
-  }
-
+async function subscribeRealtime(){
+  if(state.realtime) await state.supabase.removeChannel(state.realtime);
+  state.realtime = state.supabase
+    .channel("nostrix-staff-tasks")
+    .on("postgres_changes", {event:"*", schema:"public", table:"tasks"}, () => loadTasks())
+    .subscribe();
+}
+async function signOut(){
+  if(state.realtime){ await state.supabase.removeChannel(state.realtime); state.realtime=null; }
   await state.supabase.auth.signOut();
-
-  state.user = null;
-  state.profile = null;
-  state.profiles = [];
-  state.tasks = [];
-
+  state.user=null;state.profile=null;state.tasks=[];
   showOnly("auth-screen");
 }
 
-async function subscribeRealtime() {
-  if (state.realtime) {
-    await state.supabase.removeChannel(
-      state.realtime
-    );
+async function enterApp(session){
+  state.user=session.user;
+  const approved = await loadOwnProfile();
+  if(!approved){
+    await state.supabase.auth.signOut();
+    state.user=null;
+    showOnly("auth-screen");
+    return;
   }
-
-  state.realtime =
-    state.supabase
-      .channel("nostrix-staff-tasks")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "tasks"
-        },
-        () => loadTasks()
-      )
-      .subscribe();
-}
-
-async function enterWorkspace(session) {
-  state.user = session.user;
-
   showOnly("app-screen");
-
-  await loadOwnProfile();
   await loadProfiles();
-
   updateUserUI();
-
   await loadTasks();
   await subscribeRealtime();
 }
-
-async function initializeSupabase() {
-  const configured =
-    CONFIG.SUPABASE_URL &&
-    CONFIG.SUPABASE_PUBLISHABLE_KEY &&
-    !CONFIG.SUPABASE_URL.includes("PASTE_") &&
-    !CONFIG.SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
-
-  if (!configured) {
-    showOnly("setup-screen");
-    return;
-  }
-
-  state.supabase = createClient(
-    CONFIG.SUPABASE_URL,
-    CONFIG.SUPABASE_PUBLISHABLE_KEY
-  );
-
-  const {
-    data: { session }
-  } =
-    await state.supabase.auth.getSession();
-
-  if (session?.user) {
-    await enterWorkspace(session);
-  } else {
-    showOnly("auth-screen");
-  }
-
-  state.supabase.auth.onAuthStateChange(
-    async (event, session) => {
-      if (
-        event === "SIGNED_IN" &&
-        session?.user
-      ) {
-        await enterWorkspace(session);
-      }
-
-      if (event === "SIGNED_OUT") {
-        showOnly("auth-screen");
-      }
-    }
-  );
+async function initAuth(){
+  state.supabase=createClient(config.SUPABASE_URL,config.SUPABASE_PUBLISHABLE_KEY);
+  const {data:{session}}=await state.supabase.auth.getSession();
+  if(session?.user){
+    if(!allowedEmail(session.user.email)){ await state.supabase.auth.signOut(); showOnly("auth-screen"); return; }
+    await enterApp(session);
+  }else showOnly("auth-screen");
+  state.supabase.auth.onAuthStateChange(async(event,session)=>{
+    if(event==="SIGNED_IN" && session?.user && allowedEmail(session.user.email)) await enterApp(session);
+    if(event==="SIGNED_OUT") showOnly("auth-screen");
+  });
 }
 
-function bindUI() {
-  $$(".language-toggle").forEach(button => {
-    button.addEventListener(
-      "click",
-      toggleLanguage
-    );
+function bindUI(){
+  $$(".language-toggle").forEach(btn=>btn.addEventListener("click",toggleLanguage));
+  $("#login-form")?.addEventListener("submit",login);
+  $("#new-task-btn")?.addEventListener("click",()=>openTaskModal());
+  $("#task-form")?.addEventListener("submit",saveTask);
+  $("#delete-task-btn")?.addEventListener("click",deleteTask);
+  $("#profile-form")?.addEventListener("submit",saveProfile);
+  $("#signout-btn")?.addEventListener("click",signOut);
+  $("#edit-profile-btn")?.addEventListener("click",()=>{ $("#profile-menu").hidden=true; openProfile(); });
+  $("#refresh-btn")?.addEventListener("click",async()=>{ await Promise.all([loadProfiles(),loadTasks()]); toast(tr("refresh")); });
+  $("#profile-btn")?.addEventListener("click",()=>{ const m=$("#profile-menu"); m.hidden=!m.hidden; $("#profile-btn").setAttribute("aria-expanded",String(!m.hidden)); });
+  document.addEventListener("click",e=>{ if(!e.target.closest(".profile-button")&&!e.target.closest(".profile-menu")) $("#profile-menu") && ($("#profile-menu").hidden=true); });
+  $$("[data-close-modal]").forEach(x=>x.addEventListener("click",closeTaskModal));
+  $$("[data-close-profile]").forEach(x=>x.addEventListener("click",closeProfile));
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ if(!$("#task-modal").hidden)closeTaskModal(); if(!$("#profile-modal").hidden)closeProfile(); } });
+  $$(".view-tab").forEach(btn=>btn.addEventListener("click",()=>{
+    state.view=btn.dataset.view; $$(".view-tab").forEach(b=>{b.classList.toggle("active",b===btn);b.setAttribute("aria-selected",String(b===btn));});renderTasks();
+  }));
+  $("#task-search")?.addEventListener("input",e=>{state.search=e.target.value.trim();renderTasks();});
+  $("#priority-filter")?.addEventListener("change",e=>{state.priority=e.target.value;renderTasks();});
+  $$(".board-column").forEach(col=>{
+    col.addEventListener("dragover",e=>{e.preventDefault();col.classList.add("drag-over");});
+    col.addEventListener("dragleave",()=>col.classList.remove("drag-over"));
+    col.addEventListener("drop",e=>{e.preventDefault();col.classList.remove("drag-over");const id=e.dataTransfer.getData("text/plain");if(id)changeStatus(id,col.dataset.status);});
   });
-
-  $("#login-form").addEventListener(
-    "submit",
-    handleLogin
-  );
-
-  $("#new-task-btn").addEventListener(
-    "click",
-    () => openTaskModal()
-  );
-
-  $("#task-form").addEventListener(
-    "submit",
-    saveTask
-  );
-
-  $("#delete-task-btn").addEventListener(
-    "click",
-    deleteTask
-  );
-
-  $("#profile-form").addEventListener(
-    "submit",
-    saveProfile
-  );
-
-  $("#signout-btn").addEventListener(
-    "click",
-    signOut
-  );
-
-  $("#refresh-btn").addEventListener(
-    "click",
-    async () => {
-      await Promise.all([
-        loadProfiles(),
-        loadTasks()
-      ]);
-
-      showToast(w("refreshed"));
-    }
-  );
-
-  $("#profile-btn").addEventListener(
-    "click",
-    () => {
-      const menu =
-        $("#profile-menu");
-
-      menu.hidden =
-        !menu.hidden;
-
-      $("#profile-btn")
-        .setAttribute(
-          "aria-expanded",
-          String(!menu.hidden)
-        );
-    }
-  );
-
-  $("#edit-profile-btn").addEventListener(
-    "click",
-    () => {
-      $("#profile-menu").hidden = true;
-      openProfileModal();
-    }
-  );
-
-  document.addEventListener(
-    "click",
-    event => {
-      if (
-        !event.target.closest("#profile-btn") &&
-        !event.target.closest("#profile-menu")
-      ) {
-        $("#profile-menu").hidden = true;
-      }
-    }
-  );
-
-  $$("[data-close-modal]").forEach(element => {
-    element.addEventListener(
-      "click",
-      closeTaskModal
-    );
-  });
-
-  $$("[data-close-profile]").forEach(element => {
-    element.addEventListener(
-      "click",
-      closeProfileModal
-    );
-  });
-
-  $$(".view-tab").forEach(button => {
-    button.addEventListener(
-      "click",
-      () => {
-        state.view =
-          button.dataset.view;
-
-        $$(".view-tab").forEach(tab => {
-          const active =
-            tab === button;
-
-          tab.classList.toggle(
-            "active",
-            active
-          );
-
-          tab.setAttribute(
-            "aria-selected",
-            String(active)
-          );
-        });
-
-        renderTasks();
-      }
-    );
-  });
-
-  $("#task-search").addEventListener(
-    "input",
-    event => {
-      state.search =
-        event.target.value.trim();
-
-      renderTasks();
-    }
-  );
-
-  $("#priority-filter").addEventListener(
-    "change",
-    event => {
-      state.priority =
-        event.target.value;
-
-      renderTasks();
-    }
-  );
-
-  $$(".board-column").forEach(column => {
-    column.addEventListener(
-      "dragover",
-      event => {
-        event.preventDefault();
-
-        column.classList.add(
-          "drag-over"
-        );
-      }
-    );
-
-    column.addEventListener(
-      "dragleave",
-      () => {
-        column.classList.remove(
-          "drag-over"
-        );
-      }
-    );
-
-    column.addEventListener(
-      "drop",
-      event => {
-        event.preventDefault();
-
-        column.classList.remove(
-          "drag-over"
-        );
-
-        const taskId =
-          event.dataTransfer.getData(
-            "text/plain"
-          );
-
-        if (taskId) {
-          moveTask(
-            taskId,
-            column.dataset.status
-          );
-        }
-      }
-    );
-  });
-
-  document.addEventListener(
-    "keydown",
-    event => {
-      if (event.key !== "Escape") {
-        return;
-      }
-
-      if (!$("#task-modal").hidden) {
-        closeTaskModal();
-      }
-
-      if (!$("#profile-modal").hidden) {
-        closeProfileModal();
-      }
-    }
-  );
+  window.addEventListener("focus",()=>{ if(state.user) loadTasks(); });
 }
 
-document.addEventListener(
-  "DOMContentLoaded",
-  async () => {
-    $("#year").textContent =
-      new Date().getFullYear();
-
-    bindUI();
-
-    applyLanguage();
-
-    await initializeSupabase();
-  }
-);
+document.addEventListener("DOMContentLoaded",async()=>{
+  $("#year").textContent=new Date().getFullYear();
+  bindUI(); applyLanguage();
+  if(!configured){ showOnly("setup-screen"); return; }
+  await initAuth();
+});
