@@ -50,3 +50,82 @@ select option:checked {
   background-color: #111118 !important;
   border-color: rgba(255,255,255,.12) !important;
 }
+
+
+/* =========================================================
+   V4 POLISH + CREATOR/DELETE + WINDOWS DROPDOWN FIX
+   ========================================================= */
+html{scrollbar-color:rgba(210,139,255,.42) #09090c}
+body{background:
+  radial-gradient(circle at 6% 0,rgba(185,198,255,.095),transparent 34rem),
+  radial-gradient(circle at 96% 62%,rgba(209,139,255,.09),transparent 40rem),
+  linear-gradient(180deg,#09090d 0%,#08080b 100%)}
+.topbar{box-shadow:0 1rem 3rem rgba(0,0,0,.12)}
+.primary,.secondary,.danger,.icon-btn,.lang,.profile-btn,.project-card,.task,.column,.stats,.controls,.projects-overview{
+  transition:transform .24s cubic-bezier(.16,1,.3,1),border-color .22s ease,background .22s ease,box-shadow .22s ease,opacity .22s ease
+}
+.primary:hover,.secondary:hover{transform:translateY(-1px)}
+.icon-btn:hover,.lang:hover,.profile-btn:hover{border-color:rgba(185,198,255,.22);background:rgba(255,255,255,.045)}
+.stats,.projects-overview,.controls,.column{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.018),0 .7rem 2.6rem rgba(0,0,0,.055)
+}
+.project-card{
+  position:relative;
+  overflow:hidden;
+}
+.project-card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:linear-gradient(120deg,rgba(185,198,255,.045),transparent 45%,rgba(209,139,255,.04));
+  transition:opacity .22s ease
+}
+.project-card:hover{transform:translateY(-2px);border-color:rgba(185,198,255,.18);box-shadow:0 .9rem 2.3rem rgba(0,0,0,.12)}
+.project-card:hover::before{opacity:1}
+.project-card-foot{display:flex!important;align-items:center;justify-content:space-between;gap:.5rem;padding:0!important;border:0!important;color:var(--muted);background:transparent!important}
+.project-card-foot small{display:flex;align-items:center;gap:.25rem;min-width:0}
+.task{position:relative}
+.task.task-owned{border-color:rgba(185,198,255,.11)}
+.task:hover{transform:translateY(-2px);box-shadow:0 .85rem 2.2rem rgba(0,0,0,.14)}
+.task-menu{font-size:1rem}
+.created-by{color:#858594!important}
+.created-by i{color:#aab6e4}
+.owner-note{
+  display:flex;align-items:center;gap:.4rem;margin:.8rem 0 0;padding:.65rem .75rem;
+  border:1px solid rgba(185,198,255,.10);border-radius:.7rem;color:#9696a4;
+  background:rgba(185,198,255,.035);font-size:.58rem;line-height:1.45
+}
+.owner-note strong{color:#d9d9e1;font-weight:650}
+.project-owner{display:flex!important;align-items:center;gap:.25rem;margin-top:.3rem;color:#737381!important}
+.project-actions{display:flex;align-items:center;justify-content:flex-end;gap:.35rem;flex-wrap:wrap}
+.delete-project{color:#ff9daf!important}
+.delete-project:hover{color:#ffc0ca!important;background:rgba(255,141,161,.06)!important}
+.modal-box{animation:nostrixModalIn .2s cubic-bezier(.16,1,.3,1)}
+@keyframes nostrixModalIn{from{opacity:0;transform:translateY(8px) scale(.992)}to{opacity:1;transform:none}}
+.notif-panel,.pop-menu{animation:nostrixDropIn .16s ease-out}
+@keyframes nostrixDropIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+.bar i{transition:width .45s cubic-bezier(.16,1,.3,1)}
+.task-list:empty::after{
+  content:"Drop tasks here";display:grid;min-height:5rem;place-items:center;border:1px dashed rgba(255,255,255,.04);
+  border-radius:.7rem;color:#474752;font-size:.52rem;letter-spacing:.06em;text-transform:uppercase
+}
+
+/* Windows/Chrome native select popup: visible text */
+select{
+  color:#f7f7fa!important;
+  background-color:#111118!important;
+  color-scheme:light!important
+}
+select option,select optgroup{
+  color:#111318!important;
+  background:#fff!important
+}
+select option:checked{
+  color:#fff!important;
+  background:#236fd1!important
+}
+.filters select,#task-assignee,#task-project,#task-priority,#task-status,#project-status{
+  color:#f7f7fa!important;background:#111118!important;border-color:rgba(255,255,255,.12)!important
+}
+@media(max-width:760px){
+  .created-by{width:100%}
+  .project-card-foot{align-items:flex-start;flex-direction:column}
+}

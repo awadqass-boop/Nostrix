@@ -116,7 +116,7 @@
           <label>Priority<select id="task-priority"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option><option value="urgent">Urgent</option></select></label>
           <label>Status<select id="task-status"><option value="todo">To do</option><option value="progress">In progress</option><option value="review">Review</option><option value="done">Done</option></select></label>
         </div>
-        <div class="modal-actions"><button id="delete-task" class="danger" type="button" hidden><i class="ph ph-trash"></i> Delete</button><div><button class="secondary" type="button" data-close-task>Cancel</button><button class="primary" type="submit">Save task</button></div></div>
+        <p id="task-owner-note" class="owner-note" hidden></p><div class="modal-actions"><button id="delete-task" class="danger" type="button" hidden><i class="ph ph-trash"></i> Delete</button><div><button class="secondary" type="button" data-close-task>Cancel</button><button class="primary" type="submit">Save task</button></div></div>
       </form>
     </div>
 
@@ -152,6 +152,7 @@
 
   <div id="toast" class="toast" hidden></div>
 
+  <audio id="quack-audio" src="./duck-quack.wav" preload="auto" hidden></audio>
   <!-- KEEP YOUR EXISTING WORKING config.js -->
   <script src="./config.js"></script>
   <script type="module" src="./app.js"></script>
