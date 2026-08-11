@@ -5,363 +5,154 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#08080b">
   <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
-  <meta name="googlebot" content="noindex,nofollow,noarchive,nosnippet">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Nostrix Staff Workspace</title>
-
   <link rel="icon" href="/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <link rel="stylesheet" href="./styles.css">
 </head>
-
 <body>
-  <div class="noise" aria-hidden="true"></div>
-  <div class="ambient ambient-one" aria-hidden="true"></div>
-  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="noise"></div><div class="glow g1"></div><div class="glow g2"></div>
 
-  <!-- Only shown if config.js is not connected. -->
-  <main id="setup-screen" class="auth-shell" hidden>
-    <section class="auth-card">
-      <a class="auth-brand" href="/" aria-label="Nostrix homepage">
-        <span class="logo-wrap">
-          <img src="/logo.png" alt="" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
-          <span class="logo-fallback" hidden>N</span>
-        </span>
-        <span>Nostrix</span>
-      </a>
-
-      <div class="auth-copy-wrap">
-        <p class="eyebrow">Staff workspace</p>
-        <h1>Portal setup required.</h1>
-        <p class="auth-copy">The staff portal is installed, but Supabase has not been connected in <code>staff/config.js</code>.</p>
-      </div>
-
-      <div class="setup-box">
-        <strong>Keep your existing config.js</strong>
-        <p>This update changes only the interface files. Do not replace your working Supabase configuration.</p>
-      </div>
-    </section>
-  </main>
-
-  <!-- Private login screen -->
   <main id="auth-screen" class="auth-shell" hidden>
     <section class="auth-card">
-      <a class="auth-brand" href="/" aria-label="Nostrix homepage">
-        <span class="logo-wrap">
-          <img src="/logo.png" alt="" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
-          <span class="logo-fallback" hidden>N</span>
-        </span>
-        <span>Nostrix</span>
-      </a>
-
-      <div class="auth-copy-wrap">
-        <p class="eyebrow" data-t="staffWorkspace">Staff workspace</p>
-        <h1 data-t="welcome">Welcome back.</h1>
-        <p class="auth-copy" data-t="loginHelp">Sign in using an approved Nostrix work email. We’ll send you a secure sign-in link.</p>
-      </div>
-
-      <form id="login-form" class="login-form">
-        <label for="email" data-t="workEmail">Work email</label>
-        <div class="email-field">
-          <i class="ph ph-envelope-simple" aria-hidden="true"></i>
-          <input id="email" type="email" autocomplete="email" inputmode="email" placeholder="name@nostrix.ae" required>
-        </div>
-
-        <button class="primary-button" type="submit">
-          <span data-t="sendLink">Send sign-in link</span>
-          <i class="ph ph-arrow-right" aria-hidden="true"></i>
-        </button>
+      <a class="brand-login" href="/"><img src="/logo.png" onerror="this.style.display='none'"><span>NOSTRIX</span></a>
+      <p class="eyebrow" data-t="staffWorkspace">Staff workspace</p>
+      <h1 data-t="welcome">Welcome back.</h1>
+      <p class="muted" data-t="loginHelp">Sign in with an approved Nostrix work email.</p>
+      <form id="login-form">
+        <label data-t="workEmail">Work email</label>
+        <div class="input-icon"><i class="ph ph-envelope-simple"></i><input id="email" type="email" placeholder="name@nostrix.ae" required></div>
+        <button class="primary wide" type="submit"><span data-t="sendLink">Send sign-in link</span><i class="ph ph-arrow-right"></i></button>
       </form>
-
-      <p id="auth-message" class="form-message" aria-live="polite"></p>
-
-      <div class="auth-footer">
-        <span><i class="ph ph-lock-key" aria-hidden="true"></i><span data-t="inviteOnly">Invite-only access</span></span>
-        <button class="language-toggle" type="button" aria-label="Change language">AR</button>
-      </div>
+      <p id="auth-message" class="message"></p>
+      <div class="auth-foot"><span><i class="ph ph-lock-key"></i> <span data-t="inviteOnly">Invite-only access</span></span><button class="lang" type="button">AR</button></div>
     </section>
   </main>
 
-  <!-- Staff application -->
-  <div id="app-screen" class="app-shell" hidden>
+  <div id="app-screen" hidden>
     <header class="topbar">
-      <div class="topbar-inner">
-        <a class="brand" href="/" aria-label="Nostrix homepage">
-          <span class="brand-logo">
-            <img src="/logo.png" alt="" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
-            <span class="logo-fallback" hidden>N</span>
-          </span>
-          <span class="brand-copy">
-            <strong>Nostrix</strong>
-            <small data-t="workspace">Workspace</small>
-          </span>
-        </a>
-
-        <div class="top-actions">
-          <button id="refresh-btn" class="icon-button" type="button" aria-label="Refresh tasks" title="Refresh">
-            <i class="ph ph-arrows-clockwise" aria-hidden="true"></i>
-          </button>
-
-          <button class="language-toggle" type="button" aria-label="Change language">AR</button>
-
-          <button id="profile-btn" class="profile-button" type="button" aria-expanded="false">
-            <span id="user-avatar" class="avatar">N</span>
-            <span class="profile-copy">
-              <strong id="user-name">Nostrix</strong>
-              <small id="user-email"></small>
-            </span>
-            <i class="ph ph-caret-down" aria-hidden="true"></i>
-          </button>
-
-          <div id="profile-menu" class="profile-menu" hidden>
-            <button id="edit-profile-btn" type="button">
-              <i class="ph ph-user-circle"></i>
-              <span data-t="profile">Profile</span>
-            </button>
-            <button id="signout-btn" type="button">
-              <i class="ph ph-sign-out"></i>
-              <span data-t="signOut">Sign out</span>
-            </button>
-          </div>
+      <a class="brand" href="/"><img src="/logo.png" onerror="this.style.display='none'"><div><b>NOSTRIX</b><small data-t="workspace">WORKSPACE</small></div></a>
+      <div class="top-actions">
+        <button id="notif-btn" class="icon-btn" title="Notifications"><i class="ph ph-bell"></i><span id="notif-badge" class="badge" hidden>0</span></button>
+        <button id="refresh-btn" class="icon-btn" title="Refresh"><i class="ph ph-arrows-clockwise"></i></button>
+        <button class="lang" type="button">AR</button>
+        <button id="profile-btn" class="profile-btn"><span id="avatar" class="avatar">N</span><span><b id="user-name">Nostrix</b><small id="user-email"></small></span><i class="ph ph-caret-down"></i></button>
+        <div id="profile-menu" class="pop-menu" hidden>
+          <button id="edit-profile"><i class="ph ph-user"></i><span data-t="profile">Profile</span></button>
+          <button id="signout"><i class="ph ph-sign-out"></i><span data-t="signOut">Sign out</span></button>
         </div>
+        <aside id="notif-panel" class="notif-panel" hidden>
+          <div class="panel-head"><div><p class="eyebrow" data-t="updates">Updates</p><h3 data-t="notifications">Notifications</h3></div><button id="mark-read" class="text-btn" data-t="markAllRead">Mark all read</button></div>
+          <div id="notif-list" class="notif-list"></div>
+          <button id="enable-browser" class="secondary mini"><i class="ph ph-bell-ringing"></i><span data-t="browserAlerts">Enable browser alerts</span></button>
+        </aside>
       </div>
     </header>
 
-    <main class="workspace-main">
-      <section class="workspace-hero">
-        <div class="workspace-heading">
-          <p class="eyebrow" data-t="teamTasks">Team tasks</p>
-          <h1><span data-t="hello">Hello</span>, <span id="greeting-name">team</span>.</h1>
-          <p data-t="dashboardIntro">Keep track of what needs to be done, who owns it and what is coming up next.</p>
-        </div>
-
-        <button id="new-task-btn" class="primary-button new-task-button" type="button">
-          <i class="ph ph-plus" aria-hidden="true"></i>
-          <span data-t="newTask">New task</span>
-        </button>
+    <main class="main">
+      <section class="hero">
+        <div><p class="eyebrow" data-t="teamTasks">TEAM TASKS</p><h1><span data-t="hello">Hello</span>, <span id="hello-name">team</span>.</h1><p class="muted" data-t="dashboardIntro">Keep track of what needs to be done, who owns it and what is coming up next.</p></div>
+        <div class="hero-actions"><button id="projects-btn" class="secondary"><i class="ph ph-folders"></i><span data-t="projects">Projects</span></button><button id="new-task" class="primary"><i class="ph ph-plus"></i><span data-t="newTask">New task</span></button></div>
       </section>
 
-      <section class="summary-strip" aria-label="Task summary">
-        <article class="summary-item">
-          <span class="summary-icon todo"><i class="ph ph-list-checks"></i></span>
-          <div><strong id="stat-todo">0</strong><span data-t="toDo">To do</span></div>
-        </article>
-
-        <article class="summary-item">
-          <span class="summary-icon progress"><i class="ph ph-spinner-gap"></i></span>
-          <div><strong id="stat-progress">0</strong><span data-t="inProgress">In progress</span></div>
-        </article>
-
-        <article class="summary-item">
-          <span class="summary-icon due"><i class="ph ph-clock-countdown"></i></span>
-          <div><strong id="stat-due">0</strong><span data-t="dueSoon">Due soon</span></div>
-        </article>
-
-        <article class="summary-item">
-          <span class="summary-icon done"><i class="ph ph-check-circle"></i></span>
-          <div><strong id="stat-done">0</strong><span data-t="completed">Completed</span></div>
-        </article>
+      <section class="stats">
+        <article><i class="ph ph-list-checks"></i><div><b id="s-todo">0</b><small data-t="toDo">TO DO</small></div></article>
+        <article><i class="ph ph-spinner-gap"></i><div><b id="s-progress">0</b><small data-t="inProgress">IN PROGRESS</small></div></article>
+        <article><i class="ph ph-clock-countdown"></i><div><b id="s-due">0</b><small data-t="dueSoon">DUE SOON</small></div></article>
+        <article><i class="ph ph-warning-circle"></i><div><b id="s-overdue">0</b><small data-t="overdue">OVERDUE</small></div></article>
+        <article><i class="ph ph-check-circle"></i><div><b id="s-done">0</b><small data-t="completed">COMPLETED</small></div></article>
       </section>
 
-      <section class="board-controls" aria-label="Task controls">
-        <div class="view-tabs" role="tablist" aria-label="Task views">
-          <button class="view-tab active" data-view="mine" type="button" role="tab" aria-selected="true" data-t="myTasks">My tasks</button>
-          <button class="view-tab" data-view="all" type="button" role="tab" aria-selected="false" data-t="allTasks">All tasks</button>
+      <section class="projects-overview">
+        <div class="section-head"><div><p class="eyebrow" data-t="projectProgress">PROJECT PROGRESS</p><h2 data-t="activeProjects">Active projects</h2></div><button id="manage-projects" class="text-btn" data-t="manageProjects">Manage projects</button></div>
+        <div id="project-cards" class="project-cards"></div>
+      </section>
+
+      <section class="controls">
+        <div class="tabs">
+          <button class="view active" data-view="mine" data-t="myTasks">My tasks</button>
+          <button class="view" data-view="all" data-t="allTasks">All tasks</button>
+          <button class="view" data-view="today" data-t="today">Today</button>
         </div>
-
-        <div class="toolbar-tools">
-          <label class="search-box">
-            <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
-            <input id="task-search" type="search" autocomplete="off" data-placeholder-t="searchTasks" placeholder="Search tasks">
-          </label>
-
-          <select id="priority-filter" class="select-control" aria-label="Priority filter">
-            <option value="all" data-t="allPriorities">All priorities</option>
-            <option value="urgent" data-t="urgent">Urgent</option>
-            <option value="high" data-t="high">High</option>
-            <option value="medium" data-t="medium">Medium</option>
-            <option value="low" data-t="low">Low</option>
-          </select>
+        <div class="filters">
+          <label class="search"><i class="ph ph-magnifying-glass"></i><input id="search" placeholder="Search tasks"></label>
+          <select id="assignee-filter"><option value="all">All people</option></select>
+          <select id="project-filter"><option value="all">All projects</option></select>
+          <select id="priority-filter"><option value="all">All priorities</option><option value="urgent">Urgent</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>
         </div>
       </section>
 
-      <section id="board" class="board" aria-label="Task board">
-        <div class="board-column" data-status="todo">
-          <div class="column-head">
-            <div><span class="dot"></span><strong data-t="toDo">To do</strong></div>
-            <span id="count-todo">0</span>
-          </div>
-          <div class="task-list" id="list-todo"></div>
-        </div>
-
-        <div class="board-column" data-status="progress">
-          <div class="column-head">
-            <div><span class="dot"></span><strong data-t="inProgress">In progress</strong></div>
-            <span id="count-progress">0</span>
-          </div>
-          <div class="task-list" id="list-progress"></div>
-        </div>
-
-        <div class="board-column" data-status="review">
-          <div class="column-head">
-            <div><span class="dot"></span><strong data-t="review">Review</strong></div>
-            <span id="count-review">0</span>
-          </div>
-          <div class="task-list" id="list-review"></div>
-        </div>
-
-        <div class="board-column" data-status="done">
-          <div class="column-head">
-            <div><span class="dot"></span><strong data-t="done">Done</strong></div>
-            <span id="count-done">0</span>
-          </div>
-          <div class="task-list" id="list-done"></div>
-        </div>
+      <section class="board">
+        <div class="column" data-status="todo"><header><span><i></i><b data-t="toDo">To do</b></span><em id="c-todo">0</em></header><div id="todo" class="task-list"></div></div>
+        <div class="column" data-status="progress"><header><span><i></i><b data-t="inProgress">In progress</b></span><em id="c-progress">0</em></header><div id="progress" class="task-list"></div></div>
+        <div class="column" data-status="review"><header><span><i></i><b data-t="review">Review</b></span><em id="c-review">0</em></header><div id="review" class="task-list"></div></div>
+        <div class="column" data-status="done"><header><span><i></i><b data-t="done">Done</b></span><em id="c-done">0</em></header><div id="done" class="task-list"></div></div>
       </section>
-
-      <div id="empty-state" class="empty-state" hidden>
-        <span class="empty-icon"><i class="ph ph-check-square-offset"></i></span>
-        <h2 data-t="nothingHere">Nothing here yet.</h2>
-        <p data-t="emptyHelp">Create a task or change the filters to see more.</p>
-      </div>
     </main>
-
-    <footer class="workspace-footer">
-      <span>© <span id="year"></span> Nostrix Marketing Services</span>
-      <span><i class="ph ph-lock-key"></i><span data-t="privateWorkspace">Private staff workspace</span></span>
-    </footer>
+    <footer><span>© <span id="year"></span> Nostrix Marketing Services</span><span><i class="ph ph-lock-key"></i> <span data-t="privateWorkspace">Private staff workspace</span></span></footer>
   </div>
 
-  <!-- Task modal -->
-  <div id="task-modal" class="modal" hidden>
-    <div class="modal-backdrop" data-close-modal></div>
+  <div id="task-modal" class="modal" hidden><div class="backdrop" data-close-task></div><section class="modal-box task-modal">
+    <div class="modal-head"><div><p class="eyebrow" data-t="taskDetails">TASK DETAILS</p><h2 id="task-heading">New task</h2></div><button class="icon-btn" data-close-task><i class="ph ph-x"></i></button></div>
+    <nav class="task-tabs">
+      <button class="task-tab active" data-tab="details"><i class="ph ph-note-pencil"></i><span data-t="details">Details</span></button>
+      <button class="task-tab" data-tab="comments"><i class="ph ph-chats"></i><span data-t="comments">Comments</span><em id="comment-count">0</em></button>
+      <button class="task-tab" data-tab="resources"><i class="ph ph-paperclip"></i><span data-t="filesLinks">Files & links</span><em id="resource-count">0</em></button>
+      <button class="task-tab" data-tab="activity"><i class="ph ph-clock-counter-clockwise"></i><span data-t="activity">Activity</span></button>
+    </nav>
 
-    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="task-modal-title">
-      <div class="modal-head">
-        <div>
-          <p class="eyebrow" data-t="taskDetails">Task details</p>
-          <h2 id="task-modal-title" data-t="newTask">New task</h2>
-        </div>
-
-        <button class="icon-button modal-close" type="button" data-close-modal aria-label="Close">
-          <i class="ph ph-x"></i>
-        </button>
-      </div>
-
+    <div class="tab-panel active" data-panel="details">
       <form id="task-form">
         <input id="task-id" type="hidden">
-
-        <div class="field full">
-          <label for="task-title" data-t="title">Title</label>
-          <input id="task-title" type="text" required maxlength="160" data-placeholder-t="taskTitlePlaceholder" placeholder="What needs to be done?">
-        </div>
-
-        <div class="field full">
-          <label for="task-details" data-t="details">Details</label>
-          <textarea id="task-details" rows="4" maxlength="2000" data-placeholder-t="detailsPlaceholder" placeholder="Add context, links or notes"></textarea>
-        </div>
-
+        <label>Title<input id="task-title" required maxlength="160"></label>
+        <label>Details<textarea id="task-details" rows="4" maxlength="2000"></textarea></label>
         <div class="form-grid">
-          <div class="field">
-            <label for="task-assignee" data-t="assignee">Assignee</label>
-            <select id="task-assignee"></select>
-          </div>
-
-          <div class="field">
-            <label for="task-due" data-t="dueDate">Due date</label>
-            <input id="task-due" type="date">
-          </div>
-
-          <div class="field">
-            <label for="task-priority" data-t="priority">Priority</label>
-            <select id="task-priority">
-              <option value="low" data-t="low">Low</option>
-              <option value="medium" selected data-t="medium">Medium</option>
-              <option value="high" data-t="high">High</option>
-              <option value="urgent" data-t="urgent">Urgent</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="task-status" data-t="status">Status</label>
-            <select id="task-status">
-              <option value="todo" data-t="toDo">To do</option>
-              <option value="progress" data-t="inProgress">In progress</option>
-              <option value="review" data-t="review">Review</option>
-              <option value="done" data-t="done">Done</option>
-            </select>
-          </div>
+          <label>Project<select id="task-project"></select></label>
+          <label>Assignee<select id="task-assignee"></select></label>
+          <label>Due date<input id="task-due" type="date"></label>
+          <label>Priority<select id="task-priority"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option><option value="urgent">Urgent</option></select></label>
+          <label>Status<select id="task-status"><option value="todo">To do</option><option value="progress">In progress</option><option value="review">Review</option><option value="done">Done</option></select></label>
         </div>
-
-        <div class="modal-actions">
-          <button id="delete-task-btn" class="danger-button" type="button" hidden>
-            <i class="ph ph-trash"></i>
-            <span data-t="delete">Delete</span>
-          </button>
-
-          <div class="modal-actions-right">
-            <button class="secondary-button" type="button" data-close-modal data-t="cancel">Cancel</button>
-            <button class="primary-button compact" type="submit">
-              <span data-t="saveTask">Save task</span>
-              <i class="ph ph-check"></i>
-            </button>
-          </div>
-        </div>
-
-        <p id="task-message" class="form-message" aria-live="polite"></p>
+        <div class="modal-actions"><button id="delete-task" class="danger" type="button" hidden><i class="ph ph-trash"></i> Delete</button><div><button class="secondary" type="button" data-close-task>Cancel</button><button class="primary" type="submit">Save task</button></div></div>
       </form>
-    </section>
-  </div>
+    </div>
 
-  <!-- Profile modal -->
-  <div id="profile-modal" class="modal" hidden>
-    <div class="modal-backdrop" data-close-profile></div>
+    <div class="tab-panel" data-panel="comments" hidden>
+      <div id="comments-list" class="comments"></div>
+      <form id="comment-form" class="comment-form"><textarea id="comment-body" rows="3" placeholder="Write an update or comment…" required></textarea><button class="primary" type="submit">Post comment</button></form>
+    </div>
 
-    <section class="modal-panel small" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
-      <div class="modal-head">
-        <div>
-          <p class="eyebrow" data-t="yourAccount">Your account</p>
-          <h2 id="profile-modal-title" data-t="profile">Profile</h2>
-        </div>
-
-        <button class="icon-button modal-close" type="button" data-close-profile aria-label="Close">
-          <i class="ph ph-x"></i>
-        </button>
+    <div class="tab-panel" data-panel="resources" hidden>
+      <div class="resources">
+        <section><h3><i class="ph ph-link"></i> Links</h3><form id="link-form" class="link-form"><input id="link-label" placeholder="Label, e.g. Canva"><input id="link-url" type="url" placeholder="https://…" required><button class="secondary mini" type="submit">Add link</button></form><div id="links-list"></div></section>
+        <section><h3><i class="ph ph-file-arrow-up"></i> Files</h3><label class="drop"><i class="ph ph-cloud-arrow-up"></i><span>Choose a file to upload</span><input id="file-input" type="file" hidden></label><div id="files-list"></div></section>
       </div>
+    </div>
 
-      <form id="profile-form">
-        <div class="field full">
-          <label for="profile-name" data-t="displayName">Display name</label>
-          <input id="profile-name" type="text" maxlength="100" required>
-        </div>
+    <div class="tab-panel" data-panel="activity" hidden><div id="activity-list" class="activity"></div></div>
+  </section></div>
 
-        <div class="field full">
-          <label for="profile-role" data-t="jobTitle">Job title</label>
-          <input id="profile-role" type="text" maxlength="120" data-placeholder-t="jobPlaceholder" placeholder="e.g. Chief Creative Officer">
-        </div>
+  <div id="projects-modal" class="modal" hidden><div class="backdrop" data-close-projects></div><section class="modal-box">
+    <div class="modal-head"><div><p class="eyebrow">CLIENT WORK</p><h2>Projects & clients</h2></div><button class="icon-btn" data-close-projects><i class="ph ph-x"></i></button></div>
+    <form id="project-form" class="project-form">
+      <input id="project-id" type="hidden">
+      <div class="form-grid"><label>Project name<input id="project-name" required></label><label>Client name<input id="project-client"></label><label>Due date<input id="project-due" type="date"></label><label>Status<select id="project-status"><option value="active">Active</option><option value="archived">Archived</option></select></label></div>
+      <div class="modal-actions"><button id="project-clear" class="secondary" type="button">Clear</button><button class="primary" type="submit">Save project</button></div>
+    </form>
+    <div id="projects-list" class="projects-list"></div>
+  </section></div>
 
-        <div class="modal-actions">
-          <span></span>
-          <div class="modal-actions-right">
-            <button class="secondary-button" type="button" data-close-profile data-t="cancel">Cancel</button>
-            <button class="primary-button compact" type="submit">
-              <span data-t="save">Save</span>
-              <i class="ph ph-check"></i>
-            </button>
-          </div>
-        </div>
+  <div id="profile-modal" class="modal" hidden><div class="backdrop" data-close-profile></div><section class="modal-box small">
+    <div class="modal-head"><h2>Profile</h2><button class="icon-btn" data-close-profile><i class="ph ph-x"></i></button></div>
+    <form id="profile-form"><label>Display name<input id="profile-name" required></label><label>Job title<input id="profile-role"></label><div class="modal-actions"><button class="secondary" data-close-profile type="button">Cancel</button><button class="primary" type="submit">Save</button></div></form>
+  </section></div>
 
-        <p id="profile-message" class="form-message" aria-live="polite"></p>
-      </form>
-    </section>
-  </div>
+  <div id="toast" class="toast" hidden></div>
 
-  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-
-  <!-- IMPORTANT: keep your existing working config.js -->
+  <!-- KEEP YOUR EXISTING WORKING config.js -->
   <script src="./config.js"></script>
   <script type="module" src="./app.js"></script>
 </body>
