@@ -36,12 +36,14 @@
     <header class="topbar">
       <a class="brand" href="/"><img src="/logo.png" onerror="this.style.display='none'"><div><b>NOSTRIX</b><small data-t="workspace">WORKSPACE</small></div></a>
       <div class="top-actions">
+        <button id="home-btn" class="icon-btn" title="Dashboard" aria-label="Dashboard"><i class="ph ph-house"></i></button>
         <button id="notif-btn" class="icon-btn" title="Notifications"><i class="ph ph-bell"></i><span id="notif-badge" class="badge" hidden>0</span></button>
         <button id="refresh-btn" class="icon-btn" title="Refresh"><i class="ph ph-arrows-clockwise"></i></button>
         <button class="lang" type="button">AR</button>
         <button id="profile-btn" class="profile-btn"><span id="avatar" class="avatar">N</span><span><b id="user-name">Nostrix</b><small id="user-email"></small></span><i class="ph ph-caret-down"></i></button>
         <div id="profile-menu" class="pop-menu" hidden>
           <button id="edit-profile"><i class="ph ph-user"></i><span data-t="profile">Profile</span></button>
+          <button id="admin-btn" hidden><i class="ph ph-shield-check"></i><span>Admin center</span></button>
           <button id="signout"><i class="ph ph-sign-out"></i><span data-t="signOut">Sign out</span></button>
         </div>
         <aside id="notif-panel" class="notif-panel" hidden>
@@ -64,6 +66,49 @@
         <article><i class="ph ph-clock-countdown"></i><div><b id="s-due">0</b><small data-t="dueSoon">DUE SOON</small></div></article>
         <article><i class="ph ph-warning-circle"></i><div><b id="s-overdue">0</b><small data-t="overdue">OVERDUE</small></div></article>
         <article><i class="ph ph-check-circle"></i><div><b id="s-done">0</b><small data-t="completed">COMPLETED</small></div></article>
+      </section>
+
+      <section class="workspace-widgets">
+        <article class="widget-card">
+          <div class="widget-head">
+            <div><p class="eyebrow">TEAM UPDATE</p><h2>Announcements</h2></div>
+            <i class="ph ph-megaphone-simple"></i>
+          </div>
+          <div id="announcement-list" class="announcement-list"></div>
+        </article>
+
+        <article class="widget-card">
+          <div class="widget-head">
+            <div><p class="eyebrow">SHORTCUTS</p><h2>Quick links</h2></div>
+            <i class="ph ph-link-simple"></i>
+          </div>
+          <div id="quick-links" class="quick-links"></div>
+        </article>
+      </section>
+
+      <section class="calendar-overview" id="team-calendar-section">
+        <div class="section-head calendar-section-head">
+          <div><p class="eyebrow">TEAM CALENDAR</p><h2>Upcoming schedule</h2></div>
+          <div class="calendar-nav">
+            <button id="cal-prev" class="icon-btn" type="button" aria-label="Previous month"><i class="ph ph-caret-left"></i></button>
+            <button id="cal-today" class="secondary mini" type="button">Today</button>
+            <button id="cal-next" class="icon-btn" type="button" aria-label="Next month"><i class="ph ph-caret-right"></i></button>
+          </div>
+        </div>
+        <div class="team-calendar-layout">
+          <div class="team-calendar">
+            <div class="team-calendar-title"><strong id="calendar-month-label"></strong></div>
+            <div class="calendar-weekdays"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+            <div id="calendar-grid" class="calendar-grid"></div>
+          </div>
+          <aside class="calendar-agenda">
+            <div class="agenda-head">
+              <span class="agenda-date-icon"><i class="ph ph-calendar-dots"></i></span>
+              <div><small>Selected date</small><strong id="agenda-date-label">Today</strong></div>
+            </div>
+            <div id="agenda-list" class="agenda-list"></div>
+          </aside>
+        </div>
       </section>
 
       <section class="projects-overview">
@@ -125,9 +170,20 @@
     <div id="assignee-menu" class="assignee-menu" role="listbox" hidden></div>
   </div>
 </label>
-          <label>Due date<input id="task-due" type="date"></label>
+          <label>Due date
+  <input id="task-due" type="hidden">
+  <div class="date-picker">
+    <button class="date-trigger" type="button" data-date-trigger="task-due">
+      <span class="date-icon"><i class="ph ph-calendar-dots"></i></span>
+      <span class="date-copy"><small>Due date</small><strong data-date-label="task-due">Choose a date</strong></span>
+      <i class="ph ph-caret-down date-caret"></i>
+    </button>
+    <div class="date-popover" data-date-popover="task-due" hidden></div>
+  </div>
+</label>
           <label>Priority<select id="task-priority"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option><option value="urgent">Urgent</option></select></label>
           <label>Status<select id="task-status"><option value="todo">To do</option><option value="progress">In progress</option><option value="review">Review</option><option value="done">Done</option></select></label>
+          <label>Repeat<select id="task-repeat"><option value="none">Does not repeat</option><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></label>
         </div>
         <p id="task-owner-note" class="owner-note" hidden></p><div class="modal-actions"><button id="delete-task" class="danger" type="button" hidden><i class="ph ph-trash"></i> Delete</button><div><button class="secondary" type="button" data-close-task>Cancel</button><button class="primary" type="submit">Save task</button></div></div>
       </form>
@@ -152,7 +208,17 @@
     <div class="modal-head"><div><p class="eyebrow">CLIENT WORK</p><h2>Projects & clients</h2></div><button class="icon-btn" data-close-projects><i class="ph ph-x"></i></button></div>
     <form id="project-form" class="project-form">
       <input id="project-id" type="hidden">
-      <div class="form-grid"><label>Project name<input id="project-name" required></label><label>Client name<input id="project-client"></label><label>Due date<input id="project-due" type="date"></label><label>Status<select id="project-status"><option value="active">Active</option><option value="archived">Archived</option></select></label></div>
+      <div class="form-grid"><label>Project name<input id="project-name" required></label><label>Client name<input id="project-client"></label><label>Due date
+  <input id="project-due" type="hidden">
+  <div class="date-picker">
+    <button class="date-trigger" type="button" data-date-trigger="project-due">
+      <span class="date-icon"><i class="ph ph-calendar-dots"></i></span>
+      <span class="date-copy"><small>Due date</small><strong data-date-label="project-due">Choose a date</strong></span>
+      <i class="ph ph-caret-down date-caret"></i>
+    </button>
+    <div class="date-popover" data-date-popover="project-due" hidden></div>
+  </div>
+</label><label>Status<select id="project-status"><option value="active">Active</option><option value="archived">Archived</option></select></label></div>
       <div class="modal-actions"><button id="project-clear" class="secondary" type="button">Clear</button><button class="primary" type="submit">Save project</button></div>
     </form>
     <div id="projects-list" class="projects-list"></div>
@@ -162,6 +228,65 @@
     <div class="modal-head"><h2>Profile</h2><button class="icon-btn" data-close-profile><i class="ph ph-x"></i></button></div>
     <form id="profile-form"><label>Display name<input id="profile-name" required></label><label>Job title<input id="profile-role"></label><div class="modal-actions"><button class="secondary" data-close-profile type="button">Cancel</button><button class="primary" type="submit">Save</button></div></form>
   </section></div>
+
+  <div id="admin-modal" class="modal" hidden>
+    <div class="backdrop" data-close-admin></div>
+    <section class="modal-box admin-modal">
+      <div class="modal-head">
+        <div><p class="eyebrow">MANAGEMENT</p><h2>Admin center</h2></div>
+        <button class="icon-btn" type="button" data-close-admin><i class="ph ph-x"></i></button>
+      </div>
+
+      <nav class="admin-tabs">
+        <button class="admin-tab active" type="button" data-admin-tab="announcements"><i class="ph ph-megaphone"></i> Announcements</button>
+        <button class="admin-tab" type="button" data-admin-tab="links"><i class="ph ph-link"></i> Quick links</button>
+        <button class="admin-tab" type="button" data-admin-tab="team"><i class="ph ph-users-three"></i> Team roles</button>
+      </nav>
+
+      <section class="admin-panel active" data-admin-panel="announcements">
+        <form id="announcement-form" class="admin-form">
+          <input id="announcement-id" type="hidden">
+          <label>Title<input id="announcement-title" maxlength="120" required placeholder="e.g. Saturday shoot"></label>
+          <label>Message<textarea id="announcement-body" rows="3" maxlength="700" required placeholder="What does the team need to know?"></textarea></label>
+          <div class="form-grid">
+            <label>Level<select id="announcement-level"><option value="info">Info</option><option value="important">Important</option><option value="urgent">Urgent</option></select></label>
+            <label>Expires
+              <input id="announcement-expiry" type="hidden">
+              <div class="date-picker">
+                <button class="date-trigger" type="button" data-date-trigger="announcement-expiry">
+                  <span class="date-icon"><i class="ph ph-calendar-dots"></i></span>
+                  <span class="date-copy"><small>Expires</small><strong data-date-label="announcement-expiry">No expiry</strong></span>
+                  <i class="ph ph-caret-down date-caret"></i>
+                </button>
+                <div class="date-popover" data-date-popover="announcement-expiry" hidden></div>
+              </div>
+            </label>
+          </div>
+          <div class="modal-actions"><button id="announcement-clear" class="secondary" type="button">Clear</button><button class="primary" type="submit">Save announcement</button></div>
+        </form>
+        <div id="admin-announcements-list" class="admin-list"></div>
+      </section>
+
+      <section class="admin-panel" data-admin-panel="links" hidden>
+        <form id="quicklink-form" class="admin-form">
+          <input id="quicklink-id" type="hidden">
+          <div class="form-grid">
+            <label>Label<input id="quicklink-label" maxlength="70" required placeholder="Google Drive"></label>
+            <label>URL<input id="quicklink-url" type="url" required placeholder="https://..."></label>
+            <label>Icon<select id="quicklink-icon"><option value="folder">Folder</option><option value="link">Link</option><option value="instagram">Instagram</option><option value="palette">Creative</option><option value="file">Document</option></select></label>
+            <label>Order<input id="quicklink-order" type="number" min="0" max="99" value="0"></label>
+          </div>
+          <div class="modal-actions"><button id="quicklink-clear" class="secondary" type="button">Clear</button><button class="primary" type="submit">Save link</button></div>
+        </form>
+        <div id="admin-links-list" class="admin-list"></div>
+      </section>
+
+      <section class="admin-panel" data-admin-panel="team" hidden>
+        <div class="admin-help"><i class="ph ph-shield-check"></i><span>Admins can manage announcements, quick links and team roles.</span></div>
+        <div id="team-role-list" class="admin-list"></div>
+      </section>
+    </section>
+  </div>
 
   <div id="toast" class="toast" hidden></div>
 
