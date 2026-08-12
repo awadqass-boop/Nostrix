@@ -13,6 +13,29 @@ const dt=s=>s?new Intl.DateTimeFormat(S.lang==="ar"?"ar-AE":"en-GB",{day:"numeri
 const ymd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 const parseYmd=s=>s?new Date(s+"T12:00:00"):null;
 const prettyDate=s=>s?new Intl.DateTimeFormat(S.lang==="ar"?"ar-AE":"en-GB",{day:"numeric",month:"short",year:"numeric"}).format(parseYmd(s)):"";
+const prettyTime=s=>{if(!s)return"";let [h,m]=String(s).slice(0,5).split(":").map(Number),d=new Date(2000,0,1,h||0,m||0);return new Intl.DateTimeFormat(S.lang==="ar"?"ar-AE":"en-US",{hour:"numeric",minute:"2-digit"}).format(d)};
+function taskScheduleLabel(start,end,startTime,endTime){
+  if(!start)return"Choose a date";
+  let out=prettyDate(start);
+  if(end&&end!==start)out+=` – ${prettyDate(end)}`;
+  if(startTime||endTime){
+    let t=startTime?prettyTime(startTime):"";
+    if(endTime)t+=`${t?" – ":""}${prettyTime(endTime)}`;
+    if(t)out+=` · ${t}`;
+  }
+  return out;
+}
+function taskDueText(t){
+  if(!t?.due_date)return"No due date";
+  let base=due(t.due_date);
+  if(t.due_end_date&&t.due_end_date!==t.due_date)base+=` – ${prettyDate(t.due_end_date)}`;
+  if(t.start_time||t.end_time){
+    let tm=t.start_time?prettyTime(t.start_time):"";
+    if(t.end_time)tm+=`${tm?" – ":""}${prettyTime(t.end_time)}`;
+    if(tm)base+=` · ${tm}`;
+  }
+  return base;
+}
 const monthName=d=>new Intl.DateTimeFormat(S.lang==="ar"?"ar-AE":"en-GB",{month:"long",year:"numeric"}).format(d);
 const isAdmin=()=>!!S.profile?.is_admin;
 const iconForQuickLink=n=>({folder:"ph-folder-simple",link:"ph-link",instagram:"ph-instagram-logo",palette:"ph-palette",file:"ph-file-text"})[n]||"ph-link";
@@ -311,7 +334,7 @@ function card(t){
     <h3>${esc(t.title)}</h3>
     ${t.details?`<p>${esc(t.details)}</p>`:""}
     <div class="meta">
-      <span class="${od?"overdue":""}"><i class="ph ph-calendar-blank"></i>${esc(due(t.due_date))}</span>
+      <span class="${od?"overdue":""}"><i class="ph ph-calendar-blank"></i>${esc(taskDueText(t))}</span>
       <span class="assignee-meta">${assigneeVisual}<span class="assignee-meta-name">${esc(n)}</span></span>
       <span class="created-by"><i class="ph ph-user-circle-plus"></i>Created by ${esc(creator)}</span>
     </div>
@@ -331,15 +354,74 @@ function renderAgenda(){let k=ymd(S.calendarSelected),e=calendarEvents().filter(
 function setView(v){S.view=v;$$(".view").forEach(b=>b.classList.toggle("active",b.dataset.view===v))}
 
 
-function closeDatePickers(except=null){$$("[data-date-popover]").forEach(p=>{if(p!==except)p.hidden=true});$$(".date-picker").forEach(p=>p.classList.remove("open"))}
-function setDateValue(id,value,close=true){let i=$("#"+id);if(!i)return;i.value=value||"";let l=$(`[data-date-label="${id}"]`);if(l)l.textContent=value?prettyDate(value):(id==="announcement-expiry"?"No expiry":"Choose a date");if(value){let d=parseYmd(value);S.dateViews[id]=new Date(d.getFullYear(),d.getMonth(),1)}if(close)closeDatePickers()}
-function renderDatePicker(id){let input=$("#"+id),pop=$(`[data-date-popover="${id}"]`);if(!input||!pop)return;let chosen=parseYmd(input.value)||new Date(),view=S.dateViews[id]||new Date(chosen.getFullYear(),chosen.getMonth(),1);S.dateViews[id]=view;let first=new Date(view.getFullYear(),view.getMonth(),1),start=new Date(view.getFullYear(),view.getMonth(),1-first.getDay()),h="";for(let n=0;n<42;n++){let d=new Date(start);d.setDate(start.getDate()+n);let k=ymd(d);h+=`<button type="button" class="mini-cal-day ${d.getMonth()===view.getMonth()?"":"outside"} ${k===input.value?"selected":""} ${k===ymd(new Date())?"today":""}" data-pick-date="${k}">${d.getDate()}</button>`}pop.innerHTML=`<div class="mini-cal-head"><button type="button" class="mini-cal-nav" data-date-prev><i class="ph ph-caret-left"></i></button><strong>${esc(monthName(view))}</strong><button type="button" class="mini-cal-nav" data-date-next><i class="ph ph-caret-right"></i></button></div><div class="mini-cal-week"><span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span></div><div class="mini-cal-grid">${h}</div><div class="mini-cal-foot"><button type="button" data-date-clear>Clear</button><button type="button" data-date-today>Today</button></div>`;$$("[data-pick-date]",pop).forEach(b=>b.onclick=()=>setDateValue(id,b.dataset.pickDate));$("[data-date-prev]",pop).onclick=()=>{view.setMonth(view.getMonth()-1);renderDatePicker(id)};$("[data-date-next]",pop).onclick=()=>{view.setMonth(view.getMonth()+1);renderDatePicker(id)};$("[data-date-clear]",pop).onclick=()=>setDateValue(id,"");$("[data-date-today]",pop).onclick=()=>setDateValue(id,ymd(new Date()))}
-function openDatePicker(id){let p=$(`[data-date-popover="${id}"]`),wrap=p?.closest(".date-picker");if(!p)return;let opening=p.hidden;closeDatePickers(p);p.hidden=!opening;wrap?.classList.toggle("open",opening);if(opening)renderDatePicker(id)}
-function initDatePickers(){$$("[data-date-trigger]").forEach(b=>b.onclick=e=>{e.stopPropagation();openDatePicker(b.dataset.dateTrigger)});["task-due","project-due","announcement-expiry"].forEach(id=>setDateValue(id,$("#"+id)?.value||"",false))}
-async function openTask(id=null,tab="details"){let t=id?S.tasks.find(x=>x.id===id):null;S.taskId=t?.id||null;$("#task-id").value=t?.id||"";$("#task-title").value=t?.title||"";$("#task-details").value=t?.details||"";$("#task-project").value=t?.project_id||"";setAssigneeValue(t?assigneeValueForTask(t):S.user.id,false);setDateValue("task-due",t?.due_date||"",false);$("#task-priority").value=t?.priority||"medium";$("#task-status").value=t?.status||"todo";$("#task-repeat").value=t?.repeat_rule||"none";$("#task-heading").textContent=t?.title||"New task";refreshCustomSelects();let owner=t&&t.created_by===S.user.id;$("#delete-task").hidden=!owner;let note=$("#task-owner-note");if(note){note.hidden=!t;note.innerHTML=t?`<i class="ph ph-shield-check"></i> Created by <strong>${esc(pn(t.created_by))}</strong>. ${owner?"You can delete this task.":"Only the original creator can delete it."}`:""}$("#task-modal").hidden=false;document.body.style.overflow="hidden";$$(".task-tab").forEach(b=>b.disabled=!t&&b.dataset.tab!=="details");switchTab(t?tab:"details");if(t)await extras(t.id)}
+function closeDatePickers(except=null){$$('[data-date-popover]').forEach(p=>{if(p!==except)p.hidden=true});$$('.date-picker').forEach(p=>p.classList.remove('open'))}
+function refreshTaskDateLabel(){
+  const label=$('[data-date-label="task-due"]');
+  if(!label)return;
+  const enabled=$('#task-time-enabled')?.checked;
+  label.textContent=taskScheduleLabel(
+    $('#task-due')?.value||'',
+    $('#task-due-end')?.value||'',
+    enabled?($('#task-start-time')?.value||''):'',
+    enabled?($('#task-end-time')?.value||''):''
+  );
+}
+function setTaskTimeEnabled(enabled){
+  const toggle=$('#task-time-enabled'),fields=$('#task-time-fields');
+  if(toggle)toggle.checked=!!enabled;
+  if(fields)fields.hidden=!enabled;
+  refreshTaskDateLabel();
+}
+function setDateValue(id,value,close=true){let i=$('#'+id);if(!i)return;i.value=value||'';let l=$(`[data-date-label="${id}"]`);if(l)l.textContent=value?prettyDate(value):(id==='announcement-expiry'?'No expiry':'Choose a date');if(value){let d=parseYmd(value);S.dateViews[id]=new Date(d.getFullYear(),d.getMonth(),1)}if(id==='task-due')refreshTaskDateLabel();if(close)closeDatePickers()}
+function setTaskDateRange(startDate,endDate='',close=false){
+  const start=$('#task-due'),end=$('#task-due-end');
+  if(!start||!end)return;
+  start.value=startDate||'';
+  end.value=endDate||'';
+  if(startDate){let d=parseYmd(startDate);S.dateViews['task-due']=new Date(d.getFullYear(),d.getMonth(),1)}
+  refreshTaskDateLabel();
+  if(close)closeDatePickers();
+}
+function renderDatePicker(id){
+  let input=$('#'+id),pop=$(`[data-date-popover="${id}"]`);if(!input||!pop)return;
+  const isTaskRange=id==='task-due';
+  let rangeEnd=isTaskRange?($('#task-due-end')?.value||''):'';
+  let chosen=parseYmd(input.value)||new Date(),view=S.dateViews[id]||new Date(chosen.getFullYear(),chosen.getMonth(),1);S.dateViews[id]=view;
+  let first=new Date(view.getFullYear(),view.getMonth(),1),start=new Date(view.getFullYear(),view.getMonth(),1-first.getDay()),h='';
+  for(let n=0;n<42;n++){
+    let d=new Date(start);d.setDate(start.getDate()+n);let k=ymd(d);
+    let inRange=isTaskRange&&input.value&&rangeEnd&&k>input.value&&k<rangeEnd;
+    let rangeStart=isTaskRange&&k===input.value;
+    let rangeEndDay=isTaskRange&&rangeEnd&&k===rangeEnd;
+    let selected=!isTaskRange&&k===input.value;
+    h+=`<button type="button" class="mini-cal-day ${d.getMonth()===view.getMonth()?'':'outside'} ${selected||rangeStart||rangeEndDay?'selected':''} ${inRange?'in-range':''} ${rangeStart?'range-start':''} ${rangeEndDay?'range-end':''} ${k===ymd(new Date())?'today':''}" data-pick-date="${k}">${d.getDate()}</button>`
+  }
+  const hint=isTaskRange?`<div class="range-picker-hint">${input.value&&!rangeEnd?'Choose an end date':'Choose a start date then an end date'}</div>`:'';
+  pop.innerHTML=`<div class="mini-cal-head"><button type="button" class="mini-cal-nav" data-date-prev><i class="ph ph-caret-left"></i></button><strong>${esc(monthName(view))}</strong><button type="button" class="mini-cal-nav" data-date-next><i class="ph ph-caret-right"></i></button></div>${hint}<div class="mini-cal-week"><span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span></div><div class="mini-cal-grid">${h}</div><div class="mini-cal-foot"><button type="button" data-date-clear>Clear</button><button type="button" data-date-today>Today</button></div>`;
+  $$('[data-pick-date]',pop).forEach(b=>b.onclick=()=>{
+    const k=b.dataset.pickDate;
+    if(!isTaskRange){setDateValue(id,k);return}
+    const currentStart=input.value,currentEnd=$('#task-due-end')?.value||'';
+    if(!currentStart||currentEnd||k<currentStart){setTaskDateRange(k,'',false);renderDatePicker(id);return}
+    setTaskDateRange(currentStart,k,true);
+  });
+  $('[data-date-prev]',pop).onclick=()=>{view.setMonth(view.getMonth()-1);renderDatePicker(id)};
+  $('[data-date-next]',pop).onclick=()=>{view.setMonth(view.getMonth()+1);renderDatePicker(id)};
+  $('[data-date-clear]',pop).onclick=()=>{if(isTaskRange)setTaskDateRange('','',true);else setDateValue(id,'')};
+  $('[data-date-today]',pop).onclick=()=>{const today=ymd(new Date());if(isTaskRange)setTaskDateRange(today,today,true);else setDateValue(id,today)};
+}
+function openDatePicker(id){let p=$(`[data-date-popover="${id}"]`),wrap=p?.closest('.date-picker');if(!p)return;let opening=p.hidden;closeDatePickers(p);p.hidden=!opening;wrap?.classList.toggle('open',opening);if(opening)renderDatePicker(id)}
+function initDatePickers(){
+  $$('[data-date-trigger]').forEach(b=>b.onclick=e=>{e.stopPropagation();openDatePicker(b.dataset.dateTrigger)});
+  ['task-due','project-due','announcement-expiry'].forEach(id=>setDateValue(id,$('#'+id)?.value||'',false));
+  const timeToggle=$('#task-time-enabled');
+  if(timeToggle)timeToggle.onchange=()=>setTaskTimeEnabled(timeToggle.checked);
+  ['task-start-time','task-end-time'].forEach(id=>{const el=$('#'+id);if(el)el.oninput=refreshTaskDateLabel});
+}
+async function openTask(id=null,tab="details"){let t=id?S.tasks.find(x=>x.id===id):null;S.taskId=t?.id||null;$("#task-id").value=t?.id||"";$("#task-title").value=t?.title||"";$("#task-details").value=t?.details||"";$("#task-project").value=t?.project_id||"";setAssigneeValue(t?assigneeValueForTask(t):S.user.id,false);setTaskDateRange(t?.due_date||"",t?.due_end_date||t?.due_date||"",false);$("#task-start-time").value=t?.start_time?String(t.start_time).slice(0,5):"";$("#task-end-time").value=t?.end_time?String(t.end_time).slice(0,5):"";setTaskTimeEnabled(!!(t?.start_time||t?.end_time));$("#task-priority").value=t?.priority||"medium";$("#task-status").value=t?.status||"todo";$("#task-repeat").value=t?.repeat_rule||"none";$("#task-heading").textContent=t?.title||"New task";refreshCustomSelects();let owner=t&&t.created_by===S.user.id;$("#delete-task").hidden=!owner;let note=$("#task-owner-note");if(note){note.hidden=!t;note.innerHTML=t?`<i class="ph ph-shield-check"></i> Created by <strong>${esc(pn(t.created_by))}</strong>. ${owner?"You can delete this task.":"Only the original creator can delete it."}`:""}$("#task-modal").hidden=false;document.body.style.overflow="hidden";$$(".task-tab").forEach(b=>b.disabled=!t&&b.dataset.tab!=="details");switchTab(t?tab:"details");if(t)await extras(t.id)}
 function closeTask(){$("#task-modal").hidden=true;document.body.style.overflow="";S.taskId=null}
 function switchTab(n){$$(".task-tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===n));$$(".tab-panel").forEach(p=>{let a=p.dataset.panel===n;p.hidden=!a;p.classList.toggle("active",a)})}
-async function saveTask(e){e.preventDefault();let id=$("#task-id").value,old=id?S.tasks.find(t=>t.id===id):null,av=$("#task-assignee").value,all=av===EVERYONE,p={title:$("#task-title").value.trim(),details:$("#task-details").value.trim()||null,project_id:$("#task-project").value||null,assigned_to:all?null:(av||null),assigned_to_all:all,due_date:$("#task-due").value||null,priority:$("#task-priority").value,status:$("#task-status").value,repeat_rule:$("#task-repeat").value};let r=id?await S.db.from("tasks").update(p).eq("id",id).select().single():await S.db.from("tasks").insert({...p,created_by:S.user.id}).select().single();if(r.error)return toast(r.error.message);let t=r.data;if(!id){await log(t.id,"task_created","Task created");let targets=assigneeTargets(t);if(targets.length)await notify(targets,"assigned",t.assigned_to_all?"New team task":"You were assigned a task",t.title,t.id,t.project_id)}else{if(old?.assigned_to!==t.assigned_to||!!old?.assigned_to_all!==!!t.assigned_to_all){await log(t.id,"assignee_changed",t.assigned_to_all?"Assigned to everyone":"Assignee changed");let targets=assigneeTargets(t);if(targets.length)await notify(targets,"assigned",t.assigned_to_all?"Task assigned to everyone":"You were assigned a task",t.title,t.id,t.project_id)}if(old?.status!==t.status){await log(t.id,"status_changed","Status changed to "+t.status);let targets=[t.created_by,...assigneeTargets(t)];if(t.status==="review")await notify(targets,"review","Task moved to Review",t.title,t.id,t.project_id);if(t.status==="done")await notify(targets,"done","Task completed",t.title,t.id,t.project_id)}}await loadTasks();S.taskId=t.id;$("#task-id").value=t.id;$("#task-heading").textContent=t.title;$("#delete-task").hidden=t.created_by!==S.user.id;await extras(t.id);renderAll();toast("Task saved")}
+async function saveTask(e){e.preventDefault();let id=$("#task-id").value,old=id?S.tasks.find(t=>t.id===id):null,av=$("#task-assignee").value,all=av===EVERYONE,p={title:$("#task-title").value.trim(),details:$("#task-details").value.trim()||null,project_id:$("#task-project").value||null,assigned_to:all?null:(av||null),assigned_to_all:all,due_date:$("#task-due").value||null,due_end_date:$("#task-due-end").value||null,start_time:$("#task-time-enabled").checked?($("#task-start-time").value||null):null,end_time:$("#task-time-enabled").checked?($("#task-end-time").value||null):null,priority:$("#task-priority").value,status:$("#task-status").value,repeat_rule:$("#task-repeat").value};if(p.due_date&&p.due_end_date&&p.due_end_date<p.due_date)return toast("End date cannot be before start date");if(p.due_date&&p.due_end_date===null)p.due_end_date=p.due_date;if(p.start_time&&p.end_time&&p.due_date===p.due_end_date&&p.end_time<p.start_time)return toast("End time cannot be before start time");let r=id?await S.db.from("tasks").update(p).eq("id",id).select().single():await S.db.from("tasks").insert({...p,created_by:S.user.id}).select().single();if(r.error)return toast(r.error.message);let t=r.data;if(!id){await log(t.id,"task_created","Task created");let targets=assigneeTargets(t);if(targets.length)await notify(targets,"assigned",t.assigned_to_all?"New team task":"You were assigned a task",t.title,t.id,t.project_id)}else{if(old?.assigned_to!==t.assigned_to||!!old?.assigned_to_all!==!!t.assigned_to_all){await log(t.id,"assignee_changed",t.assigned_to_all?"Assigned to everyone":"Assignee changed");let targets=assigneeTargets(t);if(targets.length)await notify(targets,"assigned",t.assigned_to_all?"Task assigned to everyone":"You were assigned a task",t.title,t.id,t.project_id)}if(old?.status!==t.status){await log(t.id,"status_changed","Status changed to "+t.status);let targets=[t.created_by,...assigneeTargets(t)];if(t.status==="review")await notify(targets,"review","Task moved to Review",t.title,t.id,t.project_id);if(t.status==="done")await notify(targets,"done","Task completed",t.title,t.id,t.project_id)}}await loadTasks();S.taskId=t.id;$("#task-id").value=t.id;$("#task-heading").textContent=t.title;$("#delete-task").hidden=t.created_by!==S.user.id;await extras(t.id);renderAll();toast("Task saved")}
 async function delTask(){let id=$("#task-id").value,t=S.tasks.find(x=>x.id===id);if(!id||!t)return;if(t.created_by!==S.user.id)return toast("Only the original creator can delete this task");if(!confirm("Delete this task permanently?"))return;let paths=S.files.map(f=>f.storage_path);if(paths.length)await S.db.storage.from("nostrix-staff-files").remove(paths);let{error}=await S.db.from("tasks").delete().eq("id",id);if(error)return toast(error.message);closeTask();await loadTasks();renderAll();toast("Task deleted")}
 async function move(id,status){let t=S.tasks.find(x=>x.id===id);if(!t||t.status===status)return;let{data,error}=await S.db.from("tasks").update({status}).eq("id",id).select().single();if(error)return toast(error.message);await log(id,"status_changed","Status changed to "+status);let targets=[data.created_by,...assigneeTargets(data)];if(status==="review")await notify(targets,"review","Task moved to Review",data.title,id,data.project_id);if(status==="done")await notify(targets,"done","Task completed",data.title,id,data.project_id);await loadTasks();renderAll()}
 async function extras(id){let [a,b,c,d]=await Promise.all([S.db.from("task_comments").select("*").eq("task_id",id).order("created_at"),S.db.from("task_links").select("*").eq("task_id",id).order("created_at",{ascending:false}),S.db.from("task_files").select("*").eq("task_id",id).order("created_at",{ascending:false}),S.db.from("task_activity").select("*").eq("task_id",id).order("created_at",{ascending:false})]);S.comments=a.data||[];S.links=b.data||[];S.files=c.data||[];S.activity=d.data||[];renderExtras()}

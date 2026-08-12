@@ -1050,3 +1050,134 @@ footer,
     flex-basis:1.6rem !important;
   }
 }
+
+/* =========================================================
+   V8.3 — TASK DATE RANGE + OPTIONAL TIME
+   Added only to the task due-date control.
+   ========================================================= */
+.range-picker-hint{
+  margin:-.05rem 0 .45rem;
+  padding:.38rem .45rem;
+  border:1px solid rgba(185,198,255,.08);
+  border-radius:.5rem;
+  color:#858594;
+  background:rgba(185,198,255,.025);
+  font-size:.48rem;
+  line-height:1.4;
+  text-align:center;
+}
+
+.mini-cal-day.in-range{
+  border-radius:.2rem;
+  color:#e8e9f2;
+  background:linear-gradient(90deg,rgba(185,198,255,.105),rgba(209,139,255,.09));
+}
+
+.mini-cal-day.range-start,
+.mini-cal-day.range-end{
+  position:relative;
+  z-index:1;
+}
+
+.task-time-row{
+  display:grid;
+  gap:.5rem;
+  margin-top:.5rem;
+}
+
+.task-time-toggle{
+  display:inline-flex!important;
+  width:max-content;
+  align-items:center;
+  gap:.5rem!important;
+  color:#858592;
+  font-size:.54rem!important;
+  font-weight:600!important;
+  cursor:pointer;
+}
+
+.task-time-toggle>input{
+  position:absolute;
+  width:1px;
+  height:1px;
+  opacity:0;
+  pointer-events:none;
+}
+
+.task-time-switch{
+  position:relative;
+  width:2rem;
+  height:1.1rem;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:999px;
+  background:rgba(255,255,255,.045);
+  transition:background .18s ease,border-color .18s ease;
+}
+
+.task-time-switch::after{
+  content:"";
+  position:absolute;
+  top:.14rem;
+  left:.14rem;
+  width:.7rem;
+  height:.7rem;
+  border-radius:50%;
+  background:#858592;
+  transition:transform .18s ease,background .18s ease;
+}
+
+.task-time-toggle>input:checked + .task-time-switch{
+  border-color:rgba(185,198,255,.24);
+  background:linear-gradient(90deg,rgba(185,198,255,.18),rgba(209,139,255,.18));
+}
+
+.task-time-toggle>input:checked + .task-time-switch::after{
+  transform:translateX(.88rem);
+  background:#d8ddff;
+}
+
+.task-time-fields{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:.5rem;
+}
+
+.task-time-field{
+  display:grid;
+  gap:.32rem;
+}
+
+.task-time-field>span{
+  color:#777783;
+  font-size:.49rem;
+  font-weight:650;
+}
+
+.task-time-field input[type="time"]{
+  height:2.55rem;
+  color:#ececf1;
+  background:#111118;
+  border-color:rgba(255,255,255,.10);
+  color-scheme:dark;
+}
+
+.task-time-field input[type="time"]:focus{
+  border-color:rgba(185,198,255,.30);
+  box-shadow:0 0 0 3px rgba(185,198,255,.045);
+}
+
+@media(max-width:760px){
+  .task-time-fields{grid-template-columns:1fr}
+}
+
+.task-date-field{
+  display:grid;
+  gap:.4rem;
+  font-size:.62rem;
+  font-weight:650;
+}
+.task-date-title{
+  color:inherit;
+  font-size:inherit;
+  font-weight:inherit;
+}

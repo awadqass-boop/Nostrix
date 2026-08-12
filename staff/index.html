@@ -170,9 +170,10 @@
     <div id="assignee-menu" class="assignee-menu" role="listbox" hidden></div>
   </div>
 </label>
-          <label>Due date
+          <div class="task-date-field"><span class="task-date-title">Due date</span>
   <input id="task-due" type="hidden">
-  <div class="date-picker">
+  <input id="task-due-end" type="hidden">
+  <div class="date-picker date-range-picker" data-range-picker="task-due">
     <button class="date-trigger" type="button" data-date-trigger="task-due">
       <span class="date-icon"><i class="ph ph-calendar-dots"></i></span>
       <span class="date-copy"><small>Due date</small><strong data-date-label="task-due">Choose a date</strong></span>
@@ -180,7 +181,14 @@
     </button>
     <div class="date-popover" data-date-popover="task-due" hidden></div>
   </div>
-</label>
+  <div class="task-time-row">
+    <label class="task-time-toggle"><input id="task-time-enabled" type="checkbox"><span class="task-time-switch" aria-hidden="true"></span><span>Add time</span></label>
+    <div id="task-time-fields" class="task-time-fields" hidden>
+      <div class="task-time-field"><span>Start time</span><input id="task-start-time" type="time" aria-label="Start time"></div>
+      <div class="task-time-field"><span>End time</span><input id="task-end-time" type="time" aria-label="End time"></div>
+    </div>
+  </div>
+</div>
           <label>Priority<select id="task-priority"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option><option value="urgent">Urgent</option></select></label>
           <label>Status<select id="task-status"><option value="todo">To do</option><option value="progress">In progress</option><option value="review">Review</option><option value="done">Done</option></select></label>
           <label>Repeat<select id="task-repeat"><option value="none">Does not repeat</option><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></label>
