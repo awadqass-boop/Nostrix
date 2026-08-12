@@ -536,3 +536,51 @@ html[lang=ar] .nostrix-select-option{
     min-width:100%;
   }
 }
+
+
+/* =========================================================
+   V7 — LOGIN AUTHORIZATION FEEDBACK
+   ========================================================= */
+#auth-message.message{
+  display:flex;
+  min-height:1.4rem;
+  align-items:center;
+  gap:.42rem;
+  margin:.72rem 0 0;
+  padding:.62rem .72rem;
+  border:1px solid transparent;
+  border-radius:.72rem;
+  line-height:1.45;
+  transition:color .18s ease,background .18s ease,border-color .18s ease,opacity .18s ease;
+}
+#auth-message.message:empty{
+  min-height:0;
+  margin:0;
+  padding:0;
+}
+#auth-message.message.error{
+  color:#ffacbb;
+  border-color:rgba(255,141,161,.18);
+  background:rgba(255,141,161,.065);
+}
+#auth-message.message.success{
+  color:#a6f5b9;
+  border-color:rgba(136,242,165,.17);
+  background:rgba(136,242,165,.06);
+}
+#auth-message.message.checking{
+  color:#c8d0f5;
+  border-color:rgba(185,198,255,.13);
+  background:rgba(185,198,255,.045);
+}
+#login-form button[disabled]{
+  cursor:wait;
+  opacity:.68;
+}
+#login-form button.loading i{
+  animation:nostrixLoginArrow .8s ease-in-out infinite alternate;
+}
+@keyframes nostrixLoginArrow{
+  from{transform:translateX(0);opacity:.55}
+  to{transform:translateX(4px);opacity:1}
+}

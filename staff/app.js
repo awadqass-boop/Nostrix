@@ -301,9 +301,83 @@ function uiUser(){let n=S.profile?.display_name||S.user.email.split("@")[0];$("#
 async function openNotif(id,task){await S.db.from("notifications").update({is_read:true}).eq("id",id);await loadNotifs();renderNotifs();$("#notif-panel").hidden=true;if(task)openTask(task)}
 async function markRead(){await S.db.from("notifications").update({is_read:true}).eq("user_id",S.user.id).eq("is_read",false);await loadNotifs();renderNotifs()}
 async function browserAlerts(){primeSound();playQuack();if("Notification"in window&&await Notification.requestPermission()==="granted")toast("Browser + quack alerts enabled");else toast("Quack sound enabled")}
-async function login(e){e.preventDefault();let email=$("#email").value.trim().toLowerCase(),domain=(C.ALLOWED_EMAIL_DOMAIN||"nostrix.ae").toLowerCase();if(!email.endsWith("@"+domain))return toast("Use an approved Nostrix work email");let{error}=await S.db.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:location.origin+(C.STAFF_PATH||"/staff/")}});$("#auth-message").textContent=error?"If approved, check your work inbox.":"Check your work inbox for the secure sign-in link."}
+async function login(e){
+  e.preventDefault();
+
+  const email=$("#email").value.trim().toLowerCase();
+  const domain=(C.ALLOWED_EMAIL_DOMAIN||"nostrix.ae").toLowerCase();
+  const msg=$("#auth-message");
+  const button=$("#login-form button[type='submit']");
+
+  msg.className="message";
+  msg.textContent="";
+
+  if(!email || !email.endsWith("@"+domain)){
+    msg.className="message error";
+    msg.innerHTML='<i class="ph ph-warning-circle"></i><span>Your email isn’t authorized for the Nostrix Staff Workspace.</span>';
+    return;
+  }
+
+  button.disabled=true;
+  button.classList.add("loading");
+  msg.className="message checking";
+  msg.textContent="Checking your Nostrix account…";
+
+  const {data:approved,error:checkError}=await S.db.rpc(
+    "is_approved_staff_email",
+    {candidate_email:email}
+  );
+
+  if(checkError){
+    console.error(checkError);
+    msg.className="message error";
+    msg.textContent="We couldn't verify your account right now. Please try again.";
+    button.disabled=false;
+    button.classList.remove("loading");
+    return;
+  }
+
+  if(!approved){
+    msg.className="message error";
+    msg.innerHTML='<i class="ph ph-warning-circle"></i><span>Your email isn’t authorized for the Nostrix Staff Workspace.</span>';
+    button.disabled=false;
+    button.classList.remove("loading");
+    return;
+  }
+
+  const {error}=await S.db.auth.signInWithOtp({
+    email,
+    options:{
+      shouldCreateUser:false,
+      emailRedirectTo:location.origin+(C.STAFF_PATH||"/staff/")
+    }
+  });
+
+  button.disabled=false;
+  button.classList.remove("loading");
+
+  if(error){
+    console.error(error);
+    msg.className="message error";
+    msg.textContent="We couldn't send the sign-in link. Please try again.";
+    return;
+  }
+
+  msg.className="message success";
+  msg.innerHTML='<i class="ph ph-check-circle"></i><span>Approved. Check your Nostrix inbox for the sign-in link.</span>';
+}
 async function enter(session){S.user=session.user;let{data}=await S.db.from("profiles").select("*").eq("user_id",S.user.id).maybeSingle();if(!data){await S.db.auth.signOut();return show("auth-screen")}S.profile=data;show("app-screen");await loadAll();uiUser();subscribe()}
 async function subscribe(){if(S.rt)await S.db.removeChannel(S.rt);S.rt=S.db.channel("nostrix-v4").on("postgres_changes",{event:"*",schema:"public",table:"tasks"},async()=>{await loadTasks();renderAll()}).on("postgres_changes",{event:"*",schema:"public",table:"projects"},async()=>{await loadProjects();renderAll()}).on("postgres_changes",{event:"INSERT",schema:"public",table:"notifications",filter:`user_id=eq.${S.user.id}`},async p=>{playQuack();await loadNotifs();renderNotifs();if("Notification"in window&&Notification.permission==="granted"&&document.hidden)new Notification(p.new.title,{body:p.new.body||"",icon:"/favicon.png"})}).subscribe()}
 async function signout(){if(S.rt)await S.db.removeChannel(S.rt);await S.db.auth.signOut();show("auth-screen")}
 function bind(){$$(".lang").forEach(b=>b.onclick=()=>{S.lang=S.lang==="ar"?"en":"ar";applyLang()});$("#login-form").onsubmit=login;$("#assignee-trigger").onclick=e=>{e.stopPropagation();$("#assignee-menu").hidden?openAssigneeMenu():closeAssigneeMenu()};document.addEventListener("click",e=>{if(!e.target.closest("#assignee-picker"))closeAssigneeMenu();if(!e.target.closest(".nostrix-select"))closeAllCustomSelects()});document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeAssigneeMenu();closeAllCustomSelects()}});refreshCustomSelects();$("#new-task").onclick=()=>openTask();$("#task-form").onsubmit=saveTask;$("#delete-task").onclick=delTask;$$("[data-close-task]").forEach(b=>b.onclick=closeTask);$$(".task-tab").forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));$("#comment-form").onsubmit=comment;$("#link-form").onsubmit=addLink;$("#file-input").onchange=e=>{if(e.target.files[0])upload(e.target.files[0]);e.target.value=""};$("#projects-btn").onclick=$("#manage-projects").onclick=openProjects;$$("[data-close-projects]").forEach(b=>b.onclick=closeProjects);$("#project-form").onsubmit=saveProject;$("#project-clear").onclick=clearProject;$("#edit-profile").onclick=()=>{$("#profile-menu").hidden=true;openProfile()};$$("[data-close-profile]").forEach(b=>b.onclick=()=>{$("#profile-modal").hidden=true;document.body.style.overflow=""});$("#profile-form").onsubmit=saveProfile;$("#signout").onclick=signout;$("#refresh-btn").onclick=async()=>{await loadAll();toast("Refreshed")};$("#profile-btn").onclick=()=>$("#profile-menu").hidden=!$("#profile-menu").hidden;$("#notif-btn").onclick=()=>$("#notif-panel").hidden=!$("#notif-panel").hidden;$("#mark-read").onclick=markRead;$("#enable-browser").onclick=browserAlerts;$$(".view").forEach(b=>b.onclick=()=>{setView(b.dataset.view);renderTasks()});$("#search").oninput=e=>{S.search=e.target.value.trim();renderTasks()};$("#priority-filter").onchange=e=>{S.priority=e.target.value;renderTasks()};$("#assignee-filter").onchange=e=>{S.assignee=e.target.value;renderTasks()};$("#project-filter").onchange=e=>{S.project=e.target.value;renderTasks()};$$(".column").forEach(c=>{c.ondragover=e=>e.preventDefault();c.ondrop=e=>{e.preventDefault();move(e.dataTransfer.getData("text/plain"),c.dataset.status)}})}
-document.addEventListener("DOMContentLoaded",async()=>{$("#year").textContent=new Date().getFullYear();document.addEventListener("pointerdown",primeSound,{once:true,capture:true});bind();applyLang();if(!ok)return show("auth-screen");S.db=createClient(C.SUPABASE_URL,C.SUPABASE_PUBLISHABLE_KEY);let{data:{session}}=await S.db.auth.getSession();session?await enter(session):show("auth-screen");S.db.auth.onAuthStateChange(async(e,s)=>{if(e==="SIGNED_IN"&&s)await enter(s);if(e==="SIGNED_OUT")show("auth-screen")})});
+document.addEventListener("DOMContentLoaded",async()=>{$("#year").textContent=new Date().getFullYear();document.addEventListener("pointerdown",primeSound,{once:true,capture:true});bind();applyLang();if(!ok)return show("auth-screen");S.db=createClient(
+  C.SUPABASE_URL,
+  C.SUPABASE_PUBLISHABLE_KEY,
+  {
+    auth:{
+      persistSession:true,
+      autoRefreshToken:true,
+      detectSessionInUrl:true
+    }
+  }
+);let{data:{session}}=await S.db.auth.getSession();session?await enter(session):show("auth-screen");S.db.auth.onAuthStateChange(async(e,s)=>{if(e==="SIGNED_IN"&&s)await enter(s);if(e==="SIGNED_OUT")show("auth-screen")})});
