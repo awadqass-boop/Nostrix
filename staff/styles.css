@@ -607,3 +607,360 @@ html[lang=ar] .nostrix-select-option{
 
 @media(max-width:1000px){.workspace-widgets,.team-calendar-layout{grid-template-columns:1fr}}
 @media(max-width:760px){.workspace-widgets,.quick-links{grid-template-columns:1fr}.calendar-day{min-height:3.1rem;padding:.32rem}.date-popover{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(22rem,calc(100vw - 1.2rem));max-height:90vh;overflow:auto}.admin-tabs{overflow-x:auto}.admin-tab{min-width:8rem}}
+
+
+/* =========================================================
+   V8.1 — COMPACT CALENDAR + MORE READABLE WORKSPACE
+   Keeps the same design, but removes wasted vertical space
+   and increases the small text across the task board.
+   ========================================================= */
+
+/* ---------- Calendar: much more compact ---------- */
+.calendar-overview{
+  margin-top:1rem !important;
+  padding:.85rem !important;
+}
+
+.calendar-section-head{
+  margin-bottom:.65rem !important;
+}
+
+.calendar-section-head h2{
+  font-size:1rem !important;
+}
+
+.team-calendar-layout{
+  grid-template-columns:minmax(0,1.7fr) minmax(15rem,.48fr) !important;
+  gap:.6rem !important;
+}
+
+.team-calendar,
+.calendar-agenda{
+  border-radius:.8rem !important;
+}
+
+.team-calendar{
+  padding:.65rem !important;
+}
+
+.team-calendar-title{
+  margin-bottom:.4rem !important;
+}
+
+.team-calendar-title strong{
+  font-size:.88rem !important;
+}
+
+.calendar-weekdays{
+  margin-bottom:.12rem !important;
+}
+
+.calendar-weekdays span{
+  padding:.2rem !important;
+  font-size:.56rem !important;
+  letter-spacing:.04em !important;
+}
+
+.calendar-grid{
+  gap:.12rem !important;
+}
+
+.calendar-day{
+  min-height:2.45rem !important;
+  padding:.3rem .35rem !important;
+  border-radius:.52rem !important;
+  gap:.16rem !important;
+}
+
+.calendar-day>span{
+  font-size:.68rem !important;
+  font-weight:700 !important;
+}
+
+.day-events{
+  gap:.13rem !important;
+}
+
+.day-events i{
+  width:.28rem !important;
+  height:.28rem !important;
+}
+
+.day-events em{
+  font-size:.5rem !important;
+}
+
+.calendar-agenda{
+  padding:.65rem !important;
+}
+
+.agenda-head{
+  padding-bottom:.55rem !important;
+}
+
+.agenda-date-icon{
+  width:2.25rem !important;
+  height:2.25rem !important;
+  font-size:1rem !important;
+}
+
+.agenda-head small{
+  font-size:.52rem !important;
+}
+
+.agenda-head strong{
+  font-size:.74rem !important;
+}
+
+.agenda-list{
+  margin-top:.5rem !important;
+}
+
+.agenda-item{
+  padding:.55rem !important;
+}
+
+.agenda-item strong{
+  font-size:.64rem !important;
+}
+
+.agenda-item small{
+  font-size:.53rem !important;
+}
+
+.agenda-empty{
+  padding:1.15rem .45rem !important;
+  font-size:.57rem !important;
+}
+
+.agenda-empty i{
+  font-size:1.35rem !important;
+}
+
+.calendar-nav .icon-btn{
+  width:2.35rem !important;
+  height:2.35rem !important;
+}
+
+.calendar-nav .secondary.mini{
+  min-height:2.35rem !important;
+  padding:0 .8rem !important;
+  font-size:.58rem !important;
+}
+
+/* ---------- Project progress: reduce empty height ---------- */
+.projects-overview{
+  margin-top:1rem !important;
+  padding:.85rem 1rem !important;
+  min-height:0 !important;
+}
+
+.projects-overview .section-head{
+  margin-bottom:.45rem !important;
+}
+
+.projects-overview h2{
+  font-size:.92rem !important;
+}
+
+#project-cards:has(.empty){
+  min-height:2.4rem !important;
+}
+
+#project-cards .empty{
+  min-height:2.4rem !important;
+  padding:.55rem 0 !important;
+  font-size:.6rem !important;
+}
+
+/* ---------- Task toolbar: larger and clearer ---------- */
+.controls{
+  padding:.55rem !important;
+  gap:.6rem !important;
+}
+
+.view{
+  min-height:2.55rem !important;
+  padding:0 .85rem !important;
+  font-size:.66rem !important;
+}
+
+#task-search{
+  min-height:2.55rem !important;
+  font-size:.72rem !important;
+}
+
+.nostrix-select-trigger{
+  min-height:2.55rem !important;
+}
+
+.nostrix-select-copy small{
+  font-size:.48rem !important;
+}
+
+.nostrix-select-copy strong{
+  font-size:.67rem !important;
+}
+
+.nostrix-select-icon,
+.nostrix-option-icon{
+  width:1.8rem !important;
+  height:1.8rem !important;
+  font-size:.82rem !important;
+}
+
+.nostrix-select-option{
+  min-height:2.85rem !important;
+}
+
+.nostrix-option-copy strong{
+  font-size:.66rem !important;
+}
+
+/* ---------- Task board: larger readable text ---------- */
+.board{
+  gap:.65rem !important;
+}
+
+.column{
+  padding:.65rem !important;
+}
+
+.column-head{
+  margin-bottom:.55rem !important;
+}
+
+.column-head strong,
+.column-title{
+  font-size:.72rem !important;
+}
+
+.column-count{
+  min-width:1.75rem !important;
+  height:1.75rem !important;
+  font-size:.6rem !important;
+}
+
+.task{
+  padding:.75rem !important;
+  border-radius:.82rem !important;
+}
+
+.task h3{
+  margin-top:.55rem !important;
+  font-size:.84rem !important;
+  line-height:1.35 !important;
+}
+
+.task p{
+  font-size:.66rem !important;
+  line-height:1.5 !important;
+}
+
+.chip{
+  min-height:1.55rem !important;
+  padding:0 .5rem !important;
+  font-size:.51rem !important;
+}
+
+.project-tag{
+  font-size:.56rem !important;
+}
+
+.meta{
+  gap:.55rem !important;
+  margin-top:.65rem !important;
+  padding-top:.58rem !important;
+}
+
+.meta>span{
+  font-size:.56rem !important;
+}
+
+.mini-avatar{
+  width:1.5rem !important;
+  height:1.5rem !important;
+  font-size:.48rem !important;
+}
+
+.created-by{
+  font-size:.55rem !important;
+}
+
+.task-list:empty::after{
+  min-height:4.3rem !important;
+  font-size:.55rem !important;
+}
+
+/* ---------- Top project/widget small text ---------- */
+.widget-head h2{
+  font-size:.96rem !important;
+}
+
+.announcement-title-row strong{
+  font-size:.72rem !important;
+}
+
+.announcement-title-row small{
+  font-size:.52rem !important;
+}
+
+.announcement-item p{
+  font-size:.64rem !important;
+}
+
+.quick-link strong{
+  font-size:.66rem !important;
+}
+
+.quick-link small{
+  font-size:.52rem !important;
+}
+
+/* ---------- Footer ---------- */
+footer,
+.site-footer{
+  font-size:.58rem !important;
+}
+
+/* ---------- Desktop fit ---------- */
+@media(min-width:1200px){
+  .calendar-overview{
+    max-height:30rem;
+  }
+
+  .team-calendar-layout{
+    align-items:stretch;
+  }
+
+  .calendar-agenda{
+    min-height:0 !important;
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media(max-width:760px){
+  .calendar-day{
+    min-height:2.7rem !important;
+  }
+
+  .calendar-weekdays span{
+    font-size:.5rem !important;
+  }
+
+  .calendar-day>span{
+    font-size:.63rem !important;
+  }
+
+  .team-calendar-layout{
+    grid-template-columns:1fr !important;
+  }
+
+  .task h3{
+    font-size:.9rem !important;
+  }
+
+  .task p{
+    font-size:.7rem !important;
+  }
+}
