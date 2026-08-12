@@ -281,7 +281,42 @@ async function loadQuickLinks(){let{data,error}=await S.db.from("quick_links").s
 async function materializeRecurring(){if(!S.db||!S.user)return;let{error}=await S.db.rpc("materialize_recurring_tasks");if(error)console.warn("Recurring tasks:",error.message)}
 function fillOptions(){let current=$("#task-assignee")?.value||"",ppl=S.profiles.map(p=>`<option value="${esc(p.user_id)}">${esc(p.display_name||p.email)}</option>`).join(""),pro=S.projects.filter(p=>p.status==="active").map(p=>`<option value="${esc(p.id)}">${esc(p.client_name?p.client_name+" — "+p.name:p.name)}</option>`).join("");$("#task-assignee").innerHTML=`<option value="${EVERYONE}">Everyone</option><option value="">Unassigned</option>${ppl}`;if([...$("#task-assignee").options].some(o=>o.value===current))$("#task-assignee").value=current;$("#assignee-filter").innerHTML=`<option value="all">All people</option><option value="${EVERYONE}">Everyone</option><option value="none">Unassigned</option>${ppl}`;$("#task-project").innerHTML=`<option value="">No project</option>${pro}`;$("#project-filter").innerHTML=`<option value="all">All projects</option><option value="none">No project</option>${pro}`;updateAssigneeTrigger($("#task-assignee").value);if(!$("#assignee-menu").hidden)renderAssigneeMenu();refreshCustomSelects()}
 function filtered(){let a=[...S.tasks];if(S.view==="mine")a=a.filter(t=>t.assigned_to_all||t.assigned_to===S.user.id||t.created_by===S.user.id);if(S.view==="today")a=a.filter(t=>t.status!=="done"&&t.due_date&&days(t.due_date)<=1);if(S.priority!=="all")a=a.filter(t=>t.priority===S.priority);if(S.assignee===EVERYONE)a=a.filter(t=>t.assigned_to_all);else if(S.assignee==="none")a=a.filter(t=>!t.assigned_to&&!t.assigned_to_all);else if(S.assignee!=="all")a=a.filter(t=>!t.assigned_to_all&&t.assigned_to===S.assignee);if(S.project==="none")a=a.filter(t=>!t.project_id);else if(S.project!=="all")a=a.filter(t=>t.project_id===S.project);if(S.search){let q=S.search.toLowerCase();a=a.filter(t=>`${t.title} ${t.details||""} ${taskAssigneeName(t)} ${pr(t.project_id)?.name||""} ${pr(t.project_id)?.client_name||""}`.toLowerCase().includes(q))}return a}
-function card(t){let p=pr(t.project_id),d=days(t.due_date),od=d!==null&&d<0&&t.status!=="done",n=taskAssigneeName(t),creator=pn(t.created_by),mine=t.created_by===S.user.id;return`<article class="task ${mine?"task-owned":""}" draggable="true" data-id="${t.id}"><div class="task-top"><div class="chips"><span class="chip ${t.priority}">${esc(t.priority)}</span>${od?`<span class="chip overdue">Overdue</span>`:""}${t.assigned_to_all?`<span class="chip everyone-chip"><i class="ph ph-users-three"></i>Everyone</span>`:""}</div><button class="task-menu" data-edit="${t.id}" aria-label="Open task options"><i class="ph ph-dots-three"></i></button></div>${p?`<div class="project-tag"><i class="ph ph-folder-simple"></i><span>${esc(p.client_name?p.client_name+" · "+p.name:p.name)}</span></div>`:""}<h3>${esc(t.title)}</h3>${t.details?`<p>${esc(t.details)}</p>`:""}<div class="meta"><span class="${od?"overdue":""}"><i class="ph ph-calendar-blank"></i>${esc(due(t.due_date))}</span><span>${t.assigned_to_all?`<span class="mini-avatar everyone-avatar"><i class="ph ph-users-three"></i></span>`:`<span class="mini-avatar">${initials(n)}</span>`}${esc(n)}</span><span class="created-by"><i class="ph ph-user-circle-plus"></i>Created by ${esc(creator)}</span></div></article>`}
+function card(t){
+  let p=pr(t.project_id),
+      d=days(t.due_date),
+      od=d!==null&&d<0&&t.status!=="done",
+      n=taskAssigneeName(t),
+      creator=pn(t.created_by),
+      mine=t.created_by===S.user.id;
+
+  let assigneeVisual;
+  if(t.assigned_to_all){
+    assigneeVisual=`<span class="task-assignee-icon everyone"><i class="ph ph-users-three"></i></span>`;
+  }else if(!t.assigned_to){
+    assigneeVisual=`<span class="task-assignee-icon unassigned"><i class="ph ph-user-minus"></i></span>`;
+  }else{
+    assigneeVisual=`<span class="task-assignee-icon person">${esc(initials(n))}</span>`;
+  }
+
+  return`<article class="task ${mine?"task-owned":""}" draggable="true" data-id="${t.id}">
+    <div class="task-top">
+      <div class="chips">
+        <span class="chip ${t.priority}">${esc(t.priority)}</span>
+        ${od?`<span class="chip overdue">Overdue</span>`:""}
+        ${t.assigned_to_all?`<span class="chip everyone-chip"><i class="ph ph-users-three"></i>Everyone</span>`:""}
+      </div>
+      <button class="task-menu" data-edit="${t.id}" aria-label="Open task options"><i class="ph ph-dots-three"></i></button>
+    </div>
+    ${p?`<div class="project-tag"><i class="ph ph-folder-simple"></i><span>${esc(p.client_name?p.client_name+" · "+p.name:p.name)}</span></div>`:""}
+    <h3>${esc(t.title)}</h3>
+    ${t.details?`<p>${esc(t.details)}</p>`:""}
+    <div class="meta">
+      <span class="${od?"overdue":""}"><i class="ph ph-calendar-blank"></i>${esc(due(t.due_date))}</span>
+      <span class="assignee-meta">${assigneeVisual}<span class="assignee-meta-name">${esc(n)}</span></span>
+      <span class="created-by"><i class="ph ph-user-circle-plus"></i>Created by ${esc(creator)}</span>
+    </div>
+  </article>`;
+}
 function renderTasks(){let a=filtered();["todo","progress","review","done"].forEach(s=>{let b=a.filter(t=>t.status===s);$("#"+s).innerHTML=b.map(card).join("");$("#c-"+s).textContent=b.length});$("#s-todo").textContent=S.tasks.filter(t=>t.status==="todo").length;$("#s-progress").textContent=S.tasks.filter(t=>t.status==="progress").length;$("#s-done").textContent=S.tasks.filter(t=>t.status==="done").length;$("#s-due").textContent=S.tasks.filter(t=>t.status!=="done"&&t.due_date&&days(t.due_date)>=0&&days(t.due_date)<=3).length;$("#s-overdue").textContent=S.tasks.filter(t=>t.status!=="done"&&t.due_date&&days(t.due_date)<0).length;$$("[data-edit]").forEach(b=>b.onclick=e=>{e.stopPropagation();openTask(b.dataset.edit)});$$(".task").forEach(c=>{c.onclick=e=>{if(!e.target.closest("button"))openTask(c.dataset.id)};c.ondragstart=e=>e.dataTransfer.setData("text/plain",c.dataset.id)})}
 function renderProjects(){let a=S.projects.filter(p=>p.status==="active");$("#project-cards").innerHTML=a.length?a.map(p=>{let t=S.tasks.filter(x=>x.project_id===p.id),d=t.filter(x=>x.status==="done").length,pc=t.length?Math.round(d/t.length*100):0,creator=pn(p.created_by);return`<button class="project-card" data-project="${p.id}"><header><span><b>${esc(p.name)}</b><br><small>${esc(p.client_name||"")}</small></span><b>${pc}%</b></header><div class="bar"><i style="width:${pc}%"></i></div><footer class="project-card-foot"><small>${d}/${t.length} tasks complete</small><small><i class="ph ph-user-circle-plus"></i> ${esc(creator)}</small></footer></button>`}).join(""):`<div class="empty">No active projects yet.</div>`;$$("[data-project]").forEach(b=>b.onclick=()=>{S.project=b.dataset.project;$("#project-filter").value=S.project;S.view="all";setView("all");renderTasks()})}
 function renderNotifs(){let u=S.notifications.filter(n=>!n.is_read).length;$("#notif-badge").hidden=!u;$("#notif-badge").textContent=u;$("#notif-list").innerHTML=S.notifications.length?S.notifications.map(n=>`<button class="notif-item ${n.is_read?"":"unread"}" data-n="${n.id}" data-task="${n.task_id||""}"><i class="notif-dot"></i><span><b>${esc(n.title)}</b><small>${esc(n.body||"")}</small><time>${esc(dt(n.created_at))}</time></span></button>`).join(""):`<div class="empty">No notifications yet.</div>`;$$("[data-n]").forEach(b=>b.onclick=()=>openNotif(b.dataset.n,b.dataset.task))}

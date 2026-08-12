@@ -964,3 +964,89 @@ footer,
     font-size:.7rem !important;
   }
 }
+
+
+/* =========================================================
+   V8.2 — TASK AVATAR / PFP FIX
+   Proper compact avatars for person, Everyone and Unassigned.
+   ========================================================= */
+
+.task .meta .assignee-meta{
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:.38rem !important;
+  min-width:0;
+}
+
+.task-assignee-icon{
+  display:inline-grid !important;
+  width:1.7rem !important;
+  height:1.7rem !important;
+  min-width:1.7rem !important;
+  min-height:1.7rem !important;
+  flex:0 0 1.7rem !important;
+  place-items:center !important;
+  overflow:hidden !important;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:50% !important;
+  line-height:1 !important;
+  font-size:.53rem !important;
+  font-weight:800 !important;
+  box-sizing:border-box !important;
+}
+
+.task-assignee-icon.person{
+  color:#0b0b0e !important;
+  background:linear-gradient(135deg,var(--a1),var(--a2)) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
+}
+
+.task-assignee-icon.everyone{
+  color:#cbd5ff !important;
+  background:linear-gradient(135deg,rgba(185,198,255,.12),rgba(209,139,255,.09)) !important;
+  border-color:rgba(185,198,255,.15) !important;
+  font-size:.75rem !important;
+}
+
+.task-assignee-icon.unassigned{
+  color:#777785 !important;
+  background:rgba(255,255,255,.035) !important;
+  border-color:rgba(255,255,255,.065) !important;
+  font-size:.72rem !important;
+}
+
+.task-assignee-icon i{
+  display:block !important;
+  margin:0 !important;
+  font-size:inherit !important;
+  line-height:1 !important;
+}
+
+.assignee-meta-name{
+  overflow:hidden;
+  max-width:10rem;
+  color:#858592;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+/* Stop the older generic mini-avatar rule from affecting task assignees */
+.task .assignee-meta .mini-avatar,
+.task .assignee-meta .everyone-avatar{
+  width:1.7rem !important;
+  height:1.7rem !important;
+  min-width:1.7rem !important;
+  min-height:1.7rem !important;
+  flex:0 0 1.7rem !important;
+  font-size:.53rem !important;
+}
+
+@media(max-width:760px){
+  .task-assignee-icon{
+    width:1.6rem !important;
+    height:1.6rem !important;
+    min-width:1.6rem !important;
+    min-height:1.6rem !important;
+    flex-basis:1.6rem !important;
+  }
+}
