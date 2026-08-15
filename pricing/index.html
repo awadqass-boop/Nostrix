@@ -1,1 +1,809 @@
+<!DOCTYPE html>
 
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#08080b" name="theme-color"/>
+<meta content="Nostrix Marketing Services pricing for production, photography, videography, events, social marketing and branding in the UAE, with a custom project estimator." name="description"/>
+<title>Nostrix Services &amp; Pricing — Production, Marketing &amp; Branding UAE</title>
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Syncopate:wght@700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#08080b;
+  --surface:rgba(255,255,255,.045);
+  --surface-hover:rgba(255,255,255,.075);
+  --border:rgba(255,255,255,.10);
+  --muted:#a1a1aa;
+  --accent-1:#bac8ff;
+  --accent-2:#d28bff;
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;min-height:100%;min-width:0;overflow-x:hidden;-webkit-text-size-adjust:100%;background:radial-gradient(circle at 50% 0%,rgba(186,200,255,.08),transparent 34rem),var(--bg);color:#fff;font-family:'Inter',sans-serif}
+::selection{color:#08080b;background:var(--accent-1)}
+button,a{-webkit-tap-highlight-color:transparent}
+button{font:inherit}
+.page-noise{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.75'/%3E%3C/svg%3E")}
+.ambient-orb{position:fixed;width:34rem;height:34rem;border-radius:999px;filter:blur(90px);opacity:.11;pointer-events:none;z-index:0;animation:drift 14s var(--ease-out) infinite alternate}
+.ambient-orb.one{top:-14rem;left:-12rem;background:var(--accent-1)}
+.ambient-orb.two{right:-14rem;bottom:5rem;background:var(--accent-2);animation-delay:-5s}
+@keyframes drift{from{transform:translate3d(0,0,0) scale(.95)}to{transform:translate3d(4rem,2rem,0) scale(1.08)}}
+#glow{position:fixed;top:0;left:0;width:28rem;height:28rem;z-index:1;border-radius:50%;pointer-events:none;opacity:0;background:radial-gradient(circle,rgba(210,139,255,.16) 0%,rgba(186,200,255,.075) 38%,transparent 70%);transform:translate3d(-50%,-50%,0);transition:opacity 500ms ease;will-change:transform}
+.site-shell{position:relative;z-index:2}
+.site-nav{position:absolute;top:0;left:0;right:0;z-index:20;padding-top:env(safe-area-inset-top)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%;padding:1rem clamp(1.1rem,2vw,2.25rem)}
+.nav-brand{display:inline-flex;align-items:center;gap:1rem;color:#fff;font-family:'Syncopate',sans-serif;font-size:1.08rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;transition:color 300ms ease,transform 300ms ease;text-decoration:none}
+.nav-brand img{width:4.6rem;height:4.6rem;object-fit:contain}
+.nav-brand:hover{color:var(--accent-1);transform:translateY(-1px)}
+.nav-menu{display:flex;align-items:center;justify-content:flex-end;gap:clamp(1.4rem,2.5vw,2.8rem)}
+.nav-link{position:relative;color:rgba(255,255,255,.65);font-size:.7rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;text-decoration:none;transition:color 300ms ease}
+.nav-link::after{content:'';position:absolute;left:0;right:100%;bottom:-.35rem;height:1px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));transition:right 450ms var(--ease-out)}
+.nav-link:hover{color:#fff}.nav-link:hover::after{right:0}
+.nav-cta{padding:.72rem 1rem;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(255,255,255,.03)}
+.nav-toggle{display:none;width:2.8rem;height:2.8rem;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.035);align-items:center;justify-content:center;flex-direction:column;gap:.27rem}
+.nav-toggle span{width:1.05rem;height:1px;background:#fff;transition:transform 250ms ease,opacity 250ms ease}
+.hero{min-height:82svh;display:grid;place-items:center;position:relative;overflow:hidden;padding:9rem max(1.25rem,env(safe-area-inset-left)) 6rem max(1.25rem,env(safe-area-inset-right))}
+.hero::before{content:'';position:absolute;inset:15% 10%;border-radius:50%;background:radial-gradient(circle,rgba(30,30,44,.68),transparent 68%);pointer-events:none}
+.hero-content{position:relative;z-index:3;width:min(100%,84rem);text-align:center}
+.eyebrow,.hero-description,.hero-actions{opacity:0;transform:translateY(1rem);animation:fadeUp 900ms var(--ease-out) forwards}
+.eyebrow{animation-delay:180ms}.hero-description{animation-delay:700ms}.hero-actions{animation-delay:850ms}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.hero-title{margin:2.4rem auto 1.8rem;font-family:'Syncopate',sans-serif;font-size:clamp(2.25rem,6vw,6.2rem);font-weight:700;line-height:.98;letter-spacing:-.035em;text-transform:uppercase}
+.gradient-text{background:linear-gradient(110deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-description{max-width:48rem;margin:0 auto;color:rgba(255,255,255,.58);font-size:clamp(.95rem,1.5vw,1.08rem);font-weight:300;line-height:1.8}
+.hero-actions{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+.primary-button,.secondary-button{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:3rem;padding:0 1.15rem;border-radius:999px;font-size:.75rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;transition:transform 400ms var(--ease-out),box-shadow 400ms var(--ease-out),border-color 400ms ease,background 400ms ease;cursor:pointer}
+.primary-button{color:#09090b;border:0;background:linear-gradient(110deg,var(--accent-1),var(--accent-2));box-shadow:0 .75rem 2.5rem rgba(186,200,255,.14)}
+.secondary-button{color:rgba(255,255,255,.84);border:1px solid var(--border);background:rgba(255,255,255,.035);backdrop-filter:blur(12px)}
+.primary-button:hover,.secondary-button:hover{transform:translateY(-.2rem)}
+.primary-button:hover{box-shadow:0 1rem 3rem rgba(210,139,255,.22)}
+.secondary-button:hover{border-color:rgba(210,139,255,.36);background:rgba(255,255,255,.06)}
+.scroll-cue{position:absolute;bottom:1.5rem;left:50%;z-index:4;transform:translateX(-50%);color:rgba(255,255,255,.42);animation:cueFloat 2.1s ease-in-out infinite}
+@keyframes cueFloat{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,.45rem)}}
+.section{position:relative;padding:6.5rem 1.25rem;border-top:1px solid rgba(255,255,255,.06)}
+.section-soft{background:linear-gradient(180deg,rgba(255,255,255,.015),transparent 18rem),radial-gradient(circle at 50% 35%,rgba(210,139,255,.055),transparent 34rem)}
+.section-blue{background:radial-gradient(circle at 12% 25%,rgba(186,200,255,.06),transparent 28rem),linear-gradient(180deg,rgba(255,255,255,.012),transparent)}
+.section-heading{max-width:58rem}.section-heading.center{margin:0 auto;text-align:center}
+.section-kicker{margin-bottom:1rem;color:rgba(186,200,255,.8);font-size:.72rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase}
+.section-title{font-family:'Syncopate',sans-serif;font-size:clamp(1.85rem,4vw,3.65rem);font-weight:700;line-height:1.12;text-transform:uppercase}
+.section-copy{margin-top:1.35rem;max-width:46rem;color:#a1a1aa;font-size:.95rem;font-weight:300;line-height:1.8}
+.center .section-copy{margin-left:auto;margin-right:auto}
+.reveal{opacity:0;transform:translateY(2rem);transition:opacity 900ms var(--ease-out),transform 900ms var(--ease-out)}
+.reveal.is-visible{opacity:1;transform:translateY(0)}
+.category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:3rem}
+.category-card{position:relative;min-height:18rem;overflow:hidden;padding:1.75rem;border:1px solid var(--border);border-radius:1.5rem;background:var(--surface);backdrop-filter:blur(14px);text-align:left;cursor:pointer;transition:transform 650ms var(--ease-out),border-color 450ms ease,background 450ms ease,box-shadow 650ms var(--ease-out)}
+.category-card::before{content:'';position:absolute;inset:-1px;opacity:0;pointer-events:none;background:radial-gradient(28rem circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(210,139,255,.14),transparent 42%);transition:opacity 450ms ease}
+.category-card:hover,.category-card.is-active{transform:translateY(-.55rem);border-color:rgba(210,139,255,.30);background:var(--surface-hover);box-shadow:0 1.6rem 4rem rgba(0,0,0,.24)}
+.category-card:hover::before,.category-card.is-active::before{opacity:1}
+.category-card.is-active{background:radial-gradient(circle at 50% 0%,rgba(210,139,255,.10),transparent 18rem),rgba(255,255,255,.055)}
+.category-icon{width:3.25rem;height:3.25rem;display:grid;place-items:center;border:1px solid rgba(255,255,255,.10);border-radius:1rem;color:var(--accent-1);background:linear-gradient(135deg,rgba(186,200,255,.09),rgba(210,139,255,.08));transition:transform 650ms var(--ease-out),color 350ms ease}
+.category-card:hover .category-icon,.category-card.is-active .category-icon{color:var(--accent-2);transform:rotate(-5deg) scale(1.08)}
+.category-number{color:rgba(255,255,255,.24);font-size:.7rem;letter-spacing:.18em}
+.category-body{margin-top:3rem}.category-body h3{font-size:1.35rem;font-weight:600}.category-body p{margin-top:.8rem;color:#a1a1aa;font-size:.88rem;font-weight:300;line-height:1.65}.category-open{display:flex;align-items:center;gap:.45rem;margin-top:1.2rem;color:#ddd6fe;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.category-card.is-active .category-open i{transform:rotate(90deg)}.category-open i{transition:transform 300ms var(--ease-out)}
+.packages-shell{margin-top:3.2rem}
+.package-panel{display:none}.package-panel.is-active{display:block;animation:panelIn 550ms var(--ease-out) both}
+@keyframes panelIn{from{opacity:0;transform:translateY(1.2rem)}to{opacity:1;transform:none}}
+.panel-top{display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;margin-bottom:1.6rem}.panel-top-copy{max-width:46rem}.panel-note{max-width:24rem;color:#71717a;font-size:.78rem;line-height:1.65;text-align:right}
+.package-subnav{display:flex;flex-wrap:wrap;gap:.65rem;margin:1.4rem 0 1.7rem}
+.subtab{min-height:2.7rem;padding:0 .95rem;border:1px solid var(--border);border-radius:999px;color:rgba(255,255,255,.68);background:rgba(255,255,255,.025);font-size:.68rem;font-weight:600;letter-spacing:.11em;text-transform:uppercase;cursor:pointer;transition:all 300ms ease}
+.subtab:hover,.subtab.is-active{color:#09090b;border-color:transparent;background:linear-gradient(110deg,var(--accent-1),var(--accent-2))}
+.subpanel{display:none}.subpanel.is-active{display:block;animation:panelIn 420ms var(--ease-out) both}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;align-items:stretch}
+.pricing-card{position:relative;display:flex;min-height:31rem;flex-direction:column;overflow:hidden;padding:clamp(1.45rem,2.5vw,2rem);border:1px solid var(--border);border-radius:1.6rem;background:rgba(255,255,255,.035);backdrop-filter:blur(14px);transition:transform 600ms var(--ease-out),border-color 350ms ease,background 350ms ease,box-shadow 600ms var(--ease-out)}
+.pricing-card::before{content:'';position:absolute;inset:-1px;pointer-events:none;opacity:0;background:radial-gradient(28rem circle at 50% 12%,rgba(210,139,255,.14),transparent 48%);transition:opacity 400ms ease}
+.pricing-card:hover{transform:translateY(-.55rem);border-color:rgba(210,139,255,.28);background:rgba(255,255,255,.052);box-shadow:0 1.8rem 4rem rgba(0,0,0,.24)}.pricing-card:hover::before{opacity:1}
+.pricing-card.is-featured{border-color:rgba(210,139,255,.34);background:radial-gradient(circle at 50% 0%,rgba(210,139,255,.13),transparent 20rem),rgba(255,255,255,.055);box-shadow:0 1.6rem 4rem rgba(0,0,0,.18),0 0 3rem rgba(210,139,255,.05)}
+.pricing-card-inner{position:relative;z-index:1;display:flex;height:100%;flex-direction:column}
+.pricing-topline{display:flex;min-height:2rem;align-items:center;justify-content:space-between;gap:.75rem}.pricing-kicker,.pricing-badge{font-size:.67rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase}.pricing-kicker{color:rgba(255,255,255,.42)}
+.pricing-badge{display:inline-flex;align-items:center;gap:.38rem;padding:.48rem .7rem;border:1px solid rgba(210,139,255,.26);border-radius:999px;color:#ead1ff;background:rgba(210,139,255,.08);letter-spacing:.1em}
+.pricing-name{margin-top:1.2rem;color:#fff;font-size:clamp(1.55rem,2.4vw,2.15rem);font-weight:600;letter-spacing:-.025em}.pricing-price{display:flex;align-items:baseline;gap:.45rem;margin-top:1rem;flex-wrap:wrap}.pricing-price strong{color:#fff;font-family:'Syncopate',sans-serif;font-size:clamp(1.45rem,2.6vw,2.25rem);line-height:1}.pricing-price span{color:#71717a;font-size:.75rem}.pricing-description{margin-top:1rem;color:#a1a1aa;font-size:.88rem;font-weight:300;line-height:1.7}
+.pricing-fit{display:flex;align-items:center;gap:.5rem;margin-top:1.1rem;color:#c4b5fd;font-size:.73rem;font-weight:500}.pricing-features{display:grid;gap:.72rem;margin:1.45rem 0 1.65rem}.pricing-feature{display:flex;align-items:flex-start;gap:.62rem;color:#d4d4d8;font-size:.79rem;line-height:1.55}.pricing-feature i{margin-top:.15rem;color:var(--accent-1);font-size:1rem}.pricing-card .package-contact{width:100%;margin-top:auto}
+/* Website-booking offer + custom packages */
+.website-offer-banner{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;width:min(100%,48rem);margin:1.55rem auto 0;padding:.85rem 1rem;border:1px solid rgba(210,139,255,.24);border-radius:1.2rem;background:linear-gradient(135deg,rgba(186,200,255,.07),rgba(210,139,255,.08));box-shadow:0 1rem 3rem rgba(0,0,0,.14);backdrop-filter:blur(14px)}
+.website-offer-banner strong{font-family:'Syncopate',sans-serif;font-size:.78rem;letter-spacing:.08em;color:#fff}.website-offer-banner span{color:#c4b5fd;font-size:.76rem;line-height:1.5}.website-offer-badge{display:inline-flex!important;align-items:center;gap:.4rem!important;padding:.46rem .68rem!important;border:1px solid rgba(210,139,255,.30)!important;border-radius:999px!important;color:#09090b!important;background:linear-gradient(110deg,var(--accent-1),var(--accent-2))!important;font-size:.64rem!important;font-weight:700!important;letter-spacing:.1em!important;text-transform:uppercase!important;white-space:nowrap}
+.pricing-price-offer{display:block!important;margin-top:1rem}.regular-price{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;margin-bottom:.5rem}.regular-price span{color:#71717a;font-size:.65rem;font-weight:600;letter-spacing:.11em;text-transform:uppercase}.regular-price del{color:#71717a;font-family:'Inter',sans-serif;font-size:.88rem;text-decoration-thickness:1px;text-decoration-color:rgba(210,139,255,.7)}
+.website-price{display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap}.website-price strong{color:#fff;font-family:'Syncopate',sans-serif;font-size:clamp(1.45rem,2.6vw,2.25rem);line-height:1}.website-price span{color:#a1a1aa;font-size:.72rem}.website-saving{display:inline-flex;align-items:center;gap:.4rem;width:max-content;margin-top:.62rem;padding:.42rem .65rem;border:1px solid rgba(210,139,255,.24);border-radius:999px;color:#ead1ff;background:rgba(210,139,255,.075);font-size:.62rem;font-weight:650;letter-spacing:.075em;text-transform:uppercase}.website-saving i{color:var(--accent-2)}.offer-after{display:block;margin-top:.45rem;color:#71717a;font-size:.66rem;line-height:1.5}
+.custom-package-card{grid-column:1/-1;min-height:0!important;border-color:rgba(210,139,255,.28)!important;background:radial-gradient(circle at 8% 0%,rgba(186,200,255,.10),transparent 22rem),radial-gradient(circle at 95% 100%,rgba(210,139,255,.12),transparent 24rem),rgba(255,255,255,.045)!important}.custom-package-inner{display:grid!important;grid-template-columns:minmax(0,1.08fr) minmax(0,1.25fr) minmax(13rem,.65fr);gap:1.4rem;align-items:center}.custom-package-main .pricing-name{margin-top:.8rem}.custom-package-main .pricing-description{max-width:34rem}.custom-package-features{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:.68rem 1rem!important;margin:0!important}.custom-package-action{display:flex;flex-direction:column;align-items:stretch;gap:.8rem}.custom-package-action .pricing-fit{margin:0}.custom-package-action .package-contact{width:100%!important}.custom-note{color:#71717a;font-size:.69rem;line-height:1.55}.production-custom-wrap{margin-top:1.2rem}.offer-terms{max-width:58rem;margin:1rem auto 0;color:#71717a;font-size:.7rem;line-height:1.65;text-align:center}
+.flagship-price del{display:block;margin-top:.45rem;color:#71717a;font-family:'Syncopate',sans-serif;font-size:1rem;text-decoration-color:rgba(210,139,255,.65)}.flagship-web-price{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap;margin-top:.55rem}.flagship-web-price span{color:#c4b5fd;font-size:.68rem;font-weight:650;letter-spacing:.12em;text-transform:uppercase}.flagship-web-price strong{margin:0!important;color:#fff!important}.flagship-saving{display:inline-flex;align-items:center;gap:.4rem;margin-top:.7rem;padding:.45rem .68rem;border:1px solid rgba(210,139,255,.26);border-radius:999px;color:#ead1ff;background:rgba(210,139,255,.08);font-size:.65rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:1024px){.custom-package-inner{grid-template-columns:1fr 1fr}.custom-package-action{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;align-items:center}.custom-package-action .package-contact{width:auto!important;min-width:15rem}}
+@media(max-width:767px){.website-offer-banner{width:min(100%,23rem);align-items:flex-start;justify-content:flex-start}.custom-package-inner{grid-template-columns:1fr}.custom-package-features{grid-template-columns:1fr}.custom-package-action{grid-column:auto;display:flex}.custom-package-action .package-contact{width:100%!important;min-width:0}.regular-price del{font-size:.82rem}.website-price strong{font-size:1.5rem}}
+
+.compact-grid .pricing-card{min-height:27rem}.compact-grid .pricing-name{font-size:1.4rem}.compact-grid .pricing-price strong{font-size:1.55rem}
+.flagship{position:relative;overflow:hidden;margin-top:5.5rem;border:1px solid rgba(255,255,255,.14);border-radius:2rem;background:radial-gradient(circle at 10% 10%,rgba(186,200,255,.16),transparent 28rem),radial-gradient(circle at 90% 80%,rgba(210,139,255,.18),transparent 30rem),linear-gradient(145deg,rgba(18,18,27,.96),rgba(7,7,11,.98));box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.flagship-grid{display:grid;grid-template-columns:1.05fr 1.35fr;gap:2rem;padding:clamp(2rem,5vw,4.25rem)}.flagship-left{align-self:center}.flagship-label{display:inline-flex;align-items:center;gap:.45rem;padding:.52rem .78rem;border:1px solid rgba(210,139,255,.26);border-radius:999px;color:#ead1ff;background:rgba(210,139,255,.08);font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}.flagship h3{margin-top:1.4rem;font-family:'Syncopate',sans-serif;font-size:clamp(2rem,4vw,4rem);line-height:1.05;text-transform:uppercase}.flagship-copy{margin-top:1.25rem;max-width:34rem;color:#a1a1aa;font-size:.95rem;font-weight:300;line-height:1.8}.flagship-price{margin-top:1.7rem}.flagship-price small{display:block;color:#71717a;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}.flagship-price strong{display:block;margin-top:.35rem;font-family:'Syncopate',sans-serif;font-size:clamp(2rem,4vw,3.2rem)}
+.flagship-columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}.flagship-col{padding:1.25rem;border:1px solid rgba(255,255,255,.10);border-radius:1.25rem;background:rgba(255,255,255,.035);backdrop-filter:blur(12px)}.flagship-col i{color:var(--accent-1);font-size:1.55rem}.flagship-col h4{margin-top:.85rem;font-size:.92rem;font-weight:600}.flagship-col ul{list-style:none;margin:.9rem 0 0;padding:0;display:grid;gap:.55rem}.flagship-col li{display:flex;gap:.45rem;color:#a1a1aa;font-size:.74rem;line-height:1.5}.flagship-col li::before{content:'•';color:var(--accent-2)}
+.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:2.8rem}.info-card{padding:1.55rem;border:1px solid var(--border);border-radius:1.5rem;background:rgba(255,255,255,.035);backdrop-filter:blur(14px)}.info-card h3{font-size:1rem;font-weight:600}.info-card p{margin-top:.55rem;color:#a1a1aa;font-size:.8rem;line-height:1.65}.price-list{display:grid;gap:.65rem;margin-top:1rem}.price-row{display:flex;justify-content:space-between;gap:1rem;padding:.72rem 0;border-bottom:1px solid rgba(255,255,255,.07);color:#d4d4d8;font-size:.79rem}.price-row:last-child{border-bottom:0}.price-row strong{color:#fff;white-space:nowrap}
+.terms-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin-top:2.2rem}.term-chip{display:inline-flex;min-height:2.8rem;align-items:center;gap:.55rem;padding:0 1rem;border:1px solid rgba(255,255,255,.1);border-radius:999px;color:rgba(255,255,255,.72);background:rgba(255,255,255,.025);font-size:.72rem;letter-spacing:.06em}.term-chip i{color:var(--accent-1)}
+.cta-block{position:relative;display:flex;min-height:24rem;align-items:center;justify-content:center;overflow:hidden;border:1px solid rgba(255,255,255,.14);border-radius:2rem;background:radial-gradient(circle at 20% 20%,rgba(186,200,255,.19),transparent 32rem),radial-gradient(circle at 82% 76%,rgba(210,139,255,.22),transparent 34rem),linear-gradient(145deg,rgba(18,18,27,.96),rgba(7,7,11,.98));text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.cta-block-inner{padding:3rem 1.4rem;max-width:48rem}.cta-icon{display:grid;width:4.5rem;height:4.5rem;place-items:center;margin:0 auto;border:1px solid rgba(255,255,255,.14);border-radius:1.4rem;background:rgba(255,255,255,.045);color:var(--accent-1)}
+.footer-line{border-top:1px solid rgba(255,255,255,.07)}
+footer{padding:2.5rem 1.25rem;color:#71717a}.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:1.2rem;max-width:80rem;margin:auto}.footer-brand{font-family:'Syncopate',sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#d4d4d8}.footer-links{display:flex;flex-wrap:wrap;gap:1.2rem}.footer-links a{color:#71717a;font-size:.72rem;text-decoration:none}.footer-links a:hover{color:#fff}
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:1rem;background:rgba(3,3,6,.78);backdrop-filter:blur(14px)}.modal.is-open{display:flex;animation:modalFade 250ms ease both}@keyframes modalFade{from{opacity:0}to{opacity:1}}.modal-panel{position:relative;width:min(100%,42rem);max-height:90vh;overflow:auto;padding:1.7rem;border:1px solid rgba(255,255,255,.14);border-radius:1.6rem;background:radial-gradient(circle at 90% 0%,rgba(210,139,255,.10),transparent 18rem),#101014;box-shadow:0 2rem 6rem rgba(0,0,0,.5)}.modal-close{position:absolute;top:1rem;right:1rem;display:grid;width:2.6rem;height:2.6rem;place-items:center;border:1px solid var(--border);border-radius:999px;color:#fff;background:rgba(255,255,255,.035);cursor:pointer}.modal-kicker{color:#c4b5fd;font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase}.modal h3{margin-top:.8rem;padding-right:3rem;font-size:1.8rem;font-weight:600}.modal-price{margin-top:.6rem;color:#fff;font-family:'Syncopate',sans-serif;font-size:1.35rem}.modal-copy{margin-top:1rem;color:#a1a1aa;font-size:.86rem;line-height:1.7}.modal-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.5rem}.modal-notes{margin-top:1.5rem;padding:1rem;border:1px solid rgba(255,255,255,.08);border-radius:1rem;background:rgba(255,255,255,.025);color:#71717a;font-size:.73rem;line-height:1.65}
+@media(max-width:1024px){.pricing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.flagship-grid{grid-template-columns:1fr}.flagship-columns{grid-template-columns:repeat(3,minmax(0,1fr))}.panel-top{align-items:flex-start;flex-direction:column}.panel-note{text-align:left}}
+@media(max-width:767px){.nav-inner{padding:calc(1.1rem + env(safe-area-inset-top)) max(1rem,env(safe-area-inset-right)) 1rem max(1rem,env(safe-area-inset-left))}.nav-brand{gap:.5rem;font-size:.62rem;letter-spacing:.15em}.nav-brand img{width:2.8rem;height:2.8rem}.nav-toggle{display:flex}.nav-menu{position:absolute;top:4.8rem;left:1rem;right:1rem;display:none;flex-direction:column;align-items:stretch;gap:0;padding:1rem;border:1px solid var(--border);border-radius:1.25rem;background:rgba(10,10,14,.96);backdrop-filter:blur(18px);box-shadow:0 1.5rem 4rem rgba(0,0,0,.35)}.nav-menu.is-open{display:flex}.nav-menu .nav-link{padding:.9rem .7rem;font-size:.62rem}.nav-cta{text-align:center;margin-top:.4rem}.hero{min-height:78svh;padding:7.2rem 1rem 5rem}.hero-title{font-size:clamp(2.05rem,11vw,3.4rem)}.section{padding:4.75rem 1rem}.section-title{font-size:clamp(1.7rem,8vw,2.6rem)}.category-grid{grid-template-columns:1fr}.category-card{min-height:0}.category-body{margin-top:2.3rem}.pricing-grid{grid-template-columns:1fr}.pricing-card{min-height:0}.flagship{margin-top:3.5rem;border-radius:1.5rem}.flagship-grid{padding:1.5rem}.flagship-columns{grid-template-columns:1fr}.info-grid{grid-template-columns:1fr}.footer-inner{align-items:flex-start;flex-direction:column}.cta-block{min-height:20rem;border-radius:1.5rem}}
+@media(max-width:480px){.hero-actions .primary-button,.hero-actions .secondary-button{width:100%}.hero-actions{width:min(100%,20rem);margin-left:auto;margin-right:auto}.modal-actions .primary-button,.modal-actions .secondary-button{width:100%}.pricing-price strong{font-size:1.55rem}}
+@media(pointer:coarse){#glow{display:none}.ambient-orb{width:24rem;height:24rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+
+
+/* Detailed custom-package estimator */
+.website-benefit-inline{display:inline-flex;align-items:center;gap:.42rem;width:max-content;margin-top:.85rem;padding:.48rem .72rem;border:1px solid rgba(210,139,255,.25);border-radius:999px;color:#ead1ff;background:rgba(210,139,255,.075);font-size:.66rem;font-weight:600;letter-spacing:.065em;text-transform:uppercase}.website-benefit-inline i{color:var(--accent-2)}
+.custom-builder-modal{z-index:130;padding:1rem;background:rgba(3,3,6,.84);backdrop-filter:blur(18px)}
+.custom-builder-panel{position:relative;width:min(96vw,78rem);max-height:94vh;overflow:hidden;border:1px solid rgba(255,255,255,.14);border-radius:1.8rem;background:radial-gradient(circle at 82% 6%,rgba(210,139,255,.10),transparent 24rem),radial-gradient(circle at 8% 90%,rgba(186,200,255,.06),transparent 24rem),#0d0d12;box-shadow:0 2.5rem 7rem rgba(0,0,0,.62)}
+.builder-close{position:absolute;top:1rem;right:1rem;z-index:5;display:grid;width:2.7rem;height:2.7rem;place-items:center;border:1px solid var(--border);border-radius:999px;color:#fff;background:rgba(255,255,255,.04);cursor:pointer}
+.builder-header{padding:1.5rem 4.8rem 1.15rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.07)}
+.builder-kicker{color:#c4b5fd;font-size:.68rem;font-weight:650;letter-spacing:.17em;text-transform:uppercase}.builder-header h3{margin-top:.55rem;font-size:clamp(1.45rem,3vw,2.3rem);font-weight:600}.builder-header p{margin-top:.5rem;max-width:56rem;color:#8f8f9c;font-size:.8rem;line-height:1.65}
+.builder-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(21rem,.75fr);min-height:36rem;max-height:calc(94vh - 7.2rem)}
+.builder-form{overflow:auto;padding:1.35rem 1.4rem 2rem}.builder-summary{overflow:auto;padding:1.35rem;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.025));border-left:1px solid rgba(255,255,255,.08)}
+.builder-tabs{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.15rem}.builder-tab{min-height:2.75rem;padding:0 1rem;border:1px solid var(--border);border-radius:999px;color:#aaaab5;background:rgba(255,255,255,.025);font-size:.68rem;font-weight:650;letter-spacing:.11em;text-transform:uppercase;cursor:pointer}.builder-tab.is-active{color:#09090b;border-color:transparent;background:linear-gradient(110deg,var(--accent-1),var(--accent-2))}
+.builder-pane{display:none}.builder-pane.is-active{display:block}.builder-section{margin-top:1rem;padding:1rem;border:1px solid rgba(255,255,255,.085);border-radius:1.15rem;background:rgba(255,255,255,.025)}.builder-section:first-child{margin-top:0}.builder-section-title{margin-bottom:.9rem;color:#d6d6dc;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.builder-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem}.builder-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.builder-field label{display:block;margin-bottom:.42rem;color:#9b9ba7;font-size:.65rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase}.builder-field small{display:block;margin-top:.36rem;color:#666674;font-size:.64rem;line-height:1.45}
+.builder-control{width:100%;min-height:2.8rem;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.11);border-radius:.78rem;outline:none;color:#fff;background:#14141b;font:inherit;font-size:.78rem;color-scheme:dark}.builder-control:focus{border-color:rgba(186,200,255,.55);box-shadow:0 0 0 3px rgba(186,200,255,.07)}.builder-control option{color:#111;background:#fff}
+.builder-toggle-row{display:flex;gap:.6rem;flex-wrap:wrap}.builder-choice{position:relative;flex:1 1 9rem}.builder-choice input{position:absolute;opacity:0;pointer-events:none}.builder-choice span{display:flex;min-height:2.8rem;align-items:center;justify-content:center;gap:.45rem;padding:.65rem .8rem;border:1px solid rgba(255,255,255,.10);border-radius:.8rem;color:#aaaab5;background:rgba(255,255,255,.025);font-size:.72rem;font-weight:650;cursor:pointer;transition:.2s ease}.builder-choice input:checked+span{color:#fff;border-color:rgba(210,139,255,.45);background:linear-gradient(135deg,rgba(186,200,255,.13),rgba(210,139,255,.14));box-shadow:inset 0 0 0 1px rgba(210,139,255,.08)}
+.builder-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}.builder-check{display:flex;align-items:center;gap:.62rem;min-height:2.9rem;padding:.7rem .8rem;border:1px solid rgba(255,255,255,.08);border-radius:.8rem;color:#c4c4cd;background:rgba(255,255,255,.02);font-size:.72rem}.builder-check input{accent-color:#d28bff}
+.summary-label{color:#aaaab5;font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.summary-price{margin-top:.45rem;color:#fff;font-family:'Syncopate',sans-serif;font-size:clamp(2rem,4vw,3.1rem);line-height:1}.summary-range{margin-top:.5rem;color:#bdbdc6;font-size:.7rem}.summary-note{margin-top:.9rem;padding:.72rem;border:1px solid rgba(255,255,255,.08);border-radius:.8rem;color:#9b9ba7;background:rgba(255,255,255,.025);font-size:.68rem;line-height:1.55}
+.summary-divider{height:1px;margin:1rem 0;background:rgba(255,255,255,.08)}.summary-list{display:grid;gap:.58rem}.summary-row{display:flex;justify-content:space-between;gap:.8rem;color:#a9a9b4;font-size:.7rem;line-height:1.35}.summary-row strong{color:#eeeef2;font-weight:600;text-align:right}.summary-row.is-discount strong{color:#caa3ff}.summary-total{padding-top:.75rem;margin-top:.25rem;border-top:1px dashed rgba(255,255,255,.11);font-weight:700}.summary-total strong{color:#bac8ff}.summary-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem;margin-top:1rem}.summary-meta-box{padding:.72rem;border:1px solid rgba(255,255,255,.08);border-radius:.8rem;background:rgba(255,255,255,.02)}.summary-meta-box span{display:block;color:#666674;font-size:.6rem;font-weight:650;letter-spacing:.09em;text-transform:uppercase}.summary-meta-box strong{display:block;margin-top:.25rem;color:#d7d7de;font-size:.7rem;font-weight:600}.summary-actions{display:grid;gap:.6rem;margin-top:1rem}.summary-actions .primary-button,.summary-actions .secondary-button{width:100%}.summary-legal{margin-top:.75rem;color:#63636f;font-size:.61rem;line-height:1.5}
+.builder-warn{margin-top:.7rem;padding:.7rem .8rem;border:1px solid rgba(255,214,107,.16);border-radius:.8rem;color:#b8aa7c;background:rgba(255,214,107,.04);font-size:.66rem;line-height:1.5}
+@media(max-width:900px){.custom-builder-panel{width:min(98vw,48rem);max-height:96vh}.builder-layout{grid-template-columns:1fr;max-height:calc(96vh - 7rem);overflow:auto}.builder-form,.builder-summary{overflow:visible}.builder-summary{border-left:0;border-top:1px solid rgba(255,255,255,.08)}.builder-grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.custom-builder-modal{padding:.5rem}.custom-builder-panel{border-radius:1.25rem}.builder-header{padding:1.2rem 3.8rem 1rem 1rem}.builder-form,.builder-summary{padding:1rem}.builder-grid,.builder-grid.three,.builder-checks{grid-template-columns:1fr}.summary-meta{grid-template-columns:1fr}}
+
+
+/* ============================================================
+   Custom estimator — responsive scrolling fix
+   Keeps desktop form + estimate as independently scrollable panes,
+   then switches to one natural scroll column on tablet/mobile.
+   ============================================================ */
+.custom-builder-modal{
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:clamp(.55rem,1.5vw,1rem);
+}
+.custom-builder-panel{
+  display:flex;
+  flex-direction:column;
+  width:min(96vw,78rem);
+  height:min(94vh,54rem);
+  height:min(94dvh,54rem);
+  max-height:94vh;
+  max-height:94dvh;
+  min-height:0;
+  overflow:hidden;
+}
+.builder-header{
+  flex:0 0 auto;
+  min-width:0;
+}
+.builder-layout{
+  flex:1 1 auto;
+  min-height:0;
+  max-height:none;
+  height:auto;
+  overflow:hidden;
+}
+.builder-form,
+.builder-summary{
+  min-width:0;
+  min-height:0;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-gutter:stable;
+  touch-action:pan-y;
+}
+.builder-form{
+  padding-bottom:2.5rem;
+}
+.builder-summary{
+  position:relative;
+  padding-bottom:2rem;
+}
+.builder-form::-webkit-scrollbar,
+.builder-summary::-webkit-scrollbar,
+.builder-layout::-webkit-scrollbar{
+  width:9px;
+  height:9px;
+}
+.builder-form::-webkit-scrollbar-track,
+.builder-summary::-webkit-scrollbar-track,
+.builder-layout::-webkit-scrollbar-track{
+  background:rgba(255,255,255,.025);
+}
+.builder-form::-webkit-scrollbar-thumb,
+.builder-summary::-webkit-scrollbar-thumb,
+.builder-layout::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,rgba(186,200,255,.58),rgba(210,139,255,.58));
+  border:2px solid #101016;
+  border-radius:999px;
+}
+.builder-form,
+.builder-summary,
+.builder-layout{
+  scrollbar-width:thin;
+  scrollbar-color:rgba(210,139,255,.55) rgba(255,255,255,.025);
+}
+.summary-row{
+  min-width:0;
+}
+.summary-row span,
+.summary-row strong{
+  overflow-wrap:anywhere;
+}
+.summary-actions a{
+  min-width:0;
+  white-space:normal;
+  text-align:center;
+  line-height:1.35;
+  padding-top:.75rem;
+  padding-bottom:.75rem;
+}
+
+/* Smaller desktop / landscape tablet: preserve the two-pane estimator. */
+@media (max-width:1100px) and (min-width:901px){
+  .custom-builder-panel{
+    width:min(98vw,66rem);
+  }
+  .builder-layout{
+    grid-template-columns:minmax(0,1.12fr) minmax(18.5rem,.88fr);
+  }
+  .builder-grid.three{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .summary-price{
+    font-size:clamp(1.9rem,4vw,2.65rem);
+  }
+}
+
+/* Tablet / portrait: one scroll container for the entire modal. */
+@media (max-width:900px){
+  .custom-builder-modal{
+    align-items:flex-start;
+    overflow:hidden;
+    padding:.5rem;
+  }
+  .custom-builder-panel{
+    width:min(calc(100vw - 1rem),52rem);
+    height:calc(100vh - 1rem);
+    height:calc(100dvh - 1rem);
+    max-height:none;
+    border-radius:1.35rem;
+  }
+  .builder-header{
+    position:sticky;
+    top:0;
+    z-index:4;
+    background:rgba(13,13,18,.94);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+  }
+  .builder-layout{
+    display:block;
+    flex:1 1 auto;
+    min-height:0;
+    overflow-x:hidden;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-y;
+    scrollbar-gutter:stable;
+  }
+  .builder-form,
+  .builder-summary{
+    overflow:visible;
+    min-height:auto;
+  }
+  .builder-summary{
+    border-left:0;
+    border-top:1px solid rgba(255,255,255,.08);
+    background:linear-gradient(180deg,rgba(210,139,255,.055),rgba(255,255,255,.025));
+  }
+  .builder-grid.three{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+/* Phones: true full-screen sheet, single-column controls. */
+@media (max-width:620px){
+  .custom-builder-modal{
+    padding:0;
+  }
+  .custom-builder-panel{
+    width:100vw;
+    height:100vh;
+    height:100dvh;
+    max-height:none;
+    border:0;
+    border-radius:0;
+  }
+  .builder-close{
+    top:.75rem;
+    right:.75rem;
+    width:2.55rem;
+    height:2.55rem;
+    background:rgba(18,18,25,.92);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+  }
+  .builder-header{
+    padding:1rem 3.85rem .9rem 1rem;
+  }
+  .builder-header h3{
+    font-size:1.35rem;
+    line-height:1.2;
+  }
+  .builder-header p{
+    font-size:.74rem;
+    line-height:1.55;
+  }
+  .builder-form,
+  .builder-summary{
+    padding:1rem;
+  }
+  .builder-tabs{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:.45rem;
+  }
+  .builder-tab{
+    width:100%;
+    min-height:2.65rem;
+  }
+  .builder-grid,
+  .builder-grid.three,
+  .builder-checks,
+  .summary-meta{
+    grid-template-columns:1fr;
+  }
+  .builder-choice{
+    flex:1 1 100%;
+  }
+  .builder-section{
+    padding:.85rem;
+    border-radius:1rem;
+  }
+  .summary-price{
+    font-size:clamp(2rem,11vw,2.8rem);
+  }
+  .summary-row{
+    gap:.5rem;
+  }
+  .summary-row span{
+    max-width:58%;
+  }
+  .summary-row strong{
+    max-width:42%;
+  }
+  .summary-actions{
+    position:relative;
+  }
+  .summary-actions .primary-button,
+  .summary-actions .secondary-button{
+    width:100%;
+    min-height:3.15rem;
+  }
+}
+
+@media (max-width:380px){
+  .builder-header h3{font-size:1.18rem}
+  .builder-kicker{font-size:.6rem;letter-spacing:.12em}
+  .builder-form,.builder-summary{padding:.8rem}
+  .builder-section{padding:.72rem}
+  .summary-price{font-size:1.95rem}
+}
+
+
+/* Small local utility layer used by this standalone page (replaces Tailwind browser CDN). */
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-7xl{max-width:80rem}.flex{display:flex}.h-full{height:100%}.flex-col{flex-direction:column}.relative{position:relative}.z-10{z-index:10}.items-start{align-items:flex-start}.justify-between{justify-content:space-between}.mb-2{margin-bottom:.5rem}.mt-2{margin-top:.5rem}.text-xs{font-size:.75rem;line-height:1rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-2xl{font-size:1.5rem;line-height:2rem}.font-light{font-weight:300}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.tracking-\[0\.2em\]{letter-spacing:.2em}.tracking-\[0\.32em\]{letter-spacing:.32em}.text-zinc-400{color:#a1a1aa}.text-accent1\/80{color:rgba(186,200,255,.8)}.text-white{color:#fff}.production-quick-build{display:flex;margin-top:1.25rem}.production-quick-build .primary-button{width:max-content}
+@media(min-width:768px){.md\:text-base{font-size:1rem;line-height:1.5rem}.md\:text-3xl{font-size:1.875rem;line-height:2.25rem}}
+@media(max-width:767px){.production-quick-build .primary-button{width:100%}}
+</style>
+<link href="https://nostrix.ae/pricing/" rel="canonical"/><link href="/favicon.png" rel="icon" type="image/png"/><meta content="website" property="og:type"/><meta content="Nostrix Services &amp; Pricing — Made to be seen." property="og:title"/><meta content="Production, marketing and branding packages from Nostrix Marketing Services in the UAE." property="og:description"/><meta content="https://nostrix.ae/pricing/" property="og:url"/><meta content="https://nostrix.ae/og-image.webp" property="og:image"/></head>
+<body>
+<div aria-hidden="true" class="page-noise"></div>
+<div aria-hidden="true" class="ambient-orb one"></div>
+<div aria-hidden="true" class="ambient-orb two"></div>
+<div aria-hidden="true" id="glow"></div>
+<div class="site-shell">
+<header class="site-nav">
+<nav aria-label="Primary navigation" class="nav-inner">
+<a aria-label="Nostrix home" class="nav-brand" href="https://nostrix.ae/"><img alt="" onerror="this.style.display='none'" src="/logo.png"/><span>Nostrix</span></a>
+<button aria-controls="primary-menu" aria-expanded="false" aria-label="Open menu" class="nav-toggle" type="button"><span></span><span></span><span></span></button>
+<div class="nav-menu" id="primary-menu">
+<a class="nav-link" href="/">Home</a><a class="nav-link" href="#categories">Services</a>
+<a aria-current="page" class="nav-link" href="#packages">Pricing</a>
+<a class="nav-link" href="#launch360">Launch 360</a>
+<a class="nav-link" href="https://nostrix.ae/portfolio/">Portfolio</a>
+<a class="nav-link nav-cta" href="#start">Start a Project</a>
+</div>
+</nav>
+</header>
+<main>
+<section class="hero" id="home">
+<div class="hero-content">
+<div class="eyebrow">
+<p class="mb-2 text-xs font-semibold uppercase tracking-[0.32em] text-zinc-400">Nostrix Marketing Services</p>
+<p class="text-sm font-light tracking-[0.2em] text-accent1/80 md:text-base">Production · Marketing Solutions · Branding</p>
+</div>
+<h1 class="hero-title">Built to <span class="gradient-text">be seen.</span></h1>
+<p class="hero-description">Three focused capabilities, one creative team. Produce the content, shape the presence and build the identity your business needs to launch and grow.</p>
+<div class="hero-actions"><a class="primary-button" href="#categories">Explore Services <i class="ph ph-arrow-down"></i></a><a class="secondary-button" href="#launch360">Build a Brand <i class="ph ph-arrow-up-right"></i></a></div><div class="website-offer-banner"><span class="website-offer-badge"><i class="ph-fill ph-lightning"></i> Website booking benefit</span><strong>15% OFF ELIGIBLE ADD-ONS</strong><span>Book from this page and save 15% on selected Nostrix service add-ons on your first eligible website booking.</span></div><p class="offer-terms">Main package prices stay exactly as shown. The website benefit applies only to eligible Nostrix service add-ons; travel, permits, studios, ad spend, rentals and third-party/pass-through costs are excluded.</p>
+</div>
+<a aria-label="Explore Nostrix services" class="scroll-cue" href="#categories"><i class="ph ph-caret-down text-xl"></i></a>
+</section>
+<section class="section section-soft" id="categories">
+<div class="mx-auto max-w-7xl">
+<div class="section-heading reveal">
+<p class="section-kicker">Choose a capability</p>
+<h2 class="section-title">Three ways to work with Nostrix</h2>
+<p class="section-copy">Start with Production, currently the core of Nostrix, then add Marketing Solutions or Branding when your project needs a broader creative system.</p>
+</div>
+<div aria-label="Nostrix service categories" class="category-grid" role="tablist">
+
+
+
+<button aria-selected="true" class="category-card reveal is-active" data-category="production" role="tab" style="transition-delay:160ms">
+<div class="relative z-10 flex h-full flex-col"><div class="flex items-start justify-between"><div class="category-icon"><i class="ph ph-camera-rotate text-2xl"></i></div><span class="category-number">01</span></div><div class="category-body"><h3>Production</h3><p>Photography, video, creator content, pop-ups, events and recurring production — currently the core of Nostrix.</p><span class="category-open">View packages <i class="ph ph-arrow-right"></i></span></div></div>
+</button><button aria-selected="false" class="category-card reveal" data-category="marketing" role="tab" style="transition-delay:80ms">
+<div class="relative z-10 flex h-full flex-col"><div class="flex items-start justify-between"><div class="category-icon"><i class="ph ph-megaphone-simple text-2xl"></i></div><span class="category-number">02</span></div><div class="category-body"><h3>Marketing Solutions</h3><p>Content planning, social management, launch campaigns and brand-presence systems built for small and growing businesses.</p><span class="category-open">View packages <i class="ph ph-arrow-right"></i></span></div></div>
+</button><button aria-selected="false" class="category-card reveal" data-category="branding" role="tab">
+<div class="relative z-10 flex h-full flex-col"><div class="flex items-start justify-between"><div class="category-icon"><i class="ph ph-pen-nib text-2xl"></i></div><span class="category-number">03</span></div><div class="category-body"><h3>Branding / Visual Identity</h3><p>Logo systems, identity direction, guidelines and launch-ready visual systems designed to make a business recognisable.</p><span class="category-open">View packages <i class="ph ph-arrow-right"></i></span></div></div>
+</button></div>
+<div class="packages-shell" id="packages">
+<!-- BRANDING -->
+
+<!-- MARKETING -->
+
+<!-- PRODUCTION -->
+
+<div class="package-panel is-active" data-panel="production">
+<div class="panel-top"><div class="panel-top-copy"><p class="section-kicker">01 · Production</p><h3 class="text-2xl font-semibold text-white md:text-3xl">Production built around the job.</h3><p class="section-copy">Creator content, photography, videography, pop-ups, events and recurring monthly content. Travel outside Ras Al Khaimah is added separately.</p><div class="production-quick-build"><button class="primary-button custom-builder-trigger" data-builder="production" data-package="Custom Production" type="button">Build Your Shoot <i class="ph ph-sliders-horizontal"></i></button></div></div><p class="panel-note">Creator Video Lite and Pop-Up Lite are intentionally lightweight capture products. Event Duo uses a dedicated photographer + videographer.</p></div>
+<div aria-label="Production package groups" class="package-subnav" role="tablist"><button class="subtab is-active" data-subtab="creator">Creator &amp; Pop-Up</button><button class="subtab" data-subtab="events">Events</button><button class="subtab" data-subtab="monthly">Monthly Content</button></div>
+<div class="subpanel is-active" data-subpanel="creator"><div class="pricing-grid compact-grid">
+<article class="pricing-card"><div class="pricing-card-inner"><span class="pricing-kicker">Creator · Photo</span><h4 class="pricing-name">Creator Photo</h4><div class="pricing-price"><strong>AED 650</strong><span>/ 2 hours</span></div><p class="pricing-description">Compact professional photography for creators and small brands.</p><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Up to 2 hours</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>10 selected final photos</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Essential exposure, WB &amp; colour correction</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Online delivery</span></div></div><button class="secondary-button package-contact" data-package="Creator Photo" data-price="AED 650 / 2 hours">Choose Photo <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><span class="pricing-kicker">Creator · Capture</span><h4 class="pricing-name">Creator Video Lite</h4><div class="pricing-price"><strong>AED 650</strong><span>/ 2 hours</span></div><p class="pricing-description">Social-first video capture using lightweight creator equipment such as DJI Osmo Pocket 3.</p><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Up to 2 hours of coverage</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Vertical/social-first capture</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Organised selected clips</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>No advanced post-production</span></div></div><button class="secondary-button package-contact" data-package="Creator Video Lite" data-price="AED 650 / 2 hours">Choose Video Lite <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card is-featured"><div class="pricing-card-inner"><div class="pricing-topline"><span class="pricing-kicker">Creator · Hybrid</span><span class="pricing-badge"><i class="ph-fill ph-star"></i>Popular</span></div><h4 class="pricing-name">Creator Hybrid</h4><div class="pricing-price"><strong>AED 850</strong><span>/ 2 hours</span></div><p class="pricing-description">Photo + lightweight video in one compact session.</p><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>10 edited photos</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>30–45 min of video capture within session</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 simple vertical Reel</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Essential photography edits</span></div></div><button class="primary-button package-contact" data-package="Creator Hybrid" data-price="AED 850 / 2 hours">Choose Hybrid <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><span class="pricing-kicker">Creator · Plus</span><h4 class="pricing-name">Creator Hybrid Plus</h4><div class="pricing-price"><strong>AED 1,050</strong><span>/ 2 hours</span></div><p class="pricing-description">More polished creator coverage with a properly edited social Reel.</p><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>15 edited photos</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Video coverage</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 professionally edited Reel</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Basic colour grade, text &amp; music</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 revision round</span></div></div><button class="secondary-button package-contact" data-package="Creator Hybrid Plus" data-price="AED 1,050 / 2 hours">Choose Hybrid Plus <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><span class="pricing-kicker">Pop-Up · Lite</span><h4 class="pricing-name">Pop-Up Video Lite</h4><div class="pricing-price"><strong>AED 750</strong><span>/ 2 hours</span></div><p class="pricing-description">Fast, low-footprint social capture for pop-ups, stalls and creator events.</p><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>DJI OP3 / lightweight capture</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Product, interaction &amp; atmosphere clips</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Organised footage delivery</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>No advanced edit</span></div></div><button class="secondary-button package-contact" data-package="Pop-Up Video Lite" data-price="AED 750 / 2 hours">Choose Pop-Up Lite <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><span class="pricing-kicker">Pop-Up · Pro</span><h4 class="pricing-name">Pop-Up Video Pro</h4><div class="pricing-price"><strong>AED 1,150</strong><span>/ 2 hours</span></div><p class="pricing-description">Social-ready pop-up coverage with a finished hero Reel.</p><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>2-hour social-first coverage</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 × 30–45 sec edited Reel</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>3–5 additional vertical clips</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Basic grade, music &amp; titles</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 revision round</span></div></div><button class="secondary-button package-contact" data-package="Pop-Up Video Pro" data-price="AED 1,150 / 2 hours">Choose Pop-Up Pro <i class="ph ph-arrow-up-right"></i></button></div></article>
+</div></div>
+<div class="subpanel" data-subpanel="events"><div class="pricing-grid compact-grid">
+<article class="pricing-card"><div class="pricing-card-inner"><span class="pricing-kicker">Photo · 2H</span><h4 class="pricing-name">Event Photo 2H</h4><div class="pricing-price"><strong>AED 900</strong></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 photographer · 2 hours</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>30–40 edited photos</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Professional colour correction</span></div></div><button class="secondary-button package-contact" data-package="Event Photo 2H" data-price="AED 900">Choose 2H Photo <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><span class="pricing-kicker">Video · 2H</span><h4 class="pricing-name">Event Video 2H</h4><div class="pricing-price"><strong>AED 1,100</strong></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 videographer · 2 hours</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>30–45 sec highlight</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Basic colour grade + music</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 revision round</span></div></div><button class="secondary-button package-contact" data-package="Event Video 2H" data-price="AED 1,100">Choose 2H Video <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><span class="pricing-kicker">Hybrid · 2H</span><h4 class="pricing-name">One-Operator Hybrid</h4><div class="pricing-price"><strong>AED 1,350</strong></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 creator switching photo + video</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>20 edited photos</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 edited Reel</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Best for small events/content</span></div></div><button class="secondary-button package-contact" data-package="One-Operator Hybrid 2H" data-price="AED 1,350">Choose Hybrid <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card is-featured"><div class="pricing-card-inner"><div class="pricing-topline"><span class="pricing-kicker">Duo · 2H</span><span class="pricing-badge"><i class="ph-fill ph-star"></i>Best coverage</span></div><h4 class="pricing-name">Event Duo 2H</h4><div class="pricing-price"><strong>AED 1,750</strong></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 photographer + 1 videographer</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>30–50 edited photos</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>30–45 sec edited highlight</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 revision round</span></div></div><button class="primary-button package-contact" data-package="Event Duo 2H" data-price="AED 1,750">Choose Event Duo <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><span class="pricing-kicker">Photo · 4H</span><h4 class="pricing-name">Event Photo 4H</h4><div class="pricing-price"><strong>AED 1,550</strong></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 photographer · 4 hours</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>60–80 edited photos</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Online gallery</span></div></div><button class="secondary-button package-contact" data-package="Event Photo 4H" data-price="AED 1,550">Choose 4H Photo <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><span class="pricing-kicker">Video · 4H</span><h4 class="pricing-name">Event Video 4H</h4><div class="pricing-price"><strong>AED 1,850</strong></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 videographer · 4 hours</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>60–90 sec highlight</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 vertical cut + colour grade</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 revision round</span></div></div><button class="secondary-button package-contact" data-package="Event Video 4H" data-price="AED 1,850">Choose 4H Video <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card is-featured"><div class="pricing-card-inner"><span class="pricing-kicker">Duo · 4H</span><h4 class="pricing-name">Event Duo 4H</h4><div class="pricing-price"><strong>AED 2,650</strong></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 photographer + 1 videographer</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>60–100 edited photos</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>60 sec highlight video</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 vertical Reel + 1 revision</span></div></div><button class="primary-button package-contact" data-package="Event Duo 4H" data-price="AED 2,650">Choose 4H Duo <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><span class="pricing-kicker">Photo · 8H</span><h4 class="pricing-name">Event Photo 8H</h4><div class="pricing-price"><strong>AED 2,750</strong></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 photographer · up to 8 hours</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>120–180 edited photos</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Professional colour correction</span></div></div><button class="secondary-button package-contact" data-package="Event Photo 8H" data-price="AED 2,750">Choose 8H Photo <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><span class="pricing-kicker">Duo · 8H</span><h4 class="pricing-name">Event Duo 8H</h4><div class="pricing-price"><strong>AED 4,750</strong></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 photographer + 1 videographer</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>150+ edited photos</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>60–90 sec highlight</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>2 Reels + 1 revision</span></div></div><button class="secondary-button package-contact" data-package="Event Duo 8H" data-price="AED 4,750">Choose Full Day Duo <i class="ph ph-arrow-up-right"></i></button></div></article>
+</div></div>
+<div class="subpanel" data-subpanel="monthly"><div class="pricing-grid">
+<article class="pricing-card"><div class="pricing-card-inner"><span class="pricing-kicker">Recurring · Creator</span><h4 class="pricing-name">Creator Monthly</h4><div class="pricing-price"><strong>AED 1,490</strong><span>/ month</span></div><p class="pricing-description">Predictable monthly content for creators and personal brands.</p><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>2 sessions / month, up to 90 min each</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>20 edited photos total</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>2 simple Reels</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Basic editing</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>3-month commitment</span></div></div><button class="secondary-button package-contact" data-package="Creator Monthly" data-price="AED 1,490 / month">Choose Creator Monthly <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card is-featured"><div class="pricing-card-inner"><div class="pricing-topline"><span class="pricing-kicker">Recurring · Business</span><span class="pricing-badge"><i class="ph-fill ph-star"></i>Business value</span></div><h4 class="pricing-name">Business Content</h4><div class="pricing-price"><strong>AED 2,490</strong><span>/ month</span></div><p class="pricing-description">A monthly production engine for small businesses that need fresh visual content.</p><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>2 × 2-hour content sessions</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>30 edited photos</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>4 professionally edited Reels</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Basic creative planning &amp; shot list</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>3-month commitment</span></div></div><button class="primary-button package-contact" data-package="Business Content" data-price="AED 2,490 / month">Choose Business Content <i class="ph ph-arrow-up-right"></i></button></div></article>
+</div></div>
+<div class="pricing-grid production-custom-wrap"><article class="pricing-card custom-package-card is-featured"><div class="pricing-card-inner custom-package-inner">
+<div class="custom-package-main"><div class="pricing-topline"><span class="pricing-kicker">Production · Custom</span><span class="pricing-badge"><i class="ph ph-sliders-horizontal"></i>Build your shoot</span></div><h4 class="pricing-name">Custom Production</h4><div class="pricing-price"><strong>From AED 1,490</strong><span>/ project</span></div><p class="pricing-description">For shoots that need a custom combination of hours, crew, photo, video, reels, interviews, locations or deliverables.</p></div>
+<div class="pricing-features custom-package-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Custom coverage hours</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Photo, video or mixed crew</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Custom edited-photo count</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Reels / highlights based on scope</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Optional extra operator or equipment</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Written deliverables before booking</span></div></div>
+<div class="custom-package-action"><div class="pricing-fit"><i class="ph ph-camera-rotate"></i><span>Best for custom events &amp; campaigns</span></div><button class="primary-button custom-builder-trigger" data-builder="production" data-package="Custom Production">Build Custom Production <i class="ph ph-arrow-up-right"></i></button><p class="custom-note">Travel, venue permits, rentals and specialist crew remain separate where required.</p></div>
+</div></article></div>
+</div><div class="package-panel" data-panel="marketing">
+<div class="panel-top"><div class="panel-top-copy"><p class="section-kicker">02 · Marketing Solutions</p><h3 class="text-2xl font-semibold text-white md:text-3xl">Practical marketing built around what your brand actually needs.</h3><p class="section-copy">These packages focus on social presence, content planning and launches, with a clear scope so you know exactly what is included. Paid media, advanced SEO and complex funnels can be quoted separately when needed.</p></div><p class="panel-note">Professional production can be added from the Production category. Ad spend and third-party media budgets are always separate.</p></div>
+<div class="pricing-grid">
+<article class="pricing-card"><div class="pricing-card-inner"><div class="pricing-topline"><span class="pricing-kicker">01 · Foundation</span></div><h4 class="pricing-name">Social Foundation</h4><div class="pricing-price"><strong>AED 1,490</strong><span>/ month</span></div><p class="pricing-description">A structured monthly presence for brands that already have usable content or can supply assets.</p><div class="pricing-fit"><i class="ph ph-device-mobile"></i><span>Best for small brands</span></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>1 primary social platform</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Monthly content plan &amp; content pillars</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>8 designed posts / social creatives</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Captions &amp; scheduling</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Basic monthly performance summary</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Production not included</span></div></div><button class="secondary-button package-contact" data-package="Social Foundation" data-price="AED 1,490 / month">Choose Foundation <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card is-featured"><div class="pricing-card-inner"><div class="pricing-topline"><span class="pricing-kicker">02 · Growth</span><span class="pricing-badge"><i class="ph-fill ph-star"></i>Most popular</span></div><h4 class="pricing-name">Social Growth</h4><div class="pricing-price"><strong>AED 2,790</strong><span>/ month</span></div><p class="pricing-description">A stronger content and management layer for growing brands that want consistency across two channels.</p><div class="pricing-fit"><i class="ph ph-trend-up"></i><span>Best for growing SMEs</span></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Up to 2 social platforms</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>12 planned content pieces / creatives</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Captions, scheduling &amp; monthly calendar</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Monthly strategy check-in</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Light community-management support</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Monthly reporting</span></div></div><button class="primary-button package-contact" data-package="Social Growth" data-price="AED 2,790 / month">Choose Growth <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><div class="pricing-topline"><span class="pricing-kicker">03 · Presence</span></div><h4 class="pricing-name">Brand Presence</h4><div class="pricing-price"><strong>AED 4,490</strong><span>/ month</span></div><p class="pricing-description">A fuller organic social system for brands that need more output, coordination and hands-on management.</p><div class="pricing-fit"><i class="ph ph-chart-line-up"></i><span>Best for active brands</span></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Up to 3 social platforms</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>18–20 planned content assets</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Campaign &amp; monthly content planning</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Captions, publishing &amp; community management</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Competitor/content monitoring</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Detailed monthly report &amp; strategy review</span></div></div><button class="secondary-button package-contact" data-package="Brand Presence" data-price="AED 4,490 / month">Choose Presence <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><div class="pricing-topline"><span class="pricing-kicker">04 · Launch</span></div><h4 class="pricing-name">Launch Campaign Setup</h4><div class="pricing-price"><strong>From AED 2,490</strong><span>one-time</span></div><p class="pricing-description">A focused launch system for a new business, product, menu, location or campaign.</p><div class="pricing-fit"><i class="ph ph-rocket-launch"></i><span>One-time launch support</span></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>30-day go-to-market plan</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Basic audience &amp; competitor review</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Messaging &amp; launch content pillars</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>8 launch creatives + captions</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Social profile optimisation checklist</span></div></div><button class="secondary-button package-contact" data-package="Launch Campaign Setup" data-price="From AED 2,490 one-time">Plan a Launch <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card custom-package-card is-featured"><div class="pricing-card-inner custom-package-inner">
+<div class="custom-package-main"><div class="pricing-topline"><span class="pricing-kicker">05 · Custom</span><span class="pricing-badge"><i class="ph ph-sliders-horizontal"></i>Flexible scope</span></div><h4 class="pricing-name">Custom Marketing Retainer</h4><div class="pricing-price"><strong>From AED 3,490</strong><span>/ month</span></div><p class="pricing-description">A tailored organic marketing plan when your platform mix, content volume or launch calendar does not fit the standard tiers.</p></div>
+<div class="pricing-features custom-package-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Custom platform &amp; content mix</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Monthly content and campaign plan</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Captions, publishing and reporting</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Community-management level by scope</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Optional production added separately</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Monthly review and scope optimisation</span></div></div>
+<div class="custom-package-action"><div class="pricing-fit"><i class="ph ph-path"></i><span>Best for brands between tiers</span></div><button class="primary-button custom-builder-trigger" data-builder="marketing" data-package="Custom Marketing Retainer">Build Marketing Plan <i class="ph ph-arrow-up-right"></i></button><p class="custom-note">Paid media, ad spend, advanced SEO and third-party media are quoted separately.</p></div>
+</div></article>
+</div>
+</div><div class="package-panel" data-panel="branding">
+<div class="panel-top"><div class="panel-top-copy"><p class="section-kicker">03 · Branding / Visual Identity</p><h3 class="text-2xl font-semibold text-white md:text-3xl">Identity systems built to last.</h3><p class="section-copy">Every package is built around a usable visual system rather than a single logo file, with clear deliverables for startups, creators and growing businesses.</p></div><p class="panel-note">Best suited to startups, creators and SMEs. Naming, packaging, extensive print systems and complex brand architecture can be quoted separately.</p></div>
+<div class="pricing-grid">
+<article class="pricing-card"><div class="pricing-card-inner"><div class="pricing-topline"><span class="pricing-kicker">01 · Essential</span></div><h4 class="pricing-name">Identity Essential</h4><div class="pricing-price"><strong>AED 1,490</strong><span>one-time</span></div><p class="pricing-description">A professional visual foundation for a new small business or personal brand.</p><div class="pricing-fit"><i class="ph ph-target"></i><span>Best for new brands</span></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Brand discovery call &amp; visual direction</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Primary logo + alternate mark</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Colour palette &amp; typography system</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>8–10 page mini brand guide</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Final files for digital &amp; print</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>2 revision rounds</span></div></div><button class="secondary-button package-contact" data-package="Identity Essential" data-price="AED 1,490 one-time">Choose Essential <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card is-featured"><div class="pricing-card-inner"><div class="pricing-topline"><span class="pricing-kicker">02 · System</span><span class="pricing-badge"><i class="ph-fill ph-star"></i>Recommended</span></div><h4 class="pricing-name">Brand System</h4><div class="pricing-price"><strong>AED 2,990</strong><span>one-time</span></div><p class="pricing-description">A deeper identity system for businesses that need consistency across real-world touchpoints.</p><div class="pricing-fit"><i class="ph ph-squares-four"></i><span>Best overall value</span></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Brand strategy &amp; creative-direction session</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Complete logo suite &amp; lockups</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Colour, typography &amp; supporting graphic system</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Social profile assets &amp; basic templates</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>15–20 page brand guidelines</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>3 revision rounds</span></div></div><button class="primary-button package-contact" data-package="Brand System" data-price="AED 2,990 one-time">Choose Brand System <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><div class="pricing-topline"><span class="pricing-kicker">03 · Complete</span></div><h4 class="pricing-name">Complete Visual Identity</h4><div class="pricing-price"><strong>AED 5,490</strong><span>one-time</span></div><p class="pricing-description">A complete creative system for a serious launch, repositioning or high-visibility brand.</p><div class="pricing-fit"><i class="ph ph-crown-simple"></i><span>Best for serious launches</span></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Brand workshop, positioning &amp; visual territory</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Full logo, icon &amp; graphic-language system</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Art direction for photography &amp; media</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>6 branded launch templates/applications</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>25–35 page brand guidelines</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>3 revision rounds + handover session</span></div></div><button class="secondary-button package-contact" data-package="Complete Visual Identity" data-price="AED 5,490 one-time">Choose Complete <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card"><div class="pricing-card-inner"><div class="pricing-topline"><span class="pricing-kicker">04 · Refresh</span></div><h4 class="pricing-name">Brand Refresh</h4><div class="pricing-price"><strong>From AED 1,990</strong></div><p class="pricing-description">For an existing brand that needs to look sharper without rebuilding everything from zero.</p><div class="pricing-fit"><i class="ph ph-arrows-clockwise"></i><span>Existing brands</span></div><div class="pricing-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Current identity audit</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Logo refinement where needed</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Updated colour &amp; typography direction</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Refreshed social/media look</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Mini updated guidelines</span></div></div><button class="secondary-button package-contact" data-package="Brand Refresh" data-price="From AED 1,990">Discuss Refresh <i class="ph ph-arrow-up-right"></i></button></div></article>
+<article class="pricing-card custom-package-card is-featured"><div class="pricing-card-inner custom-package-inner">
+<div class="custom-package-main"><div class="pricing-topline"><span class="pricing-kicker">05 · Custom</span><span class="pricing-badge"><i class="ph ph-sliders-horizontal"></i>Build your own</span></div><h4 class="pricing-name">Custom Brand Build</h4><div class="pricing-price"><strong>From AED 3,490</strong><span>one-time</span></div><p class="pricing-description">For businesses that do not fit a fixed tier. We build a tailored identity scope around the actual touchpoints you need.</p></div>
+<div class="pricing-features custom-package-features"><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Strategy &amp; creative-direction workshop</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Custom logo / identity deliverable mix</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Choose social, print or launch applications</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Guideline depth matched to the project</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>2–3 revision rounds depending on scope</span></div><div class="pricing-feature"><i class="ph ph-check-circle"></i><span>Final print + digital handover</span></div></div>
+<div class="custom-package-action"><div class="pricing-fit"><i class="ph ph-sparkle"></i><span>Best for unusual brand scopes</span></div><button class="primary-button custom-builder-trigger" data-builder="branding" data-package="Custom Brand Build">Build Custom Brand <i class="ph ph-arrow-up-right"></i></button><p class="custom-note">Starting rate protects the strategy + design time. Final price is based on the approved scope.</p></div>
+</div></article>
+</div>
+</div></div>
+</div></section>
+<section class="section section-blue" id="launch360">
+<div class="mx-auto max-w-7xl">
+<div class="section-heading reveal"><p class="section-kicker">Flagship launch package</p><h2 class="section-title">From idea to launch-ready brand.</h2><p class="section-copy">For a founder or small company that wants Nostrix to build the visual foundation, prepare the launch presence and create the first bank of professional content.</p></div>
+<div class="flagship reveal">
+<div class="flagship-grid">
+<div class="flagship-left"><span class="flagship-label"><i class="ph ph-sparkle"></i>Nostrix flagship</span><h3>Launch <span class="gradient-text">360</span></h3><p class="flagship-copy">One coordinated project combining Production, Marketing Solutions and Branding. The scope is adjusted around the type of business, so the starting price can stay clear while the final build reflects what the company actually needs.</p><div class="flagship-price"><small>Starting price</small><strong>From AED 7,900</strong><div class="website-benefit-inline"><i class="ph-fill ph-lightning"></i> Website booking benefits available on eligible Nostrix add-ons</div></div><div class="hero-actions" style="justify-content:flex-start;margin-top:1.4rem"><button class="primary-button package-contact" data-package="Nostrix Launch 360" data-price="From AED 7,900">Build My Brand <i class="ph ph-arrow-up-right"></i></button></div></div>
+<div class="flagship-columns">
+<div class="flagship-col"><i class="ph ph-pen-nib"></i><h4>Branding</h4><ul><li>Discovery &amp; positioning foundation</li><li>Complete logo suite</li><li>Colour &amp; typography system</li><li>Visual identity &amp; social assets</li><li>20+ page brand guide</li></ul></div>
+<div class="flagship-col"><i class="ph ph-megaphone-simple"></i><h4>Marketing</h4><ul><li>30-day launch plan</li><li>Content pillars &amp; messaging</li><li>12 launch creatives/posts</li><li>Captions &amp; publishing direction</li><li>Social profile optimisation</li></ul></div>
+<div class="flagship-col"><i class="ph ph-camera-rotate"></i><h4>Production</h4><ul><li>Up to 4-hour production day</li><li>25–30 edited professional photos</li><li>3 short-form Reels</li><li>Basic video post-production</li><li>Launch-ready content bank</li></ul></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section section-soft" id="rates">
+<div class="mx-auto max-w-7xl">
+<div class="section-heading reveal"><p class="section-kicker">Operational pricing</p><h2 class="section-title">Transparent extras. Clear scope.</h2><p class="section-copy">Travel and additional production work are quoted transparently. Routine petrol/tolls are absorbed into the location fee instead of appearing as messy line items.</p></div>
+<div class="info-grid reveal">
+<div class="info-card"><h3>UAE Travel Fees</h3><p>Applied once per booking when the production starts outside Ras Al Khaimah.</p><div class="price-list"><div class="price-row"><span>Ras Al Khaimah</span><strong>Included</strong></div><div class="price-row"><span>Umm Al Quwain</span><strong>+ AED 75</strong></div><div class="price-row"><span>Ajman</span><strong>+ AED 125</strong></div><div class="price-row"><span>Sharjah</span><strong>+ AED 150</strong></div><div class="price-row"><span>Dubai</span><strong>+ AED 200</strong></div><div class="price-row"><span>Abu Dhabi</span><strong>+ AED 300</strong></div><div class="price-row"><span>Al Ain</span><strong>+ AED 350</strong></div></div></div>
+<div class="info-card"><h3>Common Add-Ons</h3><p>Quoted when the requested scope goes beyond the package.</p><div class="price-list"><div class="price-row"><span>Extra creator hour</span><strong>AED 200</strong></div><div class="price-row"><span>Extra event photography hour</span><strong>AED 250</strong></div><div class="price-row"><span>Extra videography hour</span><strong>AED 300</strong></div><div class="price-row"><span>Standard extra Reel</span><strong>AED 250</strong></div><div class="price-row"><span>Advanced Reel</span><strong>AED 400–600</strong></div><div class="price-row"><span>Advanced retouch / photo</span><strong>AED 35–60</strong></div><div class="price-row"><span>RAW photo files</span><strong>+ AED 250</strong></div><div class="price-row"><span>RAW video footage</span><strong>+ AED 500+</strong></div><div class="price-row"><span>24-hour delivery</span><strong>+ 30%</strong></div></div></div>
+</div>
+<div class="terms-strip reveal"><span class="term-chip"><i class="ph-fill ph-lightning"></i>15% off eligible add-ons on your first website booking</span><span class="term-chip"><i class="ph ph-credit-card"></i>50% booking deposit</span><span class="term-chip"><i class="ph ph-calendar-check"></i>Retainers prepaid monthly</span><span class="term-chip"><i class="ph ph-arrows-clockwise"></i>1 revision unless stated</span><span class="term-chip"><i class="ph ph-buildings"></i>Studios / permits separate</span><span class="term-chip"><i class="ph ph-chart-line"></i>Ad spend separate</span></div>
+</div>
+</section>
+<section class="section" id="start">
+<div class="mx-auto max-w-7xl">
+<div class="cta-block reveal"><div class="cta-block-inner"><div class="cta-icon"><i class="ph ph-paper-plane-tilt text-2xl"></i></div><p class="section-kicker" style="margin-top:1.5rem">Start a project</p><h2 class="section-title" style="font-size:clamp(1.8rem,4vw,3.2rem)">Tell us what you're building.</h2><p class="section-copy" style="margin-left:auto;margin-right:auto">Choose a package, build a custom scope or send Nostrix a brief. New clients who confirm through this page can receive 15% off eligible Nostrix add-ons on their first eligible website booking. Main package prices and excluded costs remain unchanged.</p><div class="hero-actions"><a class="primary-button" href="https://wa.me/971561195226?text=Hi%20Nostrix%2C%20I%27d%20like%20to%20start%20a%20project." rel="noopener" target="_blank">WhatsApp Nostrix <i class="ph ph-whatsapp-logo"></i></a><a class="secondary-button" href="mailto:marketing@nostrix.ae?subject=Nostrix%20Project%20Enquiry">Email Us <i class="ph ph-envelope-simple"></i></a></div></div></div>
+</div>
+</section>
+</main>
+<footer class="footer-line"><div class="footer-inner"><div><div class="footer-brand">Nostrix Marketing Services</div><div class="mt-2 text-xs">Made to be seen. · UAE</div></div><div class="footer-links"><a href="https://nostrix.ae/">Home</a><a href="https://nostrix.ae/portfolio/">Portfolio</a><a href="https://www.instagram.com/nostrix.ae/" rel="noopener" target="_blank">Instagram</a><a href="mailto:marketing@nostrix.ae">marketing@nostrix.ae</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div class="text-xs">© <span id="year"></span> Nostrix</div></div></footer>
+</div>
+<div aria-hidden="true" aria-labelledby="builderTitle" aria-modal="true" class="modal custom-builder-modal" id="customBuilderModal" role="dialog">
+<div class="custom-builder-panel">
+<button aria-label="Close custom package builder" class="builder-close" id="builderClose"><i class="ph ph-x"></i></button>
+<div class="builder-header">
+<div class="builder-kicker">Nostrix custom package builder</div>
+<h3 id="builderTitle">Build a custom package</h3>
+<p>Adjust the scope and the estimate updates instantly. The calculator uses the same client-facing pricing structure as Nostrix quotations, with scope, coverage, editing, travel and selected add-ons shown clearly.</p>
+</div>
+<div class="builder-layout">
+<div class="builder-form">
+<div class="builder-tabs" role="tablist">
+<button class="builder-tab is-active" data-builder-tab="branding">Branding</button>
+<button class="builder-tab" data-builder-tab="marketing">Marketing</button>
+<button class="builder-tab" data-builder-tab="production">Production</button>
+</div>
+<div class="builder-pane is-active" data-builder-pane="branding">
+<div class="builder-section">
+<div class="builder-section-title">1 · Brand project</div>
+<div class="builder-grid">
+<div class="builder-field"><label>Project type</label><select class="builder-control calc" id="brandType"><option value="new">New brand</option><option value="rebrand">Full rebrand</option><option value="refresh">Brand refresh / upgrade</option><option value="launch">Launch-focused identity</option></select></div>
+<div class="builder-field"><label>Strategy depth</label><select class="builder-control calc" id="brandStrategy"><option value="standard">Strategy session included</option><option value="deep">Deep positioning workshop (+AED 650)</option></select></div>
+</div>
+</div>
+<div class="builder-section">
+<div class="builder-section-title">2 · Identity scope</div>
+<div class="builder-checks">
+<label class="builder-check"><input class="calc" id="brandNaming" type="checkbox"/>Naming / naming direction (+AED 650)</label>
+<label class="builder-check"><input class="calc" id="brandSocialKit" type="checkbox"/>Social template kit (+AED 550)</label>
+<label class="builder-check"><input class="calc" id="brandPackaging" type="checkbox"/>Packaging concept (+AED 750)</label>
+<label class="builder-check"><input class="calc" id="brandArtDirection" type="checkbox"/>Photo/media art direction (+AED 600)</label>
+<label class="builder-check"><input class="calc" id="brandExtendedGuide" type="checkbox"/>Extended 25–35 page guide (+AED 650)</label>
+<div class="builder-field"><label>Extra brand applications</label><input class="builder-control calc" id="brandApps" max="12" min="0" type="number" value="0"/><small>Menu, signage, stationery, uniforms, presentation covers, etc. AED 180 each.</small></div>
+</div>
+</div>
+<div class="builder-section">
+<div class="builder-section-title">3 · Delivery</div>
+<div class="builder-grid">
+<div class="builder-field"><label>Turnaround</label><select class="builder-control calc" id="brandRush"><option value="standard">Standard delivery</option><option value="rush">Priority / rush (+25%)</option></select></div>
+<div class="builder-field"><label>Target launch date</label><input class="builder-control" id="brandDate" type="date"/></div>
+</div>
+</div>
+</div>
+<div class="builder-pane" data-builder-pane="marketing">
+<div class="builder-section">
+<div class="builder-section-title">1 · Monthly scope</div>
+<div class="builder-grid three">
+<div class="builder-field"><label>Platforms</label><select class="builder-control calc" id="mktPlatforms"><option value="1">1 platform</option><option selected="" value="2">2 platforms</option><option value="3">3 platforms</option></select></div>
+<div class="builder-field"><label>Content assets / month</label><input class="builder-control calc" id="mktAssets" max="30" min="8" type="number" value="12"/></div>
+<div class="builder-field"><label>Strategy cadence</label><select class="builder-control calc" id="mktStrategy"><option value="monthly">Monthly strategy</option><option value="biweekly">Bi-weekly strategy (+AED 350)</option></select></div>
+</div>
+</div>
+<div class="builder-section">
+<div class="builder-section-title">2 · Management</div>
+<div class="builder-grid">
+<div class="builder-field"><label>Community management</label><select class="builder-control calc" id="mktCommunity"><option value="light">Light support included</option><option value="none">No community management</option><option value="standard">Standard support (+AED 450)</option></select></div>
+<div class="builder-field"><label>Reporting</label><select class="builder-control calc" id="mktReporting"><option value="standard">Standard monthly report</option><option value="detailed">Detailed report + review (+AED 250)</option></select></div>
+</div>
+<div class="builder-checks" style="margin-top:.7rem">
+<label class="builder-check"><input class="calc" id="mktCompetitor" type="checkbox"/>Competitor/content monitoring (+AED 300)</label>
+<label class="builder-check"><input class="calc" id="mktLaunch" type="checkbox"/>Launch/campaign planning layer (+AED 450)</label>
+</div>
+</div>
+<div class="builder-section">
+<div class="builder-section-title">3 · Production add-on</div>
+<div class="builder-grid">
+<div class="builder-field"><label>Creator/content sessions</label><select class="builder-control calc" id="mktShoots"><option value="0">No production included</option><option value="1">1 creator session (+AED 850)</option><option value="2">2 creator sessions (+AED 1,700)</option></select><small>For larger production, use the Production builder instead.</small></div>
+<div class="builder-field"><label>Preferred start date</label><input class="builder-control" id="mktDate" type="date"/></div>
+</div>
+</div>
+<div class="builder-warn">Paid ad spend, advanced SEO, external media buying and third-party costs are not included in this estimator.</div>
+</div>
+<div class="builder-pane" data-builder-pane="production">
+<div class="builder-section">
+<div class="builder-section-title">1 · What do you need?</div>
+<div class="builder-toggle-row">
+<label class="builder-choice"><input checked="" class="calc" name="prodService" type="radio" value="photo"/><span><i class="ph ph-camera"></i> Photography</span></label>
+<label class="builder-choice"><input class="calc" name="prodService" type="radio" value="video"/><span><i class="ph ph-video-camera"></i> Videography</span></label>
+<label class="builder-choice"><input class="calc" name="prodService" type="radio" value="both"/><span><i class="ph ph-camera-rotate"></i> Both</span></label>
+</div>
+<div class="builder-grid" style="margin-top:.85rem">
+<div class="builder-field"><label>Project category</label><select class="builder-control calc" id="prodCategory"><option value="event">Event / corporate coverage</option><option value="creator">Creator / influencer</option><option value="popup">Pop-up / retail activation</option><option value="product">Product / e-commerce</option><option value="realestate">Real estate</option><option value="automotive">Automotive</option></select></div>
+<div class="builder-field"><label>Coverage hours</label><input class="builder-control calc" id="prodHours" max="12" min="2" type="number" value="3"/><small>Minimum custom production booking: 2 hours.</small></div>
+</div>
+</div>
+<div class="builder-section" id="photoOptions">
+<div class="builder-section-title">2 · Photography</div>
+<div class="builder-grid three">
+<div class="builder-field"><label>Final edited photos</label><input class="builder-control calc" id="prodPhotos" max="500" min="0" type="number" value="60"/></div>
+<div class="builder-field"><label>Editing level</label><select class="builder-control calc" id="prodPhotoEdit"><option value="essential">Essential colour / WB</option><option value="enhanced">Enhanced retouching</option><option value="advanced">Advanced retouching</option></select></div>
+<div class="builder-field"><label>Photo delivery</label><select class="builder-control calc" id="prodPhotoDelivery"><option value="gallery">Online gallery</option><option value="social">Social + high-resolution</option></select></div>
+</div>
+</div>
+<div class="builder-section" id="videoOptions" style="display:none">
+<div class="builder-section-title">3 · Video deliverables</div>
+<div class="builder-grid three">
+<div class="builder-field"><label>Main edit</label><select class="builder-control calc" id="prodVideoEdit"><option value="none">Capture / selected clips only</option><option value="simple">Simple Reel (+AED 250)</option><option value="pro">Professional Reel (+AED 400)</option><option value="h60">60 sec highlight (+AED 550)</option><option value="h90">90 sec highlight (+AED 750)</option></select></div>
+<div class="builder-field"><label>Extra Reels</label><input class="builder-control calc" id="prodExtraReels" max="10" min="0" type="number" value="0"/></div>
+<div class="builder-field"><label>Video format</label><select class="builder-control calc" id="prodFormat"><option value="vertical">Vertical / social</option><option value="landscape">Landscape / corporate</option><option value="mixed">Mixed deliverables</option></select></div>
+</div>
+</div>
+<div class="builder-section">
+<div class="builder-section-title">4 · Production details</div>
+<div class="builder-grid three">
+<div class="builder-field"><label>Crew</label><select class="builder-control calc" id="prodCrew"><option value="one">1 operator</option><option value="duo">2-person crew</option></select></div>
+<div class="builder-field"><label>Turnaround</label><select class="builder-control calc" id="prodTurnaround"><option value="standard">Standard delivery</option><option value="48">48 hours (+20%)</option><option value="24">24 hours (+30%)</option><option value="same">Same-day (+50%)</option></select></div>
+<div class="builder-field"><label>Emirate / area</label><select class="builder-control calc" id="prodLocation"><option value="rak">Ras Al Khaimah</option><option value="uaq">Umm Al Quwain</option><option value="ajman">Ajman</option><option value="sharjah">Sharjah</option><option value="dubai">Dubai</option><option value="abudhabi">Abu Dhabi</option><option value="alain">Al Ain</option></select></div>
+<div class="builder-field"><label>Studio</label><select class="builder-control calc" id="prodStudio"><option value="no">No / on-location</option><option value="client">Client-provided studio</option><option value="arrange">Nostrix to arrange (quoted separately)</option></select></div>
+<div class="builder-field"><label>Preferred shoot date</label><input class="builder-control" id="prodDate" type="date"/></div>
+<div class="builder-field"><label>Venue / exact location</label><input class="builder-control" id="prodVenue" placeholder="Cafe, hotel, venue, property..." type="text"/></div>
+</div>
+</div>
+</div>
+</div>
+<aside class="builder-summary">
+<div class="summary-label">Planning estimate</div>
+<div class="summary-price" id="builderEstimate">AED 3,490</div>
+<div class="summary-range" id="builderRange">Planning range: AED 3,200–3,800</div>
+<div class="summary-note"><i class="ph ph-lock-key"></i> No payment is required here. This is a planning estimate only; the final quotation confirms scope, availability and any project-specific requirements.</div>
+<div class="summary-divider"></div>
+<div class="summary-label">Scope summary</div>
+<div class="summary-list" id="scopeSummary"></div>
+<div class="summary-meta" id="summaryMeta"></div>
+<div class="summary-divider"></div>
+<div class="summary-label">Price build-up</div>
+<div class="summary-list" id="priceBuildUp"></div>
+<div class="summary-actions"><a class="primary-button" href="#" id="builderWhatsApp" rel="noopener" target="_blank">Send estimate on WhatsApp <i class="ph ph-whatsapp-logo"></i></a><a class="secondary-button" href="#" id="builderEmail">Email estimate <i class="ph ph-envelope-simple"></i></a></div>
+<div class="summary-legal" id="builderLegal">Website booking benefit: 15% off eligible Nostrix add-ons only. Main package/coverage price, travel and third-party/pass-through costs are not discounted.</div>
+</aside>
+</div>
+</div>
+</div>
+<div aria-hidden="true" aria-labelledby="modalTitle" aria-modal="true" class="modal" id="packageModal" role="dialog">
+<div class="modal-panel"><button aria-label="Close" class="modal-close" id="modalClose"><i class="ph ph-x"></i></button><p class="modal-kicker">Selected package</p><h3 id="modalTitle">Package</h3><div class="modal-price" id="modalPrice"></div><p class="modal-copy">Send Nostrix the selected package and tell us your preferred date, location and a short brief. Final availability and scope are confirmed in the quotation.</p><div class="modal-actions"><a class="primary-button" href="#" id="modalWhatsApp" rel="noopener" target="_blank">Continue on WhatsApp <i class="ph ph-whatsapp-logo"></i></a><a class="secondary-button" href="#" id="modalEmail">Email Enquiry <i class="ph ph-envelope-simple"></i></a></div><div class="modal-notes">Main package prices are the standard Nostrix rates shown on this page. Website bookings can receive 15% off selected eligible Nostrix add-ons on the first eligible booking. Travel, permits, studios, ad spend, rentals and third-party/pass-through costs are excluded. Final availability and scope are confirmed in the quotation.</div></div>
+</div>
+<script>
+const glow=document.getElementById('glow');
+if(glow && matchMedia('(pointer:fine)').matches){document.addEventListener('mousemove',e=>{glow.style.opacity='1';glow.style.transform=`translate3d(${e.clientX}px,${e.clientY}px,0) translate(-50%,-50%)`});document.addEventListener('mouseleave',()=>glow.style.opacity='0')}
+const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}}),{threshold:.1});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+document.querySelectorAll('.category-card').forEach(card=>{card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect();card.style.setProperty('--mouse-x',`${e.clientX-r.left}px`);card.style.setProperty('--mouse-y',`${e.clientY-r.top}px`)});card.addEventListener('click',()=>{const key=card.dataset.category;document.querySelectorAll('.category-card').forEach(c=>{c.classList.toggle('is-active',c===card);c.setAttribute('aria-selected',c===card?'true':'false')});document.querySelectorAll('.package-panel').forEach(p=>p.classList.toggle('is-active',p.dataset.panel===key));setTimeout(()=>document.getElementById('packages').scrollIntoView({behavior:'smooth',block:'start'}),80)})});
+document.querySelectorAll('.subtab').forEach(tab=>tab.addEventListener('click',()=>{const key=tab.dataset.subtab;const root=tab.closest('.package-panel');root.querySelectorAll('.subtab').forEach(t=>t.classList.toggle('is-active',t===tab));root.querySelectorAll('.subpanel').forEach(p=>p.classList.toggle('is-active',p.dataset.subpanel===key))}));
+const modal=document.getElementById('packageModal'),modalTitle=document.getElementById('modalTitle'),modalPrice=document.getElementById('modalPrice'),modalWhatsApp=document.getElementById('modalWhatsApp'),modalEmail=document.getElementById('modalEmail');
+function openPackage(name,price){modalTitle.textContent=name;modalPrice.textContent=price;const msg=`Hi Nostrix, I'm interested in the ${name} package (${price}). I'd like to discuss the scope, availability and next steps.`;modalWhatsApp.href=`https://wa.me/971561195226?text=${encodeURIComponent(msg)}`;modalEmail.href=`mailto:marketing@nostrix.ae?subject=${encodeURIComponent('Nostrix enquiry — '+name)}&body=${encodeURIComponent(msg)}`;modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
+function closeModal(){modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');document.body.style.overflow=''}
+document.querySelectorAll('.package-contact').forEach(btn=>btn.addEventListener('click',()=>openPackage(btn.dataset.package,btn.dataset.price)));document.getElementById('modalClose').addEventListener('click',closeModal);modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+const toggle=document.querySelector('.nav-toggle'),menu=document.getElementById('primary-menu');if(toggle&&menu){toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')!=='true';toggle.setAttribute('aria-expanded',String(open));menu.classList.toggle('is-open',open)});menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{toggle.setAttribute('aria-expanded','false');menu.classList.remove('is-open')}))}
+document.getElementById('year').textContent=new Date().getFullYear();
+
+
+// Detailed custom-package estimator
+const builderModal=document.getElementById('customBuilderModal');
+const builderClose=document.getElementById('builderClose');
+const builderEstimate=document.getElementById('builderEstimate');
+const builderRange=document.getElementById('builderRange');
+const scopeSummary=document.getElementById('scopeSummary');
+const priceBuildUp=document.getElementById('priceBuildUp');
+const summaryMeta=document.getElementById('summaryMeta');
+const builderWhatsApp=document.getElementById('builderWhatsApp');
+const builderEmail=document.getElementById('builderEmail');
+const builderForm=document.querySelector('.builder-form');
+const builderSummary=document.querySelector('.builder-summary');
+const builderLayout=document.querySelector('.builder-layout');
+function resetBuilderScroll(){[builderForm,builderSummary,builderLayout].forEach(el=>{if(el){el.scrollTop=0;el.scrollLeft=0;}})}
+let activeBuilder='branding';
+const moneyAED=n=>`AED ${Math.round(n).toLocaleString('en-AE')}`;
+const val=id=>document.getElementById(id)?.value;
+const checked=id=>!!document.getElementById(id)?.checked;
+function row(label,value,cls=''){return `<div class="summary-row ${cls}"><span>${label}</span><strong>${value}</strong></div>`}
+function meta(label,value){return `<div class="summary-meta-box"><span>${label}</span><strong>${value||'To be confirmed'}</strong></div>`}
+function setBuilderTab(type){activeBuilder=type;document.querySelectorAll('.builder-tab').forEach(x=>x.classList.toggle('is-active',x.dataset.builderTab===type));document.querySelectorAll('.builder-pane').forEach(x=>x.classList.toggle('is-active',x.dataset.builderPane===type));const names={branding:'Custom Brand Build',marketing:'Custom Marketing Retainer',production:'Custom Production'};document.getElementById('builderTitle').textContent=names[type];updateBuilder();requestAnimationFrame(resetBuilderScroll)}
+function openBuilder(type){setBuilderTab(type);builderModal.classList.add('is-open');builderModal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';requestAnimationFrame(()=>{resetBuilderScroll();builderClose.focus({preventScroll:true})})}
+function closeBuilder(){builderModal.classList.remove('is-open');builderModal.setAttribute('aria-hidden','true');document.body.style.overflow=''}
+document.querySelectorAll('.custom-builder-trigger').forEach(btn=>btn.addEventListener('click',()=>openBuilder(btn.dataset.builder)));
+document.querySelectorAll('.builder-tab').forEach(btn=>btn.addEventListener('click',()=>setBuilderTab(btn.dataset.builderTab)));
+builderClose.addEventListener('click',closeBuilder);builderModal.addEventListener('click',e=>{if(e.target===builderModal)closeBuilder()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&builderModal.classList.contains('is-open'))closeBuilder()});
+document.querySelectorAll('#customBuilderModal .calc').forEach(el=>{el.addEventListener('input',updateBuilder);el.addEventListener('change',updateBuilder)});
+function buildBranding(){
+  let base=3490, addons=0, rush=0; const items=[], scope=[];
+  const type=val('brandType'); const typeLabel={new:'New brand',rebrand:'Full rebrand',refresh:'Brand refresh / upgrade',launch:'Launch-focused identity'}[type];
+  if(type==='rebrand'){base+=400;items.push(['Rebrand complexity','AED 400'])} if(type==='launch'){base+=550;items.push(['Launch identity layer','AED 550'])}
+  if(val('brandStrategy')==='deep'){addons+=650;items.push(['Deep positioning workshop','AED 650'])}
+  const extras=[['brandNaming','Naming support',650],['brandSocialKit','Social template kit',550],['brandPackaging','Packaging concept',750],['brandArtDirection','Photo/media art direction',600],['brandExtendedGuide','Extended brand guide',650]];
+  extras.forEach(([id,l,p])=>{if(checked(id)){addons+=p;items.push([l,moneyAED(p)])}});
+  const apps=Math.max(0,Number(val('brandApps')||0)); if(apps){const ap=apps*180;addons+=ap;items.push([`${apps} extra applications`,moneyAED(ap)])}
+  let subtotal=base+addons; if(val('brandRush')==='rush'){rush=subtotal*.25;items.push(['Priority delivery',moneyAED(rush)])}
+  const webSave=addons*.15; const total=subtotal+rush-webSave;
+  scope.push(['Project',typeLabel],['Base custom scope',moneyAED(base)],['Revision rounds','3'],['Target launch',val('brandDate')||'To be confirmed']);
+  return {total,webSave,scope,items,meta:[['Category','Branding / Visual Identity'],['Turnaround',val('brandRush')==='rush'?'Priority':'Standard']],note:'Custom brand scopes include strategy, a complete logo system, colour/typography and a structured handover. Naming, packaging and extended applications are added only when selected.'};
+}
+function buildMarketing(){
+  let base=3490,addons=0; const items=[],scope=[];
+  const platforms=Number(val('mktPlatforms')||2), assets=Math.max(8,Number(val('mktAssets')||12));
+  if(platforms===3){addons+=450;items.push(['3rd platform',moneyAED(450)])}
+  const extraAssets=Math.max(0,assets-12); if(extraAssets){const x=extraAssets*85;addons+=x;items.push([`${extraAssets} extra content assets`,moneyAED(x)])}
+  if(val('mktStrategy')==='biweekly'){addons+=350;items.push(['Bi-weekly strategy',moneyAED(350)])}
+  if(val('mktCommunity')==='standard'){addons+=450;items.push(['Standard community support',moneyAED(450)])}
+  if(val('mktReporting')==='detailed'){addons+=250;items.push(['Detailed reporting',moneyAED(250)])}
+  if(checked('mktCompetitor')){addons+=300;items.push(['Competitor monitoring',moneyAED(300)])}
+  if(checked('mktLaunch')){addons+=450;items.push(['Launch/campaign planning',moneyAED(450)])}
+  const shoots=Number(val('mktShoots')||0); if(shoots){const x=shoots*850;addons+=x;items.push([`${shoots} creator session${shoots>1?'s':''}`,moneyAED(x)])}
+  const webSave=addons*.15; const total=base+addons-webSave;
+  scope.push(['Platforms',String(platforms)],['Monthly assets',String(assets)],['Community',val('mktCommunity')==='standard'?'Standard':val('mktCommunity')==='none'?'None':'Light'],['Start date',val('mktDate')||'To be confirmed']);
+  return {total,webSave,scope,items,meta:[['Category','Marketing Solutions'],['Billing','Monthly retainer']],note:'Ad spend, advanced SEO and third-party media are excluded. Professional production is included only when selected above.'};
+}
+function prodBase(service,category,hours,crew){
+  const lite=['creator','popup'].includes(category); let base=0;
+  if(service==='photo') base=lite?650+Math.max(0,hours-2)*250:900+Math.min(Math.max(0,hours-2),2)*325+Math.max(0,hours-4)*300;
+  if(service==='video') base=lite?750+Math.max(0,hours-2)*300:1100+Math.min(Math.max(0,hours-2),2)*375+Math.max(0,hours-4)*350;
+  if(service==='both'){
+    if(crew==='duo') base=hours<=4?1750+Math.max(0,hours-2)*450:2650+(hours-4)*525;
+    else base=1350+Math.max(0,hours-2)*400;
+  }
+  if(service!=='both'&&crew==='duo') base+=hours*350;
+  if(['product','realestate','automotive'].includes(category)) base+=150;
+  return base;
+}
+function buildProduction(){
+  const service=document.querySelector('input[name="prodService"]:checked')?.value||'photo'; const cat=val('prodCategory'); const h=Math.max(2,Number(val('prodHours')||2)); const crew=val('prodCrew');
+  let base=prodBase(service,cat,h,crew),addons=0,travel=0,rush=0; const items=[],scope=[];
+  const serviceLabel={photo:'Photography',video:'Videography',both:'Photography + video'}[service]; const categoryLabel={event:'Event / corporate',creator:'Creator / influencer',popup:'Pop-up / retail',product:'Product / e-commerce',realestate:'Real estate',automotive:'Automotive'}[cat];
+  if(service!=='video'){
+    const photos=Math.max(0,Number(val('prodPhotos')||0)); const included=['creator','popup'].includes(cat)?Math.max(10,Math.round(h*6)):Math.max(35,Math.round(h*18));
+    const extra=Math.max(0,photos-included); if(extra){const x=extra*12;addons+=x;items.push([`${extra} photos above included volume`,moneyAED(x)])}
+    if(val('prodPhotoEdit')==='enhanced'){const x=photos*5;addons+=x;items.push(['Enhanced photo retouching',moneyAED(x)])}
+    if(val('prodPhotoEdit')==='advanced'){const x=photos*20;addons+=x;items.push(['Advanced photo retouching',moneyAED(x)])}
+    scope.push(['Final photos',String(photos)],['Photo editing',val('prodPhotoEdit')==='essential'?'Essential colour / WB':val('prodPhotoEdit')==='enhanced'?'Enhanced retouching':'Advanced retouching']);
+  }
+  if(service!=='photo'){
+    const edit=val('prodVideoEdit'); const editPrice={none:0,simple:250,pro:400,h60:550,h90:750}[edit]||0; if(editPrice){addons+=editPrice;items.push(['Main video edit',moneyAED(editPrice)]) }
+    const reels=Math.max(0,Number(val('prodExtraReels')||0)); if(reels){const x=reels*250;addons+=x;items.push([`${reels} extra Reel${reels>1?'s':''}`,moneyAED(x)])}
+    scope.push(['Video edit',{none:'Selected clips only',simple:'Simple Reel',pro:'Professional Reel',h60:'60 sec highlight',h90:'90 sec highlight'}[edit]],['Video format',val('prodFormat')]);
+  }
+  const loc=val('prodLocation'); const travelMap={rak:0,uaq:75,ajman:125,sharjah:150,dubai:200,abudhabi:300,alain:350}; travel=travelMap[loc]||0; if(travel) items.push(['UAE travel fee',moneyAED(travel)]);
+  const turn=val('prodTurnaround'); const pct={standard:0,'48':.20,'24':.30,same:.50}[turn]||0; if(pct){rush=(base+addons)*pct;items.push(['Rush turnaround',moneyAED(rush)])}
+  const webSave=addons*.15; const total=base+addons+rush+travel-webSave;
+  scope.unshift(['Services',serviceLabel],['Project category',categoryLabel],['Coverage',`${h} hours`],['Crew',crew==='duo'?'2-person crew':'1 operator']);
+  const studio=val('prodStudio'); const studioText=studio==='arrange'?'Nostrix to arrange · quoted separately':studio==='client'?'Client-provided':'No / on-location';
+  return {total,webSave,scope,items,meta:[['Location',document.querySelector(`#prodLocation option:checked`)?.textContent],['Turnaround',document.querySelector(`#prodTurnaround option:checked`)?.textContent],['Studio',studioText],['Shoot date',val('prodDate')||'To be confirmed'],['Venue',val('prodVenue')||'To be confirmed']],note:service==='both'&&crew==='one'?'One-operator hybrid means the creator switches between photo and video. Dedicated simultaneous coverage requires the 2-person crew option.':'Travel is shown separately. Studio, permits, rentals and specialist equipment are quoted separately when required.'};
+}
+function updateProdVisibility(){const service=document.querySelector('input[name="prodService"]:checked')?.value||'photo';document.getElementById('photoOptions').style.display=service==='video'?'none':'block';document.getElementById('videoOptions').style.display=service==='photo'?'none':'block'}
+function updateBuilder(){
+  updateProdVisibility(); const result=activeBuilder==='branding'?buildBranding():activeBuilder==='marketing'?buildMarketing():buildProduction();
+  const rounded=Math.round(result.total/10)*10; builderEstimate.textContent=moneyAED(rounded); const lo=Math.round(result.total*.92/10)*10, hi=Math.round(result.total*1.08/10)*10; builderRange.textContent=`Planning range: ${moneyAED(lo)}–${moneyAED(hi)}`;
+  scopeSummary.innerHTML=result.scope.map(x=>row(x[0],x[1])).join('');
+  const baseLabel=activeBuilder==='branding'?'Custom brand scope':activeBuilder==='marketing'?'Custom retainer base':'Coverage / crew'; const baseAmount=activeBuilder==='branding'?3490:activeBuilder==='marketing'?3490:prodBase(document.querySelector('input[name="prodService"]:checked')?.value||'photo',val('prodCategory'),Math.max(2,Number(val('prodHours')||2)),val('prodCrew'));
+  priceBuildUp.innerHTML=row(baseLabel,moneyAED(baseAmount))+result.items.map(x=>row(x[0],x[1])).join('')+(result.webSave>0?row('15% website saving on eligible add-ons','− '+moneyAED(result.webSave),'is-discount'):'')+row('Estimated total',moneyAED(rounded),'summary-total');
+  summaryMeta.innerHTML=result.meta.map(x=>meta(x[0],x[1])).join('');
+  const typeName={branding:'Custom Brand Build',marketing:'Custom Marketing Retainer',production:'Custom Production'}[activeBuilder]; const summaryText=scopeSummary.innerText.replace(/\n+/g,' | '); const msg=`Hi Nostrix, I built a ${typeName} estimate on your website. Estimated price: ${moneyAED(rounded)}. ${summaryText}. Please confirm the scope and availability.`; builderWhatsApp.href=`https://wa.me/971561195226?text=${encodeURIComponent(msg)}`; builderEmail.href=`mailto:marketing@nostrix.ae?subject=${encodeURIComponent('Custom Nostrix estimate — '+typeName)}&body=${encodeURIComponent(msg)}`;
+  document.querySelector('.builder-summary .summary-note').lastChild.textContent=' No payment is required here. This is a planning estimate only; the final quotation confirms scope and availability. '+result.note;
+}
+updateBuilder();
+</script>
+<script defer="" src="/site-config.js"></script><script defer="" src="/analytics.js"></script></body>
+</html>
