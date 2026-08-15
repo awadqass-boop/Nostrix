@@ -1,6 +1,23 @@
 (function () {
     'use strict';
 
+    /* Load the shared EN / AR controller on every public page that uses analytics.js. */
+    (function ensureNostrixLanguage() {
+        if (
+            window.NostrixLanguage ||
+            document.querySelector('script[src="/language.js"]') ||
+            document.querySelector('script[data-nostrix-language-loader]')
+        ) {
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = '/language.js';
+        script.defer = true;
+        script.setAttribute('data-nostrix-language-loader', '');
+        document.head.appendChild(script);
+    }());
+
     const measurementId = String(
         window.NOSTRIX_GA_MEASUREMENT_ID || ''
     ).trim();
@@ -112,20 +129,10 @@
 
         if (
             lowerText.includes('build your estimate') ||
-            lowerText.includes('build your shoot') ||
-            element.classList.contains('custom-package-contact') ||
-            element.classList.contains('custom-builder-trigger')
+            element.classList.contains('custom-package-contact')
         ) {
             sendEvent('build_estimate', {
-                button_text: text,
-                pricing_category: element.getAttribute('data-builder') || ''
-            });
-        }
-
-        if (element.classList.contains('package-contact')) {
-            sendEvent('pricing_package_select', {
-                package_name: element.getAttribute('data-package') || text,
-                package_price: element.getAttribute('data-price') || ''
+                button_text: text
             });
         }
 
@@ -139,9 +146,7 @@
         ) {
             let source = 'website';
 
-            if (element.id === 'builderWhatsApp') {
-                source = 'pricing_estimator';
-            } else if (element.id === 'photo-calc-whatsapp') {
+            if (element.id === 'photo-calc-whatsapp') {
                 source = 'pricing_calculator';
             } else if (
                 element.id === 'portfolio-whatsapp' ||
