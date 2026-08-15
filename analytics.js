@@ -112,10 +112,20 @@
 
         if (
             lowerText.includes('build your estimate') ||
-            element.classList.contains('custom-package-contact')
+            lowerText.includes('build your shoot') ||
+            element.classList.contains('custom-package-contact') ||
+            element.classList.contains('custom-builder-trigger')
         ) {
             sendEvent('build_estimate', {
-                button_text: text
+                button_text: text,
+                pricing_category: element.getAttribute('data-builder') || ''
+            });
+        }
+
+        if (element.classList.contains('package-contact')) {
+            sendEvent('pricing_package_select', {
+                package_name: element.getAttribute('data-package') || text,
+                package_price: element.getAttribute('data-price') || ''
             });
         }
 
@@ -129,7 +139,9 @@
         ) {
             let source = 'website';
 
-            if (element.id === 'photo-calc-whatsapp') {
+            if (element.id === 'builderWhatsApp') {
+                source = 'pricing_estimator';
+            } else if (element.id === 'photo-calc-whatsapp') {
                 source = 'pricing_calculator';
             } else if (
                 element.id === 'portfolio-whatsapp' ||
