@@ -1447,26 +1447,43 @@ updateBuilder();
 (function(){
   const textElement=document.getElementById('pricing-hero-title');
   if(!textElement)return;
-  const textString='Made to be seen.';
-  textElement.textContent='';
-  textString.split('').forEach((character,index)=>{
-    const span=document.createElement('span');
-    span.setAttribute('aria-hidden','true');
-    if(character===' '){
-      span.innerHTML='&nbsp;';
-      span.className='char-space';
-      span.style.width='.34em';
-    }else{
-      span.className='char';
-      span.style.animationDelay=`${320+index*58}ms`;
-      const inner=document.createElement('span');
-      inner.className='char-inner';
-      inner.textContent=character;
-      span.appendChild(inner);
+
+  function renderPricingHeroTitle(){
+    const isArabic=document.documentElement.lang==='ar';
+    const textString=isArabic?'صُمّم ليُرى.':'Made to be seen.';
+    textElement.textContent='';
+    textElement.setAttribute('aria-label',textString);
+
+    if(isArabic){
+      const arabicTitle=document.createElement('span');
+      arabicTitle.className='hero-arabic-title';
+      arabicTitle.textContent=textString;
+      textElement.appendChild(arabicTitle);
+      return;
     }
-    textElement.appendChild(span);
-  });
+
+    textString.split('').forEach((character,index)=>{
+      const span=document.createElement('span');
+      span.setAttribute('aria-hidden','true');
+      if(character===' '){
+        span.innerHTML='&nbsp;';
+        span.className='char-space';
+        span.style.width='.34em';
+      }else{
+        span.className='char';
+        span.style.animationDelay=`${320+index*58}ms`;
+        const inner=document.createElement('span');
+        inner.className='char-inner';
+        inner.textContent=character;
+        span.appendChild(inner);
+      }
+      textElement.appendChild(span);
+    });
+  }
+
+  renderPricingHeroTitle();
+  document.addEventListener('nostrixlanguagechange',renderPricingHeroTitle);
 })();
 </script>
-<script defer="" src="/site-config.js"></script><script defer="" src="/analytics.js"></script></body>
+<script defer src="/language.js"></script><script defer src="/site-config.js"></script><script defer src="/analytics.js"></script></body>
 </html>
