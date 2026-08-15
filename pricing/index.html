@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="#08080b" name="theme-color"/>
-<meta content="Nostrix Marketing Services pricing for production, photography, videography, events, social marketing and branding in the UAE, with a custom project estimator." name="description"/>
+<meta content="Nostrix Marketing Services pricing for photography, videography, events, social marketing and branding in the UAE, with clear packages and a custom planning estimator." name="description"/>
 <title>Nostrix Services &amp; Pricing — Production, Marketing &amp; Branding UAE</title>
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -403,8 +403,604 @@ footer{padding:2.5rem 1.25rem;color:#71717a}.footer-inner{display:flex;align-ite
 .mx-auto{margin-left:auto;margin-right:auto}.max-w-7xl{max-width:80rem}.flex{display:flex}.h-full{height:100%}.flex-col{flex-direction:column}.relative{position:relative}.z-10{z-index:10}.items-start{align-items:flex-start}.justify-between{justify-content:space-between}.mb-2{margin-bottom:.5rem}.mt-2{margin-top:.5rem}.text-xs{font-size:.75rem;line-height:1rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-2xl{font-size:1.5rem;line-height:2rem}.font-light{font-weight:300}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.tracking-\[0\.2em\]{letter-spacing:.2em}.tracking-\[0\.32em\]{letter-spacing:.32em}.text-zinc-400{color:#a1a1aa}.text-accent1\/80{color:rgba(186,200,255,.8)}.text-white{color:#fff}.production-quick-build{display:flex;margin-top:1.25rem}.production-quick-build .primary-button{width:max-content}
 @media(min-width:768px){.md\:text-base{font-size:1rem;line-height:1.5rem}.md\:text-3xl{font-size:1.875rem;line-height:2.25rem}}
 @media(max-width:767px){.production-quick-build .primary-button{width:100%}}
+
+
+/* =========================================================
+   Final pricing-page polish — restrained premium hierarchy
+   ========================================================= */
+.pricing-trust-strip{
+  width:min(calc(100% - 2.5rem),78rem);
+  margin:-1.5rem auto 4.25rem;
+  position:relative;
+  z-index:6;
+}
+.pricing-trust-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.095);
+  border-radius:1.35rem;
+  background:linear-gradient(135deg,rgba(186,200,255,.045),rgba(210,139,255,.035)),rgba(13,13,19,.72);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 1.25rem 3.5rem rgba(0,0,0,.18);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+.pricing-trust-item{
+  display:flex;align-items:center;gap:.8rem;min-height:5rem;padding:1rem 1.15rem;
+  border-right:1px solid rgba(255,255,255,.07);
+}
+.pricing-trust-item:last-child{border-right:0}
+.pricing-trust-item i{
+  display:grid;place-items:center;flex:0 0 auto;width:2.45rem;height:2.45rem;border-radius:.8rem;
+  color:#d9c8ff;border:1px solid rgba(210,139,255,.18);
+  background:linear-gradient(135deg,rgba(186,200,255,.09),rgba(210,139,255,.09));font-size:1.05rem;
+}
+.pricing-trust-item strong{display:block;color:#f7f7fb;font-size:.73rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase}
+.pricing-trust-item span{display:block;margin-top:.24rem;color:#85838f;font-size:.68rem;line-height:1.45}
+
+.category-card::after{
+  content:'';position:absolute;left:12%;right:12%;top:0;height:1px;opacity:0;
+  background:linear-gradient(90deg,transparent,var(--accent-1),var(--accent-2),transparent);
+  box-shadow:0 0 1.4rem rgba(210,139,255,.24);transition:opacity .35s ease;
+}
+.category-card:hover::after,.category-card.is-active::after{opacity:.85}
+.category-card.is-active{
+  border-color:rgba(210,139,255,.34)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.065),0 1.8rem 4.5rem rgba(0,0,0,.25),0 0 3.4rem rgba(210,139,255,.055)!important;
+}
+
+.pricing-card{isolation:isolate}
+.pricing-card::after{
+  content:'';position:absolute;left:15%;right:15%;top:0;height:1px;opacity:.18;z-index:2;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--accent-1),var(--accent-2),transparent);
+  transition:opacity .35s ease,left .45s var(--ease-out),right .45s var(--ease-out);
+}
+.pricing-card:hover::after,.pricing-card.is-featured::after{left:9%;right:9%;opacity:.62}
+.pricing-card:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 1.8rem 4.8rem rgba(0,0,0,.25),0 0 2.8rem rgba(210,139,255,.035)!important}
+
+.fit-guidance{padding:0 1.25rem 5.25rem}
+.fit-guidance-card{
+  position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.35fr) auto;align-items:center;gap:2rem;
+  width:min(100%,78rem);margin:0 auto;padding:clamp(1.6rem,4vw,2.6rem);
+  border:1px solid rgba(210,139,255,.18);border-radius:1.7rem;
+  background:radial-gradient(circle at 8% 20%,rgba(186,200,255,.105),transparent 22rem),radial-gradient(circle at 90% 75%,rgba(210,139,255,.12),transparent 24rem),rgba(255,255,255,.03);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 1.5rem 4rem rgba(0,0,0,.18);
+}
+.fit-guidance-card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--accent-1),var(--accent-2),transparent);opacity:.75}
+.fit-guidance-kicker{color:#c9bdff;font-size:.67rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.fit-guidance h2{margin:.65rem 0 0;color:#fff;font-family:'Syncopate',sans-serif;font-size:clamp(1.35rem,2.7vw,2.25rem);line-height:1.2;text-transform:uppercase}
+.fit-guidance p{max-width:48rem;margin:.85rem 0 0;color:#9d9ba7;font-size:.88rem;line-height:1.7}
+.fit-guidance-action{display:flex;flex-direction:column;align-items:flex-end;gap:.55rem;min-width:14rem}
+.fit-guidance-action small{color:#6f6d78;font-size:.65rem;line-height:1.45;text-align:right}
+
+.rates-footnote{max-width:52rem;margin:1.35rem auto 0;color:#6f6d78;font-size:.68rem;line-height:1.65;text-align:center}
+
+.modal-notes{color:#7f7d89!important}
+
+@media(max-width:900px){
+  .pricing-trust-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pricing-trust-item:nth-child(2){border-right:0}
+  .pricing-trust-item:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.07)}
+  .fit-guidance-card{grid-template-columns:1fr}
+  .fit-guidance-action{align-items:flex-start;min-width:0}
+  .fit-guidance-action small{text-align:left}
+}
+@media(max-width:560px){
+  .pricing-trust-strip{width:calc(100% - 2rem);margin:-.9rem auto 3rem}
+  .pricing-trust-grid{grid-template-columns:1fr}
+  .pricing-trust-item{border-right:0!important;border-bottom:1px solid rgba(255,255,255,.07)!important}
+  .pricing-trust-item:last-child{border-bottom:0!important}
+  .fit-guidance{padding:0 1rem 4rem}
+  .fit-guidance-card{padding:1.35rem;border-radius:1.3rem}
+  .fit-guidance-action .primary-button{width:100%}
+}
+
 </style>
-<link href="https://nostrix.ae/pricing/" rel="canonical"/><link href="/favicon.png" rel="icon" type="image/png"/><meta content="website" property="og:type"/><meta content="Nostrix Services &amp; Pricing — Made to be seen." property="og:title"/><meta content="Production, marketing and branding packages from Nostrix Marketing Services in the UAE." property="og:description"/><meta content="https://nostrix.ae/pricing/" property="og:url"/><meta content="https://nostrix.ae/og-image.webp" property="og:image"/></head>
+<link href="https://nostrix.ae/pricing/" rel="canonical"/><link href="/favicon.png" rel="icon" type="image/png"/><meta content="website" property="og:type"/><meta content="Nostrix Services &amp; Pricing — Made to be seen." property="og:title"/><meta content="Production, marketing and branding packages from Nostrix Marketing Services in the UAE." property="og:description"/><meta content="https://nostrix.ae/pricing/" property="og:url"/><meta content="https://nostrix.ae/og-image.webp" property="og:image"/>
+<style id="nostrix-pricing-premium-polish">
+/* ============================================================
+   NOSTRIX PRICING — PREMIUM VISUAL POLISH
+   Standalone utilities replace the Tailwind classes previously
+   used by the markup, then layer the same premium visual language
+   as the main Nostrix website.
+   ============================================================ */
+
+/* Utility classes retained from the former Tailwind markup */
+.mx-auto{margin-left:auto!important;margin-right:auto!important}
+.max-w-7xl{max-width:80rem!important;width:100%}
+.relative{position:relative!important}.z-10{z-index:10!important}
+.flex{display:flex!important}.flex-col{flex-direction:column!important}.h-full{height:100%!important}
+.items-start{align-items:flex-start!important}.justify-between{justify-content:space-between!important}
+.mb-2{margin-bottom:.5rem!important}.mt-2{margin-top:.5rem!important}
+.text-xs{font-size:.75rem!important;line-height:1rem!important}.text-sm{font-size:.875rem!important;line-height:1.25rem!important}
+.text-xl{font-size:1.25rem!important;line-height:1.75rem!important}.text-2xl{font-size:1.5rem!important;line-height:2rem!important}
+.font-light{font-weight:300!important}.font-semibold{font-weight:600!important}.uppercase{text-transform:uppercase!important}
+.text-white{color:#fff!important}.text-zinc-400{color:#a1a1aa!important}.text-accent1\/80{color:rgba(186,200,255,.8)!important}
+.tracking-\[0\.2em\]{letter-spacing:.2em!important}.tracking-\[0\.32em\]{letter-spacing:.32em!important}
+@media(min-width:768px){.md\:text-base{font-size:1rem!important;line-height:1.5rem!important}.md\:text-3xl{font-size:1.875rem!important;line-height:2.25rem!important}}
+
+:root{
+  --premium-line:linear-gradient(90deg,transparent,rgba(186,200,255,.58),rgba(210,139,255,.76),transparent);
+  --glass:rgba(15,15,22,.68);
+  --glass-strong:rgba(18,18,27,.86);
+}
+body{
+  background:
+    radial-gradient(circle at 12% 8%,rgba(186,200,255,.105),transparent 34rem),
+    radial-gradient(circle at 86% 31%,rgba(210,139,255,.075),transparent 34rem),
+    radial-gradient(circle at 48% 88%,rgba(112,90,255,.045),transparent 38rem),
+    #08080b;
+}
+.site-shell{overflow:clip}
+@supports not (overflow:clip){.site-shell{overflow:hidden}}
+
+/* Premium navigation */
+.site-nav{position:fixed;background:linear-gradient(180deg,rgba(8,8,11,.91),rgba(8,8,11,.56),transparent);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px)}
+.nav-inner{max-width:92rem;margin:auto}
+.nav-brand img{filter:drop-shadow(0 0 1.1rem rgba(210,139,255,.18))}
+.nav-link{font-weight:600}
+.nav-cta{border-color:rgba(210,139,255,.22);background:linear-gradient(120deg,rgba(186,200,255,.07),rgba(210,139,255,.07));box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+
+/* Hero */
+.hero{min-height:94svh;min-height:94dvh;padding-top:10rem;padding-bottom:7.5rem;isolation:isolate}
+.hero::before{inset:8% 4% 4%;background:
+  radial-gradient(circle at 50% 32%,rgba(46,41,72,.48),transparent 35rem),
+  linear-gradient(90deg,transparent 0 49.94%,rgba(255,255,255,.024) 50%,transparent 50.06% 100%)}
+.hero::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.24;background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.7),transparent 82%);-webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.7),transparent 82%)}
+.hero-content{max-width:78rem}
+.hero-mark{width:4.9rem;height:4.9rem;display:grid;place-items:center;margin:0 auto 1.4rem;padding:.9rem;border:1px solid rgba(255,255,255,.12);border-radius:1.45rem;background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025));box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 1.4rem 4rem rgba(0,0,0,.24),0 0 3.8rem rgba(210,139,255,.09);backdrop-filter:blur(14px)}
+.hero-mark img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 .8rem rgba(210,139,255,.22))}
+.hero .eyebrow{display:inline-flex;flex-direction:column;align-items:center;padding:.7rem 1rem;border:1px solid rgba(255,255,255,.075);border-radius:999px;background:rgba(255,255,255,.025);box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+.hero-title{max-width:74rem;margin-top:2rem;font-size:clamp(2.8rem,7vw,6.9rem);text-shadow:0 1.6rem 5rem rgba(0,0,0,.3)}
+.gradient-text{filter:drop-shadow(0 .4rem 1.2rem rgba(210,139,255,.14))}
+.hero-description{max-width:51rem;color:rgba(255,255,255,.68);font-size:clamp(.98rem,1.45vw,1.12rem)}
+.hero-actions{margin-top:2.2rem}
+.primary-button,.secondary-button{min-height:3.25rem;padding-left:1.35rem;padding-right:1.35rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.primary-button{box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 .95rem 3rem rgba(210,139,255,.15)}
+.secondary-button{background:rgba(255,255,255,.04)}
+.website-offer-banner{position:relative;width:min(100%,52rem);margin-top:2.05rem;padding:1rem 1.15rem;border-color:rgba(210,139,255,.22);border-radius:1.35rem;background:linear-gradient(125deg,rgba(186,200,255,.075),rgba(210,139,255,.085),rgba(255,255,255,.025));box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 1.6rem 4rem rgba(0,0,0,.2);overflow:hidden}
+.website-offer-banner::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:var(--premium-line)}
+.offer-terms{max-width:51rem;color:#777784}
+.hero-trust{display:flex;justify-content:center;flex-wrap:wrap;gap:.55rem;margin-top:1rem}
+.hero-trust span{display:inline-flex;align-items:center;gap:.4rem;padding:.48rem .72rem;border:1px solid rgba(255,255,255,.07);border-radius:999px;color:#888894;background:rgba(255,255,255,.018);font-size:.66rem;letter-spacing:.07em;text-transform:uppercase}
+.hero-trust i{color:var(--accent-1)}
+
+/* Continuous premium sections */
+.section{border-top:0;padding-top:7.25rem;padding-bottom:7.25rem}
+.section::before{content:'';position:absolute;left:50%;top:0;width:min(80rem,calc(100% - 2rem));height:1px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent)}
+.section-soft,.section-blue{background:transparent}
+.section-heading{max-width:61rem}
+.section-kicker{color:#bfcaff;font-weight:700}
+.section-title{text-wrap:balance;letter-spacing:-.018em}
+.section-copy{color:#9999a7;text-wrap:pretty}
+
+/* Capability cards */
+.category-grid{gap:1.15rem;margin-top:3.4rem}
+.category-card{min-height:20rem;padding:2rem;border-color:rgba(255,255,255,.095);border-radius:1.75rem;background:linear-gradient(145deg,rgba(255,255,255,.049),rgba(255,255,255,.021));box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 1.25rem 3.5rem rgba(0,0,0,.11)}
+.category-card::after{content:'';position:absolute;top:0;left:12%;right:12%;height:1px;background:var(--premium-line);opacity:.22;transition:opacity .35s ease}
+.category-card:hover,.category-card.is-active{transform:translateY(-.5rem);border-color:rgba(210,139,255,.30);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 1.9rem 4.5rem rgba(0,0,0,.28),0 0 3rem rgba(210,139,255,.045)}
+.category-card.is-active::after,.category-card:hover::after{opacity:.95}
+.category-card.is-active{background:radial-gradient(circle at 85% 8%,rgba(210,139,255,.13),transparent 18rem),radial-gradient(circle at 8% 95%,rgba(186,200,255,.07),transparent 16rem),rgba(255,255,255,.052)}
+.category-icon{width:3.65rem;height:3.65rem;border-radius:1.15rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 .8rem 2rem rgba(0,0,0,.13)}
+.category-number{padding:.4rem .55rem;border:1px solid rgba(255,255,255,.07);border-radius:999px;background:rgba(255,255,255,.025)}
+.category-body h3{font-size:1.48rem;letter-spacing:-.025em}
+.category-body p{font-size:.91rem;color:#9898a5}
+.category-open{margin-top:1.4rem}
+
+/* Package area */
+.packages-shell{position:relative;margin-top:3.8rem;padding:clamp(1.15rem,2vw,1.7rem);border:1px solid rgba(255,255,255,.07);border-radius:2rem;background:linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,.012));box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 2rem 5rem rgba(0,0,0,.12)}
+.packages-shell::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:var(--premium-line);opacity:.55}
+.panel-top{padding:.65rem .35rem 1.2rem}
+.panel-note{padding:.9rem 1rem;border:1px solid rgba(255,255,255,.07);border-radius:1rem;background:rgba(255,255,255,.022);color:#777784}
+.production-quick-build{margin-top:1.35rem}
+.package-subnav{width:max-content;max-width:100%;margin:1.1rem 0 1.9rem;padding:.38rem;border:1px solid rgba(255,255,255,.075);border-radius:999px;background:rgba(255,255,255,.025);box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+.subtab{border:0;background:transparent;min-height:2.55rem}
+.subtab:hover{background:rgba(255,255,255,.06);color:#fff}
+.subtab.is-active{box-shadow:0 .65rem 1.8rem rgba(210,139,255,.13)}
+
+/* Pricing cards */
+.pricing-grid{gap:1.15rem}
+.pricing-card{border-color:rgba(255,255,255,.09);border-radius:1.7rem;background:linear-gradient(150deg,rgba(255,255,255,.045),rgba(255,255,255,.018));box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 1.15rem 3rem rgba(0,0,0,.12)}
+.pricing-card::after{content:'';position:absolute;top:0;left:14%;right:14%;height:1px;background:var(--premium-line);opacity:.17;transition:opacity .35s ease}
+.pricing-card:hover{transform:translateY(-.45rem);border-color:rgba(186,200,255,.23);background:linear-gradient(150deg,rgba(255,255,255,.058),rgba(255,255,255,.024));box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 1.75rem 4rem rgba(0,0,0,.25)}
+.pricing-card:hover::after{opacity:.8}
+.pricing-card.is-featured{border-color:rgba(210,139,255,.29);background:radial-gradient(circle at 85% -5%,rgba(210,139,255,.14),transparent 18rem),radial-gradient(circle at 0% 100%,rgba(186,200,255,.06),transparent 16rem),rgba(255,255,255,.045);box-shadow:inset 0 1px 0 rgba(255,255,255,.065),0 1.6rem 4rem rgba(0,0,0,.19),0 0 3.5rem rgba(210,139,255,.05)}
+.pricing-card.is-featured::after{opacity:1}
+.pricing-name{font-size:clamp(1.5rem,2.2vw,2rem)}
+.pricing-price strong{letter-spacing:-.035em}
+.pricing-description{color:#9999a6}
+.pricing-feature{color:#c9c9d2}
+.pricing-feature i{filter:drop-shadow(0 0 .5rem rgba(186,200,255,.22))}
+.pricing-badge{box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 .6rem 1.4rem rgba(0,0,0,.09)}
+.custom-package-card{border-radius:1.75rem!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 1.7rem 4.5rem rgba(0,0,0,.18),0 0 3.5rem rgba(210,139,255,.045)!important}
+
+/* Flagship */
+.flagship{border-color:rgba(210,139,255,.22);border-radius:2.25rem;background:radial-gradient(circle at 7% 8%,rgba(186,200,255,.18),transparent 29rem),radial-gradient(circle at 91% 83%,rgba(210,139,255,.21),transparent 31rem),linear-gradient(145deg,rgba(20,20,31,.96),rgba(7,7,11,.985));box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 2rem 6rem rgba(0,0,0,.25),0 0 5rem rgba(210,139,255,.04)}
+.flagship::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:var(--premium-line)}
+.flagship-col{border-color:rgba(255,255,255,.09);background:linear-gradient(145deg,rgba(255,255,255,.052),rgba(255,255,255,.025));box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+
+/* Extras / terms */
+.info-grid{gap:1.2rem}
+.info-card{position:relative;overflow:hidden;border-color:rgba(255,255,255,.09);border-radius:1.7rem;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.019));box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 1.3rem 3.4rem rgba(0,0,0,.12)}
+.info-card::before{content:'';position:absolute;top:0;left:15%;right:15%;height:1px;background:var(--premium-line);opacity:.45}
+.price-row{border-bottom-color:rgba(255,255,255,.055)}
+.term-chip{background:rgba(255,255,255,.025);box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+
+/* CTA */
+.cta-block{border-color:rgba(210,139,255,.22);border-radius:2.25rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 2rem 6rem rgba(0,0,0,.24),0 0 4.5rem rgba(210,139,255,.04)}
+.cta-block::before{content:'';position:absolute;top:0;left:9%;right:9%;height:1px;background:var(--premium-line)}
+.cta-icon{box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 1rem 2.7rem rgba(0,0,0,.16),0 0 2rem rgba(210,139,255,.08)}
+
+/* Footer */
+.footer-line{border-top:0;background:linear-gradient(180deg,transparent,rgba(8,8,11,.94) 30%)}
+.footer-inner{max-width:80rem;padding-top:.5rem}
+
+/* Modal / estimator polish */
+.modal-panel,.custom-builder-panel{border-color:rgba(210,139,255,.19);box-shadow:0 2.7rem 8rem rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.06)}
+.custom-builder-panel::before,.modal-panel::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:var(--premium-line);z-index:3}
+.builder-section{background:linear-gradient(145deg,rgba(255,255,255,.031),rgba(255,255,255,.018));box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.builder-summary{background:radial-gradient(circle at 90% 0%,rgba(210,139,255,.08),transparent 18rem),linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.022))}
+.summary-price{filter:drop-shadow(0 .5rem 1.1rem rgba(210,139,255,.08))}
+
+@media(max-width:767px){
+  .site-nav{background:rgba(8,8,11,.88)}
+  .hero{min-height:auto;padding-top:7.8rem;padding-bottom:5.7rem}
+  .hero::after{background-size:48px 48px}
+  .hero-mark{width:4.2rem;height:4.2rem;border-radius:1.2rem}
+  .hero .eyebrow{padding:.6rem .8rem}
+  .hero-title{font-size:clamp(2.15rem,11vw,3.65rem);margin-top:1.7rem}
+  .hero-description{font-size:.94rem}
+  .website-offer-banner{width:100%;max-width:30rem;padding:1rem;border-radius:1.2rem}
+  .hero-trust{display:grid;grid-template-columns:1fr;max-width:20rem;margin-left:auto;margin-right:auto}
+  .hero-trust span{justify-content:center}
+  .section{padding-top:5rem;padding-bottom:5rem}
+  .category-grid{gap:.85rem}
+  .category-card{min-height:0;padding:1.5rem;border-radius:1.45rem}
+  .packages-shell{padding:.8rem;border-radius:1.5rem}
+  .panel-top{padding:.35rem .1rem 1rem}
+  .package-subnav{width:100%;display:grid;grid-template-columns:1fr;padding:.35rem;border-radius:1.2rem}
+  .subtab{width:100%;border-radius:.9rem}
+  .pricing-card{border-radius:1.45rem;padding:1.35rem}
+  .flagship,.cta-block{border-radius:1.55rem}
+  .info-card{border-radius:1.45rem}
+}
+
+
+
+/* =========================================================
+   Nostrix premium colour pass — softer lavender glass
+   Removes the heavy black card look while keeping the page
+   dark, polished and consistent with the Nostrix identity.
+   ========================================================= */
+.category-card{
+  color:#fff;
+  border-color:rgba(203,190,255,.22);
+  background:
+    radial-gradient(circle at 88% 8%,rgba(210,139,255,.13),transparent 17rem),
+    radial-gradient(circle at 4% 100%,rgba(186,200,255,.12),transparent 16rem),
+    linear-gradient(145deg,rgba(48,45,67,.86),rgba(27,26,39,.82));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.12),
+    0 1.3rem 3.8rem rgba(6,5,12,.20),
+    0 0 2.8rem rgba(187,163,255,.045);
+}
+.category-card:nth-child(2){
+  background:
+    radial-gradient(circle at 90% 10%,rgba(186,200,255,.15),transparent 18rem),
+    radial-gradient(circle at 5% 95%,rgba(210,139,255,.08),transparent 16rem),
+    linear-gradient(145deg,rgba(43,43,62,.84),rgba(26,26,38,.80));
+}
+.category-card:nth-child(3){
+  background:
+    radial-gradient(circle at 88% 12%,rgba(210,139,255,.15),transparent 18rem),
+    radial-gradient(circle at 6% 96%,rgba(186,200,255,.09),transparent 15rem),
+    linear-gradient(145deg,rgba(46,40,61,.84),rgba(27,25,38,.80));
+}
+.category-card:hover,
+.category-card.is-active{
+  color:#fff;
+  border-color:rgba(220,190,255,.56);
+  background:
+    radial-gradient(circle at 84% 8%,rgba(210,139,255,.24),transparent 18rem),
+    radial-gradient(circle at 5% 100%,rgba(186,200,255,.17),transparent 17rem),
+    linear-gradient(145deg,rgba(65,55,85,.92),rgba(35,31,48,.90));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 2rem 5rem rgba(6,5,12,.28),
+    0 0 4rem rgba(210,139,255,.10);
+}
+.category-body h3{color:#fff!important;text-shadow:0 .35rem 1.4rem rgba(0,0,0,.18)}
+.category-body p{color:rgba(239,237,248,.70)!important}
+.category-number{color:rgba(244,239,255,.56);border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.055)}
+.category-open{color:#e9dcff}
+.category-icon{
+  border-color:rgba(255,255,255,.16);
+  background:linear-gradient(145deg,rgba(197,199,255,.15),rgba(211,143,255,.14));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 .9rem 2.2rem rgba(10,8,18,.16);
+}
+
+/* Carry the same softer glass treatment through the pricing area. */
+.packages-shell{
+  border-color:rgba(203,190,255,.13);
+  background:
+    radial-gradient(circle at 10% 8%,rgba(186,200,255,.055),transparent 24rem),
+    radial-gradient(circle at 92% 92%,rgba(210,139,255,.055),transparent 26rem),
+    linear-gradient(180deg,rgba(34,32,47,.58),rgba(18,18,28,.50));
+}
+.pricing-card{
+  border-color:rgba(203,190,255,.13);
+  background:
+    radial-gradient(circle at 92% 5%,rgba(210,139,255,.065),transparent 15rem),
+    linear-gradient(150deg,rgba(43,41,58,.78),rgba(24,24,36,.72));
+}
+.pricing-card:hover{
+  border-color:rgba(205,189,255,.34);
+  background:
+    radial-gradient(circle at 90% 5%,rgba(210,139,255,.13),transparent 17rem),
+    linear-gradient(150deg,rgba(53,48,69,.86),rgba(29,27,42,.82));
+}
+.pricing-card.is-featured{
+  background:
+    radial-gradient(circle at 88% -5%,rgba(210,139,255,.20),transparent 19rem),
+    radial-gradient(circle at 0% 100%,rgba(186,200,255,.11),transparent 18rem),
+    linear-gradient(150deg,rgba(56,47,73,.88),rgba(29,26,43,.84));
+}
+.info-card{
+  background:
+    radial-gradient(circle at 95% 0%,rgba(210,139,255,.07),transparent 16rem),
+    linear-gradient(145deg,rgba(43,41,58,.76),rgba(24,24,36,.70));
+}
+.panel-note,.package-subnav,.term-chip,.hero-trust span{
+  background:rgba(203,190,255,.045);
+}
+
+@media(max-width:767px){
+  .category-card{background:linear-gradient(145deg,rgba(52,47,69,.90),rgba(28,27,41,.88))}
+}
+
+
+/* =========================================================
+   Pricing hero — aligned with the Nostrix homepage
+   ========================================================= */
+.pricing-hero{
+  min-height:100svh;
+  min-height:100dvh;
+  display:grid;
+  place-items:center;
+  padding:clamp(6.6rem,12vh,8.5rem) max(1.25rem,env(safe-area-inset-left)) calc(4.8rem + env(safe-area-inset-bottom)) max(1.25rem,env(safe-area-inset-right));
+  overflow:hidden;
+}
+.pricing-hero::before{
+  inset:12% 8% 14%;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 44%,rgba(38,38,53,.70),rgba(18,18,27,.38) 46%,transparent 70%);
+}
+.pricing-hero::after{
+  content:'';
+  position:absolute;
+  left:50%;
+  bottom:8%;
+  width:min(74rem,86vw);
+  height:16rem;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:radial-gradient(ellipse,rgba(186,200,255,.055),rgba(210,139,255,.028) 44%,transparent 72%);
+  filter:blur(10px);
+  pointer-events:none;
+}
+.pricing-hero .hero-content{width:min(100%,96rem)}
+.pricing-hero-eyebrow{opacity:0;transform:translateY(1rem);animation:fadeUp 900ms var(--ease-out) 180ms forwards}
+.pricing-hero-eyebrow p:first-child{
+  margin:0 0 .6rem;
+  color:rgba(255,255,255,.62);
+  font-size:.72rem;
+  font-weight:650;
+  letter-spacing:.34em;
+  text-transform:uppercase;
+}
+.pricing-hero-eyebrow p:last-child{
+  margin:0;
+  color:rgba(186,200,255,.82);
+  font-size:clamp(.78rem,1.25vw,1rem);
+  font-weight:300;
+  letter-spacing:.22em;
+}
+.interactive-text{
+  display:flex;
+  width:100%;
+  min-width:0;
+  justify-content:center;
+  flex-wrap:nowrap;
+  gap:.018em;
+  margin:2.7rem auto 2.35rem;
+  white-space:nowrap;
+  cursor:default;
+  perspective:700px;
+  color:#fff;
+  font-family:'Syncopate',sans-serif;
+  font-size:clamp(2rem,6.15vw,6.65rem)!important;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:-.025em;
+  text-transform:uppercase;
+  text-shadow:0 1.4rem 4.5rem rgba(0,0,0,.34);
+}
+.char,.char-space{display:inline-block}
+.char{
+  opacity:0;
+  transform:translateY(1.1em) rotateX(-55deg) scale(.92);
+  transform-origin:50% 100%;
+  animation:charReveal 850ms var(--ease-out) forwards;
+  will-change:transform,opacity;
+}
+.char-inner{
+  display:inline-block;
+  opacity:1;
+  transition:transform 420ms var(--ease-out),color 300ms ease,text-shadow 300ms ease;
+  will-change:transform;
+}
+.char:hover{z-index:2}
+.char:hover .char-inner{
+  color:var(--accent-2);
+  text-shadow:0 .18em .5em rgba(210,139,255,.42);
+  animation:letterFloat 1.15s ease-in-out infinite;
+}
+.char:hover + .char .char-inner,
+.char:has(+ .char:hover) .char-inner{
+  color:var(--accent-1);
+  transform:translateY(-.035em) scale(1.015);
+  text-shadow:0 .12em .35em rgba(186,200,255,.25);
+}
+@keyframes letterFloat{0%,100%{transform:translateY(-.07em) scale(1.02)}50%{transform:translateY(-.15em) scale(1.025)}}
+@keyframes charReveal{to{opacity:1;transform:translateY(0) rotateX(0) scale(1)}}
+.pricing-hero-description{
+  max-width:46rem;
+  opacity:0;
+  transform:translateY(1rem);
+  animation:fadeUp 900ms var(--ease-out) 1.08s forwards;
+  font-size:clamp(.95rem,1.5vw,1.08rem);
+  line-height:1.8;
+}
+.pricing-hero-actions{opacity:0;transform:translateY(1rem);animation:fadeUp 900ms var(--ease-out) 1.22s forwards}
+.pricing-hero .contact-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:1.15rem 2.5rem;
+  margin-top:2.35rem;
+  opacity:0;
+  transform:translateY(1rem);
+  animation:fadeUp 900ms var(--ease-out) 1.38s forwards;
+}
+.social-link{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  gap:.55rem;
+  color:rgba(255,255,255,.60);
+  font-size:.82rem;
+  text-decoration:none;
+  transition:color 300ms ease,transform 400ms var(--ease-out);
+}
+.social-link::after{
+  content:'';
+  position:absolute;
+  left:0;
+  right:100%;
+  bottom:-.35rem;
+  height:1px;
+  background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+  transition:right 450ms var(--ease-out);
+}
+.social-link i{color:rgba(255,255,255,.62);font-size:1.15rem}
+.social-link:hover{color:#fff;transform:translateY(-.15rem)}
+.social-link:hover::after{right:0}
+.pricing-hero .follow-row{
+  display:flex;
+  justify-content:center;
+  margin-top:1.75rem;
+  opacity:0;
+  transform:translateY(1rem);
+  animation:fadeUp 900ms var(--ease-out) 1.52s forwards;
+}
+.pricing-hero .follow-link{
+  color:rgba(255,255,255,.88);
+  font-size:.75rem;
+  font-weight:650;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.pricing-hero .follow-link i{color:var(--accent-2);font-size:1.25rem}
+
+/* Booking benefit moved out of the hero so the opening stays clean. */
+.pricing-benefit-strip{
+  position:relative;
+  z-index:3;
+  width:min(calc(100% - 2rem),72rem);
+  margin:-2.2rem auto 4.4rem;
+  padding:1rem 1.15rem .8rem;
+  border:1px solid rgba(210,139,255,.18);
+  border-radius:1.35rem;
+  background:linear-gradient(115deg,rgba(47,44,67,.72),rgba(35,31,52,.66),rgba(54,41,69,.62));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 1.5rem 4rem rgba(0,0,0,.2),0 0 4rem rgba(210,139,255,.045);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+.pricing-benefit-inner{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:1rem}
+.pricing-benefit-icon{
+  display:grid;
+  width:2.9rem;
+  height:2.9rem;
+  place-items:center;
+  border-radius:.9rem;
+  color:#111119;
+  background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+  box-shadow:0 .7rem 2rem rgba(210,139,255,.16);
+}
+.pricing-benefit-copy strong{display:block;color:#fff;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.pricing-benefit-copy span{display:block;margin-top:.25rem;color:#b4b1c0;font-size:.78rem;line-height:1.5}
+.pricing-benefit-inner>a{display:inline-flex;align-items:center;gap:.45rem;color:#ddd6fe;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap}
+.pricing-benefit-terms{margin:.7rem 0 0 3.9rem;color:#777583;font-size:.66rem;line-height:1.55}
+
+.whatsapp-float{
+  position:fixed;
+  right:max(1.1rem,env(safe-area-inset-right));
+  bottom:max(1.1rem,env(safe-area-inset-bottom));
+  z-index:80;
+  display:inline-flex;
+  min-height:3.25rem;
+  align-items:center;
+  gap:.65rem;
+  padding:0 1rem;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:999px;
+  color:#071008;
+  background:#88f2a5;
+  box-shadow:0 1rem 3rem rgba(0,0,0,.3);
+  font-size:.73rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  text-decoration:none;
+  transition:transform 350ms var(--ease-out),box-shadow 350ms ease;
+}
+.whatsapp-float:hover{transform:translateY(-.2rem);box-shadow:0 1.25rem 3.5rem rgba(0,0,0,.38)}
+.whatsapp-float i{font-size:1.2rem}
+
+@media(max-width:767px){
+  .pricing-hero{min-height:100svh;min-height:100dvh;padding:calc(6.6rem + env(safe-area-inset-top)) 1rem calc(4.4rem + env(safe-area-inset-bottom))}
+  .pricing-hero::before{inset:10% -25%}
+  .pricing-hero-eyebrow p:first-child{font-size:.62rem;letter-spacing:.26em}
+  .pricing-hero-eyebrow p:last-child{font-size:.76rem;letter-spacing:.14em}
+  .interactive-text{margin:2.25rem 0 1.9rem;font-size:clamp(1.45rem,6.6vw,2.2rem)!important;gap:.004em;letter-spacing:-.045em}
+  .char-space{width:.32em!important;flex:0 0 .32em}
+  .pricing-hero-description{max-width:31rem;font-size:.92rem;line-height:1.7}
+  .pricing-hero-actions{width:min(100%,25rem);margin:1.6rem auto 0;gap:.7rem}
+  .pricing-hero-actions .primary-button,.pricing-hero-actions .secondary-button{flex:1 1 11rem;min-height:44px}
+  .pricing-hero .contact-row{gap:.9rem 1.6rem;margin-top:2rem}
+  .social-link{font-size:.76rem}
+  .pricing-benefit-strip{width:calc(100% - 2rem);margin:-1.2rem auto 3rem;padding:1rem}
+  .pricing-benefit-inner{grid-template-columns:auto 1fr}
+  .pricing-benefit-inner>a{grid-column:1/-1;justify-content:center;margin-top:.15rem;padding-top:.7rem;border-top:1px solid rgba(255,255,255,.07)}
+  .pricing-benefit-terms{margin:.7rem 0 0;text-align:center}
+  .whatsapp-float span{display:none}
+  .whatsapp-float{width:3.3rem;padding:0;justify-content:center}
+}
+@media(max-width:480px){
+  .pricing-hero-actions{width:min(100%,19.5rem)}
+  .pricing-hero-actions .primary-button,.pricing-hero-actions .secondary-button{width:100%;flex-basis:100%}
+  .pricing-hero .contact-row{flex-direction:column}
+}
+@media(pointer:coarse){
+  .char:hover .char-inner,.char:hover + .char .char-inner,.char:has(+ .char:hover) .char-inner{color:inherit;text-shadow:inherit;animation:none;transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .pricing-hero-eyebrow,.interactive-text .char,.pricing-hero-description,.pricing-hero-actions,.pricing-hero .contact-row,.pricing-hero .follow-row{opacity:1!important;transform:none!important;animation:none!important}
+}
+</style>
+</head>
 <body>
 <div aria-hidden="true" class="page-noise"></div>
 <div aria-hidden="true" class="ambient-orb one"></div>
@@ -425,17 +1021,43 @@ footer{padding:2.5rem 1.25rem;color:#71717a}.footer-inner{display:flex;align-ite
 </nav>
 </header>
 <main>
-<section class="hero" id="home">
+<section aria-labelledby="pricing-hero-title" class="hero pricing-hero" id="home">
 <div class="hero-content">
-<div class="eyebrow">
-<p class="mb-2 text-xs font-semibold uppercase tracking-[0.32em] text-zinc-400">Nostrix Marketing Services</p>
-<p class="text-sm font-light tracking-[0.2em] text-accent1/80 md:text-base">Production · Marketing Solutions · Branding</p>
+<div class="eyebrow pricing-hero-eyebrow">
+<p>Nostrix Marketing Services</p>
+<p>Production · Marketing Solutions · Branding</p>
 </div>
-<h1 class="hero-title">Built to <span class="gradient-text">be seen.</span></h1>
-<p class="hero-description">Three focused capabilities, one creative team. Produce the content, shape the presence and build the identity your business needs to launch and grow.</p>
-<div class="hero-actions"><a class="primary-button" href="#categories">Explore Services <i class="ph ph-arrow-down"></i></a><a class="secondary-button" href="#launch360">Build a Brand <i class="ph ph-arrow-up-right"></i></a></div><div class="website-offer-banner"><span class="website-offer-badge"><i class="ph-fill ph-lightning"></i> Website booking benefit</span><strong>15% OFF ELIGIBLE ADD-ONS</strong><span>Book from this page and save 15% on selected Nostrix service add-ons on your first eligible website booking.</span></div><p class="offer-terms">Main package prices stay exactly as shown. The website benefit applies only to eligible Nostrix service add-ons; travel, permits, studios, ad spend, rentals and third-party/pass-through costs are excluded.</p>
+<h1 aria-label="Made to be seen." class="interactive-text" id="pricing-hero-title">Made to be seen.</h1>
+<p class="hero-description pricing-hero-description">Clear packages, custom production scopes and instant planning estimates for brands that want creative work built around what they actually need.</p>
+<div class="hero-actions pricing-hero-actions">
+<a class="primary-button" href="#categories">Explore Pricing <i aria-hidden="true" class="ph ph-arrow-down"></i></a>
+<button class="secondary-button custom-builder-trigger" data-builder="production" type="button">Build Your Shoot <i aria-hidden="true" class="ph ph-sliders-horizontal"></i></button>
 </div>
-<a aria-label="Explore Nostrix services" class="scroll-cue" href="#categories"><i class="ph ph-caret-down text-xl"></i></a>
+<div class="contact-row">
+<a class="social-link" href="mailto:marketing@nostrix.ae"><i aria-hidden="true" class="ph ph-envelope-simple"></i><span>marketing@nostrix.ae</span></a>
+<a class="social-link" href="tel:+971561195226"><i aria-hidden="true" class="ph ph-phone"></i><span>+971 56 119 5226</span></a>
+</div>
+<div class="follow-row">
+<a class="social-link follow-link" href="https://www.instagram.com/nostrix.ae/" rel="noopener noreferrer" target="_blank"><i aria-hidden="true" class="ph-fill ph-instagram-logo"></i><span>Follow Us</span></a>
+</div>
+</div>
+<a aria-label="Explore Nostrix pricing" class="scroll-cue" href="#categories"><i aria-hidden="true" class="ph ph-caret-down text-xl"></i></a>
+</section>
+<section aria-label="Website booking benefit" class="pricing-benefit-strip">
+<div class="pricing-benefit-inner">
+<span class="pricing-benefit-icon"><i class="ph-fill ph-lightning"></i></span>
+<div class="pricing-benefit-copy"><strong>Website booking benefit</strong><span>Receive 15% off eligible Nostrix add-ons on your first qualifying booking made through this page.</span></div>
+<a href="#rates">View add-ons <i class="ph ph-arrow-down"></i></a>
+</div>
+<p class="pricing-benefit-terms">Main package prices stay as shown. Travel, permits, studios, ad spend, rentals and third-party/pass-through costs are excluded. <a href="/terms/" style="color:#a9a4bb;text-decoration:underline;text-underline-offset:.18em">Terms apply.</a></p>
+</section>
+<section aria-label="Why clients can price with confidence" class="pricing-trust-strip">
+<div class="pricing-trust-grid">
+<div class="pricing-trust-item"><i class="ph ph-map-pin-area"></i><div><strong>UAE-based</strong><span>Coverage across the Emirates</span></div></div>
+<div class="pricing-trust-item"><i class="ph ph-list-checks"></i><div><strong>Clear scope</strong><span>Deliverables confirmed before booking</span></div></div>
+<div class="pricing-trust-item"><i class="ph ph-calculator"></i><div><strong>Planning estimate</strong><span>Build a realistic starting range</span></div></div>
+<div class="pricing-trust-item"><i class="ph ph-file-text"></i><div><strong>Final quote first</strong><span>No online payment required</span></div></div>
+</div>
 </section>
 <section class="section section-soft" id="categories">
 <div class="mx-auto max-w-7xl">
@@ -526,7 +1148,7 @@ footer{padding:2.5rem 1.25rem;color:#71717a}.footer-inner{display:flex;align-ite
 <div class="section-heading reveal"><p class="section-kicker">Flagship launch package</p><h2 class="section-title">From idea to launch-ready brand.</h2><p class="section-copy">For a founder or small company that wants Nostrix to build the visual foundation, prepare the launch presence and create the first bank of professional content.</p></div>
 <div class="flagship reveal">
 <div class="flagship-grid">
-<div class="flagship-left"><span class="flagship-label"><i class="ph ph-sparkle"></i>Nostrix flagship</span><h3>Launch <span class="gradient-text">360</span></h3><p class="flagship-copy">One coordinated project combining Production, Marketing Solutions and Branding. The scope is adjusted around the type of business, so the starting price can stay clear while the final build reflects what the company actually needs.</p><div class="flagship-price"><small>Starting price</small><strong>From AED 7,900</strong><div class="website-benefit-inline"><i class="ph-fill ph-lightning"></i> Website booking benefits available on eligible Nostrix add-ons</div></div><div class="hero-actions" style="justify-content:flex-start;margin-top:1.4rem"><button class="primary-button package-contact" data-package="Nostrix Launch 360" data-price="From AED 7,900">Build My Brand <i class="ph ph-arrow-up-right"></i></button></div></div>
+<div class="flagship-left"><span class="flagship-label"><i class="ph ph-sparkle"></i>Nostrix flagship</span><h3>Launch <span class="gradient-text">360</span></h3><p class="flagship-copy">One coordinated project combining Production, Marketing Solutions and Branding. The scope is adjusted around the type of business, so the starting price can stay clear while the final build reflects what the company actually needs.</p><div class="flagship-price"><small>Starting price</small><strong>From AED 7,900</strong></div><div class="hero-actions" style="justify-content:flex-start;margin-top:1.4rem"><button class="primary-button package-contact" data-package="Nostrix Launch 360" data-price="From AED 7,900">Build My Brand <i class="ph ph-arrow-up-right"></i></button></div></div>
 <div class="flagship-columns">
 <div class="flagship-col"><i class="ph ph-pen-nib"></i><h4>Branding</h4><ul><li>Discovery &amp; positioning foundation</li><li>Complete logo suite</li><li>Colour &amp; typography system</li><li>Visual identity &amp; social assets</li><li>20+ page brand guide</li></ul></div>
 <div class="flagship-col"><i class="ph ph-megaphone-simple"></i><h4>Marketing</h4><ul><li>30-day launch plan</li><li>Content pillars &amp; messaging</li><li>12 launch creatives/posts</li><li>Captions &amp; publishing direction</li><li>Social profile optimisation</li></ul></div>
@@ -538,22 +1160,37 @@ footer{padding:2.5rem 1.25rem;color:#71717a}.footer-inner{display:flex;align-ite
 </section>
 <section class="section section-soft" id="rates">
 <div class="mx-auto max-w-7xl">
-<div class="section-heading reveal"><p class="section-kicker">Operational pricing</p><h2 class="section-title">Transparent extras. Clear scope.</h2><p class="section-copy">Travel and additional production work are quoted transparently. Routine petrol/tolls are absorbed into the location fee instead of appearing as messy line items.</p></div>
+<div class="section-heading reveal"><p class="section-kicker">Operational pricing</p><h2 class="section-title">Transparent extras. Clear scope.</h2><p class="section-copy">Travel and additional production work are quoted transparently. Routine travel costs are consolidated into a single location fee so the quote stays simple and predictable.</p></div>
 <div class="info-grid reveal">
 <div class="info-card"><h3>UAE Travel Fees</h3><p>Applied once per booking when the production starts outside Ras Al Khaimah.</p><div class="price-list"><div class="price-row"><span>Ras Al Khaimah</span><strong>Included</strong></div><div class="price-row"><span>Umm Al Quwain</span><strong>+ AED 75</strong></div><div class="price-row"><span>Ajman</span><strong>+ AED 125</strong></div><div class="price-row"><span>Sharjah</span><strong>+ AED 150</strong></div><div class="price-row"><span>Dubai</span><strong>+ AED 200</strong></div><div class="price-row"><span>Abu Dhabi</span><strong>+ AED 300</strong></div><div class="price-row"><span>Al Ain</span><strong>+ AED 350</strong></div></div></div>
 <div class="info-card"><h3>Common Add-Ons</h3><p>Quoted when the requested scope goes beyond the package.</p><div class="price-list"><div class="price-row"><span>Extra creator hour</span><strong>AED 200</strong></div><div class="price-row"><span>Extra event photography hour</span><strong>AED 250</strong></div><div class="price-row"><span>Extra videography hour</span><strong>AED 300</strong></div><div class="price-row"><span>Standard extra Reel</span><strong>AED 250</strong></div><div class="price-row"><span>Advanced Reel</span><strong>AED 400–600</strong></div><div class="price-row"><span>Advanced retouch / photo</span><strong>AED 35–60</strong></div><div class="price-row"><span>RAW photo files</span><strong>+ AED 250</strong></div><div class="price-row"><span>RAW video footage</span><strong>+ AED 500+</strong></div><div class="price-row"><span>24-hour delivery</span><strong>+ 30%</strong></div></div></div>
 </div>
-<div class="terms-strip reveal"><span class="term-chip"><i class="ph-fill ph-lightning"></i>15% off eligible add-ons on your first website booking</span><span class="term-chip"><i class="ph ph-credit-card"></i>50% booking deposit</span><span class="term-chip"><i class="ph ph-calendar-check"></i>Retainers prepaid monthly</span><span class="term-chip"><i class="ph ph-arrows-clockwise"></i>1 revision unless stated</span><span class="term-chip"><i class="ph ph-buildings"></i>Studios / permits separate</span><span class="term-chip"><i class="ph ph-chart-line"></i>Ad spend separate</span></div>
+<div class="terms-strip reveal"><span class="term-chip"><i class="ph ph-file-text"></i>Final quotation before booking</span><span class="term-chip"><i class="ph ph-credit-card"></i>50% booking deposit</span><span class="term-chip"><i class="ph ph-calendar-check"></i>Retainers prepaid monthly</span><span class="term-chip"><i class="ph ph-arrows-clockwise"></i>1 revision unless stated</span><span class="term-chip"><i class="ph ph-buildings"></i>Studios / permits separate</span><span class="term-chip"><i class="ph ph-chart-line"></i>Ad spend separate</span></div>
+<p class="rates-footnote reveal">Specialist equipment, unusual locations, commercial usage requirements, additional crew and other project-specific needs are quoted separately when they apply.</p>
+</div>
+</section>
+<section class="fit-guidance reveal" aria-labelledby="fit-guidance-title">
+<div class="fit-guidance-card">
+<div>
+<div class="fit-guidance-kicker">Need a second opinion?</div>
+<h2 id="fit-guidance-title">Not sure which package fits?</h2>
+<p>Tell us what you are planning and we will recommend the closest-fit scope. The goal is to match the job properly, not push you into a larger package than you need.</p>
+</div>
+<div class="fit-guidance-action">
+<a class="primary-button" href="https://wa.me/971561195226?text=Hi%20Nostrix%2C%20I%27m%20not%20sure%20which%20package%20fits%20my%20project.%20Can%20you%20help%20me%20choose%20the%20right%20scope%3F" rel="noopener" target="_blank">Talk to Nostrix <i class="ph ph-arrow-up-right"></i></a>
+<small>No pressure. Just the closest-fit recommendation.</small>
+</div>
 </div>
 </section>
 <section class="section" id="start">
 <div class="mx-auto max-w-7xl">
-<div class="cta-block reveal"><div class="cta-block-inner"><div class="cta-icon"><i class="ph ph-paper-plane-tilt text-2xl"></i></div><p class="section-kicker" style="margin-top:1.5rem">Start a project</p><h2 class="section-title" style="font-size:clamp(1.8rem,4vw,3.2rem)">Tell us what you're building.</h2><p class="section-copy" style="margin-left:auto;margin-right:auto">Choose a package, build a custom scope or send Nostrix a brief. New clients who confirm through this page can receive 15% off eligible Nostrix add-ons on their first eligible website booking. Main package prices and excluded costs remain unchanged.</p><div class="hero-actions"><a class="primary-button" href="https://wa.me/971561195226?text=Hi%20Nostrix%2C%20I%27d%20like%20to%20start%20a%20project." rel="noopener" target="_blank">WhatsApp Nostrix <i class="ph ph-whatsapp-logo"></i></a><a class="secondary-button" href="mailto:marketing@nostrix.ae?subject=Nostrix%20Project%20Enquiry">Email Us <i class="ph ph-envelope-simple"></i></a></div></div></div>
+<div class="cta-block reveal"><div class="cta-block-inner"><div class="cta-icon"><i class="ph ph-paper-plane-tilt text-2xl"></i></div><p class="section-kicker" style="margin-top:1.5rem">Start a project</p><h2 class="section-title" style="font-size:clamp(1.8rem,4vw,3.2rem)">Tell us what you're building.</h2><p class="section-copy" style="margin-left:auto;margin-right:auto">Choose a package, build a custom scope or send Nostrix a brief. We will confirm availability, deliverables, usage requirements and the final quotation before any booking is locked in.</p><div class="hero-actions"><a class="primary-button" href="https://wa.me/971561195226?text=Hi%20Nostrix%2C%20I%27d%20like%20to%20start%20a%20project." rel="noopener" target="_blank">WhatsApp Nostrix <i class="ph ph-whatsapp-logo"></i></a><a class="secondary-button" href="mailto:marketing@nostrix.ae?subject=Nostrix%20Project%20Enquiry">Email Us <i class="ph ph-envelope-simple"></i></a></div></div></div>
 </div>
 </section>
 </main>
 <footer class="footer-line"><div class="footer-inner"><div><div class="footer-brand">Nostrix Marketing Services</div><div class="mt-2 text-xs">Made to be seen. · UAE</div></div><div class="footer-links"><a href="https://nostrix.ae/">Home</a><a href="https://nostrix.ae/portfolio/">Portfolio</a><a href="https://www.instagram.com/nostrix.ae/" rel="noopener" target="_blank">Instagram</a><a href="mailto:marketing@nostrix.ae">marketing@nostrix.ae</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div class="text-xs">© <span id="year"></span> Nostrix</div></div></footer>
 </div>
+<a aria-label="Chat with Nostrix on WhatsApp" class="whatsapp-float" href="https://wa.me/971561195226" rel="noopener noreferrer" target="_blank"><i aria-hidden="true" class="ph-fill ph-whatsapp-logo"></i><span>WhatsApp</span></a>
 <div aria-hidden="true" aria-labelledby="builderTitle" aria-modal="true" class="modal custom-builder-modal" id="customBuilderModal" role="dialog">
 <div class="custom-builder-panel">
 <button aria-label="Close custom package builder" class="builder-close" id="builderClose"><i class="ph ph-x"></i></button>
@@ -686,7 +1323,7 @@ footer{padding:2.5rem 1.25rem;color:#71717a}.footer-inner{display:flex;align-ite
 </div>
 </div>
 <div aria-hidden="true" aria-labelledby="modalTitle" aria-modal="true" class="modal" id="packageModal" role="dialog">
-<div class="modal-panel"><button aria-label="Close" class="modal-close" id="modalClose"><i class="ph ph-x"></i></button><p class="modal-kicker">Selected package</p><h3 id="modalTitle">Package</h3><div class="modal-price" id="modalPrice"></div><p class="modal-copy">Send Nostrix the selected package and tell us your preferred date, location and a short brief. Final availability and scope are confirmed in the quotation.</p><div class="modal-actions"><a class="primary-button" href="#" id="modalWhatsApp" rel="noopener" target="_blank">Continue on WhatsApp <i class="ph ph-whatsapp-logo"></i></a><a class="secondary-button" href="#" id="modalEmail">Email Enquiry <i class="ph ph-envelope-simple"></i></a></div><div class="modal-notes">Main package prices are the standard Nostrix rates shown on this page. Website bookings can receive 15% off selected eligible Nostrix add-ons on the first eligible booking. Travel, permits, studios, ad spend, rentals and third-party/pass-through costs are excluded. Final availability and scope are confirmed in the quotation.</div></div>
+<div class="modal-panel"><button aria-label="Close" class="modal-close" id="modalClose"><i class="ph ph-x"></i></button><p class="modal-kicker">Selected package</p><h3 id="modalTitle">Package</h3><div class="modal-price" id="modalPrice"></div><p class="modal-copy">Send Nostrix the selected package and tell us your preferred date, location and a short brief. Final availability and scope are confirmed in the quotation.</p><div class="modal-actions"><a class="primary-button" href="#" id="modalWhatsApp" rel="noopener" target="_blank">Continue on WhatsApp <i class="ph ph-whatsapp-logo"></i></a><a class="secondary-button" href="#" id="modalEmail">Email Enquiry <i class="ph ph-envelope-simple"></i></a></div><div class="modal-notes">Prices shown on this page are planning rates. Final availability, deliverables, usage requirements and any excluded project costs are confirmed in the written quotation before booking.</div></div>
 </div>
 <script>
 const glow=document.getElementById('glow');
@@ -801,9 +1438,35 @@ function updateBuilder(){
   priceBuildUp.innerHTML=row(baseLabel,moneyAED(baseAmount))+result.items.map(x=>row(x[0],x[1])).join('')+(result.webSave>0?row('15% website saving on eligible add-ons','− '+moneyAED(result.webSave),'is-discount'):'')+row('Estimated total',moneyAED(rounded),'summary-total');
   summaryMeta.innerHTML=result.meta.map(x=>meta(x[0],x[1])).join('');
   const typeName={branding:'Custom Brand Build',marketing:'Custom Marketing Retainer',production:'Custom Production'}[activeBuilder]; const summaryText=scopeSummary.innerText.replace(/\n+/g,' | '); const msg=`Hi Nostrix, I built a ${typeName} estimate on your website. Estimated price: ${moneyAED(rounded)}. ${summaryText}. Please confirm the scope and availability.`; builderWhatsApp.href=`https://wa.me/971561195226?text=${encodeURIComponent(msg)}`; builderEmail.href=`mailto:marketing@nostrix.ae?subject=${encodeURIComponent('Custom Nostrix estimate — '+typeName)}&body=${encodeURIComponent(msg)}`;
-  document.querySelector('.builder-summary .summary-note').lastChild.textContent=' No payment is required here. This is a planning estimate only; the final quotation confirms scope and availability. '+result.note;
+  document.querySelector('.builder-summary .summary-note').lastChild.textContent=' No payment is required here. This is a planning estimate only; the final quotation confirms scope, availability and project-specific requirements. '+result.note;
 }
 updateBuilder();
+</script>
+
+<script>
+(function(){
+  const textElement=document.getElementById('pricing-hero-title');
+  if(!textElement)return;
+  const textString='Made to be seen.';
+  textElement.textContent='';
+  textString.split('').forEach((character,index)=>{
+    const span=document.createElement('span');
+    span.setAttribute('aria-hidden','true');
+    if(character===' '){
+      span.innerHTML='&nbsp;';
+      span.className='char-space';
+      span.style.width='.34em';
+    }else{
+      span.className='char';
+      span.style.animationDelay=`${320+index*58}ms`;
+      const inner=document.createElement('span');
+      inner.className='char-inner';
+      inner.textContent=character;
+      span.appendChild(inner);
+    }
+    textElement.appendChild(span);
+  });
+})();
 </script>
 <script defer="" src="/site-config.js"></script><script defer="" src="/analytics.js"></script></body>
 </html>
