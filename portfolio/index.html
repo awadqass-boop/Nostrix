@@ -1,476 +1,222 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="en" dir="ltr" data-theme="dark">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="Explore selected Nostrix photography and videography across modelling, events, weddings, automotive, products and real estate in the UAE." name="description"/>
-<meta content="#08080b" name="theme-color"/><link href="https://nostrix.ae/portfolio/" rel="canonical"/>
-<link href="../favicon.png" rel="icon" type="image/png"/><link href="../favicon.png" rel="apple-touch-icon"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nostrix Portfolio — Photography &amp; Videography UAE</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<style>
-:root{--bg:#08080b;--panel:#14141a;--line:rgba(255,255,255,.13);--muted:#a7a7b2;--a1:#bac8ff;--a2:#d28bff;--ease:cubic-bezier(.16,1,.3,1)}*{box-sizing:border-box}html{background:var(--bg);scroll-behavior:smooth}body{margin:0;min-height:100vh;overflow-x:hidden;font-family:Inter,Arial,sans-serif;color:#fff;background:radial-gradient(circle at 10% 5%,rgba(186,200,255,.10),transparent 30rem),radial-gradient(circle at 90% 22%,rgba(210,139,255,.09),transparent 30rem),var(--bg)}
-.noise{position:fixed;inset:0;pointer-events:none;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}#glow{position:fixed;width:28rem;height:28rem;border-radius:50%;pointer-events:none;z-index:0;opacity:0;background:radial-gradient(circle,rgba(210,139,255,.12),rgba(186,200,255,.045) 40%,transparent 70%);transform:translate(-50%,-50%);transition:opacity .4s ease}.shell{position:relative;z-index:1;width:min(1320px,calc(100% - 36px));margin:auto;padding:28px 0 64px}header{display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font-family:Syncopate,sans-serif;font-size:.86rem;letter-spacing:.24em;text-decoration:none}.back{color:#aaaab4;text-decoration:none;font-size:.85rem}.back:hover{color:#fff}.hero{padding:clamp(4rem,9vw,8rem) 0 3rem}.eyebrow{color:var(--a2);font-size:.72rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase}h1{max-width:920px;margin:18px 0 20px;font-family:Syncopate,sans-serif;font-size:clamp(2.5rem,7vw,6rem);line-height:1.02;text-transform:uppercase}.intro{max-width:780px;color:var(--muted);font-size:clamp(.95rem,1.5vw,1.1rem);line-height:1.8}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}.button{display:inline-flex;min-height:48px;align-items:center;justify-content:center;padding:0 20px;border:1px solid var(--line);border-radius:999px;color:#fff;text-decoration:none;font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;background:rgba(255,255,255,.03)}.button.primary{color:#09090b;border:0;background:linear-gradient(110deg,var(--a1),var(--a2))}.gallery-toolbar{position:sticky;top:0;z-index:8;margin:22px 0 26px;padding:12px;border:1px solid var(--line);border-radius:18px;background:rgba(8,8,11,.84);backdrop-filter:blur(20px)}.filters{display:flex;gap:8px;overflow:auto;scrollbar-width:none}.filters::-webkit-scrollbar{display:none}.filter-button{flex:0 0 auto;min-height:38px;padding:0 14px;border:1px solid rgba(255,255,255,.09);border-radius:999px;color:#a7a7b2;background:rgba(255,255,255,.025);font:inherit;font-size:.68rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.filter-button.active{color:#09090b;border-color:transparent;background:linear-gradient(110deg,var(--a1),var(--a2))}.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-flow:dense;grid-auto-rows:14rem;gap:10px}.gallery-item{position:relative;overflow:hidden;padding:0;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:#111117;cursor:zoom-in;transition:transform .5s var(--ease),border-color .3s ease,opacity .25s ease}.gallery-item.standard{grid-row:span 2}.gallery-item.tall{grid-row:span 3}.gallery-item.wide{grid-column:span 2;grid-row:span 2}.gallery-item[hidden]{display:none}.gallery-item:hover{transform:translateY(-4px);border-color:rgba(210,139,255,.35)}.gallery-item img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .7s var(--ease),filter .4s ease}.gallery-item:hover img{transform:scale(1.025);filter:saturate(1.06)}.gallery-overlay{
-position:absolute;
-inset:auto 0 0;
-display:flex;
-justify-content:flex-start;
-align-items:end;
-padding:18px 16px 14px;
-background:none;
-opacity:1;
-pointer-events:none
-}.gallery-item:hover .gallery-overlay{opacity:1}.gallery-overlay strong{
-font-size:.72rem;
-font-weight:800;
-letter-spacing:.09em;
-text-transform:uppercase;
-color:#fff;
-mix-blend-mode:difference;
-filter:grayscale(1) contrast(100);
-text-shadow:none
-}.cta{margin-top:32px;padding:clamp(1.4rem,4vw,2.4rem);display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,rgba(186,200,255,.06),rgba(210,139,255,.06))}.cta h2{margin:0 0 8px;font-size:clamp(1.4rem,3vw,2.1rem)}.cta p{margin:0;color:var(--muted);line-height:1.6}.lightbox{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:18px;background:rgba(3,3,7,.92);backdrop-filter:blur(18px)}.lightbox[hidden]{display:none}.lightbox img{max-width:min(94vw,1400px);max-height:88vh;border-radius:16px;box-shadow:0 2rem 7rem rgba(0,0,0,.65)}.lightbox-close,.lightbox-nav{position:absolute;display:grid;place-items:center;width:46px;height:46px;border:1px solid rgba(255,255,255,.16);border-radius:999px;color:#fff;background:rgba(20,20,26,.72);font-size:1.5rem;cursor:pointer}.lightbox-close{top:18px;right:18px}.lightbox-nav.prev{left:18px;top:50%;transform:translateY(-50%)}.lightbox-nav.next{right:18px;top:50%;transform:translateY(-50%)}.lightbox-caption{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);padding:9px 14px;border-radius:999px;color:#dddde4;background:rgba(10,10,14,.72);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}@media(max-width:1000px){.gallery{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.shell{width:min(100% - 20px,1320px)}header{padding-top:8px}.hero{padding-top:4rem}.gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:10.5rem}.gallery-item.wide{grid-column:span 2}.cta{align-items:flex-start;flex-direction:column}.gallery-overlay{opacity:1}.lightbox-nav{width:40px;height:40px}}@media(max-width:420px){.gallery{grid-auto-rows:9rem}.gallery-item.standard{grid-row:span 2}.gallery-item.tall{grid-row:span 2}}
-
-.gallery-overlay,
-.gallery-item .gallery-overlay,
-.gallery-item:hover .gallery-overlay{
-  display:none!important;
-  visibility:hidden!important;
-  opacity:0!important;
-}
-
-.video-item{cursor:pointer}
-.video-item::after{
- content:"";
- position:absolute;inset:0;
- background:linear-gradient(180deg,transparent 58%,rgba(0,0,0,.45));
- pointer-events:none
-}
-.video-play{
- position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
- z-index:3;width:58px;height:58px;border-radius:50%;
- display:grid;place-items:center;
- color:#111;background:linear-gradient(110deg,var(--a1),var(--a2));
- font-size:1.15rem;padding-left:3px;
- box-shadow:0 12px 36px rgba(0,0,0,.35);
- transition:transform .25s ease
-}
-.video-item:hover .video-play{transform:translate(-50%,-50%) scale(1.08)}
-.video-lightbox{
- position:fixed;inset:0;z-index:80;
- display:grid;place-items:center;padding:20px;
- background:rgba(3,3,7,.94);backdrop-filter:blur(18px)
-}
-.video-lightbox[hidden]{display:none}
-.video-frame-wrap{
- width:min(92vw,1100px);aspect-ratio:16/9;
- border-radius:18px;overflow:hidden;background:#000;
- box-shadow:0 2rem 7rem rgba(0,0,0,.65)
-}
-.video-frame-wrap iframe{width:100%;height:100%;border:0;display:block}
-.video-close{
- position:absolute;right:20px;top:20px;z-index:2;
- width:48px;height:48px;border-radius:50%;
- border:1px solid rgba(255,255,255,.16);
- color:#fff;background:rgba(20,20,26,.78);
- font-size:1.5rem;cursor:pointer
-}
-.video-title{
- position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
- padding:9px 14px;border-radius:999px;
- background:rgba(10,10,14,.72);color:#dddde4;
- font-size:.72rem;letter-spacing:.08em;text-transform:uppercase
-}
-@media(max-width:700px){
- .video-frame-wrap{width:94vw;aspect-ratio:9/16;max-height:82vh}
- .video-play{width:50px;height:50px}
-}
-
-.video-play,
-.video-item::after,
-.video-item img {
-  pointer-events: none !important;
-}
-.video-item {
-  position: relative;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-.featured-note{
-  margin:0 auto 16px;
-  max-width:760px;
-  color:#888894;
-  font-size:.78rem;
-  line-height:1.6;
-  text-align:center;
-}
-
-/* Photo category captions */
-.gallery-item:not(.video-item){
-  overflow: visible !important;
-  background: transparent !important;
-  padding-bottom: 44px !important;
-}
-.gallery-item:not(.video-item) > img{
-  border-radius: inherit;
-}
-.photo-category-caption{
-  position: absolute;
-  left: 50%;
-  bottom: 8px;
-  transform: translateX(-50%);
-  z-index: 4;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 28px;
-  padding: 7px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.06);
-  background: rgba(13,13,18,.78);
-  color: #d7d7df;
-  font-size: .68rem;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  pointer-events: none;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-@media (max-width:700px){
-  .gallery-item:not(.video-item){
-    padding-bottom: 40px !important;
-  }
-  .photo-category-caption{
-    bottom: 7px;
-    padding: 6px 11px;
-    font-size: .62rem;
-  }
-}
-
-/* Category labels only appear inside the opened photo lightbox */
-.gallery-item:not(.video-item){
-  padding-bottom: 0 !important;
-  overflow: hidden !important;
-}
-.photo-category-caption{display:none!important;}
-
-#lightbox-caption{
-  position:absolute;
-  left:50%;
-  bottom:20px;
-  transform:translateX(-50%);
-  z-index:5;
-  display:inline-flex!important;
-  align-items:center;
-  justify-content:center;
-  min-height:30px;
-  padding:8px 16px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.06);
-  background:rgba(13,13,18,.82);
-  color:#d7d7df;
-  font-size:.7rem;
-  font-weight:600;
-  line-height:1;
-  letter-spacing:.09em;
-  text-transform:uppercase;
-  white-space:nowrap;
-  pointer-events:none;
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-}
-@media(max-width:700px){
-  #lightbox-caption{
-    bottom:16px;
-    padding:7px 13px;
-    font-size:.64rem;
-  }
-}
-
-/* Gap-free masonry portfolio layout */
-.gallery{
-  display:block !important;
-  column-count:4;
-  column-gap:10px;
-  height:auto !important;
-}
-
-.gallery-item,
-.gallery-item.standard,
-.gallery-item.tall,
-.gallery-item.wide{
-  display:inline-block;
-  width:100%;
-  height:auto !important;
-  margin:0 0 10px;
-  grid-column:auto !important;
-  grid-row:auto !important;
-  break-inside:avoid;
-  -webkit-column-break-inside:avoid;
-  page-break-inside:avoid;
-  vertical-align:top;
-}
-
-.gallery-item[hidden]{
-  display:none !important;
-}
-
-.gallery-item img{
-  width:100%;
-  height:auto !important;
-  aspect-ratio:auto !important;
-  object-fit:cover;
-}
-
-@media(max-width:1000px){
-  .gallery{column-count:3;}
-}
-
-@media(max-width:700px){
-  .gallery{
-    column-count:2;
-    column-gap:8px;
-  }
-  .gallery-item,
-  .gallery-item.standard,
-  .gallery-item.tall,
-  .gallery-item.wide{
-    margin-bottom:8px;
-  }
-}
-
-@media(max-width:420px){
-  .gallery{column-count:2;}
-}
-
-/* Portfolio conversion CTA + WhatsApp */
-.portfolio-project-cta{
-  margin:72px auto 110px;
-  width:min(100%,980px);
-  padding:clamp(34px,6vw,72px) 24px;
-  text-align:center;
-  border:1px solid rgba(255,255,255,.09);
-  border-radius:28px;
-  background:
-    radial-gradient(circle at 50% 110%,rgba(202,123,255,.14),transparent 50%),
-    rgba(255,255,255,.018);
-}
-.portfolio-cta-kicker{
-  margin:0 0 14px;
-  color:#c98cff;
-  font-size:.68rem;
-  font-weight:700;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-}
-.portfolio-project-cta h2{
-  margin:0;
-  color:#fff;
-  font-size:clamp(2rem,5vw,4.2rem);
-  line-height:1;
-  letter-spacing:-.045em;
-}
-.portfolio-project-cta > p:not(.portfolio-cta-kicker){
-  margin:18px 0 28px;
-  color:#9999a6;
-  font-size:clamp(.92rem,1.5vw,1.08rem);
-}
-.portfolio-cta-button{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  min-height:54px;
-  padding:0 24px;
-  border-radius:999px;
-  color:#111;
-  background:linear-gradient(110deg,#b8c3ff,#d679ff);
-  font-size:.76rem;
-  font-weight:800;
-  letter-spacing:.12em;
-  text-decoration:none;
-  text-transform:uppercase;
-  transition:transform .2s ease,box-shadow .2s ease;
-}
-.portfolio-cta-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 16px 42px rgba(202,123,255,.2);
-}
-.portfolio-whatsapp{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  z-index:60;
-  display:inline-flex;
-  align-items:center;
-  gap:9px;
-  min-height:50px;
-  padding:0 18px;
-  border-radius:999px;
-  color:#0d1811;
-  background:#7cf2a2;
-  font-size:.72rem;
-  font-weight:800;
-  letter-spacing:.1em;
-  text-decoration:none;
-  text-transform:uppercase;
-  box-shadow:0 14px 42px rgba(0,0,0,.28);
-}
-.portfolio-whatsapp-icon{
-  font-size:1rem;
-  line-height:1;
-}
-@media(max-width:640px){
-  .portfolio-project-cta{margin:50px auto 90px;border-radius:22px}
-  .portfolio-whatsapp{
-    right:14px;
-    bottom:14px;
-    min-height:46px;
-    padding:0 15px;
-  }
-}
-
-.portfolio-whatsapp-svg{
-  width:19px;
-  height:19px;
-  flex:0 0 auto;
-  display:block;
-}
-
-header{gap:.8rem;flex-wrap:wrap}.language-toggle{margin-inline-start:auto}@media(max-width:640px){header .language-toggle{order:3;margin-inline-start:0}}
-</style><meta content="website" property="og:type"/><meta content="Nostrix Portfolio — Photography &amp; Videography UAE" property="og:title"/><meta content="Selected photography, videography and visual content by Nostrix Marketing Services in the UAE." property="og:description"/><meta content="https://nostrix.ae/portfolio/" property="og:url"/><meta content="https://nostrix.ae/portfolio/gallery/modelling-01.webp" property="og:image"/><meta content="Nostrix Marketing Services" property="og:site_name"/><meta content="summary_large_image" name="twitter:card"/><meta content="Nostrix Portfolio — Photography &amp; Videography UAE" name="twitter:title"/><meta content="Selected photography, videography and visual content by Nostrix Marketing Services in the UAE." name="twitter:description"/><meta content="https://nostrix.ae/portfolio/gallery/modelling-01.webp" name="twitter:image"/></head><body><div class="noise"></div><div aria-hidden="true" id="glow"></div><main class="shell"><header><a class="brand" href="../">Nostrix</a><a class="back" href="../#portfolio">← Back to website</a><button aria-label="تحويل الموقع إلى العربية" class="language-toggle" type="button">العربية</button></header><section class="hero"><div class="eyebrow">Nostrix Portfolio</div><h1>The Work</h1><p class="intro">A curated selection of Nostrix photography and videography. Start with Featured, then explore the full work by category.</p><div class="actions"><a class="button" href="../#contact">Start a project ↓</a></div></section><div class="gallery-toolbar"><div aria-label="Filter portfolio" class="filters" role="group"><button class="filter-button active" data-filter="featured">Featured</button><button class="filter-button" data-filter="all">All Work</button><button class="filter-button" data-filter="modelling">Modelling</button><button class="filter-button" data-filter="events">Events</button><button class="filter-button" data-filter="wedding">Wedding</button><button class="filter-button" data-filter="automotive">Automotive</button><button class="filter-button" data-filter="products">Products</button><button class="filter-button" data-filter="real-estate">Real Estate</button><button class="filter-button" data-filter="videography">Videography</button></div></div><p class="featured-note" id="featured-note">Featured opens with 15 selected pieces. Use the categories above to see the full portfolio.</p><section class="gallery" id="portfolio-gallery"><button aria-label="View Modelling photograph" class="gallery-item tall" data-category="modelling" data-featured="true" data-label="Modelling" data-src="gallery/modelling-01.webp"><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-01.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item tall" data-category="modelling" data-featured="false" data-label="Modelling" data-src="gallery/modelling-02.webp" hidden=""><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-02.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item tall" data-category="modelling" data-featured="false" data-label="Modelling" data-src="gallery/modelling-03.webp" hidden=""><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-03.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item tall" data-category="modelling" data-featured="false" data-label="Modelling" data-src="gallery/modelling-04.webp" hidden=""><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-04.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item wide" data-category="modelling" data-featured="false" data-label="Modelling" data-src="gallery/modelling-05.webp" hidden=""><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-05.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item wide" data-category="modelling" data-featured="true" data-label="Modelling" data-src="gallery/modelling-06.webp"><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-06.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item tall" data-category="modelling" data-featured="false" data-label="Modelling" data-src="gallery/modelling-07.webp" hidden=""><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-07.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item tall" data-category="modelling" data-featured="false" data-label="Modelling" data-src="gallery/modelling-08.webp" hidden=""><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-08.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item tall" data-category="modelling" data-featured="false" data-label="Modelling" data-src="gallery/modelling-09.webp" hidden=""><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-09.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item tall" data-category="modelling" data-featured="false" data-label="Modelling" data-src="gallery/modelling-10.webp" hidden=""><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-10.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item tall" data-category="modelling" data-featured="false" data-label="Modelling" data-src="gallery/modelling-11.webp" hidden=""><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-11.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item wide" data-category="modelling" data-featured="true" data-label="Modelling" data-src="gallery/modelling-12.webp"><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-12.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item tall" data-category="modelling" data-featured="false" data-label="Modelling" data-src="gallery/modelling-13.webp" hidden=""><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-13.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item wide" data-category="modelling" data-featured="false" data-label="Modelling" data-src="gallery/modelling-14.webp" hidden=""><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-14.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item tall" data-category="modelling" data-featured="false" data-label="Modelling" data-src="gallery/modelling-15.webp" hidden=""><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-15.webp"/></button><button aria-label="View Modelling photograph" class="gallery-item wide" data-category="modelling" data-featured="false" data-label="Modelling" data-src="gallery/modelling-16.webp" hidden=""><img alt="Nostrix modelling photography" decoding="async" loading="lazy" src="gallery/modelling-16.webp"/></button><button aria-label="View Events photograph" class="gallery-item wide" data-category="events" data-featured="true" data-label="Events" data-src="gallery/events-05.webp"><img alt="Nostrix events photography" decoding="async" loading="lazy" src="gallery/events-05.webp"/></button><button aria-label="View Events photograph" class="gallery-item tall" data-category="events" data-featured="false" data-label="Events" data-src="gallery/events-06.webp" hidden=""><img alt="Nostrix events photography" decoding="async" loading="lazy" src="gallery/events-06.webp"/></button><button aria-label="View Events photograph" class="gallery-item tall" data-category="events" data-featured="false" data-label="Events" data-src="gallery/events-07.webp" hidden=""><img alt="Nostrix events photography" decoding="async" loading="lazy" src="gallery/events-07.webp"/></button><button aria-label="View Events photograph" class="gallery-item wide" data-category="events" data-featured="true" data-label="Events" data-src="gallery/events-08.webp"><img alt="Nostrix events photography" decoding="async" loading="lazy" src="gallery/events-08.webp"/></button><button aria-label="View Events photograph" class="gallery-item wide" data-category="events" data-featured="false" data-label="Events" data-src="gallery/events-09.webp" hidden=""><img alt="Nostrix events photography" decoding="async" loading="lazy" src="gallery/events-09.webp"/></button><button aria-label="View Events photograph" class="gallery-item wide" data-category="events" data-featured="false" data-label="Events" data-src="gallery/events-10.webp" hidden=""><img alt="Nostrix events photography" decoding="async" loading="lazy" src="gallery/events-10.webp"/></button><button aria-label="View Events photograph" class="gallery-item wide" data-category="events" data-featured="false" data-label="Events" data-src="gallery/events-11.webp" hidden=""><img alt="Nostrix events photography" decoding="async" loading="lazy" src="gallery/events-11.webp"/></button><button aria-label="View Events photograph" class="gallery-item tall" data-category="events" data-featured="false" data-label="Events" data-src="gallery/events-12.webp" hidden=""><img alt="Nostrix events photography" decoding="async" loading="lazy" src="gallery/events-12.webp"/></button><button aria-label="View Wedding photograph" class="gallery-item wide" data-category="wedding" data-featured="true" data-label="Wedding" data-src="gallery/wedding-01.webp"><img alt="Nostrix wedding photography" decoding="async" loading="lazy" src="gallery/wedding-01.webp"/></button><button aria-label="View Wedding photograph" class="gallery-item wide" data-category="wedding" data-featured="false" data-label="Wedding" data-src="gallery/wedding-02.webp" hidden=""><img alt="Nostrix wedding photography" decoding="async" loading="lazy" src="gallery/wedding-02.webp"/></button><button aria-label="View Wedding photograph" class="gallery-item wide" data-category="wedding" data-featured="false" data-label="Wedding" data-src="gallery/wedding-03.webp" hidden=""><img alt="Nostrix wedding photography" decoding="async" loading="lazy" src="gallery/wedding-03.webp"/></button><button aria-label="View Wedding photograph" class="gallery-item wide" data-category="wedding" data-featured="true" data-label="Wedding" data-src="gallery/wedding-04.webp"><img alt="Nostrix wedding photography" decoding="async" loading="lazy" src="gallery/wedding-04.webp"/></button><button aria-label="View Wedding photograph" class="gallery-item wide" data-category="wedding" data-featured="false" data-label="Wedding" data-src="gallery/wedding-05.webp" hidden=""><img alt="Nostrix wedding photography" decoding="async" loading="lazy" src="gallery/wedding-05.webp"/></button><button aria-label="View Wedding photograph" class="gallery-item wide" data-category="wedding" data-featured="false" data-label="Wedding" data-src="gallery/wedding-06.webp" hidden=""><img alt="Nostrix wedding photography" decoding="async" loading="lazy" src="gallery/wedding-06.webp"/></button><button aria-label="View Automotive photograph" class="gallery-item tall" data-category="automotive" data-featured="false" data-label="Automotive" data-src="gallery/automotive-01.webp" hidden=""><img alt="Nostrix automotive photography" decoding="async" loading="lazy" src="gallery/automotive-01.webp"/></button><button aria-label="View Automotive photograph" class="gallery-item tall" data-category="automotive" data-featured="true" data-label="Automotive" data-src="gallery/automotive-02.webp"><img alt="Nostrix automotive photography" decoding="async" loading="lazy" src="gallery/automotive-02.webp"/></button><button aria-label="View Automotive photograph" class="gallery-item wide" data-category="automotive" data-featured="false" data-label="Automotive" data-src="gallery/automotive-03.webp" hidden=""><img alt="Nostrix automotive photography" decoding="async" loading="lazy" src="gallery/automotive-03.webp"/></button><button aria-label="View Automotive photograph" class="gallery-item wide" data-category="automotive" data-featured="false" data-label="Automotive" data-src="gallery/automotive-04.webp" hidden=""><img alt="Nostrix automotive photography" decoding="async" loading="lazy" src="gallery/automotive-04.webp"/></button><button aria-label="View Automotive photograph" class="gallery-item wide" data-category="automotive" data-featured="false" data-label="Automotive" data-src="gallery/automotive-05.webp" hidden=""><img alt="Nostrix automotive photography" decoding="async" loading="lazy" src="gallery/automotive-05.webp"/></button><button aria-label="View Automotive photograph" class="gallery-item wide" data-category="automotive" data-featured="false" data-label="Automotive" data-src="gallery/automotive-06.webp" hidden=""><img alt="Nostrix automotive photography" decoding="async" loading="lazy" src="gallery/automotive-06.webp"/></button><button aria-label="View Automotive photograph" class="gallery-item wide" data-category="automotive" data-featured="true" data-label="Automotive" data-src="gallery/automotive-07.webp"><img alt="Nostrix automotive photography" decoding="async" loading="lazy" src="gallery/automotive-07.webp"/></button><button aria-label="View Automotive photograph" class="gallery-item wide" data-category="automotive" data-featured="false" data-label="Automotive" data-src="gallery/automotive-08.webp" hidden=""><img alt="Nostrix automotive photography" decoding="async" loading="lazy" src="gallery/automotive-08.webp"/></button><button aria-label="View Automotive photograph" class="gallery-item wide" data-category="automotive" data-featured="false" data-label="Automotive" data-src="gallery/automotive-09.webp" hidden=""><img alt="Nostrix automotive photography" decoding="async" loading="lazy" src="gallery/automotive-09.webp"/></button><button aria-label="View Automotive photograph" class="gallery-item wide" data-category="automotive" data-featured="false" data-label="Automotive" data-src="gallery/automotive-10.webp" hidden=""><img alt="Nostrix automotive photography" decoding="async" loading="lazy" src="gallery/automotive-10.webp"/></button><button aria-label="View Automotive photograph" class="gallery-item wide" data-category="automotive" data-featured="false" data-label="Automotive" data-src="gallery/automotive-11.webp" hidden=""><img alt="Nostrix automotive photography" decoding="async" loading="lazy" src="gallery/automotive-11.webp"/></button><button aria-label="View Products photograph" class="gallery-item standard" data-category="products" data-featured="true" data-label="Products" data-src="gallery/products-01.webp"><img alt="Nostrix products photography" decoding="async" loading="lazy" src="gallery/products-01.webp"/></button><button aria-label="View Products photograph" class="gallery-item tall" data-category="products" data-featured="false" data-label="Products" data-src="gallery/products-02.webp" hidden=""><img alt="Nostrix products photography" decoding="async" loading="lazy" src="gallery/products-02.webp"/></button><button aria-label="View Products photograph" class="gallery-item wide" data-category="products" data-featured="false" data-label="Products" data-src="gallery/products-03.webp" hidden=""><img alt="Nostrix products photography" decoding="async" loading="lazy" src="gallery/products-03.webp"/></button><button aria-label="View Products photograph" class="gallery-item wide" data-category="products" data-featured="false" data-label="Products" data-src="gallery/products-04.webp" hidden=""><img alt="Nostrix products photography" decoding="async" loading="lazy" src="gallery/products-04.webp"/></button><button aria-label="View Products photograph" class="gallery-item tall" data-category="products" data-featured="true" data-label="Products" data-src="gallery/products-05.webp"><img alt="Nostrix products photography" decoding="async" loading="lazy" src="gallery/products-05.webp"/></button><button aria-label="View Products photograph" class="gallery-item tall" data-category="products" data-featured="false" data-label="Products" data-src="gallery/products-06.webp" hidden=""><img alt="Nostrix products photography" decoding="async" loading="lazy" src="gallery/products-06.webp"/></button><button aria-label="View Products photograph" class="gallery-item tall" data-category="products" data-featured="false" data-label="Products" data-src="gallery/products-07.webp" hidden=""><img alt="Nostrix products photography" decoding="async" loading="lazy" src="gallery/products-07.webp"/></button><button aria-label="View Products photograph" class="gallery-item tall" data-category="products" data-featured="false" data-label="Products" data-src="gallery/products-08.webp" hidden=""><img alt="Nostrix products photography" decoding="async" loading="lazy" src="gallery/products-08.webp"/></button><button aria-label="View Products photograph" class="gallery-item tall" data-category="products" data-featured="false" data-label="Products" data-src="gallery/products-09.webp" hidden=""><img alt="Nostrix products photography" decoding="async" loading="lazy" src="gallery/products-09.webp"/></button><button aria-label="View Real Estate photograph" class="gallery-item wide" data-category="real-estate" data-featured="true" data-label="Real Estate" data-src="gallery/real-estate-01.webp"><img alt="Nostrix real estate photography" decoding="async" loading="lazy" src="gallery/real-estate-01.webp"/></button><button aria-label="View Real Estate photograph" class="gallery-item wide" data-category="real-estate" data-featured="false" data-label="Real Estate" data-src="gallery/real-estate-02.webp" hidden=""><img alt="Nostrix real estate photography" decoding="async" loading="lazy" src="gallery/real-estate-02.webp"/></button><button aria-label="View Real Estate photograph" class="gallery-item wide" data-category="real-estate" data-featured="false" data-label="Real Estate" data-src="gallery/real-estate-03.webp" hidden=""><img alt="Nostrix real estate photography" decoding="async" loading="lazy" src="gallery/real-estate-03.webp"/></button><button aria-label="View Real Estate photograph" class="gallery-item wide" data-category="real-estate" data-featured="false" data-label="Real Estate" data-src="gallery/real-estate-04.webp" hidden=""><img alt="Nostrix real estate photography" decoding="async" loading="lazy" src="gallery/real-estate-04.webp"/></button><button aria-label="View Real Estate photograph" class="gallery-item wide" data-category="real-estate" data-featured="false" data-label="Real Estate" data-src="gallery/real-estate-05.webp" hidden=""><img alt="Nostrix real estate photography" decoding="async" loading="lazy" src="gallery/real-estate-05.webp"/></button><button aria-label="View Real Estate photograph" class="gallery-item wide" data-category="real-estate" data-featured="true" data-label="Real Estate" data-src="gallery/real-estate-06.webp"><img alt="Nostrix real estate photography" decoding="async" loading="lazy" src="gallery/real-estate-06.webp"/></button><button aria-label="View Real Estate photograph" class="gallery-item wide" data-category="real-estate" data-featured="false" data-label="Real Estate" data-src="gallery/real-estate-07.webp" hidden=""><img alt="Nostrix real estate photography" decoding="async" loading="lazy" src="gallery/real-estate-07.webp"/></button><button aria-label="View Real Estate photograph" class="gallery-item wide" data-category="real-estate" data-featured="false" data-label="Real Estate" data-src="gallery/real-estate-08.webp" hidden=""><img alt="Nostrix real estate photography" decoding="async" loading="lazy" src="gallery/real-estate-08.webp"/></button><button aria-label="View Real Estate photograph" class="gallery-item wide" data-category="real-estate" data-featured="false" data-label="Real Estate" data-src="gallery/real-estate-09.webp" hidden=""><img alt="Nostrix real estate photography" decoding="async" loading="lazy" src="gallery/real-estate-09.webp"/></button><button aria-label="View Real Estate photograph" class="gallery-item wide" data-category="real-estate" data-featured="false" data-label="Real Estate" data-src="gallery/real-estate-10.webp" hidden=""><img alt="Nostrix real estate photography" decoding="async" loading="lazy" src="gallery/real-estate-10.webp"/></button><button aria-label="View Real Estate photograph" class="gallery-item wide" data-category="real-estate" data-featured="false" data-label="Real Estate" data-src="gallery/real-estate-11.webp" hidden=""><img alt="Nostrix real estate photography" decoding="async" loading="lazy" src="gallery/real-estate-11.webp"/></button><button aria-label="Play Retail &amp; Event Reel" class="gallery-item video-item tall" data-category="videography" data-featured="true" data-label="Retail &amp; Event Reel" data-video="https://drive.google.com/file/d/14cxFdz3tDSQdXHfppvXaBNkHsOoGaXkQ/preview"><img alt="Nostrix videography — Retail &amp; Event Reel" decoding="async" loading="lazy" src="gallery/video-01.webp"/><span aria-hidden="true" class="video-play">▶</span></button><button aria-label="Play Automotive Detail Reel" class="gallery-item video-item wide" data-category="videography" data-featured="false" data-label="Automotive Detail Reel" data-video="https://drive.google.com/file/d/1QdTXV03d1SKJIPLZSC8RqNtJlV63u9tU/preview" hidden=""><img alt="Nostrix videography — Automotive Detail Reel" decoding="async" loading="lazy" src="gallery/video-02.webp"/><span aria-hidden="true" class="video-play">▶</span></button><button aria-label="Play Automotive Vertical Reel" class="gallery-item video-item tall" data-category="videography" data-featured="false" data-label="Automotive Vertical Reel" data-video="https://drive.google.com/file/d/1ow-n06UH28IDIsEWYw7WoUxItrJwMN5i/preview" hidden=""><img alt="Nostrix videography — Automotive Vertical Reel" decoding="async" loading="lazy" src="gallery/video-03.webp"/><span aria-hidden="true" class="video-play">▶</span></button><button aria-label="Play Automotive Campaign Reel" class="gallery-item video-item wide" data-category="videography" data-featured="false" data-label="Automotive Campaign Reel" data-video="https://drive.google.com/file/d/1rDzsJFqXrcnN2a3AA6HCT9Z6AWjz2Rkp/preview" hidden=""><img alt="Nostrix videography — Automotive Campaign Reel" decoding="async" loading="lazy" src="gallery/video-04.webp"/><span aria-hidden="true" class="video-play">▶</span></button><button aria-label="Play Al Romaizan Event Reel" class="gallery-item video-item tall" data-category="videography" data-featured="true" data-label="Al Romaizan Event Reel" data-video="https://drive.google.com/file/d/1mLaiC8db_Vtrj_I0aahaKnnND8DzBfb-/preview"><img alt="Nostrix videography — Al Romaizan Event Reel" decoding="async" loading="lazy" src="gallery/video-05.webp"/><span aria-hidden="true" class="video-play">▶</span></button><button aria-label="Play Creative Promo Reel" class="gallery-item video-item tall" data-category="videography" data-featured="false" data-label="Creative Promo Reel" data-video="https://drive.google.com/file/d/1YHeOhoULMRKRQ_SWgWcwMHSc-GOfwp66/preview" hidden=""><img alt="Nostrix videography — Creative Promo Reel" decoding="async" loading="lazy" src="gallery/video-06.webp"/><span aria-hidden="true" class="video-play">▶</span></button><button aria-label="Play Automotive Road Reel" class="gallery-item video-item tall" data-category="videography" data-featured="false" data-label="Automotive Road Reel" data-video="https://drive.google.com/file/d/1fjMVN2cTQjm26a7N-XXQqVQJlIq4ieZV/preview" hidden=""><img alt="Nostrix videography — Automotive Road Reel" decoding="async" loading="lazy" src="gallery/video-07.webp"/><span aria-hidden="true" class="video-play">▶</span></button></section><section aria-labelledby="portfolio-project-cta-title" class="portfolio-project-cta" id="portfolio-project-cta">
-<p class="portfolio-cta-kicker">Ready when you are</p>
-<h2 id="portfolio-project-cta-title">Like what you see?</h2>
-<p>Let’s create something for your brand.</p>
-<a class="portfolio-cta-button" href="/#contact">
-        Start a Project <span aria-hidden="true">↗</span>
-</a>
-</section><section class="cta"><div><h2>Seen something you like?</h2><p>Tell us the category, style and deliverables you have in mind and we’ll build the right production scope.</p></div><a class="button primary" href="../#contact">Start a project ↓</a></section></main><div aria-hidden="true" class="lightbox" hidden="" id="lightbox"><button aria-label="Close image" class="lightbox-close">×</button><button aria-label="Previous image" class="lightbox-nav prev">‹</button><img alt="" id="lightbox-image" src=""/><button aria-label="Next image" class="lightbox-nav next">›</button><div class="lightbox-caption" id="lightbox-caption"></div></div><div aria-hidden="true" class="video-lightbox" hidden="" id="video-lightbox">
-<button aria-label="Close video" class="video-close">×</button>
-<div class="video-frame-wrap">
-<iframe allow="autoplay; fullscreen" allowfullscreen="" id="video-frame" referrerpolicy="no-referrer" src=""></iframe>
+<meta name="description" content="Nostrix photography and video work: fashion, events, weddings, automotive, products and real estate in the UAE.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark light">
+<link rel="canonical" href="https://nostrix.ae/portfolio/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nostrix Marketing Services">
+<meta property="og:title" content="Nostrix Portfolio — Photography &amp; Videography UAE">
+<meta property="og:description" content="Nostrix photography and video work: fashion, events, weddings, automotive, products and real estate in the UAE.">
+<meta property="og:url" content="https://nostrix.ae/portfolio/">
+<meta property="og:image" content="https://nostrix.ae/assets/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('nostrix_theme');if(t==='light'||t==='dark')d.dataset.theme=t;if(localStorage.getItem('nostrix_language_v1')==='ar'){d.lang='ar';d.dir='rtl';d.classList.add('i18n-wait')}}catch(e){}})();</script>
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Nostrix Marketing Services","url":"https://nostrix.ae/","logo":"https://nostrix.ae/logo.png","image":"https://nostrix.ae/assets/img/og.jpg","email":"marketing@nostrix.ae","telephone":"+971561195226","areaServed":"United Arab Emirates","address":{"@type":"PostalAddress","streetAddress":"AURAK, Building H, Office 15","addressLocality":"Ras Al Khaimah","addressCountry":"AE"},"sameAs":["https://www.instagram.com/nostrix.ae/","https://www.tiktok.com/@nostrix.ae"],"description":"Photography, videography, social content, event coverage and branding for brands in the UAE."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg class="sprite" aria-hidden="true" focusable="false"><defs>
+<linearGradient id="nx-g" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#D388FF"/><stop offset="1" stop-color="#B9CCFF"/></linearGradient>
+<symbol id="i-logo" viewBox="830 402 2180 945"><path fill="url(#nx-g)" d="M1714.1,411.8h-802.5c-39.9,0-72.2,32.3-72.2,72.2v817.1c0,19.9,16.2,36.1,36.1,36.1h791.8V490.1c0-18.4,14.9-33.3,33.3-33.3h27.4c8.5,0,4.9-2.1,6,34.1l31.2,846.3h732.9l-9.2-201.4c-64.6-446-324.3-724-774.9-724Z"/><circle fill="url(#nx-g)" cx="2537.9" cy="874.5" r="462.7"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+<symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+<symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M8 5v14l11-7z"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.2A8 8 0 0 1 9.8 4 7.5 7.5 0 1 0 20 14.2Z"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7.5 8 6 8-6"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M5.5 4h3l1.8 4.6-2.3 1.5a11.5 11.5 0 0 0 5.9 5.9l1.5-2.3L20 15.5v3a2 2 0 0 1-2.2 2A15.5 15.5 0 0 1 3.5 6.2 2 2 0 0 1 5.5 4Z"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+<symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".7" fill="currentColor"/></symbol>
+<symbol id="i-tiktok" viewBox="0 0 16 16"><path fill="currentColor" stroke="none" d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0Z"/></symbol>
+<symbol id="i-whatsapp" viewBox="0 0 16 16"><path fill="currentColor" stroke="none" d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7zM14 3v4h4M10 12.5h5M10 16.5h5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 10.5 13.5M21 3l-6.5 18-4-7.5-7.5-4z"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="m12 3 2.7 5.6 6.1.8-4.5 4.3 1.1 6.1L12 16.9l-5.4 2.9 1.1-6.1L3.2 9.4l6.1-.8z"/></symbol>
+</defs></svg>
+<header class="nav">
+<div class="wrap nav-in">
+<a class="brand" href="/" aria-label="Nostrix home" translate="no"><svg viewBox="0 0 34 15" aria-hidden="true"><use href="#i-logo"/></svg><span>NOSTRIX</span></a>
+<nav class="nav-links" id="menu" aria-label="Primary navigation">
+<a href="/#services">Services</a>
+<a href="/portfolio/">Work</a>
+<a href="/pricing/">Pricing</a>
+<a href="/#social">Social</a>
+<a href="/#faq">Questions</a>
+<div class="nav-mobile-only nav-menu-foot btn-row">
+<a class="btn btn-primary" href="/#contact">Start a project</a>
+<a class="btn btn-wa" href="https://wa.me/971561195226" target="_blank" rel="noopener noreferrer"><svg class="ic " aria-hidden="true"><use href="#i-whatsapp"/></svg>WhatsApp</a>
+<button class="btn btn-ghost" type="button" data-theme-toggle><svg class="ic ic-sun" aria-hidden="true"><use href="#i-sun"/></svg><svg class="ic ic-moon" aria-hidden="true"><use href="#i-moon"/></svg><span>Appearance</span></button>
 </div>
-<div class="video-title" id="video-title"></div>
-</div><script src="../site-config.js"></script><script src="/language.js"></script><script src="../analytics.js"></script><script>
-const buttons=[...document.querySelectorAll('.filter-button')],
-      items=[...document.querySelectorAll('.gallery-item')];
-let visiblePhotos=[],current=0;
-const lb=document.getElementById('lightbox'),
-      lbImg=document.getElementById('lightbox-image'),
-      lbCap=document.getElementById('lightbox-caption'),
-      vlb=document.getElementById('video-lightbox'),
-      vframe=document.getElementById('video-frame'),
-      vtitle=document.getElementById('video-title');
-
-function refresh(){
-  visiblePhotos=items.filter(i=>!i.hidden && !i.dataset.video);
-}
-function filter(cat,shouldScroll=true){
-  buttons.forEach(b=>b.classList.toggle('active',b.dataset.filter===cat));
-  items.forEach(i=>{
-    if(cat==='featured') i.hidden=i.dataset.featured!=='true';
-    else i.hidden=cat!=='all'&&i.dataset.category!==cat;
-  });
-  refresh();
-  if(shouldScroll) document.getElementById('portfolio-gallery').scrollIntoView({behavior:'smooth',block:'start'});
-}
-buttons.forEach(b=>b.addEventListener('click',()=>filter(b.dataset.filter)));
-
-function openPhoto(item){
-  refresh();
-  current=visiblePhotos.indexOf(item);
-  showPhoto();
-  lb.hidden=false;
-  lb.setAttribute('aria-hidden','false');
-  document.body.style.overflow='hidden';
-}
-const categoryLabels={
-  'modelling':'MODELLING',
-  'events':'EVENTS',
-  'wedding':'WEDDING',
-  'automotive':'AUTOMOTIVE',
-  'products':'PRODUCTS',
-  'real-estate':'REAL ESTATE'
-};
-function showPhoto(){
-  const i=visiblePhotos[current];
-  if(!i)return;
-  lbImg.src=i.dataset.src;
-  lbImg.alt=i.querySelector('img').alt;
-  lbCap.textContent=categoryLabels[i.dataset.category]||String(i.dataset.category||'').replace(/-/g,' ').toUpperCase();
-}
-function closePhoto(){
-  lb.hidden=true;
-  lb.setAttribute('aria-hidden','true');
-  document.body.style.overflow='';
-  lbImg.src='';
-}
-function move(d){
-  if(!visiblePhotos.length)return;
-  current=(current+d+visiblePhotos.length)%visiblePhotos.length;
-  showPhoto();
-}
-
-function openVideo(item){
-  if(!vlb || !vframe) return;
-  vframe.src=item.dataset.video;
-  if(vtitle) vtitle.textContent=item.dataset.label||'Videography';
-  vlb.hidden=false;
-  vlb.setAttribute('aria-hidden','false');
-  document.body.style.overflow='hidden';
-}
-function closeVideo(){
-  if(!vlb || !vframe) return;
-  vlb.hidden=true;
-  vlb.setAttribute('aria-hidden','true');
-  vframe.src='';
-  document.body.style.overflow='';
-}
-
-items.forEach(i=>i.addEventListener('click',()=>i.dataset.video?openVideo(i):openPhoto(i)));
-
-document.querySelector('.lightbox-close').onclick=closePhoto;
-document.querySelector('.lightbox-nav.prev').onclick=()=>move(-1);
-document.querySelector('.lightbox-nav.next').onclick=()=>move(1);
-lb.addEventListener('click',e=>{if(e.target===lb)closePhoto()});
-
-document.querySelector('.video-close').onclick=closeVideo;
-vlb.addEventListener('click',e=>{if(e.target===vlb)closeVideo()});
-
-document.addEventListener('keydown',e=>{
-  if(!vlb.hidden && e.key==='Escape'){closeVideo();return}
-  if(lb.hidden)return;
-  if(e.key==='Escape')closePhoto();
-  if(e.key==='ArrowLeft')move(-1);
-  if(e.key==='ArrowRight')move(1);
-});
-refresh();
-
-document.querySelectorAll('.gallery-item img').forEach(img=>{
-  img.addEventListener('error',()=>{
-    const item=img.closest('.gallery-item');
-    if(item){ item.hidden=true; refresh(); }
-  },{once:true});
-});
-
-const glow=document.getElementById('glow');
-if(matchMedia('(pointer:fine)').matches){
-  addEventListener('mousemove',e=>{
-    glow.style.left=e.clientX+'px';
-    glow.style.top=e.clientY+'px';
-    glow.style.opacity='1';
-  });
-  addEventListener('mouseleave',()=>glow.style.opacity='0');
-}
-</script>
-<div class="legal-mini-footer"><a href="/privacy/">Privacy Policy</a><a href="/terms/">Terms &amp; Conditions</a></div><a aria-label="Chat with Nostrix on WhatsApp" class="portfolio-whatsapp" href="https://wa.me/971561195226?text=Hello%20Nostrix%2C%20I%20was%20looking%20through%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project." id="portfolio-whatsapp" rel="noopener noreferrer" target="_blank">
-<svg aria-hidden="true" class="portfolio-whatsapp-svg" viewbox="0 0 32 32">
-<path d="M16.04 3C8.86 3 3.02 8.8 3.02 15.94c0 2.28.6 4.5 1.73 6.45L3 29l6.79-1.78a13.08 13.08 0 0 0 6.25 1.59h.01c7.17 0 13.01-5.8 13.01-12.94C29.06 8.8 23.22 3 16.04 3Zm0 23.63h-.01c-1.91 0-3.79-.51-5.42-1.47l-.39-.23-4.03 1.06 1.08-3.91-.25-.4a10.72 10.72 0 0 1-1.66-5.74c0-5.95 4.88-10.79 10.88-10.79 6 0 10.88 4.84 10.88 10.79 0 5.95-4.88 10.79-10.88 10.79Zm5.96-8.08c-.33-.16-1.94-.95-2.24-1.06-.3-.11-.52-.16-.74.16-.22.32-.85 1.06-1.04 1.27-.19.21-.38.24-.71.08-.33-.16-1.39-.51-2.64-1.61-.98-.86-1.64-1.93-1.83-2.25-.19-.32-.02-.5.14-.66.15-.14.33-.37.49-.56.16-.19.22-.32.33-.53.11-.21.05-.4-.03-.56-.08-.16-.74-1.77-1.01-2.42-.27-.64-.54-.55-.74-.56h-.63c-.22 0-.57.08-.87.4-.3.32-1.15 1.12-1.15 2.73s1.18 3.17 1.34 3.38c.16.21 2.32 3.51 5.62 4.92.79.34 1.4.54 1.88.69.79.25 1.51.21 2.08.13.63-.09 1.94-.79 2.22-1.56.27-.77.27-1.43.19-1.56-.08-.13-.3-.21-.63-.37Z" fill="currentColor"></path>
-</svg>
-<span>WhatsApp</span>
-</a></body></html>
+</nav>
+<div class="nav-tools">
+<button class="icon-btn lang-btn" type="button" data-lang-toggle translate="no" aria-label="تحويل الموقع إلى العربية">ع</button>
+<button class="icon-btn nav-desktop-only" type="button" data-theme-toggle aria-label="Switch to light mode"><svg class="ic ic-sun" aria-hidden="true"><use href="#i-sun"/></svg><svg class="ic ic-moon" aria-hidden="true"><use href="#i-moon"/></svg></button>
+<a class="btn btn-primary btn-sm" href="/#contact">Start a project</a>
+<button class="icon-btn menu-btn" type="button" aria-controls="menu" aria-expanded="false" aria-label="Open menu"><i></i><i></i></button>
+</div>
+</div>
+</header>
+<main id="main">
+<section class="page-hero">
+<div class="wrap">
+<p class="eyebrow">Portfolio</p>
+<h1 class="h1">Our work.</h1>
+<p class="lead">Select a category. Open any item to view it full screen.</p>
+</div>
+</section>
+<div class="tabbar"><div class="seg" role="tablist" aria-label="Portfolio categories"><button type="button" role="tab" data-filter="featured" aria-selected="true">Featured</button><button type="button" role="tab" data-filter="all" aria-selected="false">All Work</button><button type="button" role="tab" data-filter="modelling" aria-selected="false">Modelling</button><button type="button" role="tab" data-filter="events" aria-selected="false">Events</button><button type="button" role="tab" data-filter="wedding" aria-selected="false">Wedding</button><button type="button" role="tab" data-filter="automotive" aria-selected="false">Automotive</button><button type="button" role="tab" data-filter="products" aria-selected="false">Products</button><button type="button" role="tab" data-filter="real-estate" aria-selected="false">Real Estate</button><button type="button" role="tab" data-filter="videography" aria-selected="false">Videography</button></div></div>
+<section class="wrap" style="padding-block:18px var(--section)">
+<p class="g-count" id="g-count" aria-live="polite"></p>
+<div class="gallery" id="gallery">
+<button class="g-item" type="button" data-cat="modelling" data-featured="true" data-label="Modelling" data-src="/portfolio/gallery/modelling-01.webp" data-w="778" data-h="1167" aria-label="View Modelling"><img src="/portfolio/gallery/thumbs/modelling-01.webp" width="640" height="960" alt="Nostrix modelling" fetchpriority="high" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="false" data-label="Modelling" data-src="/portfolio/gallery/modelling-02.webp" data-w="778" data-h="1167" aria-label="View Modelling" hidden><img src="/portfolio/gallery/thumbs/modelling-02.webp" width="640" height="960" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="false" data-label="Modelling" data-src="/portfolio/gallery/modelling-03.webp" data-w="782" data-h="1167" aria-label="View Modelling" hidden><img src="/portfolio/gallery/thumbs/modelling-03.webp" width="640" height="955" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="false" data-label="Modelling" data-src="/portfolio/gallery/modelling-04.webp" data-w="778" data-h="1167" aria-label="View Modelling" hidden><img src="/portfolio/gallery/thumbs/modelling-04.webp" width="640" height="960" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="false" data-label="Modelling" data-src="/portfolio/gallery/modelling-05.webp" data-w="1591" data-h="1061" aria-label="View Modelling" hidden><img src="/portfolio/gallery/thumbs/modelling-05.webp" width="640" height="427" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="true" data-label="Modelling" data-src="/portfolio/gallery/modelling-06.webp" data-w="1591" data-h="1061" aria-label="View Modelling"><img src="/portfolio/gallery/thumbs/modelling-06.webp" width="640" height="427" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="false" data-label="Modelling" data-src="/portfolio/gallery/modelling-07.webp" data-w="778" data-h="1078" aria-label="View Modelling" hidden><img src="/portfolio/gallery/thumbs/modelling-07.webp" width="640" height="887" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="false" data-label="Modelling" data-src="/portfolio/gallery/modelling-08.webp" data-w="782" data-h="1173" aria-label="View Modelling" hidden><img src="/portfolio/gallery/thumbs/modelling-08.webp" width="640" height="960" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="false" data-label="Modelling" data-src="/portfolio/gallery/modelling-09.webp" data-w="778" data-h="1167" aria-label="View Modelling" hidden><img src="/portfolio/gallery/thumbs/modelling-09.webp" width="640" height="960" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="false" data-label="Modelling" data-src="/portfolio/gallery/modelling-10.webp" data-w="782" data-h="1173" aria-label="View Modelling" hidden><img src="/portfolio/gallery/thumbs/modelling-10.webp" width="640" height="960" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="false" data-label="Modelling" data-src="/portfolio/gallery/modelling-11.webp" data-w="778" data-h="1167" aria-label="View Modelling" hidden><img src="/portfolio/gallery/thumbs/modelling-11.webp" width="640" height="960" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="true" data-label="Modelling" data-src="/portfolio/gallery/modelling-12.webp" data-w="2371" data-h="1581" aria-label="View Modelling"><img src="/portfolio/gallery/thumbs/modelling-12.webp" width="640" height="427" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="false" data-label="Modelling" data-src="/portfolio/gallery/modelling-13.webp" data-w="778" data-h="1167" aria-label="View Modelling" hidden><img src="/portfolio/gallery/thumbs/modelling-13.webp" width="640" height="960" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="false" data-label="Modelling" data-src="/portfolio/gallery/modelling-14.webp" data-w="1900" data-h="1267" aria-label="View Modelling" hidden><img src="/portfolio/gallery/thumbs/modelling-14.webp" width="640" height="427" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="false" data-label="Modelling" data-src="/portfolio/gallery/modelling-15.webp" data-w="1294" data-h="1940" aria-label="View Modelling" hidden><img src="/portfolio/gallery/thumbs/modelling-15.webp" width="640" height="960" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="modelling" data-featured="false" data-label="Modelling" data-src="/portfolio/gallery/modelling-16.webp" data-w="1051" data-h="701" aria-label="View Modelling" hidden><img src="/portfolio/gallery/thumbs/modelling-16.webp" width="640" height="427" alt="Nostrix modelling" loading="lazy" decoding="async"><span class="g-cap"><span>Modelling</span></span></button>
+<button class="g-item" type="button" data-cat="events" data-featured="true" data-label="Events" data-src="/portfolio/gallery/events-05.webp" data-w="1380" data-h="987" aria-label="View Events"><img src="/portfolio/gallery/thumbs/events-05.webp" width="640" height="458" alt="Nostrix events" loading="lazy" decoding="async"><span class="g-cap"><span>Events</span></span></button>
+<button class="g-item" type="button" data-cat="events" data-featured="false" data-label="Events" data-src="/portfolio/gallery/events-06.webp" data-w="739" data-h="1108" aria-label="View Events" hidden><img src="/portfolio/gallery/thumbs/events-06.webp" width="640" height="960" alt="Nostrix events" loading="lazy" decoding="async"><span class="g-cap"><span>Events</span></span></button>
+<button class="g-item" type="button" data-cat="events" data-featured="false" data-label="Events" data-src="/portfolio/gallery/events-07.webp" data-w="739" data-h="1108" aria-label="View Events" hidden><img src="/portfolio/gallery/thumbs/events-07.webp" width="640" height="960" alt="Nostrix events" loading="lazy" decoding="async"><span class="g-cap"><span>Events</span></span></button>
+<button class="g-item" type="button" data-cat="events" data-featured="true" data-label="Events" data-src="/portfolio/gallery/events-08.webp" data-w="1658" data-h="1106" aria-label="View Events"><img src="/portfolio/gallery/thumbs/events-08.webp" width="640" height="427" alt="Nostrix events" loading="lazy" decoding="async"><span class="g-cap"><span>Events</span></span></button>
+<button class="g-item" type="button" data-cat="events" data-featured="false" data-label="Events" data-src="/portfolio/gallery/events-09.webp" data-w="972" data-h="648" aria-label="View Events" hidden><img src="/portfolio/gallery/thumbs/events-09.webp" width="640" height="427" alt="Nostrix events" loading="lazy" decoding="async"><span class="g-cap"><span>Events</span></span></button>
+<button class="g-item" type="button" data-cat="events" data-featured="false" data-label="Events" data-src="/portfolio/gallery/events-10.webp" data-w="1341" data-h="894" aria-label="View Events" hidden><img src="/portfolio/gallery/thumbs/events-10.webp" width="640" height="427" alt="Nostrix events" loading="lazy" decoding="async"><span class="g-cap"><span>Events</span></span></button>
+<button class="g-item" type="button" data-cat="events" data-featured="false" data-label="Events" data-src="/portfolio/gallery/events-11.webp" data-w="1341" data-h="894" aria-label="View Events" hidden><img src="/portfolio/gallery/thumbs/events-11.webp" width="640" height="427" alt="Nostrix events" loading="lazy" decoding="async"><span class="g-cap"><span>Events</span></span></button>
+<button class="g-item" type="button" data-cat="events" data-featured="false" data-label="Events" data-src="/portfolio/gallery/events-12.webp" data-w="515" data-h="772" aria-label="View Events" hidden><img src="/portfolio/gallery/thumbs/events-12.webp" width="515" height="772" alt="Nostrix events" loading="lazy" decoding="async"><span class="g-cap"><span>Events</span></span></button>
+<button class="g-item" type="button" data-cat="wedding" data-featured="true" data-label="Wedding" data-src="/portfolio/gallery/wedding-01.webp" data-w="1568" data-h="1045" aria-label="View Wedding"><img src="/portfolio/gallery/thumbs/wedding-01.webp" width="640" height="427" alt="Nostrix wedding" loading="lazy" decoding="async"><span class="g-cap"><span>Wedding</span></span></button>
+<button class="g-item" type="button" data-cat="wedding" data-featured="false" data-label="Wedding" data-src="/portfolio/gallery/wedding-02.webp" data-w="1568" data-h="1045" aria-label="View Wedding" hidden><img src="/portfolio/gallery/thumbs/wedding-02.webp" width="640" height="427" alt="Nostrix wedding" loading="lazy" decoding="async"><span class="g-cap"><span>Wedding</span></span></button>
+<button class="g-item" type="button" data-cat="wedding" data-featured="false" data-label="Wedding" data-src="/portfolio/gallery/wedding-03.webp" data-w="1570" data-h="1047" aria-label="View Wedding" hidden><img src="/portfolio/gallery/thumbs/wedding-03.webp" width="640" height="427" alt="Nostrix wedding" loading="lazy" decoding="async"><span class="g-cap"><span>Wedding</span></span></button>
+<button class="g-item" type="button" data-cat="wedding" data-featured="true" data-label="Wedding" data-src="/portfolio/gallery/wedding-04.webp" data-w="1568" data-h="1045" aria-label="View Wedding"><img src="/portfolio/gallery/thumbs/wedding-04.webp" width="640" height="427" alt="Nostrix wedding" loading="lazy" decoding="async"><span class="g-cap"><span>Wedding</span></span></button>
+<button class="g-item" type="button" data-cat="wedding" data-featured="false" data-label="Wedding" data-src="/portfolio/gallery/wedding-05.webp" data-w="1573" data-h="1049" aria-label="View Wedding" hidden><img src="/portfolio/gallery/thumbs/wedding-05.webp" width="640" height="427" alt="Nostrix wedding" loading="lazy" decoding="async"><span class="g-cap"><span>Wedding</span></span></button>
+<button class="g-item" type="button" data-cat="wedding" data-featured="false" data-label="Wedding" data-src="/portfolio/gallery/wedding-06.webp" data-w="1573" data-h="1049" aria-label="View Wedding" hidden><img src="/portfolio/gallery/thumbs/wedding-06.webp" width="640" height="427" alt="Nostrix wedding" loading="lazy" decoding="async"><span class="g-cap"><span>Wedding</span></span></button>
+<button class="g-item" type="button" data-cat="automotive" data-featured="false" data-label="Automotive" data-src="/portfolio/gallery/automotive-01.webp" data-w="759" data-h="1139" aria-label="View Automotive" hidden><img src="/portfolio/gallery/thumbs/automotive-01.webp" width="640" height="960" alt="Nostrix automotive" loading="lazy" decoding="async"><span class="g-cap"><span>Automotive</span></span></button>
+<button class="g-item" type="button" data-cat="automotive" data-featured="true" data-label="Automotive" data-src="/portfolio/gallery/automotive-02.webp" data-w="759" data-h="1139" aria-label="View Automotive"><img src="/portfolio/gallery/thumbs/automotive-02.webp" width="640" height="960" alt="Nostrix automotive" loading="lazy" decoding="async"><span class="g-cap"><span>Automotive</span></span></button>
+<button class="g-item" type="button" data-cat="automotive" data-featured="false" data-label="Automotive" data-src="/portfolio/gallery/automotive-03.webp" data-w="1578" data-h="1052" aria-label="View Automotive" hidden><img src="/portfolio/gallery/thumbs/automotive-03.webp" width="640" height="427" alt="Nostrix automotive" loading="lazy" decoding="async"><span class="g-cap"><span>Automotive</span></span></button>
+<button class="g-item" type="button" data-cat="automotive" data-featured="false" data-label="Automotive" data-src="/portfolio/gallery/automotive-04.webp" data-w="1025" data-h="683" aria-label="View Automotive" hidden><img src="/portfolio/gallery/thumbs/automotive-04.webp" width="640" height="426" alt="Nostrix automotive" loading="lazy" decoding="async"><span class="g-cap"><span>Automotive</span></span></button>
+<button class="g-item" type="button" data-cat="automotive" data-featured="false" data-label="Automotive" data-src="/portfolio/gallery/automotive-05.webp" data-w="1003" data-h="669" aria-label="View Automotive" hidden><img src="/portfolio/gallery/thumbs/automotive-05.webp" width="640" height="427" alt="Nostrix automotive" loading="lazy" decoding="async"><span class="g-cap"><span>Automotive</span></span></button>
+<button class="g-item" type="button" data-cat="automotive" data-featured="false" data-label="Automotive" data-src="/portfolio/gallery/automotive-06.webp" data-w="1003" data-h="669" aria-label="View Automotive" hidden><img src="/portfolio/gallery/thumbs/automotive-06.webp" width="640" height="427" alt="Nostrix automotive" loading="lazy" decoding="async"><span class="g-cap"><span>Automotive</span></span></button>
+<button class="g-item" type="button" data-cat="automotive" data-featured="true" data-label="Automotive" data-src="/portfolio/gallery/automotive-07.webp" data-w="1039" data-h="693" aria-label="View Automotive"><img src="/portfolio/gallery/thumbs/automotive-07.webp" width="640" height="427" alt="Nostrix automotive" loading="lazy" decoding="async"><span class="g-cap"><span>Automotive</span></span></button>
+<button class="g-item" type="button" data-cat="automotive" data-featured="false" data-label="Automotive" data-src="/portfolio/gallery/automotive-08.webp" data-w="1024" data-h="683" aria-label="View Automotive" hidden><img src="/portfolio/gallery/thumbs/automotive-08.webp" width="640" height="427" alt="Nostrix automotive" loading="lazy" decoding="async"><span class="g-cap"><span>Automotive</span></span></button>
+<button class="g-item" type="button" data-cat="automotive" data-featured="false" data-label="Automotive" data-src="/portfolio/gallery/automotive-09.webp" data-w="1031" data-h="687" aria-label="View Automotive" hidden><img src="/portfolio/gallery/thumbs/automotive-09.webp" width="640" height="426" alt="Nostrix automotive" loading="lazy" decoding="async"><span class="g-cap"><span>Automotive</span></span></button>
+<button class="g-item" type="button" data-cat="automotive" data-featured="false" data-label="Automotive" data-src="/portfolio/gallery/automotive-10.webp" data-w="1206" data-h="804" aria-label="View Automotive" hidden><img src="/portfolio/gallery/thumbs/automotive-10.webp" width="640" height="427" alt="Nostrix automotive" loading="lazy" decoding="async"><span class="g-cap"><span>Automotive</span></span></button>
+<button class="g-item" type="button" data-cat="automotive" data-featured="false" data-label="Automotive" data-src="/portfolio/gallery/automotive-11.webp" data-w="1952" data-h="942" aria-label="View Automotive" hidden><img src="/portfolio/gallery/thumbs/automotive-11.webp" width="640" height="309" alt="Nostrix automotive" loading="lazy" decoding="async"><span class="g-cap"><span>Automotive</span></span></button>
+<button class="g-item" type="button" data-cat="products" data-featured="true" data-label="Products" data-src="/portfolio/gallery/products-01.webp" data-w="1285" data-h="1285" aria-label="View Products"><img src="/portfolio/gallery/thumbs/products-01.webp" width="640" height="640" alt="Nostrix products" loading="lazy" decoding="async"><span class="g-cap"><span>Products</span></span></button>
+<button class="g-item" type="button" data-cat="products" data-featured="false" data-label="Products" data-src="/portfolio/gallery/products-02.webp" data-w="771" data-h="1157" aria-label="View Products" hidden><img src="/portfolio/gallery/thumbs/products-02.webp" width="640" height="960" alt="Nostrix products" loading="lazy" decoding="async"><span class="g-cap"><span>Products</span></span></button>
+<button class="g-item" type="button" data-cat="products" data-featured="false" data-label="Products" data-src="/portfolio/gallery/products-03.webp" data-w="1529" data-h="1020" aria-label="View Products" hidden><img src="/portfolio/gallery/thumbs/products-03.webp" width="640" height="427" alt="Nostrix products" loading="lazy" decoding="async"><span class="g-cap"><span>Products</span></span></button>
+<button class="g-item" type="button" data-cat="products" data-featured="false" data-label="Products" data-src="/portfolio/gallery/products-04.webp" data-w="1530" data-h="1020" aria-label="View Products" hidden><img src="/portfolio/gallery/thumbs/products-04.webp" width="640" height="427" alt="Nostrix products" loading="lazy" decoding="async"><span class="g-cap"><span>Products</span></span></button>
+<button class="g-item" type="button" data-cat="products" data-featured="true" data-label="Products" data-src="/portfolio/gallery/products-05.webp" data-w="773" data-h="1159" aria-label="View Products"><img src="/portfolio/gallery/thumbs/products-05.webp" width="640" height="960" alt="Nostrix products" loading="lazy" decoding="async"><span class="g-cap"><span>Products</span></span></button>
+<button class="g-item" type="button" data-cat="products" data-featured="false" data-label="Products" data-src="/portfolio/gallery/products-06.webp" data-w="773" data-h="1159" aria-label="View Products" hidden><img src="/portfolio/gallery/thumbs/products-06.webp" width="640" height="960" alt="Nostrix products" loading="lazy" decoding="async"><span class="g-cap"><span>Products</span></span></button>
+<button class="g-item" type="button" data-cat="products" data-featured="false" data-label="Products" data-src="/portfolio/gallery/products-07.webp" data-w="770" data-h="1154" aria-label="View Products" hidden><img src="/portfolio/gallery/thumbs/products-07.webp" width="640" height="959" alt="Nostrix products" loading="lazy" decoding="async"><span class="g-cap"><span>Products</span></span></button>
+<button class="g-item" type="button" data-cat="products" data-featured="false" data-label="Products" data-src="/portfolio/gallery/products-08.webp" data-w="964" data-h="1285" aria-label="View Products" hidden><img src="/portfolio/gallery/thumbs/products-08.webp" width="640" height="853" alt="Nostrix products" loading="lazy" decoding="async"><span class="g-cap"><span>Products</span></span></button>
+<button class="g-item" type="button" data-cat="products" data-featured="false" data-label="Products" data-src="/portfolio/gallery/products-09.webp" data-w="857" data-h="1285" aria-label="View Products" hidden><img src="/portfolio/gallery/thumbs/products-09.webp" width="640" height="960" alt="Nostrix products" loading="lazy" decoding="async"><span class="g-cap"><span>Products</span></span></button>
+<button class="g-item" type="button" data-cat="real-estate" data-featured="true" data-label="Real Estate" data-src="/portfolio/gallery/real-estate-01.webp" data-w="1031" data-h="688" aria-label="View Real Estate"><img src="/portfolio/gallery/thumbs/real-estate-01.webp" width="640" height="427" alt="Nostrix real estate" loading="lazy" decoding="async"><span class="g-cap"><span>Real Estate</span></span></button>
+<button class="g-item" type="button" data-cat="real-estate" data-featured="false" data-label="Real Estate" data-src="/portfolio/gallery/real-estate-02.webp" data-w="1028" data-h="686" aria-label="View Real Estate" hidden><img src="/portfolio/gallery/thumbs/real-estate-02.webp" width="640" height="427" alt="Nostrix real estate" loading="lazy" decoding="async"><span class="g-cap"><span>Real Estate</span></span></button>
+<button class="g-item" type="button" data-cat="real-estate" data-featured="false" data-label="Real Estate" data-src="/portfolio/gallery/real-estate-03.webp" data-w="1028" data-h="686" aria-label="View Real Estate" hidden><img src="/portfolio/gallery/thumbs/real-estate-03.webp" width="640" height="427" alt="Nostrix real estate" loading="lazy" decoding="async"><span class="g-cap"><span>Real Estate</span></span></button>
+<button class="g-item" type="button" data-cat="real-estate" data-featured="false" data-label="Real Estate" data-src="/portfolio/gallery/real-estate-04.webp" data-w="1031" data-h="687" aria-label="View Real Estate" hidden><img src="/portfolio/gallery/thumbs/real-estate-04.webp" width="640" height="426" alt="Nostrix real estate" loading="lazy" decoding="async"><span class="g-cap"><span>Real Estate</span></span></button>
+<button class="g-item" type="button" data-cat="real-estate" data-featured="false" data-label="Real Estate" data-src="/portfolio/gallery/real-estate-05.webp" data-w="1022" data-h="681" aria-label="View Real Estate" hidden><img src="/portfolio/gallery/thumbs/real-estate-05.webp" width="640" height="426" alt="Nostrix real estate" loading="lazy" decoding="async"><span class="g-cap"><span>Real Estate</span></span></button>
+<button class="g-item" type="button" data-cat="real-estate" data-featured="true" data-label="Real Estate" data-src="/portfolio/gallery/real-estate-06.webp" data-w="1028" data-h="686" aria-label="View Real Estate"><img src="/portfolio/gallery/thumbs/real-estate-06.webp" width="640" height="427" alt="Nostrix real estate" loading="lazy" decoding="async"><span class="g-cap"><span>Real Estate</span></span></button>
+<button class="g-item" type="button" data-cat="real-estate" data-featured="false" data-label="Real Estate" data-src="/portfolio/gallery/real-estate-07.webp" data-w="1028" data-h="686" aria-label="View Real Estate" hidden><img src="/portfolio/gallery/thumbs/real-estate-07.webp" width="640" height="427" alt="Nostrix real estate" loading="lazy" decoding="async"><span class="g-cap"><span>Real Estate</span></span></button>
+<button class="g-item" type="button" data-cat="real-estate" data-featured="false" data-label="Real Estate" data-src="/portfolio/gallery/real-estate-08.webp" data-w="1028" data-h="686" aria-label="View Real Estate" hidden><img src="/portfolio/gallery/thumbs/real-estate-08.webp" width="640" height="427" alt="Nostrix real estate" loading="lazy" decoding="async"><span class="g-cap"><span>Real Estate</span></span></button>
+<button class="g-item" type="button" data-cat="real-estate" data-featured="false" data-label="Real Estate" data-src="/portfolio/gallery/real-estate-09.webp" data-w="1028" data-h="686" aria-label="View Real Estate" hidden><img src="/portfolio/gallery/thumbs/real-estate-09.webp" width="640" height="427" alt="Nostrix real estate" loading="lazy" decoding="async"><span class="g-cap"><span>Real Estate</span></span></button>
+<button class="g-item" type="button" data-cat="real-estate" data-featured="false" data-label="Real Estate" data-src="/portfolio/gallery/real-estate-10.webp" data-w="1028" data-h="686" aria-label="View Real Estate" hidden><img src="/portfolio/gallery/thumbs/real-estate-10.webp" width="640" height="427" alt="Nostrix real estate" loading="lazy" decoding="async"><span class="g-cap"><span>Real Estate</span></span></button>
+<button class="g-item" type="button" data-cat="real-estate" data-featured="false" data-label="Real Estate" data-src="/portfolio/gallery/real-estate-11.webp" data-w="1028" data-h="686" aria-label="View Real Estate" hidden><img src="/portfolio/gallery/thumbs/real-estate-11.webp" width="640" height="427" alt="Nostrix real estate" loading="lazy" decoding="async"><span class="g-cap"><span>Real Estate</span></span></button>
+<button class="g-item is-video" type="button" data-cat="videography" data-featured="true" data-label="Retail &amp; Event Reel" data-video="https://drive.google.com/file/d/14cxFdz3tDSQdXHfppvXaBNkHsOoGaXkQ/preview" data-w="1400" data-h="2488" aria-label="Play Retail &amp; Event Reel"><img src="/portfolio/gallery/thumbs/video-01.webp" width="540" height="960" alt="Nostrix videography" loading="lazy" decoding="async"><span class="g-cap"><span class="g-play"><svg class="ic " aria-hidden="true"><use href="#i-play"/></svg></span><span>Retail &amp; Event Reel</span></span></button>
+<button class="g-item is-video" type="button" data-cat="videography" data-featured="false" data-label="Automotive Detail Reel" data-video="https://drive.google.com/file/d/1QdTXV03d1SKJIPLZSC8RqNtJlV63u9tU/preview" data-w="1080" data-h="1080" aria-label="Play Automotive Detail Reel" hidden><img src="/portfolio/gallery/thumbs/video-02.webp" width="640" height="640" alt="Nostrix videography" loading="lazy" decoding="async"><span class="g-cap"><span class="g-play"><svg class="ic " aria-hidden="true"><use href="#i-play"/></svg></span><span>Automotive Detail Reel</span></span></button>
+<button class="g-item is-video" type="button" data-cat="videography" data-featured="false" data-label="Automotive Vertical Reel" data-video="https://drive.google.com/file/d/1ow-n06UH28IDIsEWYw7WoUxItrJwMN5i/preview" data-w="1400" data-h="2488" aria-label="Play Automotive Vertical Reel" hidden><img src="/portfolio/gallery/thumbs/video-03.webp" width="540" height="960" alt="Nostrix videography" loading="lazy" decoding="async"><span class="g-cap"><span class="g-play"><svg class="ic " aria-hidden="true"><use href="#i-play"/></svg></span><span>Automotive Vertical Reel</span></span></button>
+<button class="g-item is-video" type="button" data-cat="videography" data-featured="false" data-label="Automotive Campaign Reel" data-video="https://drive.google.com/file/d/1rDzsJFqXrcnN2a3AA6HCT9Z6AWjz2Rkp/preview" data-w="1400" data-h="788" aria-label="Play Automotive Campaign Reel" hidden><img src="/portfolio/gallery/thumbs/video-04.webp" width="640" height="360" alt="Nostrix videography" loading="lazy" decoding="async"><span class="g-cap"><span class="g-play"><svg class="ic " aria-hidden="true"><use href="#i-play"/></svg></span><span>Automotive Campaign Reel</span></span></button>
+<button class="g-item is-video" type="button" data-cat="videography" data-featured="true" data-label="Al Romaizan Event Reel" data-video="https://drive.google.com/file/d/1mLaiC8db_Vtrj_I0aahaKnnND8DzBfb-/preview" data-w="1400" data-h="2488" aria-label="Play Al Romaizan Event Reel"><img src="/portfolio/gallery/thumbs/video-05.webp" width="540" height="960" alt="Nostrix videography" loading="lazy" decoding="async"><span class="g-cap"><span class="g-play"><svg class="ic " aria-hidden="true"><use href="#i-play"/></svg></span><span>Al Romaizan Event Reel</span></span></button>
+<button class="g-item is-video" type="button" data-cat="videography" data-featured="false" data-label="Creative Promo Reel" data-video="https://drive.google.com/file/d/1YHeOhoULMRKRQ_SWgWcwMHSc-GOfwp66/preview" data-w="1400" data-h="2488" aria-label="Play Creative Promo Reel" hidden><img src="/portfolio/gallery/thumbs/video-06.webp" width="540" height="960" alt="Nostrix videography" loading="lazy" decoding="async"><span class="g-cap"><span class="g-play"><svg class="ic " aria-hidden="true"><use href="#i-play"/></svg></span><span>Creative Promo Reel</span></span></button>
+<button class="g-item is-video" type="button" data-cat="videography" data-featured="false" data-label="Automotive Road Reel" data-video="https://drive.google.com/file/d/1fjMVN2cTQjm26a7N-XXQqVQJlIq4ieZV/preview" data-w="1400" data-h="2488" aria-label="Play Automotive Road Reel" hidden><img src="/portfolio/gallery/thumbs/video-07.webp" width="540" height="960" alt="Nostrix videography" loading="lazy" decoding="async"><span class="g-cap"><span class="g-play"><svg class="ic " aria-hidden="true"><use href="#i-play"/></svg></span><span>Automotive Road Reel</span></span></button>
+</div>
+</section>
+<section class="section section-tint">
+<div class="wrap">
+<div class="band" data-reveal>
+<h2 class="h2">Start a project.</h2>
+<p class="lead">Tell us what you need. Send it on WhatsApp or submit it to our team.</p>
+<div class="btn-row">
+<a class="btn btn-primary" href="/#contact">Start a project</a>
+<a class="btn btn-wa" href="https://wa.me/971561195226?text=Hello%20Nostrix%2C%20I%20was%20looking%20through%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer"><svg class="ic " aria-hidden="true"><use href="#i-whatsapp"/></svg>WhatsApp</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="footer">
+<div class="wrap">
+<div class="footer-grid">
+<div>
+<a class="brand" href="/" aria-label="Nostrix home" translate="no"><svg viewBox="0 0 34 15" aria-hidden="true"><use href="#i-logo"/></svg><span>NOSTRIX</span></a>
+<p>Made to be seen.</p>
+<div class="footer-social">
+<a href="https://www.instagram.com/nostrix.ae/" target="_blank" rel="noopener noreferrer" aria-label="Nostrix on Instagram"><svg class="ic " aria-hidden="true"><use href="#i-instagram"/></svg></a>
+<a href="https://www.tiktok.com/@nostrix.ae" target="_blank" rel="noopener noreferrer" aria-label="Nostrix on TikTok"><svg class="ic " aria-hidden="true"><use href="#i-tiktok"/></svg></a>
+<a href="https://wa.me/971561195226" target="_blank" rel="noopener noreferrer" aria-label="Chat with Nostrix on WhatsApp"><svg class="ic " aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+<a href="mailto:marketing@nostrix.ae" aria-label="Email Nostrix"><svg class="ic " aria-hidden="true"><use href="#i-mail"/></svg></a>
+</div>
+</div>
+<div>
+<h2>Explore</h2>
+<ul>
+<li><a href="/#services">Services</a></li>
+<li><a href="/portfolio/">Portfolio</a></li>
+<li><a href="/pricing/">Pricing</a></li>
+<li><a href="/review/">Leave a review</a></li>
+</ul>
+</div>
+<div>
+<h2>Contact</h2>
+<ul>
+<li><a class="ltr" href="mailto:marketing@nostrix.ae">marketing@nostrix.ae</a></li>
+<li><a class="ltr" href="tel:+971561195226">+971 56 119 5226</a></li>
+<li><a href="https://www.google.com/maps/search/?api=1&amp;query=American%20University%20of%20Ras%20Al%20Khaimah%20-%20American%20University%20of%20Ras%20Al%20Khaimah%20Road%20-%20Road%20-%20Ras%20Al%20Khaimah" target="_blank" rel="noopener noreferrer">AURAK, Building H, Office 15, Ras Al Khaimah, UAE</a></li>
+</ul>
+</div>
+<div>
+<h2>Legal</h2>
+<ul>
+<li><a href="/privacy/">Privacy Policy</a></li>
+<li><a href="/terms/">Terms &amp; Conditions</a></li>
+<li data-analytics-settings hidden><button type="button">Analytics settings</button></li>
+</ul>
+</div>
+</div>
+<div class="footer-base">
+<p>© <span data-year>2026</span> Nostrix Marketing Services. All rights reserved.</p>
+<p>Ras Al Khaimah, UAE</p>
+</div>
+</div>
+</footer>
+<a class="wa-float" href="https://wa.me/971561195226" target="_blank" rel="noopener noreferrer" aria-label="Chat with Nostrix on WhatsApp"><svg class="ic " aria-hidden="true"><use href="#i-whatsapp"/></svg><span>WhatsApp</span></a>
+<script src="/site-config.js"></script>
+<script defer src="/assets/js/site.js"></script>
+<script defer src="/assets/js/portfolio.js"></script>
+<script defer src="/analytics.js"></script>
+</body>
+</html>

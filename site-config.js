@@ -6,3 +6,9 @@ window.NOSTRIX_GA_MEASUREMENT_ID =
 
 window.NOSTRIX_PRICING_WEB_APP_URL =
   'https://script.google.com/macros/s/AKfycbyelo7LLdjjb5jDxLMBz1W-d3yZEgJigVlNxJL1ZR6rYiFA5yFHN5GmeCfbd1jCEI9zGg/exec';
+
+/* Social accounts shown in the "Latest posts" section. Use the handle without @. */
+window.NOSTRIX_SOCIAL = {
+  instagram: 'nostrix.ae',
+  tiktok: 'nostrix.ae'
+};

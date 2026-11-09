@@ -1,0 +1,778 @@
+{
+ "production": {
+  "title": "Production",
+  "copy": "Creator content, photography, videography, pop-ups, events and recurring monthly content. Travel outside Ras Al Khaimah is added separately.",
+  "note": "Creator Video Lite and Pop-Up Lite are intentionally lightweight capture products. Event Duo uses a dedicated photographer + videographer.",
+  "subtabs": [
+   {
+    "key": "creator",
+    "label": "Creator & Pop-Up",
+    "cards": [
+     {
+      "kicker": "Creator · Photo",
+      "badge": "",
+      "name": "Creator Photo",
+      "price": "AED 650",
+      "unit": "/ 2 hours",
+      "desc": "Compact professional photography for creators and small brands.",
+      "fit": "",
+      "features": [
+       "Up to 2 hours",
+       "10 selected final photos",
+       "Essential exposure, WB & colour correction",
+       "Online delivery"
+      ],
+      "cta": "Choose Photo",
+      "package": "Creator Photo",
+      "data_price": "AED 650 / 2 hours",
+      "builder": "",
+      "featured": false,
+      "note": ""
+     },
+     {
+      "kicker": "Creator · Capture",
+      "badge": "",
+      "name": "Creator Video Lite",
+      "price": "AED 650",
+      "unit": "/ 2 hours",
+      "desc": "Social-first video capture using lightweight creator equipment such as DJI Osmo Pocket 3.",
+      "fit": "",
+      "features": [
+       "Up to 2 hours of coverage",
+       "Vertical/social-first capture",
+       "Organised selected clips",
+       "No advanced post-production"
+      ],
+      "cta": "Choose Video Lite",
+      "package": "Creator Video Lite",
+      "data_price": "AED 650 / 2 hours",
+      "builder": "",
+      "featured": false,
+      "note": ""
+     },
+     {
+      "kicker": "Creator · Hybrid",
+      "badge": "Popular",
+      "name": "Creator Hybrid",
+      "price": "AED 850",
+      "unit": "/ 2 hours",
+      "desc": "Photo + lightweight video in one compact session.",
+      "fit": "",
+      "features": [
+       "10 edited photos",
+       "30–45 min of video capture within session",
+       "1 simple vertical Reel",
+       "Essential photography edits"
+      ],
+      "cta": "Choose Hybrid",
+      "package": "Creator Hybrid",
+      "data_price": "AED 850 / 2 hours",
+      "builder": "",
+      "featured": true,
+      "note": ""
+     },
+     {
+      "kicker": "Creator · Plus",
+      "badge": "",
+      "name": "Creator Hybrid Plus",
+      "price": "AED 1,050",
+      "unit": "/ 2 hours",
+      "desc": "More polished creator coverage with a properly edited social Reel.",
+      "fit": "",
+      "features": [
+       "15 edited photos",
+       "Video coverage",
+       "1 professionally edited Reel",
+       "Basic colour grade, text & music",
+       "1 revision round"
+      ],
+      "cta": "Choose Hybrid Plus",
+      "package": "Creator Hybrid Plus",
+      "data_price": "AED 1,050 / 2 hours",
+      "builder": "",
+      "featured": false,
+      "note": ""
+     },
+     {
+      "kicker": "Pop-Up · Lite",
+      "badge": "",
+      "name": "Pop-Up Video Lite",
+      "price": "AED 750",
+      "unit": "/ 2 hours",
+      "desc": "Fast, low-footprint social capture for pop-ups, stalls and creator events.",
+      "fit": "",
+      "features": [
+       "DJI OP3 / lightweight capture",
+       "Product, interaction & atmosphere clips",
+       "Organised footage delivery",
+       "No advanced edit"
+      ],
+      "cta": "Choose Pop-Up Lite",
+      "package": "Pop-Up Video Lite",
+      "data_price": "AED 750 / 2 hours",
+      "builder": "",
+      "featured": false,
+      "note": ""
+     },
+     {
+      "kicker": "Pop-Up · Pro",
+      "badge": "",
+      "name": "Pop-Up Video Pro",
+      "price": "AED 1,150",
+      "unit": "/ 2 hours",
+      "desc": "Social-ready pop-up coverage with a finished hero Reel.",
+      "fit": "",
+      "features": [
+       "2-hour social-first coverage",
+       "1 × 30–45 sec edited Reel",
+       "3–5 additional vertical clips",
+       "Basic grade, music & titles",
+       "1 revision round"
+      ],
+      "cta": "Choose Pop-Up Pro",
+      "package": "Pop-Up Video Pro",
+      "data_price": "AED 1,150 / 2 hours",
+      "builder": "",
+      "featured": false,
+      "note": ""
+     }
+    ]
+   },
+   {
+    "key": "events",
+    "label": "Events",
+    "cards": [
+     {
+      "kicker": "Photo · 2H",
+      "badge": "",
+      "name": "Event Photo 2H",
+      "price": "AED 900",
+      "unit": "",
+      "desc": "",
+      "fit": "",
+      "features": [
+       "1 photographer · 2 hours",
+       "30–40 edited photos",
+       "Professional colour correction"
+      ],
+      "cta": "Choose 2H Photo",
+      "package": "Event Photo 2H",
+      "data_price": "AED 900",
+      "builder": "",
+      "featured": false,
+      "note": ""
+     },
+     {
+      "kicker": "Video · 2H",
+      "badge": "",
+      "name": "Event Video 2H",
+      "price": "AED 1,100",
+      "unit": "",
+      "desc": "",
+      "fit": "",
+      "features": [
+       "1 videographer · 2 hours",
+       "30–45 sec highlight",
+       "Basic colour grade + music",
+       "1 revision round"
+      ],
+      "cta": "Choose 2H Video",
+      "package": "Event Video 2H",
+      "data_price": "AED 1,100",
+      "builder": "",
+      "featured": false,
+      "note": ""
+     },
+     {
+      "kicker": "Hybrid · 2H",
+      "badge": "",
+      "name": "One-Operator Hybrid",
+      "price": "AED 1,350",
+      "unit": "",
+      "desc": "",
+      "fit": "",
+      "features": [
+       "1 creator switching photo + video",
+       "20 edited photos",
+       "1 edited Reel",
+       "Best for small events/content"
+      ],
+      "cta": "Choose Hybrid",
+      "package": "One-Operator Hybrid 2H",
+      "data_price": "AED 1,350",
+      "builder": "",
+      "featured": false,
+      "note": ""
+     },
+     {
+      "kicker": "Duo · 2H",
+      "badge": "Best coverage",
+      "name": "Event Duo 2H",
+      "price": "AED 1,750",
+      "unit": "",
+      "desc": "",
+      "fit": "",
+      "features": [
+       "1 photographer + 1 videographer",
+       "30–50 edited photos",
+       "30–45 sec edited highlight",
+       "1 revision round"
+      ],
+      "cta": "Choose Event Duo",
+      "package": "Event Duo 2H",
+      "data_price": "AED 1,750",
+      "builder": "",
+      "featured": true,
+      "note": ""
+     },
+     {
+      "kicker": "Photo · 4H",
+      "badge": "",
+      "name": "Event Photo 4H",
+      "price": "AED 1,550",
+      "unit": "",
+      "desc": "",
+      "fit": "",
+      "features": [
+       "1 photographer · 4 hours",
+       "60–80 edited photos",
+       "Online gallery"
+      ],
+      "cta": "Choose 4H Photo",
+      "package": "Event Photo 4H",
+      "data_price": "AED 1,550",
+      "builder": "",
+      "featured": false,
+      "note": ""
+     },
+     {
+      "kicker": "Video · 4H",
+      "badge": "",
+      "name": "Event Video 4H",
+      "price": "AED 1,850",
+      "unit": "",
+      "desc": "",
+      "fit": "",
+      "features": [
+       "1 videographer · 4 hours",
+       "60–90 sec highlight",
+       "1 vertical cut + colour grade",
+       "1 revision round"
+      ],
+      "cta": "Choose 4H Video",
+      "package": "Event Video 4H",
+      "data_price": "AED 1,850",
+      "builder": "",
+      "featured": false,
+      "note": ""
+     },
+     {
+      "kicker": "Duo · 4H",
+      "badge": "",
+      "name": "Event Duo 4H",
+      "price": "AED 2,650",
+      "unit": "",
+      "desc": "",
+      "fit": "",
+      "features": [
+       "1 photographer + 1 videographer",
+       "60–100 edited photos",
+       "60 sec highlight video",
+       "1 vertical Reel + 1 revision"
+      ],
+      "cta": "Choose 4H Duo",
+      "package": "Event Duo 4H",
+      "data_price": "AED 2,650",
+      "builder": "",
+      "featured": true,
+      "note": ""
+     },
+     {
+      "kicker": "Photo · 8H",
+      "badge": "",
+      "name": "Event Photo 8H",
+      "price": "AED 2,750",
+      "unit": "",
+      "desc": "",
+      "fit": "",
+      "features": [
+       "1 photographer · up to 8 hours",
+       "120–180 edited photos",
+       "Professional colour correction"
+      ],
+      "cta": "Choose 8H Photo",
+      "package": "Event Photo 8H",
+      "data_price": "AED 2,750",
+      "builder": "",
+      "featured": false,
+      "note": ""
+     },
+     {
+      "kicker": "Duo · 8H",
+      "badge": "",
+      "name": "Event Duo 8H",
+      "price": "AED 4,750",
+      "unit": "",
+      "desc": "",
+      "fit": "",
+      "features": [
+       "1 photographer + 1 videographer",
+       "150+ edited photos",
+       "60–90 sec highlight",
+       "2 Reels + 1 revision"
+      ],
+      "cta": "Choose Full Day Duo",
+      "package": "Event Duo 8H",
+      "data_price": "AED 4,750",
+      "builder": "",
+      "featured": false,
+      "note": ""
+     }
+    ]
+   },
+   {
+    "key": "monthly",
+    "label": "Monthly Content",
+    "cards": [
+     {
+      "kicker": "Recurring · Creator",
+      "badge": "",
+      "name": "Creator Monthly",
+      "price": "AED 1,490",
+      "unit": "/ month",
+      "desc": "Predictable monthly content for creators and personal brands.",
+      "fit": "",
+      "features": [
+       "2 sessions / month, up to 90 min each",
+       "20 edited photos total",
+       "2 simple Reels",
+       "Basic editing",
+       "3-month commitment"
+      ],
+      "cta": "Choose Creator Monthly",
+      "package": "Creator Monthly",
+      "data_price": "AED 1,490 / month",
+      "builder": "",
+      "featured": false,
+      "note": ""
+     },
+     {
+      "kicker": "Recurring · Business",
+      "badge": "Business value",
+      "name": "Business Content",
+      "price": "AED 2,490",
+      "unit": "/ month",
+      "desc": "A monthly production engine for small businesses that need fresh visual content.",
+      "fit": "",
+      "features": [
+       "2 × 2-hour content sessions",
+       "30 edited photos",
+       "4 professionally edited Reels",
+       "Basic creative planning & shot list",
+       "3-month commitment"
+      ],
+      "cta": "Choose Business Content",
+      "package": "Business Content",
+      "data_price": "AED 2,490 / month",
+      "builder": "",
+      "featured": true,
+      "note": ""
+     },
+     {
+      "kicker": "Production · Custom",
+      "badge": "Build your shoot",
+      "name": "Custom Production",
+      "price": "From AED 1,490",
+      "unit": "/ project",
+      "desc": "For shoots that need a custom combination of hours, crew, photo, video, reels, interviews, locations or deliverables.",
+      "fit": "Best for custom events & campaigns",
+      "features": [
+       "Custom coverage hours",
+       "Photo, video or mixed crew",
+       "Custom edited-photo count",
+       "Reels / highlights based on scope",
+       "Optional extra operator or equipment",
+       "Written deliverables before booking"
+      ],
+      "cta": "Build Custom Production",
+      "package": "Custom Production",
+      "data_price": "",
+      "builder": "production",
+      "featured": true,
+      "note": "Travel, venue permits, rentals and specialist crew remain separate where required."
+     }
+    ]
+   }
+  ]
+ },
+ "marketing": {
+  "title": "Practical marketing built around what your brand actually needs.",
+  "copy": "These packages focus on social presence, content planning and launches, with a clear scope so you know exactly what is included. Paid media, advanced SEO and complex funnels can be quoted separately when needed.",
+  "note": "Professional production can be added from the Production category. Ad spend and third-party media budgets are always separate.",
+  "cards": [
+   {
+    "kicker": "01 · Foundation",
+    "badge": "",
+    "name": "Social Foundation",
+    "price": "AED 1,490",
+    "unit": "/ month",
+    "desc": "A structured monthly presence for brands that already have usable content or can supply assets.",
+    "fit": "Best for small brands",
+    "features": [
+     "1 primary social platform",
+     "Monthly content plan & content pillars",
+     "8 designed posts / social creatives",
+     "Captions & scheduling",
+     "Basic monthly performance summary",
+     "Production not included"
+    ],
+    "cta": "Choose Foundation",
+    "package": "Social Foundation",
+    "data_price": "AED 1,490 / month",
+    "builder": "",
+    "featured": false,
+    "note": ""
+   },
+   {
+    "kicker": "02 · Growth",
+    "badge": "Most popular",
+    "name": "Social Growth",
+    "price": "AED 2,790",
+    "unit": "/ month",
+    "desc": "A stronger content and management layer for growing brands that want consistency across two channels.",
+    "fit": "Best for growing SMEs",
+    "features": [
+     "Up to 2 social platforms",
+     "12 planned content pieces / creatives",
+     "Captions, scheduling & monthly calendar",
+     "Monthly strategy check-in",
+     "Light community-management support",
+     "Monthly reporting"
+    ],
+    "cta": "Choose Growth",
+    "package": "Social Growth",
+    "data_price": "AED 2,790 / month",
+    "builder": "",
+    "featured": true,
+    "note": ""
+   },
+   {
+    "kicker": "03 · Presence",
+    "badge": "",
+    "name": "Brand Presence",
+    "price": "AED 4,490",
+    "unit": "/ month",
+    "desc": "A fuller organic social system for brands that need more output, coordination and hands-on management.",
+    "fit": "Best for active brands",
+    "features": [
+     "Up to 3 social platforms",
+     "18–20 planned content assets",
+     "Campaign & monthly content planning",
+     "Captions, publishing & community management",
+     "Competitor/content monitoring",
+     "Detailed monthly report & strategy review"
+    ],
+    "cta": "Choose Presence",
+    "package": "Brand Presence",
+    "data_price": "AED 4,490 / month",
+    "builder": "",
+    "featured": false,
+    "note": ""
+   },
+   {
+    "kicker": "04 · Launch",
+    "badge": "",
+    "name": "Launch Campaign Setup",
+    "price": "From AED 2,490",
+    "unit": "one-time",
+    "desc": "A focused launch system for a new business, product, menu, location or campaign.",
+    "fit": "One-time launch support",
+    "features": [
+     "30-day go-to-market plan",
+     "Basic audience & competitor review",
+     "Messaging & launch content pillars",
+     "8 launch creatives + captions",
+     "Social profile optimisation checklist"
+    ],
+    "cta": "Plan a Launch",
+    "package": "Launch Campaign Setup",
+    "data_price": "From AED 2,490 one-time",
+    "builder": "",
+    "featured": false,
+    "note": ""
+   },
+   {
+    "kicker": "05 · Custom",
+    "badge": "Flexible scope",
+    "name": "Custom Marketing Retainer",
+    "price": "From AED 3,490",
+    "unit": "/ month",
+    "desc": "A tailored organic marketing plan when your platform mix, content volume or launch calendar does not fit the standard tiers.",
+    "fit": "Best for brands between tiers",
+    "features": [
+     "Custom platform & content mix",
+     "Monthly content and campaign plan",
+     "Captions, publishing and reporting",
+     "Community-management level by scope",
+     "Optional production added separately",
+     "Monthly review and scope optimisation"
+    ],
+    "cta": "Build Marketing Plan",
+    "package": "Custom Marketing Retainer",
+    "data_price": "",
+    "builder": "marketing",
+    "featured": true,
+    "note": "Paid media, ad spend, advanced SEO and third-party media are quoted separately."
+   }
+  ]
+ },
+ "branding": {
+  "title": "Identity systems built to last.",
+  "copy": "Every package is built around a usable visual system rather than a single logo file, with clear deliverables for startups, creators and growing businesses.",
+  "note": "Best suited to startups, creators and SMEs. Naming, packaging, extensive print systems and complex brand architecture can be quoted separately.",
+  "cards": [
+   {
+    "kicker": "01 · Essential",
+    "badge": "",
+    "name": "Identity Essential",
+    "price": "AED 1,490",
+    "unit": "one-time",
+    "desc": "A professional visual foundation for a new small business or personal brand.",
+    "fit": "Best for new brands",
+    "features": [
+     "Brand discovery call & visual direction",
+     "Primary logo + alternate mark",
+     "Colour palette & typography system",
+     "8–10 page mini brand guide",
+     "Final files for digital & print",
+     "2 revision rounds"
+    ],
+    "cta": "Choose Essential",
+    "package": "Identity Essential",
+    "data_price": "AED 1,490 one-time",
+    "builder": "",
+    "featured": false,
+    "note": ""
+   },
+   {
+    "kicker": "02 · System",
+    "badge": "Recommended",
+    "name": "Brand System",
+    "price": "AED 2,990",
+    "unit": "one-time",
+    "desc": "A deeper identity system for businesses that need consistency across real-world touchpoints.",
+    "fit": "Best overall value",
+    "features": [
+     "Brand strategy & creative-direction session",
+     "Complete logo suite & lockups",
+     "Colour, typography & supporting graphic system",
+     "Social profile assets & basic templates",
+     "15–20 page brand guidelines",
+     "3 revision rounds"
+    ],
+    "cta": "Choose Brand System",
+    "package": "Brand System",
+    "data_price": "AED 2,990 one-time",
+    "builder": "",
+    "featured": true,
+    "note": ""
+   },
+   {
+    "kicker": "03 · Complete",
+    "badge": "",
+    "name": "Complete Visual Identity",
+    "price": "AED 5,490",
+    "unit": "one-time",
+    "desc": "A complete creative system for a serious launch, repositioning or high-visibility brand.",
+    "fit": "Best for serious launches",
+    "features": [
+     "Brand workshop, positioning & visual territory",
+     "Full logo, icon & graphic-language system",
+     "Art direction for photography & media",
+     "6 branded launch templates/applications",
+     "25–35 page brand guidelines",
+     "3 revision rounds + handover session"
+    ],
+    "cta": "Choose Complete",
+    "package": "Complete Visual Identity",
+    "data_price": "AED 5,490 one-time",
+    "builder": "",
+    "featured": false,
+    "note": ""
+   },
+   {
+    "kicker": "04 · Refresh",
+    "badge": "",
+    "name": "Brand Refresh",
+    "price": "From AED 1,990",
+    "unit": "",
+    "desc": "For an existing brand that needs to look sharper without rebuilding everything from zero.",
+    "fit": "Existing brands",
+    "features": [
+     "Current identity audit",
+     "Logo refinement where needed",
+     "Updated colour & typography direction",
+     "Refreshed social/media look",
+     "Mini updated guidelines"
+    ],
+    "cta": "Discuss Refresh",
+    "package": "Brand Refresh",
+    "data_price": "From AED 1,990",
+    "builder": "",
+    "featured": false,
+    "note": ""
+   },
+   {
+    "kicker": "05 · Custom",
+    "badge": "Build your own",
+    "name": "Custom Brand Build",
+    "price": "From AED 3,490",
+    "unit": "one-time",
+    "desc": "For businesses that do not fit a fixed tier. We build a tailored identity scope around the actual touchpoints you need.",
+    "fit": "Best for unusual brand scopes",
+    "features": [
+     "Strategy & creative-direction workshop",
+     "Custom logo / identity deliverable mix",
+     "Choose social, print or launch applications",
+     "Guideline depth matched to the project",
+     "2–3 revision rounds depending on scope",
+     "Final print + digital handover"
+    ],
+    "cta": "Build Custom Brand",
+    "package": "Custom Brand Build",
+    "data_price": "",
+    "builder": "branding",
+    "featured": true,
+    "note": "Starting rate protects the strategy + design time. Final price is based on the approved scope."
+   }
+  ]
+ },
+ "launch": {
+  "copy": "For a founder or small company that wants Nostrix to build the visual foundation, prepare the launch presence and create the first bank of professional content.",
+  "detail": "One coordinated project combining Production, Marketing Solutions and Branding. The scope is adjusted around the type of business, so the starting price can stay clear while the final build reflects what the company actually needs.",
+  "price": "From AED 7,900",
+  "cta": "Build My Brand",
+  "columns": [
+   {
+    "title": "Branding",
+    "items": [
+     "Discovery & positioning foundation",
+     "Complete logo suite",
+     "Colour & typography system",
+     "Visual identity & social assets",
+     "20+ page brand guide"
+    ]
+   },
+   {
+    "title": "Marketing",
+    "items": [
+     "30-day launch plan",
+     "Content pillars & messaging",
+     "12 launch creatives/posts",
+     "Captions & publishing direction",
+     "Social profile optimisation"
+    ]
+   },
+   {
+    "title": "Production",
+    "items": [
+     "Up to 4-hour production day",
+     "25–30 edited professional photos",
+     "3 short-form Reels",
+     "Basic video post-production",
+     "Launch-ready content bank"
+    ]
+   }
+  ]
+ },
+ "rates": {
+  "copy": "Travel and additional production work are quoted transparently. Routine travel costs are consolidated into a single location fee so the quote stays simple and predictable.",
+  "cards": [
+   {
+    "title": "UAE Travel Fees",
+    "copy": "Applied once per booking when the production starts outside Ras Al Khaimah.",
+    "rows": [
+     [
+      "Ras Al Khaimah",
+      "Included"
+     ],
+     [
+      "Umm Al Quwain",
+      "+ AED 75"
+     ],
+     [
+      "Ajman",
+      "+ AED 125"
+     ],
+     [
+      "Sharjah",
+      "+ AED 150"
+     ],
+     [
+      "Dubai",
+      "+ AED 200"
+     ],
+     [
+      "Abu Dhabi",
+      "+ AED 300"
+     ],
+     [
+      "Al Ain",
+      "+ AED 350"
+     ]
+    ]
+   },
+   {
+    "title": "Common Add-Ons",
+    "copy": "Quoted when the requested scope goes beyond the package.",
+    "rows": [
+     [
+      "Extra creator hour",
+      "AED 200"
+     ],
+     [
+      "Extra event photography hour",
+      "AED 250"
+     ],
+     [
+      "Extra videography hour",
+      "AED 300"
+     ],
+     [
+      "Standard extra Reel",
+      "AED 250"
+     ],
+     [
+      "Advanced Reel",
+      "AED 400–600"
+     ],
+     [
+      "Advanced retouch / photo",
+      "AED 35–60"
+     ],
+     [
+      "RAW photo files",
+      "+ AED 250"
+     ],
+     [
+      "RAW video footage",
+      "+ AED 500+"
+     ],
+     [
+      "24-hour delivery",
+      "+ 30%"
+     ]
+    ]
+   }
+  ],
+  "terms": [
+   "Final quotation before booking",
+   "50% booking deposit",
+   "Retainers prepaid monthly",
+   "1 revision unless stated",
+   "Studios / permits separate",
+   "Ad spend separate"
+  ],
+  "footnote": "Specialist equipment, unusual locations, commercial usage requirements, additional crew and other project-specific needs are quoted separately when they apply."
+ }
+}

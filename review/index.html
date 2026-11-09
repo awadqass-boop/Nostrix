@@ -1,64 +1,218 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Share private feedback and an optional public testimonial with Nostrix Marketing Services.">
-    <link rel="icon" type="image/png" href="../favicon.png">
-    <link rel="shortcut icon" href="../favicon.png">
-    <link rel="apple-touch-icon" href="../favicon.png">
-    <title>Leave a Review | Nostrix Marketing Services</title>
-    <link rel="canonical" href="https://nostrix.ae/review/">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <style>
-        :root { --bg:#08080b; --surface:rgba(255,255,255,.045); --border:rgba(255,255,255,.11); --text:#fff; --muted:#a1a1aa; --accent1:#bac8ff; --accent2:#d28bff; --gold:#ffd66b; }
-        *{box-sizing:border-box} html{color-scheme:dark}
-        body{min-height:100vh;margin:0;color:var(--text);background:radial-gradient(circle at 15% 10%,rgba(186,200,255,.09),transparent 28rem),radial-gradient(circle at 90% 85%,rgba(210,139,255,.08),transparent 32rem),var(--bg);font-family:Inter,sans-serif}
-        a{color:inherit}.shell{width:min(100% - 2rem,72rem);margin:0 auto;padding:1.25rem 0 4rem}.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 0 3rem}.brand{font-family:Syncopate,sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.22em;text-decoration:none;text-transform:uppercase}.back{display:inline-flex;align-items:center;gap:.5rem;color:#d4d4d8;font-size:.78rem;text-decoration:none}.intro{max-width:48rem}.eyebrow{color:var(--accent2);font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase}h1{margin:1rem 0 0;font-family:Syncopate,sans-serif;font-size:clamp(2rem,7vw,4.6rem);line-height:1.12;text-transform:uppercase}.intro p{max-width:42rem;margin:1.4rem 0 0;color:var(--muted);font-size:1rem;font-weight:300;line-height:1.8}.privacy-note{display:flex;gap:.8rem;margin-top:1.4rem;padding:1rem 1.1rem;border:1px solid rgba(186,200,255,.16);border-radius:1rem;color:#d4d4d8;background:rgba(186,200,255,.045);font-size:.84rem;line-height:1.6}.form-card{margin-top:2.4rem;padding:clamp(1.25rem,4vw,2.5rem);border:1px solid var(--border);border-radius:1.75rem;background:var(--surface);backdrop-filter:blur(16px)}.grid{display:grid;gap:1.15rem}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.field{display:grid;gap:.55rem}label,legend{color:#f4f4f5;font-size:.8rem;font-weight:600;letter-spacing:.04em}.hint{color:#71717a;font-size:.74rem;font-weight:400;line-height:1.5}
-        input,select,textarea{width:100%;border:1px solid rgba(255,255,255,.12);border-radius:.9rem;padding:.9rem 1rem;color:#fff;background:rgba(0,0,0,.23);font:inherit;outline:none;transition:border-color .2s ease,box-shadow .2s ease}input:focus,select:focus,textarea:focus{border-color:rgba(210,139,255,.58);box-shadow:0 0 0 3px rgba(210,139,255,.1)}select option{color:#111;background:#fff}textarea{min-height:8rem;resize:vertical}fieldset{margin:0;padding:0;border:0}.stars{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:.35rem;margin-top:.4rem}.stars input{position:absolute;opacity:0;pointer-events:none}.stars label{cursor:pointer;color:rgba(255,255,255,.2);font-size:2.25rem;line-height:1;transition:color .2s ease,transform .2s ease}.stars label:hover,.stars label:hover~label,.stars input:checked~label{color:var(--gold)}.stars label:hover{transform:translateY(-.12rem)}.choice-grid{display:grid;gap:.65rem;margin-top:.55rem}.choice{display:flex;align-items:flex-start;gap:.7rem;padding:.85rem .9rem;border:1px solid rgba(255,255,255,.09);border-radius:.9rem;background:rgba(255,255,255,.025)}.choice input{width:auto;margin-top:.18rem;accent-color:var(--accent2)}.choice label{cursor:pointer;font-weight:500;line-height:1.45}
-        .event-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.72rem;margin-top:.45rem}.event-option{position:relative;display:flex;align-items:center;gap:.78rem;min-height:3.35rem;padding:.88rem 1rem;overflow:hidden;border:1px solid rgba(255,255,255,.10);border-radius:1rem;background:linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.018));box-shadow:0 8px 24px rgba(0,0,0,.08);cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transform:translateY(0) scale(1);transition:transform .22s cubic-bezier(.2,.8,.2,1),border-color .22s ease,background .22s ease,box-shadow .22s ease}.event-option::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(120deg,transparent 20%,rgba(255,255,255,.075),transparent 80%);transform:translateX(-45%);transition:opacity .22s ease,transform .45s cubic-bezier(.2,.8,.2,1)}.event-option:hover{border-color:rgba(186,200,255,.34);background:linear-gradient(135deg,rgba(186,200,255,.065),rgba(210,139,255,.04));box-shadow:0 12px 30px rgba(0,0,0,.14);transform:translateY(-2px)}.event-option:hover::after{opacity:1;transform:translateX(45%)}.event-option:active{transform:translateY(0) scale(.985)}.event-option:has(input:checked){border-color:rgba(210,139,255,.72);background:linear-gradient(135deg,rgba(186,200,255,.16),rgba(210,139,255,.15));box-shadow:0 0 0 1px rgba(210,139,255,.10),0 14px 34px rgba(80,45,110,.18)}.event-option input{appearance:none;-webkit-appearance:none;display:grid;place-content:center;width:1.28rem;height:1.28rem;margin:0;flex:0 0 auto;border:1.5px solid rgba(255,255,255,.38);border-radius:.38rem;background:rgba(0,0,0,.22);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);cursor:pointer;transition:border-color .2s ease,background .2s ease,box-shadow .2s ease,transform .2s cubic-bezier(.2,.8,.2,1)}.event-option input::before{content:"";width:.32rem;height:.62rem;border-right:2px solid #15151b;border-bottom:2px solid #15151b;transform:rotate(45deg) scale(0);transform-origin:center;transition:transform .18s cubic-bezier(.2,.8,.2,1)}.event-option input:checked{border-color:transparent;background:linear-gradient(135deg,var(--accent1),var(--accent2));box-shadow:0 0 0 3px rgba(210,139,255,.12),0 4px 12px rgba(210,139,255,.20);transform:scale(1.04)}.event-option input:checked::before{transform:rotate(45deg) scale(1)}.event-option input:focus-visible{outline:none;box-shadow:0 0 0 3px var(--bg),0 0 0 5px rgba(186,200,255,.72)}.event-option span{position:relative;z-index:1;color:#e4e4e7;font-size:.84rem;font-weight:550;line-height:1.4;transition:color .2s ease,transform .2s ease}.event-option:has(input:checked) span{color:#fff;transform:translateX(.05rem)}
-        .event-error{min-height:1rem;margin:.15rem 0 0;color:#ffadad;font-size:.74rem}.consent{display:flex;align-items:flex-start;gap:.7rem;color:#d4d4d8;font-size:.82rem;line-height:1.6}.consent input{width:auto;margin-top:.25rem;accent-color:var(--accent2)}.actions{display:flex;align-items:center;gap:1rem;margin-top:1.5rem}button{display:inline-flex;min-height:3.25rem;align-items:center;justify-content:center;gap:.6rem;border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:0 1.4rem;color:#fff;background:linear-gradient(135deg,rgba(186,200,255,.18),rgba(210,139,255,.2));font:inherit;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}button:disabled{cursor:wait;opacity:.55}.status{color:var(--muted);font-size:.82rem;line-height:1.5}.status.success{color:#9ee6b5}.status.error{color:#ffadad}.honeypot{position:absolute!important;left:-9999px!important;opacity:0!important}[hidden]{display:none!important}
-        @media(prefers-reduced-motion:reduce){.event-option,.event-option::after,.event-option input,.event-option input::before,.event-option span{transition:none!important}.event-option:hover,.event-option:active{transform:none}}
-        @media(max-width:720px){.two{grid-template-columns:1fr}.event-options{grid-template-columns:1fr;gap:.62rem}.event-option{min-height:3.45rem;padding:.92rem 1rem}.event-option:hover{transform:none}.actions{align-items:stretch;flex-direction:column}button{width:100%}.nav{padding-bottom:2rem}}
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Leave a Review | Nostrix Marketing Services</title>
+<meta name="description" content="Rate your Nostrix project and leave a short review. Reviews are published after approval.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark light">
+<link rel="canonical" href="https://nostrix.ae/review/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nostrix Marketing Services">
+<meta property="og:title" content="Leave a Review | Nostrix Marketing Services">
+<meta property="og:description" content="Rate your Nostrix project and leave a short review. Reviews are published after approval.">
+<meta property="og:url" content="https://nostrix.ae/review/">
+<meta property="og:image" content="https://nostrix.ae/assets/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('nostrix_theme');if(t==='light'||t==='dark')d.dataset.theme=t;if(localStorage.getItem('nostrix_language_v1')==='ar'){d.lang='ar';d.dir='rtl';d.classList.add('i18n-wait')}}catch(e){}})();</script>
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
 </head>
 <body>
-    <main class="shell">
-        <nav class="nav"><a class="brand" href="../">Nostrix</a><a class="back" href="../#testimonials"><i class="ph ph-arrow-left"></i> Back to website</a></nav>
-        <section class="intro"><p class="eyebrow">Client feedback</p><h1>Tell us how we did</h1><p>Your feedback helps us improve our service. You can also give us permission to publish a short testimonial on the Nostrix website.</p><div class="privacy-note"><i class="ph ph-lock-key text-xl" aria-hidden="true"></i><span><strong>Your improvement feedback stays private.</strong> Nothing appears publicly until Nostrix reviews and approves it, and only the public testimonial is displayed.</span></div></section>
-        <form class="form-card" id="review-form" novalidate><div class="grid">
-            <fieldset class="field"><legend>Overall rating *</legend><div class="stars" aria-label="Choose a rating from one to five stars"><input type="radio" id="star-5" name="rating" value="5" required><label for="star-5" title="5 stars">★</label><input type="radio" id="star-4" name="rating" value="4"><label for="star-4" title="4 stars">★</label><input type="radio" id="star-3" name="rating" value="3"><label for="star-3" title="3 stars">★</label><input type="radio" id="star-2" name="rating" value="2"><label for="star-2" title="2 stars">★</label><input type="radio" id="star-1" name="rating" value="1"><label for="star-1" title="1 star">★</label></div></fieldset>
-            <div class="grid two"><div class="field"><label for="name">Your name</label><input id="name" name="name" type="text" maxlength="100" autocomplete="name" placeholder="Your name"></div><div class="field"><label for="email">Email address * <span class="hint">Private — never published</span></label><input id="email" name="email" type="email" maxlength="160" autocomplete="email" required placeholder="you@example.com"></div></div>
-            <div class="grid two"><div class="field"><label for="company">Company or brand</label><input id="company" name="company" type="text" maxlength="120" autocomplete="organization" placeholder="Company or brand name"></div></div>
-            <fieldset class="field" id="services-field"><legend>Service(s) received *</legend><span class="hint">Select all that apply.</span><div class="event-options" id="service-options" role="group" aria-label="Services received">
-                <label class="event-option"><input type="checkbox" name="services" value="Brand Strategy"><span>Brand Strategy</span></label><label class="event-option"><input type="checkbox" name="services" value="Social Media"><span>Social Media</span></label><label class="event-option"><input type="checkbox" name="services" value="Photography"><span>Photography</span></label><label class="event-option"><input type="checkbox" name="services" value="Videography"><span>Videography</span></label><label class="event-option"><input type="checkbox" name="services" value="Content Creation"><span>Content Creation</span></label><label class="event-option"><input id="event-coverage-service" type="checkbox" name="services" value="Event Coverage"><span>Event Coverage</span></label><label class="event-option"><input id="other-service-checkbox" type="checkbox" name="services" value="Other"><span>Other</span></label>
-            </div><p class="event-error" id="services-error" aria-live="polite"></p></fieldset>
-            <div class="field" id="custom-service-field" hidden><label for="custom-service">Other service received *</label><input id="custom-service" name="custom_service" type="text" maxlength="160" placeholder="Type the service that is not listed"></div>
-            <fieldset class="field" id="event-types-field" hidden><legend>Event type(s) *</legend><span class="hint">Select all that apply.</span><div class="event-options" role="group" aria-label="Event types">
-                <label class="event-option"><input type="checkbox" name="event_types" value="Corporate Event"><span>Corporate Event</span></label><label class="event-option"><input type="checkbox" name="event_types" value="Conference / Seminar"><span>Conference / Seminar</span></label><label class="event-option"><input type="checkbox" name="event_types" value="Product Launch"><span>Product Launch</span></label><label class="event-option"><input type="checkbox" name="event_types" value="Grand Opening"><span>Grand Opening</span></label><label class="event-option"><input type="checkbox" name="event_types" value="Exhibition / Trade Show"><span>Exhibition / Trade Show</span></label><label class="event-option"><input type="checkbox" name="event_types" value="Wedding / Engagement"><span>Wedding / Engagement</span></label><label class="event-option"><input type="checkbox" name="event_types" value="Birthday / Private Celebration"><span>Birthday / Private Celebration</span></label><label class="event-option"><input type="checkbox" name="event_types" value="Graduation"><span>Graduation</span></label><label class="event-option"><input type="checkbox" name="event_types" value="Fashion Show"><span>Fashion Show</span></label><label class="event-option"><input type="checkbox" name="event_types" value="Sports Event"><span>Sports Event</span></label><label class="event-option"><input type="checkbox" name="event_types" value="Concert / Live Performance"><span>Concert / Live Performance</span></label><label class="event-option"><input type="checkbox" name="event_types" value="Community / Cultural Event"><span>Community / Cultural Event</span></label><label class="event-option"><input id="other-event-checkbox" type="checkbox" name="event_types" value="Other Event"><span>Other Event</span></label>
-            </div><p class="event-error" id="event-types-error" aria-live="polite"></p></fieldset>
-            <div class="field" id="custom-event-field" hidden><label for="custom-event">Other event type *</label><input id="custom-event" name="custom_event" type="text" maxlength="160" placeholder="Type the event that is not listed"></div>
-            <div class="field"><label for="instagram">Instagram username <span class="hint">Optional</span></label><input id="instagram" name="instagram" type="text" maxlength="31" inputmode="text" autocomplete="off" pattern="@?[A-Za-z0-9._]{1,30}" placeholder="@yourusername"><span class="hint">Add only your username, such as @yourbrand. It will stay private unless you tick the option below and Nostrix approves the review.</span><label class="consent" for="showInstagram"><input id="showInstagram" name="showInstagram" type="checkbox" value="yes" disabled><span>Show my Instagram @ with my approved testimonial.</span></label></div>
-            <div class="field"><label for="liked">What did you like most about working with Nostrix? *</label><textarea id="liked" name="liked" maxlength="1200" required placeholder="Tell us what worked well..."></textarea></div>
-            <div class="field"><label for="improve">What could we improve or fix? * <span class="hint">Private — this will never be displayed publicly</span></label><textarea id="improve" name="improve" maxlength="1200" required placeholder="Please be honest. Write “Nothing” if you have no suggestions."></textarea></div>
-            <div class="field"><label for="testimonial">Short public testimonial *</label><textarea id="testimonial" name="testimonial" maxlength="700" required placeholder="Write the review you would be happy for us to publish..."></textarea><span class="hint">Nostrix may correct minor spelling or punctuation, but will not change the meaning without your approval.</span></div>
-            <fieldset class="field"><legend>How should your review be displayed? *</legend><div class="choice-grid"><div class="choice"><input id="display-name" type="radio" name="displayPreference" value="name" required><label for="display-name">Use my name</label></div><div class="choice"><input id="display-company" type="radio" name="displayPreference" value="company"><label for="display-company">Use my company or brand name</label></div><div class="choice"><input id="display-anonymous" type="radio" name="displayPreference" value="anonymous"><label for="display-anonymous">Keep my identity anonymous</label></div></div></fieldset>
-            <label class="consent" for="publishConsent"><input id="publishConsent" name="publishConsent" type="checkbox" value="yes" required><span>I confirm that this feedback reflects my experience and give Nostrix permission to publish the public testimonial, rating, selected display name and Instagram username when I choose that option, after approval.</span></label>
-            <div class="honeypot" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-        </div><div class="actions"><button type="submit" id="submit-review">Submit Review <i class="ph ph-paper-plane-tilt"></i></button><p class="status" id="review-status" role="status" aria-live="polite"></p></div></form>
-    </main>
-    <script src="../site-config.js"></script><script src="../analytics.js"></script>
-    <script>
-        const form=document.getElementById('review-form'),submitButton=document.getElementById('submit-review'),statusElement=document.getElementById('review-status'),nameInput=document.getElementById('name'),companyInput=document.getElementById('company'),serviceCheckboxes=Array.from(document.querySelectorAll('input[name="services"]')),servicesError=document.getElementById('services-error'),eventCoverageService=document.getElementById('event-coverage-service'),otherServiceCheckbox=document.getElementById('other-service-checkbox'),customServiceField=document.getElementById('custom-service-field'),customServiceInput=document.getElementById('custom-service'),eventTypesField=document.getElementById('event-types-field'),eventTypeCheckboxes=Array.from(document.querySelectorAll('input[name="event_types"]')),eventTypesError=document.getElementById('event-types-error'),otherEventCheckbox=document.getElementById('other-event-checkbox'),customEventField=document.getElementById('custom-event-field'),customEventInput=document.getElementById('custom-event'),instagramInput=document.getElementById('instagram'),showInstagramInput=document.getElementById('showInstagram');
-        function updateDisplayRequirements(){const choice=form.elements.displayPreference.value;nameInput.required=choice==='name';companyInput.required=choice==='company'}
-        function updateInstagramPermission(){const hasHandle=instagramInput.value.trim().length>0;showInstagramInput.disabled=!hasHandle;if(!hasHandle)showInstagramInput.checked=false}
-        function updateCustomEventField(){const showCustomEvent=eventCoverageService.checked&&otherEventCheckbox.checked;customEventField.hidden=!showCustomEvent;customEventInput.required=showCustomEvent;if(!showCustomEvent)customEventInput.value=''}
-        function updateServiceFields(){const isOtherService=otherServiceCheckbox.checked,isEventCoverage=eventCoverageService.checked;customServiceField.hidden=!isOtherService;customServiceInput.required=isOtherService;eventTypesField.hidden=!isEventCoverage;if(!isOtherService)customServiceInput.value='';if(!isEventCoverage){eventTypeCheckboxes.forEach(c=>c.checked=false);eventTypesError.textContent='';customEventField.hidden=true;customEventInput.required=false;customEventInput.value=''}if(serviceCheckboxes.some(c=>c.checked))servicesError.textContent='';updateCustomEventField()}
-        serviceCheckboxes.forEach(c=>c.addEventListener('change',updateServiceFields));otherEventCheckbox.addEventListener('change',updateCustomEventField);eventTypeCheckboxes.forEach(c=>c.addEventListener('change',()=>{if(eventTypeCheckboxes.some(i=>i.checked))eventTypesError.textContent=''}));instagramInput.addEventListener('input',updateInstagramPermission);form.querySelectorAll('input[name="displayPreference"]').forEach(i=>i.addEventListener('change',updateDisplayRequirements));updateServiceFields();updateInstagramPermission();
-        form.addEventListener('submit',async(event)=>{event.preventDefault();updateDisplayRequirements();updateInstagramPermission();const instagramValue=instagramInput.value.trim();instagramInput.setCustomValidity(instagramValue&&!/^@?[A-Za-z0-9._]{1,30}$/.test(instagramValue)?'Enter a valid Instagram username, for example @yourbrand.':'');if(!form.reportValidity())return;if(!serviceCheckboxes.some(c=>c.checked)){servicesError.textContent='Please select at least one service.';document.getElementById('services-field').scrollIntoView({behavior:'smooth',block:'center'});serviceCheckboxes[0]?.focus({preventScroll:true});return}servicesError.textContent='';if(eventCoverageService.checked&&!eventTypeCheckboxes.some(c=>c.checked)){eventTypesError.textContent='Please select at least one event type.';eventTypesField.scrollIntoView({behavior:'smooth',block:'center'});eventTypeCheckboxes[0]?.focus({preventScroll:true});return}eventTypesError.textContent='';const endpoint=window.NOSTRIX_REVIEWS_WEB_APP_URL||'';if(!endpoint||endpoint.includes('PASTE_GOOGLE_APPS_SCRIPT')){statusElement.className='status error';statusElement.textContent='The review form has not been connected yet. Please complete the Google Sheets setup first.';return}submitButton.disabled=true;statusElement.className='status';statusElement.textContent='Submitting your review…';try{const formData=new FormData(form);const selectedServices=formData.getAll('services').map(service=>service==='Other'?customServiceInput.value.trim():service).filter(Boolean);if(eventCoverageService.checked){const eventTypes=eventTypeCheckboxes.filter(c=>c.checked).map(c=>c.value==='Other Event'?customEventInput.value.trim():c.value).filter(Boolean);const eventIndex=selectedServices.indexOf('Event Coverage');if(eventIndex!==-1)selectedServices[eventIndex]=`Event Coverage — ${eventTypes.join(', ')}`}formData.delete('services');formData.delete('event_types');formData.delete('custom_service');formData.delete('custom_event');formData.set('service',selectedServices.join(', '));const body=new URLSearchParams(formData);await fetch(endpoint,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body});form.reset();updateDisplayRequirements();updateServiceFields();updateInstagramPermission();statusElement.className='status success';statusElement.textContent='Thank you. Your review was submitted privately and is now awaiting approval.'}catch(error){statusElement.className='status error';statusElement.textContent='The review could not be submitted. Please try again or contact Support@nostrix.ae.'}finally{submitButton.disabled=false}});
-    </script>
+<a class="skip" href="#main">Skip to content</a>
+<svg class="sprite" aria-hidden="true" focusable="false"><defs>
+<linearGradient id="nx-g" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#D388FF"/><stop offset="1" stop-color="#B9CCFF"/></linearGradient>
+<symbol id="i-logo" viewBox="830 402 2180 945"><path fill="url(#nx-g)" d="M1714.1,411.8h-802.5c-39.9,0-72.2,32.3-72.2,72.2v817.1c0,19.9,16.2,36.1,36.1,36.1h791.8V490.1c0-18.4,14.9-33.3,33.3-33.3h27.4c8.5,0,4.9-2.1,6,34.1l31.2,846.3h732.9l-9.2-201.4c-64.6-446-324.3-724-774.9-724Z"/><circle fill="url(#nx-g)" cx="2537.9" cy="874.5" r="462.7"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+<symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+<symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M8 5v14l11-7z"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.2A8 8 0 0 1 9.8 4 7.5 7.5 0 1 0 20 14.2Z"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7.5 8 6 8-6"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M5.5 4h3l1.8 4.6-2.3 1.5a11.5 11.5 0 0 0 5.9 5.9l1.5-2.3L20 15.5v3a2 2 0 0 1-2.2 2A15.5 15.5 0 0 1 3.5 6.2 2 2 0 0 1 5.5 4Z"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+<symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".7" fill="currentColor"/></symbol>
+<symbol id="i-tiktok" viewBox="0 0 16 16"><path fill="currentColor" stroke="none" d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0Z"/></symbol>
+<symbol id="i-whatsapp" viewBox="0 0 16 16"><path fill="currentColor" stroke="none" d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7zM14 3v4h4M10 12.5h5M10 16.5h5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 10.5 13.5M21 3l-6.5 18-4-7.5-7.5-4z"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="m12 3 2.7 5.6 6.1.8-4.5 4.3 1.1 6.1L12 16.9l-5.4 2.9 1.1-6.1L3.2 9.4l6.1-.8z"/></symbol>
+</defs></svg>
+<header class="nav">
+<div class="wrap nav-in">
+<a class="brand" href="/" aria-label="Nostrix home" translate="no"><svg viewBox="0 0 34 15" aria-hidden="true"><use href="#i-logo"/></svg><span>NOSTRIX</span></a>
+<nav class="nav-links" id="menu" aria-label="Primary navigation">
+<a href="/#services">Services</a>
+<a href="/portfolio/">Work</a>
+<a href="/pricing/">Pricing</a>
+<a href="/#social">Social</a>
+<a href="/#faq">Questions</a>
+<div class="nav-mobile-only nav-menu-foot btn-row">
+<a class="btn btn-primary" href="/#contact">Start a project</a>
+<a class="btn btn-wa" href="https://wa.me/971561195226" target="_blank" rel="noopener noreferrer"><svg class="ic " aria-hidden="true"><use href="#i-whatsapp"/></svg>WhatsApp</a>
+<button class="btn btn-ghost" type="button" data-theme-toggle><svg class="ic ic-sun" aria-hidden="true"><use href="#i-sun"/></svg><svg class="ic ic-moon" aria-hidden="true"><use href="#i-moon"/></svg><span>Appearance</span></button>
+</div>
+</nav>
+<div class="nav-tools">
+<button class="icon-btn lang-btn" type="button" data-lang-toggle translate="no" aria-label="تحويل الموقع إلى العربية">ع</button>
+<button class="icon-btn nav-desktop-only" type="button" data-theme-toggle aria-label="Switch to light mode"><svg class="ic ic-sun" aria-hidden="true"><use href="#i-sun"/></svg><svg class="ic ic-moon" aria-hidden="true"><use href="#i-moon"/></svg></button>
+<a class="btn btn-primary btn-sm" href="/#contact">Start a project</a>
+<button class="icon-btn menu-btn" type="button" aria-controls="menu" aria-expanded="false" aria-label="Open menu"><i></i><i></i></button>
+</div>
+</div>
+</header>
+<main id="main">
+<section class="page-hero">
+<div class="wrap-narrow">
+<p class="eyebrow">Reviews</p>
+<h1 class="h1">Leave a review</h1>
+<p class="lead">Rate your project and write a short review. We publish it after approval.</p>
+<div class="notice"><svg class="ic " aria-hidden="true"><use href="#i-lock"/></svg><span><strong>Your improvement feedback stays private.</strong> Nothing appears publicly until Nostrix reviews and approves it, and only the public testimonial is displayed.</span></div>
+</div>
+</section>
+<section class="wrap-narrow" style="padding-block-end:var(--section)">
+<form class="form-card" id="review-form" novalidate>
+<fieldset class="field">
+<legend>Overall rating</legend>
+<div class="stars" role="radiogroup" aria-label="Choose a rating from one to five stars">
+<input type="radio" id="star-5" name="rating" value="5" required><label for="star-5" title="5 stars">★</label>
+<input type="radio" id="star-4" name="rating" value="4"><label for="star-4" title="4 stars">★</label>
+<input type="radio" id="star-3" name="rating" value="3"><label for="star-3" title="3 stars">★</label>
+<input type="radio" id="star-2" name="rating" value="2"><label for="star-2" title="2 stars">★</label>
+<input type="radio" id="star-1" name="rating" value="1"><label for="star-1" title="1 star">★</label>
+</div>
+</fieldset>
+<div class="form-grid">
+<div class="field"><label for="name">Your name</label><input class="control" id="name" name="name" type="text" maxlength="100" autocomplete="name"></div>
+<div class="field"><label for="email">Email address <span class="hint">Private — never published</span></label><input class="control" id="email" name="email" type="email" maxlength="160" autocomplete="email" required placeholder="you@example.com"></div>
+<div class="field wide"><label for="company">Company or brand <span class="hint">Optional</span></label><input class="control" id="company" name="company" type="text" maxlength="120" autocomplete="organization"></div>
+</div>
+<fieldset class="field" id="services-field">
+<legend>Services received <span class="hint">Select all that apply.</span></legend>
+<div class="opts" id="service-options">
+<label class="opt"><input type="checkbox" name="services" value="Photography"><span>Photography</span></label>
+<label class="opt"><input type="checkbox" name="services" value="Videography"><span>Videography</span></label>
+<label class="opt"><input type="checkbox" name="services" value="Content Creation"><span>Content Creation</span></label>
+<label class="opt"><input type="checkbox" name="services" value="Social Media"><span>Social Media</span></label>
+<label class="opt"><input type="checkbox" name="services" value="Event Coverage" id="event-coverage-service"><span>Event Coverage</span></label>
+<label class="opt"><input type="checkbox" name="services" value="Brand Strategy"><span>Brand Strategy</span></label>
+<label class="opt"><input type="checkbox" name="services" value="Other" id="other-service-checkbox"><span>Other</span></label>
+</div>
+<p class="err" id="services-error" aria-live="polite"></p>
+</fieldset>
+<div class="field" id="custom-service-field" hidden>
+<label for="custom-service">Other service</label>
+<input class="control" id="custom-service" name="custom_service" type="text" maxlength="160" placeholder="Type the service">
+</div>
+<fieldset class="field" id="event-types-field" hidden>
+<legend>Event type <span class="hint">Select all that apply.</span></legend>
+<div class="opts" id="event-options">
+<label class="opt"><input type="checkbox" name="event_types" value="Corporate Event"><span>Corporate Event</span></label>
+<label class="opt"><input type="checkbox" name="event_types" value="Conference / Seminar"><span>Conference / Seminar</span></label>
+<label class="opt"><input type="checkbox" name="event_types" value="Product Launch"><span>Product Launch</span></label>
+<label class="opt"><input type="checkbox" name="event_types" value="Grand Opening"><span>Grand Opening</span></label>
+<label class="opt"><input type="checkbox" name="event_types" value="Exhibition / Trade Show"><span>Exhibition / Trade Show</span></label>
+<label class="opt"><input type="checkbox" name="event_types" value="Wedding / Engagement"><span>Wedding / Engagement</span></label>
+<label class="opt"><input type="checkbox" name="event_types" value="Birthday / Private Celebration"><span>Birthday / Private Celebration</span></label>
+<label class="opt"><input type="checkbox" name="event_types" value="Graduation"><span>Graduation</span></label>
+<label class="opt"><input type="checkbox" name="event_types" value="Fashion Show"><span>Fashion Show</span></label>
+<label class="opt"><input type="checkbox" name="event_types" value="Sports Event"><span>Sports Event</span></label>
+<label class="opt"><input type="checkbox" name="event_types" value="Concert / Live Performance"><span>Concert / Live Performance</span></label>
+<label class="opt"><input type="checkbox" name="event_types" value="Community / Cultural Event"><span>Community / Cultural Event</span></label>
+<label class="opt"><input type="checkbox" name="event_types" value="Other Event" id="other-event-checkbox"><span>Other Event</span></label>
+</div>
+<p class="err" id="event-types-error" aria-live="polite"></p>
+</fieldset>
+<div class="field" id="custom-event-field" hidden>
+<label for="custom-event">Other event type</label>
+<input class="control" id="custom-event" name="custom_event" type="text" maxlength="160" placeholder="Type the event">
+</div>
+<div class="field">
+<label for="instagram">Instagram username <span class="hint">Optional</span></label>
+<input class="control ltr" id="instagram" name="instagram" type="text" maxlength="31" autocomplete="off" pattern="@?[A-Za-z0-9._]{1,30}" placeholder="@yourusername">
+<span class="hint">Add only your username, such as @yourbrand. It will stay private unless you tick the option below and Nostrix approves the review.</span>
+<label class="check" for="showInstagram"><input id="showInstagram" name="showInstagram" type="checkbox" value="yes" disabled><span>Show my Instagram @ with my approved testimonial.</span></label>
+</div>
+<div class="field"><label for="liked">What did you like most about working with Nostrix?</label><textarea class="control" id="liked" name="liked" maxlength="1200" required placeholder="Tell us what worked well..."></textarea></div>
+<div class="field"><label for="improve">What could we improve or fix? <span class="hint">Private — this will never be displayed publicly</span></label><textarea class="control" id="improve" name="improve" maxlength="1200" required placeholder="Please be honest. Write “Nothing” if you have no suggestions."></textarea></div>
+<div class="field"><label for="testimonial">Short public testimonial</label><textarea class="control" id="testimonial" name="testimonial" maxlength="700" required placeholder="Write the review you would be happy for us to publish..."></textarea><span class="hint">Nostrix may correct minor spelling or punctuation, but will not change the meaning without your approval.</span></div>
+<fieldset class="field">
+<legend>How should your review be displayed?</legend>
+<div class="choices">
+<label class="opt"><input id="display-name" type="radio" name="displayPreference" value="name" required><span>Use my name</span></label>
+<label class="opt"><input id="display-company" type="radio" name="displayPreference" value="company"><span>Use my company or brand name</span></label>
+<label class="opt"><input id="display-anonymous" type="radio" name="displayPreference" value="anonymous"><span>Keep my identity anonymous</span></label>
+</div>
+</fieldset>
+<label class="check" for="publishConsent"><input id="publishConsent" name="publishConsent" type="checkbox" value="yes" required><span>I confirm that this feedback reflects my experience and give Nostrix permission to publish the public testimonial, rating, selected display name and Instagram username when I choose that option, after approval.</span></label>
+<div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+<div>
+<button class="btn btn-primary" type="submit" id="submit-review"><svg class="ic " aria-hidden="true"><use href="#i-send"/></svg>Submit review</button>
+<p class="status" id="review-status" role="status" aria-live="polite" style="margin-block-start:12px"></p>
+</div>
+</form>
+</section>
+</main>
+<footer class="footer">
+<div class="wrap">
+<div class="footer-grid">
+<div>
+<a class="brand" href="/" aria-label="Nostrix home" translate="no"><svg viewBox="0 0 34 15" aria-hidden="true"><use href="#i-logo"/></svg><span>NOSTRIX</span></a>
+<p>Made to be seen.</p>
+<div class="footer-social">
+<a href="https://www.instagram.com/nostrix.ae/" target="_blank" rel="noopener noreferrer" aria-label="Nostrix on Instagram"><svg class="ic " aria-hidden="true"><use href="#i-instagram"/></svg></a>
+<a href="https://www.tiktok.com/@nostrix.ae" target="_blank" rel="noopener noreferrer" aria-label="Nostrix on TikTok"><svg class="ic " aria-hidden="true"><use href="#i-tiktok"/></svg></a>
+<a href="https://wa.me/971561195226" target="_blank" rel="noopener noreferrer" aria-label="Chat with Nostrix on WhatsApp"><svg class="ic " aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+<a href="mailto:marketing@nostrix.ae" aria-label="Email Nostrix"><svg class="ic " aria-hidden="true"><use href="#i-mail"/></svg></a>
+</div>
+</div>
+<div>
+<h2>Explore</h2>
+<ul>
+<li><a href="/#services">Services</a></li>
+<li><a href="/portfolio/">Portfolio</a></li>
+<li><a href="/pricing/">Pricing</a></li>
+<li><a href="/review/">Leave a review</a></li>
+</ul>
+</div>
+<div>
+<h2>Contact</h2>
+<ul>
+<li><a class="ltr" href="mailto:marketing@nostrix.ae">marketing@nostrix.ae</a></li>
+<li><a class="ltr" href="tel:+971561195226">+971 56 119 5226</a></li>
+<li><a href="https://www.google.com/maps/search/?api=1&amp;query=American%20University%20of%20Ras%20Al%20Khaimah%20-%20American%20University%20of%20Ras%20Al%20Khaimah%20Road%20-%20Road%20-%20Ras%20Al%20Khaimah" target="_blank" rel="noopener noreferrer">AURAK, Building H, Office 15, Ras Al Khaimah, UAE</a></li>
+</ul>
+</div>
+<div>
+<h2>Legal</h2>
+<ul>
+<li><a href="/privacy/">Privacy Policy</a></li>
+<li><a href="/terms/">Terms &amp; Conditions</a></li>
+<li data-analytics-settings hidden><button type="button">Analytics settings</button></li>
+</ul>
+</div>
+</div>
+<div class="footer-base">
+<p>© <span data-year>2026</span> Nostrix Marketing Services. All rights reserved.</p>
+<p>Ras Al Khaimah, UAE</p>
+</div>
+</div>
+</footer>
+<a class="wa-float" href="https://wa.me/971561195226" target="_blank" rel="noopener noreferrer" aria-label="Chat with Nostrix on WhatsApp"><svg class="ic " aria-hidden="true"><use href="#i-whatsapp"/></svg><span>WhatsApp</span></a>
+<script src="/site-config.js"></script>
+<script defer src="/assets/js/site.js"></script>
+<script defer src="/assets/js/review.js"></script>
+<script defer src="/analytics.js"></script>
 </body>
 </html>

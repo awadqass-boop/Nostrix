@@ -1,662 +1,134 @@
+/* Nostrix — Google Analytics 4 with consent.
+   Nothing loads until the visitor accepts. Disabled on localhost. */
 (function () {
-    'use strict';
+  'use strict';
 
-    /* Load the shared EN / AR controller on every public page that uses analytics.js. */
-    (function ensureNostrixLanguage() {
-        if (
-            window.NostrixLanguage ||
-            document.querySelector('script[src="/language.js"]') ||
-            document.querySelector('script[data-nostrix-language-loader]')
-        ) {
-            return;
-        }
+  var id = String(window.NOSTRIX_GA_MEASUREMENT_ID || '').trim();
+  if (!/^G-[A-Z0-9]+$/i.test(id)) return;
+  if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) return;
 
-        const script = document.createElement('script');
-        script.src = '/language.js';
-        script.defer = true;
-        script.setAttribute('data-nostrix-language-loader', '');
-        document.head.appendChild(script);
-    }());
+  var KEY = 'nostrix_analytics_consent_v1';
+  var loaded = false;
+  var milestones = {};
 
-    const measurementId = String(
-        window.NOSTRIX_GA_MEASUREMENT_ID || ''
-    ).trim();
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+  window.gtag('consent', 'default', {
+    analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500
+  });
 
-    if (!/^G-[A-Z0-9]+$/i.test(measurementId)) return;
+  function read() { try { return localStorage.getItem(KEY) || ''; } catch (e) { return ''; } }
+  function write(v) { try { localStorage.setItem(KEY, v); } catch (e) { /* no storage */ } }
 
-    const consentKey = 'nostrix_analytics_consent_v1';
-    const acceptedValue = 'accepted';
-    const declinedValue = 'declined';
+  function send(name, params) {
+    if (!loaded || read() !== 'accepted') return;
+    var data = { page_path: location.pathname };
+    for (var k in params || {}) data[k] = params[k];
+    window.gtag('event', name, data);
+  }
+  window.nostrixTrack = send;
 
-    let analyticsLoaded = false;
-    let trackingInstalled = false;
-    const scrollMilestones = new Set();
+  function label(el) {
+    return (el.getAttribute('data-track') || el.getAttribute('aria-label') || el.textContent || '').replace(/\s+/g, ' ').trim();
+  }
 
-    window.dataLayer = window.dataLayer || [];
+  function onClick(e) {
+    var el = e.target.closest('a, button');
+    if (!el || el.hasAttribute('data-consent')) return;
+    var href = (el.getAttribute('href') || '').toLowerCase();
+    var text = label(el);
+    var low = text.toLowerCase();
 
-    window.gtag = window.gtag || function () {
-        window.dataLayer.push(arguments);
-    };
+    if (href === '/portfolio/' || low.indexOf('portfolio') !== -1 || low.indexOf('see the work') !== -1) send('view_portfolio', { button_text: text });
+    if (low.indexOf('build an estimate') !== -1 || el.hasAttribute('data-builder')) send('build_estimate', { button_text: text });
+    if (href.indexOf('wa.me') !== -1 || low.indexOf('whatsapp') !== -1) {
+      var source = 'website';
+      if (el.id === 'builder-whatsapp') source = 'pricing_calculator';
+      else if (el.closest('#project-form')) source = 'project_form';
+      else if (el.closest('#package-sheet')) source = 'package_enquiry';
+      else if (location.pathname.indexOf('/portfolio') === 0) source = 'portfolio';
+      send('whatsapp_click', { source: source });
+    }
+    if (low.indexOf('start a project') !== -1) send('start_project', { button_text: text });
+    if (el.id === 'email-project') send('submit_enquiry', { enquiry_type: 'project_brief' });
+    send('site_click', { click_label: text.slice(0, 100), element_type: el.tagName.toLowerCase() });
+  }
 
-    window.gtag('consent', 'default', {
-        analytics_storage: 'denied',
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-        wait_for_update: 500
+  function onScroll() {
+    var max = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+    var pct = Math.round(window.scrollY / max * 100);
+    [25, 50, 75, 90].forEach(function (m) {
+      if (pct >= m && !milestones[m]) { milestones[m] = true; send('scroll_depth', { percent_scrolled: m }); }
     });
+  }
 
+  function load() {
+    if (loaded) return;
+    loaded = true;
+    window.gtag('consent', 'update', { analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.gtag('js', new Date());
+    window.gtag('config', id, { send_page_view: true, allow_google_signals: false, allow_ad_personalization_signals: false, transport_type: 'beacon' });
+    document.addEventListener('click', onClick, true);
+    document.addEventListener('submit', function (e) {
+      if (e.target && e.target.tagName === 'FORM') send('form_submit_attempt', { form_name: e.target.id || 'website_form' });
+    }, true);
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
 
-    /* =========================
-       CONSENT
-       ========================= */
+  var banner = null;
+  function close() { if (banner) { banner.remove(); banner = null; } }
 
-    function readConsent() {
-        try {
-            return localStorage.getItem(consentKey) || '';
-        } catch (error) {
-            return '';
-        }
+  function choose(value) {
+    write(value);
+    close();
+    if (value === 'accepted') load();
+    else window.gtag('consent', 'update', { analytics_storage: 'denied' });
+  }
+
+  function show() {
+    if (banner) return;
+    banner = document.createElement('div');
+    banner.className = 'consent';
+    banner.setAttribute('role', 'dialog');
+    banner.setAttribute('aria-label', 'Analytics settings');
+    var p = document.createElement('p');
+    var strong = document.createElement('strong');
+    strong.textContent = 'Analytics.';
+    var text = document.createTextNode(' ');
+    var span = document.createElement('span');
+    span.textContent = 'We use Google Analytics to see which pages are useful. It only runs if you accept.';
+    var link = document.createElement('a');
+    link.href = '/privacy/#cookies';
+    link.textContent = 'Privacy policy';
+    p.append(strong, text, span, document.createTextNode(' '), link);
+    var row = document.createElement('div');
+    row.className = 'btn-row';
+    var no = document.createElement('button');
+    no.type = 'button'; no.className = 'btn btn-ghost btn-sm'; no.textContent = 'Decline'; no.setAttribute('data-consent', '');
+    var yes = document.createElement('button');
+    yes.type = 'button'; yes.className = 'btn btn-primary btn-sm'; yes.textContent = 'Accept'; yes.setAttribute('data-consent', '');
+    no.addEventListener('click', function () { choose('declined'); });
+    yes.addEventListener('click', function () { choose('accepted'); });
+    row.append(no, yes);
+    banner.append(p, row);
+    document.body.appendChild(banner);
+  }
+
+  function start() {
+    var settings = document.querySelector('[data-analytics-settings]');
+    if (settings) {
+      settings.hidden = false;
+      settings.querySelector('button').addEventListener('click', show);
     }
-
-    function writeConsent(value) {
-        try {
-            localStorage.setItem(consentKey, value);
-        } catch (error) {
-            // Continue without local storage.
-        }
-    }
-
-
-    /* =========================
-       GOOGLE ANALYTICS EVENTS
-       ========================= */
-
-    function sendEvent(eventName, parameters) {
-        if (
-            !analyticsLoaded ||
-            readConsent() !== acceptedValue ||
-            typeof window.gtag !== 'function'
-        ) {
-            return;
-        }
-
-        window.gtag('event', eventName, {
-            page_path: window.location.pathname,
-            ...(parameters || {})
-        });
-    }
-
-    window.nostrixTrack = sendEvent;
-
-
-    /* =========================
-       IMPORTANT CLICK TRACKING
-       ========================= */
-
-    function trackImportantClick(element) {
-        const href =
-            element.getAttribute('href') || '';
-
-        const text = (
-            element.getAttribute('aria-label') ||
-            element.textContent ||
-            element.value ||
-            ''
-        )
-            .replace(/\s+/g, ' ')
-            .trim();
-
-        const lowerText = text.toLowerCase();
-        const lowerHref = href.toLowerCase();
-
-
-        /* VIEW PORTFOLIO */
-
-        if (
-            lowerHref === '/portfolio/' ||
-            lowerHref === '/portfolio' ||
-            lowerText.includes('view portfolio') ||
-            lowerText.includes('explore portfolio')
-        ) {
-            sendEvent('view_portfolio', {
-                button_text: text
-            });
-        }
-
-
-        /* BUILD YOUR ESTIMATE */
-
-        if (
-            lowerText.includes('build your estimate') ||
-            element.classList.contains('custom-package-contact')
-        ) {
-            sendEvent('build_estimate', {
-                button_text: text
-            });
-        }
-
-
-        /* WHATSAPP */
-
-        if (
-            lowerHref.includes('wa.me') ||
-            lowerHref.includes('whatsapp') ||
-            lowerText.includes('whatsapp')
-        ) {
-            let source = 'website';
-
-            if (element.id === 'photo-calc-whatsapp') {
-                source = 'pricing_calculator';
-            } else if (
-                element.id === 'portfolio-whatsapp' ||
-                window.location.pathname.startsWith('/portfolio')
-            ) {
-                source = 'portfolio';
-            } else if (element.closest('#project-form')) {
-                source = 'project_form';
-            } else if (element.closest('#package-form')) {
-                source = 'package_enquiry';
-            }
-
-            sendEvent('whatsapp_click', {
-                source: source
-            });
-        }
-
-
-        /* START A PROJECT */
-
-        if (lowerText.includes('start a project')) {
-            sendEvent('start_project', {
-                button_text: text
-            });
-        }
-
-
-        /* SUBMIT ENQUIRY */
-
-        if (element.id === 'package-direct-send') {
-            sendEvent('submit_enquiry', {
-                enquiry_type: 'package'
-            });
-        }
-
-        if (element.id === 'photo-calc-submit') {
-            sendEvent('submit_enquiry', {
-                enquiry_type: 'pricing_estimate'
-            });
-        }
-
-        if (element.id === 'email-project') {
-            sendEvent('submit_enquiry', {
-                enquiry_type: 'project_brief'
-            });
-        }
-    }
-
-
-    /* =========================
-       GENERAL WEBSITE TRACKING
-       ========================= */
-
-    function installTracking() {
-        if (trackingInstalled) return;
-
-        trackingInstalled = true;
-
-        document.addEventListener(
-            'click',
-            function (event) {
-                const element = event.target.closest('a, button');
-
-                if (!element) return;
-
-                if (
-                    element.hasAttribute(
-                        'data-nostrix-consent-control'
-                    )
-                ) {
-                    return;
-                }
-
-                trackImportantClick(element);
-
-                sendEvent('site_click', {
-                    click_label: (
-                        element.getAttribute('aria-label') ||
-                        element.textContent ||
-                        element.value ||
-                        ''
-                    )
-                        .replace(/\s+/g, ' ')
-                        .trim()
-                        .slice(0, 100),
-
-                    element_type:
-                        element.tagName.toLowerCase()
-                });
-            },
-            true
-        );
-
-
-        document.addEventListener(
-            'submit',
-            function (event) {
-                const form = event.target;
-
-                if (!(form instanceof HTMLFormElement)) {
-                    return;
-                }
-
-                sendEvent('form_submit_attempt', {
-                    form_name:
-                        form.id ||
-                        form.getAttribute('name') ||
-                        'website_form'
-                });
-            },
-            true
-        );
-
-
-        window.addEventListener(
-            'scroll',
-            function () {
-                const pageHeight = Math.max(
-                    document.documentElement.scrollHeight -
-                        window.innerHeight,
-                    1
-                );
-
-                const percentage = Math.round(
-                    (window.scrollY / pageHeight) * 100
-                );
-
-                [25, 50, 75, 90].forEach(function (milestone) {
-                    if (
-                        percentage >= milestone &&
-                        !scrollMilestones.has(milestone)
-                    ) {
-                        scrollMilestones.add(milestone);
-
-                        sendEvent('scroll_depth', {
-                            percent_scrolled: milestone
-                        });
-                    }
-                });
-            },
-            { passive: true }
-        );
-    }
-
-
-    /* =========================
-       LOAD GOOGLE ANALYTICS
-       ========================= */
-
-    function loadAnalytics() {
-        if (analyticsLoaded) return;
-
-        analyticsLoaded = true;
-
-        window.gtag('consent', 'update', {
-            analytics_storage: 'granted',
-            ad_storage: 'denied',
-            ad_user_data: 'denied',
-            ad_personalization: 'denied'
-        });
-
-        const script = document.createElement('script');
-
-        script.async = true;
-
-        script.src =
-            'https://www.googletagmanager.com/gtag/js?id=' +
-            encodeURIComponent(measurementId);
-
-        document.head.appendChild(script);
-
-        window.gtag('js', new Date());
-
-        window.gtag('config', measurementId, {
-            send_page_view: true,
-            allow_google_signals: false,
-            allow_ad_personalization_signals: false,
-            transport_type: 'beacon'
-        });
-
-        installTracking();
-    }
-
-
-    /* =========================
-       COOKIE / ANALYTICS BANNER
-       ========================= */
-
-    function injectStyles() {
-        if (
-            document.getElementById(
-                'nostrix-analytics-styles'
-            )
-        ) {
-            return;
-        }
-
-        const style =
-            document.createElement('style');
-
-        style.id =
-            'nostrix-analytics-styles';
-
-        style.textContent = `
-            .nostrix-consent-banner {
-                position: fixed;
-                left: 1rem;
-                right: 1rem;
-                bottom: 1rem;
-                z-index: 9999;
-                display: grid;
-                grid-template-columns: minmax(0, 1fr) auto;
-                gap: 1rem;
-                align-items: center;
-                max-width: 72rem;
-                margin: 0 auto;
-                padding: 1rem 1.1rem;
-                border: 1px solid rgba(255,255,255,.14);
-                border-radius: 1rem;
-                color: #fff;
-                background: rgba(10,10,15,.96);
-                box-shadow: 0 1rem 3rem rgba(0,0,0,.45);
-                backdrop-filter: blur(18px);
-                font-family: Inter, Arial, sans-serif;
-            }
-
-            .nostrix-consent-copy {
-                margin: 0;
-                color: #d4d4d8;
-                font-size: .82rem;
-                line-height: 1.55;
-            }
-
-            .nostrix-consent-copy strong {
-                color: #fff;
-            }
-
-            .nostrix-consent-copy a {
-                color: #bac8ff;
-            }
-
-            .nostrix-consent-actions {
-                display: flex;
-                flex-wrap: wrap;
-                gap: .65rem;
-            }
-
-            .nostrix-consent-button {
-                min-height: 2.65rem;
-                border: 1px solid rgba(255,255,255,.16);
-                border-radius: 999px;
-                padding: 0 1rem;
-                color: #fff;
-                background: rgba(255,255,255,.06);
-                font: inherit;
-                font-size: .72rem;
-                font-weight: 700;
-                letter-spacing: .08em;
-                text-transform: uppercase;
-                cursor: pointer;
-            }
-
-            .nostrix-consent-button.primary {
-                color: #08080b;
-                border-color: transparent;
-                background: linear-gradient(
-                    135deg,
-                    #bac8ff,
-                    #d28bff
-                );
-            }
-
-            .nostrix-analytics-settings {
-                border: 0;
-                padding: 0;
-                color: inherit;
-                background: none;
-                font: inherit;
-                cursor: pointer;
-                text-decoration: underline;
-                text-underline-offset: .18em;
-            }
-
-            @media (max-width: 700px) {
-                .nostrix-consent-banner {
-                    grid-template-columns: 1fr;
-                }
-
-                .nostrix-consent-actions {
-                    width: 100%;
-                }
-
-                .nostrix-consent-button {
-                    flex: 1;
-                }
-            }
-        `;
-
-        document.head.appendChild(style);
-    }
-
-
-    function closeBanner() {
-        document
-            .getElementById(
-                'nostrix-consent-banner'
-            )
-            ?.remove();
-    }
-
-
-    function setConsent(value) {
-        writeConsent(value);
-
-        closeBanner();
-
-        if (value === acceptedValue) {
-            loadAnalytics();
-        } else {
-            window.gtag(
-                'consent',
-                'update',
-                {
-                    analytics_storage: 'denied',
-                    ad_storage: 'denied',
-                    ad_user_data: 'denied',
-                    ad_personalization: 'denied'
-                }
-            );
-        }
-    }
-
-
-    function showBanner() {
-        closeBanner();
-
-        injectStyles();
-
-        const banner =
-            document.createElement('aside');
-
-        banner.id =
-            'nostrix-consent-banner';
-
-        banner.className =
-            'nostrix-consent-banner';
-
-        banner.setAttribute(
-            'role',
-            'dialog'
-        );
-
-        banner.setAttribute(
-            'aria-label',
-            'Analytics preferences'
-        );
-
-        banner.innerHTML = `
-            <p class="nostrix-consent-copy">
-                <strong>Private website analytics</strong><br>
-                Nostrix would like to measure anonymous page views,
-                scroll depth and clicks so we can improve the website.
-                We do not send form answers, names, email addresses
-                or phone numbers to Analytics.
-                Read our
-                <a href="/privacy/">privacy policy</a>.
-            </p>
-
-            <div class="nostrix-consent-actions">
-
-                <button
-                    type="button"
-                    class="nostrix-consent-button"
-                    data-consent="declined"
-                    data-nostrix-consent-control
-                >
-                    Decline
-                </button>
-
-                <button
-                    type="button"
-                    class="nostrix-consent-button primary"
-                    data-consent="accepted"
-                    data-nostrix-consent-control
-                >
-                    Allow analytics
-                </button>
-
-            </div>
-        `;
-
-        banner
-            .querySelectorAll('[data-consent]')
-            .forEach(function (button) {
-                button.addEventListener(
-                    'click',
-                    function () {
-                        setConsent(
-                            button.getAttribute(
-                                'data-consent'
-                            )
-                        );
-                    }
-                );
-            });
-
-        document.body.appendChild(banner);
-    }
-
-
-    /* =========================
-       ANALYTICS SETTINGS LINK
-       ========================= */
-
-    function addSettingsControl() {
-        injectStyles();
-
-        if (
-            document.querySelector(
-                '[data-nostrix-analytics-settings]'
-            )
-        ) {
-            return;
-        }
-
-        const button =
-            document.createElement('button');
-
-        button.type = 'button';
-
-        button.className =
-            'nostrix-analytics-settings';
-
-        button.textContent =
-            'Analytics settings';
-
-        button.setAttribute(
-            'data-nostrix-analytics-settings',
-            ''
-        );
-
-        button.setAttribute(
-            'data-nostrix-consent-control',
-            ''
-        );
-
-        button.addEventListener(
-            'click',
-            showBanner
-        );
-
-        const footerExplore =
-            document.querySelector(
-                '.site-footer-grid > div:last-child'
-            );
-
-        if (footerExplore) {
-            button.classList.add('footer-link');
-
-            footerExplore.appendChild(button);
-
-            return;
-        }
-
-        const footer =
-            document.querySelector('footer');
-
-        if (footer) {
-            const wrapper =
-                document.createElement('p');
-
-            wrapper.style.marginTop = '1rem';
-
-            wrapper.appendChild(button);
-
-            footer.appendChild(wrapper);
-        }
-    }
-
-
-    /* =========================
-       START
-       ========================= */
-
-    function start() {
-        addSettingsControl();
-
-        const consent =
-            readConsent();
-
-        if (consent === acceptedValue) {
-            loadAnalytics();
-        } else if (
-            consent !== declinedValue
-        ) {
-            showBanner();
-        }
-    }
-
-
-    if (
-        document.readyState === 'loading'
-    ) {
-        document.addEventListener(
-            'DOMContentLoaded',
-            start,
-            { once: true }
-        );
-    } else {
-        start();
-    }
-
-})();
+    var state = read();
+    if (state === 'accepted') load();
+    else if (state !== 'declined') setTimeout(show, 1800);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+  else start();
+}());
