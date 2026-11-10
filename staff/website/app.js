@@ -597,7 +597,7 @@
       if(error.message==="signedOut"&&route()!=="login"){location.hash="login";return;}
       const denied=error.message==="noAccess";
       syncDocument(denied?"noAccess":"unavailable");
-      app.innerHTML=denied?authPage(true,{}):`<main class="auth-layout" id="content"><section class="auth-box">${brand()}<h1>${t("unavailable")}</h1><button class="btn" data-action="retry">${t("retry")}</button></section></main>`;
+      app.innerHTML=denied?authPage(true,{}):`<main class="auth-layout" id="content"><section class="auth-box">${brand()}<h1>${t(T[error.message]?error.message:"unavailable")}</h1><button class="btn" data-action="retry">${t("retry")}</button></section></main>`;
     } finally {clearTimeout(loadingTimer);}
   }
   function navigate(page) {
