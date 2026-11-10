@@ -220,6 +220,11 @@ export async function importTeam(ctx, input) {
     for (let i = 0; i < stmts.length; i += 50) await DB.batch(stmts.slice(i, i + 50));
     counts[table] = stmts.length;
   }
+  const profileUpdates = (input.profiles || []).map((p) => ({ id: byEmail.get(String(p.email || '').toLowerCase()), p })).filter((x) => x.id)
+    .map(({ id, p }) => DB.prepare('UPDATE users SET display_name=COALESCE(?,display_name), job_title=COALESCE(job_title,?) WHERE id=?')
+      .bind(p.display_name ? String(p.display_name).slice(0, 80) : null, p.job_title ? String(p.job_title).slice(0, 80) : null, id));
+  if (profileUpdates.length) await DB.batch(profileUpdates);
+  counts.profiles = profileUpdates.length;
   await bumpTeam(ctx.env);
   return { imported: counts, unmatchedPeople: [...people.entries()].filter(([, v]) => !v).length };
 }
