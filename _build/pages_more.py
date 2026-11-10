@@ -266,11 +266,46 @@ def pricing():
 <p class="sheet-price" id="modalPrice"></p>
 </div>
 <div class="sheet-body">
-<p class="muted">Send Nostrix the selected package and tell us your preferred date, location and a short brief. Final availability and scope are confirmed in the quotation.</p>
+<div id="order-choice">
+<p class="muted">Order this package with a few details, or send it to Nostrix on WhatsApp or email. Final availability and scope are confirmed in the quotation.</p>
+<button class="btn btn-primary order-start" id="order-start" type="button">Order now</button>
 <div class="sheet-actions">
 <a class="btn btn-wa" id="modalWhatsApp" href="#" target="_blank" rel="noopener noreferrer">''' + ic('whatsapp') + '''Continue on WhatsApp</a>
 <a class="btn btn-ghost" id="modalEmail" href="#">''' + ic('mail') + '''Email Enquiry</a>
 </div>
+</div>
+<form class="order-form" id="order-form" novalidate hidden>
+<div class="field">
+<label for="order-name">Name</label>
+<input class="control" id="order-name" name="name" type="text" maxlength="120" autocomplete="name" required>
+</div>
+<div class="field">
+<label for="order-phone">Phone number</label>
+<div class="phone-row">''' + code_select('order-phone-code') + '''<input class="control" id="order-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="50 123 4567" maxlength="30" required></div>
+</div>
+<div class="field">
+<label for="order-email">Email <span class="hint">Optional</span></label>
+<input class="control" id="order-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="200" placeholder="name@company.com">
+</div>
+<div class="field">
+<label for="order-date">Preferred date <span class="hint">Optional</span></label>
+<input class="control" id="order-date" name="date" type="date">
+</div>
+<div class="field">
+<label for="order-notes">Notes <span class="hint">Optional</span></label>
+<textarea class="control" id="order-notes" name="notes" maxlength="2000" placeholder="Location, brand and anything we should know"></textarea>
+</div>
+<input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<label class="check" for="order-privacy">
+<input id="order-privacy" name="privacy" type="checkbox" required>
+<span>I agree to share these details with Nostrix so the team can reply to my enquiry. <a href="/privacy/" target="_blank">Privacy policy</a></span>
+</label>
+<div class="order-buttons">
+<button class="btn btn-ghost" id="order-back" type="button">Back</button>
+<button class="btn btn-primary" id="order-send" type="submit">Send order</button>
+</div>
+<p class="status" id="order-status" role="status" aria-live="polite"></p>
+</form>
 <p class="summary-note">Prices shown on this page are planning rates. Final availability, deliverables, usage requirements and any excluded project costs are confirmed in the written quotation before booking.</p>
 </div>
 </div>

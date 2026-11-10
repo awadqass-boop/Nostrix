@@ -6,6 +6,18 @@ Arabic for the packages, estimate builder and legal pages comes from data/ar-leg
 """
 
 AR = {
+    # Order now on pricing packages (2026-11-11)
+    'Order this package with a few details, or send it to Nostrix on WhatsApp or email. Final availability and scope are confirmed in the quotation.': 'اطلب هذه الباقة ببعض التفاصيل، أو أرسلها إلى نوستريكس عبر واتساب أو البريد الإلكتروني. يتم تأكيد التوفر والنطاق النهائي في عرض السعر.',
+    'Order now': 'اطلب الآن',
+    'Preferred date': 'التاريخ المفضل',
+    'Notes': 'ملاحظات',
+    'Location, brand and anything we should know': 'الموقع والعلامة التجارية وأي شيء يجب أن نعرفه',
+    'Back': 'رجوع',
+    'Send order': 'إرسال الطلب',
+    'Sending your order…': 'جارٍ إرسال طلبك…',
+    'Order received': 'تم استلام الطلب',
+    'Nostrix will contact you soon to confirm the details and send your quotation.': 'سيتواصل معك فريق نوستريكس قريباً لتأكيد التفاصيل وإرسال عرض السعر.',
+    'The order could not be sent. Try again or continue on WhatsApp.': 'تعذّر إرسال الطلب. حاول مرة أخرى أو تابع عبر واتساب.',
     # Reviews published right away (2026-11-11)
     'Rate your project and write a short review. It appears on our website right away.': 'قيّم مشروعك واكتب مراجعة قصيرة، وستظهر على موقعنا فوراً.',
     'Only your rating, public testimonial and chosen display name appear on the website.': 'يظهر على الموقع تقييمك وشهادتك العامة والاسم الذي تختاره فقط.',

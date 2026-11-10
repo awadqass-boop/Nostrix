@@ -60,7 +60,7 @@ export async function clicks(ctx, url) {
   const { results: packages } = await DB.prepare("SELECT label AS name, COUNT(*) AS count FROM events WHERE type='click' AND name='package' AND day>=? GROUP BY label ORDER BY count DESC LIMIT 30").bind(from).all();
   const { results: names } = await DB.prepare("SELECT name AS id, COUNT(*) AS count FROM events WHERE type='click' AND name!='package' AND day>=? GROUP BY name").bind(from).all();
   const by = Object.fromEntries(names.map((r) => [r.id, r.count]));
-  return { from, to, packages, actions: ['whatsapp', 'call', 'email', 'estimate', 'instagram', 'tiktok'].map((id) => ({ id, count: by[id] || 0 })) };
+  return { from, to, packages, actions: ['order', 'whatsapp', 'call', 'email', 'estimate', 'instagram', 'tiktok'].map((id) => ({ id, count: by[id] || 0 })) };
 }
 
 // ---- Enquiries ----

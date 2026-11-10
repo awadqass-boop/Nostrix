@@ -36,7 +36,79 @@
     var msg = "Hi Nostrix, I'm interested in the " + name + ' package (' + price + "). I'd like to discuss the scope, availability and next steps.";
     $('#modalWhatsApp').href = NX.waLink(msg);
     $('#modalEmail').href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent('Nostrix enquiry — ' + name) + '&body=' + encodeURIComponent(msg);
+    chosen = { name: name, price: price };
+    showOrder(false);
     NX.openSheet(packageSheet);
+  }
+
+  /* ---------- Order now: a short form saved to the Nostrix dashboard ---------- */
+  var chosen = null, sending = false;
+  var orderForm = $('#order-form'), orderChoice = $('#order-choice'), orderStatus = $('#order-status');
+  function sayOrder(text, cls) { orderStatus.textContent = text; orderStatus.className = 'status' + (cls ? ' ' + cls : ''); }
+  function showOrder(on) {
+    if (!orderForm) return;
+    orderChoice.hidden = on;
+    orderForm.hidden = !on;
+    if (!on) {
+      var done = $('.order-done', packageSheet);
+      if (done) done.remove();
+      sayOrder('');
+    } else {
+      $('#order-name').focus();
+    }
+  }
+  if (orderForm) {
+    $('#order-start').addEventListener('click', function () {
+      showOrder(true);
+    });
+    $('#order-back').addEventListener('click', function () { showOrder(false); });
+    orderForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (sending || !chosen) return;
+      if (!orderForm.checkValidity()) {
+        orderForm.reportValidity();
+        sayOrder('Add your name and phone number, and accept the privacy notice.', 'bad');
+        return;
+      }
+      var d = new FormData(orderForm);
+      var number = String(d.get('phone') || '').trim().replace(/^0+/, '');
+      var notes = String(d.get('notes') || '').trim();
+      var date = String(d.get('date') || '');
+      sending = true;
+      $('#order-send').disabled = true;
+      sayOrder('Sending your order…');
+      fetch(String(window.NOSTRIX_API || '/api') + '/enquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          source: 'package-order', package: chosen.name, price: chosen.price,
+          name: d.get('name') || '', email: d.get('email') || '',
+          phone: [String(d.get('phone_code') || ''), number].filter(Boolean).join(' '),
+          timeline: date, needs: notes, website: d.get('website') || '', pageUrl: location.href
+        })
+      })
+        .then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (body) {
+            if (!res.ok) throw new Error(body.message || 'HTTP ' + res.status);
+          });
+        })
+        .then(function () {
+          if (window.nostrixStat) window.nostrixStat('order', chosen.name);
+          orderForm.reset();
+          orderForm.hidden = true;
+          var done = document.createElement('div');
+          done.className = 'order-done';
+          var h = document.createElement('h3'); h.className = 'h3'; h.textContent = 'Order received';
+          var p = document.createElement('p'); p.className = 'muted';
+          p.textContent = 'Nostrix will contact you soon to confirm the details and send your quotation.';
+          done.append(h, p);
+          orderForm.after(done);
+        })
+        .catch(function () {
+          sayOrder('The order could not be sent. Try again or continue on WhatsApp.', 'bad');
+        })
+        .then(function () { sending = false; $('#order-send').disabled = false; });
+    });
   }
 
   /* ---------- Estimate builder ---------- */

@@ -85,7 +85,14 @@
 .sheet-close { position: absolute; inset-block-start: 18px; inset-inline-end: 18px; float: none; margin: 0; }
 .sheet-price { font-size: 30px; font-weight: 600; letter-spacing: -.03em; margin-block-start: 6px; }
 .sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-block: 20px 16px; }
-@media (max-width: 480px) { .sheet-actions { grid-template-columns: 1fr; } .sheet-head, .sheet-body { padding-inline: 20px; } .sheet-head { padding-inline-end: 64px; } }
+.order-start { width: 100%; margin-block-start: 20px; }
+#order-choice .sheet-actions { margin-block-start: 10px; }
+.order-form { display: grid; gap: 16px; margin-block-end: 16px; }
+.order-form textarea.control { min-height: 96px; }
+.order-buttons { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; }
+.order-form .phone-row { display: grid; grid-template-columns: 132px 1fr; gap: 8px; direction: ltr; }
+.order-done { text-align: center; padding-block: 18px; }
+@media (max-width: 480px) { .sheet-actions { grid-template-columns: 1fr; } .order-form .phone-row { grid-template-columns: 116px 1fr; } .sheet-head, .sheet-body { padding-inline: 20px; } .sheet-head { padding-inline-end: 64px; } }
 
 /* Estimate builder */
 .builder { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 28px; align-items: start; }

@@ -19,7 +19,7 @@ async function visitor(ctx) {
   return (await sha256((await setting(ctx.env, 'salt')) + today() + ip + ua)).slice(0, 16);
 }
 
-const NAMES = new Set(['package', 'whatsapp', 'call', 'email', 'estimate', 'instagram', 'tiktok', 'review', 'enquiry', 'outbound']);
+const NAMES = new Set(['package', 'whatsapp', 'call', 'email', 'estimate', 'instagram', 'tiktok', 'review', 'enquiry', 'order', 'outbound']);
 
 export async function collect(ctx, input) {
   const ua = ctx.request.headers.get('user-agent') || '';

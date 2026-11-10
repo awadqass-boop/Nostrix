@@ -46,7 +46,7 @@
     range:["Date range","الفترة الزمنية"],custom:["Custom range","فترة محدّدة"],from:["From","من"],to:["To","إلى"],apply:["Apply","تطبيق"],
     invalidRange:["Choose a past or current range of 1–366 days.","اختر فترة من يوم إلى ٣٦٦ يوماً تنتهي اليوم أو قبله."],
     packageClicks:["Pricing package clicks","النقرات على باقات الأسعار"],actionClicks:["Contact and estimate clicks","نقرات التواصل وتقدير التكلفة"],
-    whatsapp:["WhatsApp","واتساب"],call:["Call","اتصال"],email:["Email","البريد الإلكتروني"],estimate:["Estimate builder","حاسبة التكلفة"],
+    order:["Orders","الطلبات"],whatsapp:["WhatsApp","واتساب"],call:["Call","اتصال"],email:["Email","البريد الإلكتروني"],estimate:["Estimate builder","حاسبة التكلفة"],
     allowed:["Website access","صلاحية دخول الموقع"],signinHistory:["Sign-in history","سجل الدخول"],who:["Account","الحساب"],when:["Signed in","وقت الدخول"],
     add:["Add access","منح صلاحية"],remove:["Remove","إزالة"],emailAddress:["Email address","البريد الإلكتروني"],
     badEmail:["Enter a valid email address.","أدخل بريداً إلكترونياً صحيحاً."],duplicateEmail:["This email already has access.","لهذا البريد صلاحية دخول بالفعل."],
@@ -255,7 +255,7 @@
   async function clicks() {
     const data=await api.getPricingClicks(), max=Math.max(...data.packages.map(p=>p.count),1);
     return sectionHead("clicks",date(data.from)+" – "+date(data.to,{day:"numeric",month:"long",year:"numeric"}))+
-      `<div class="actions-grid">${data.actions.map((a,i)=>`<article class="stat ${["tone-green","tone-blue","tone-rose","","tone-amber","tone-blue"][i%6]}"><div class="stat-head"><span class="stat-icon">${ic(a.id==="email"?"enquiries":a.id)}</span>${t(a.id)}</div><strong>${num(a.count)}</strong></article>`).join("")}</div>
+      `<div class="actions-grid">${data.actions.map((a,i)=>`<article class="stat ${["tone-green","tone-blue","tone-rose","","tone-amber","tone-blue"][i%6]}"><div class="stat-head"><span class="stat-icon">${ic(a.id==="email"||a.id==="order"?"enquiries":a.id)}</span>${t(a.id)}</div><strong>${num(a.count)}</strong></article>`).join("")}</div>
       <article class="card card-pad"><header class="card-head"><h2>${t("packageClicks")}</h2>${ic("clicks")}</header><div class="distribution sales-bars">${!data.packages.length?`<p class="empty">${t("noData")}</p>`:""}${data.packages.map((p,i)=>`<div><div class="source-name"><span>${esc(pick(p.name))}</span><b>${num(p.count)}</b></div><div class="track"><i style="width:${p.count/max*100}%;background:${colors[i%4]}"></i></div></div>`).join("")}</div></article>`;
   }
   function enquiryRows() {

@@ -30,6 +30,9 @@ JS_STRINGS = [
     # analytics.js
     'Analytics.', 'We use Google Analytics to see which pages are useful. It only runs if you accept.', 'Privacy policy',
     'Decline', 'Accept', 'Analytics settings',
+    # pricing.js (order form)
+    'Sending your order…', 'Order received', 'Nostrix will contact you soon to confirm the details and send your quotation.',
+    'The order could not be sent. Try again or continue on WhatsApp.',
     # review.js
     'Complete the required fields.', 'The review form is not connected yet.', 'Submitting your review…',
     'Thank you. Your review is now live on the Nostrix website.', 'Sending your brief…',

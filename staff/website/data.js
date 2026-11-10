@@ -87,9 +87,11 @@ window.NostrixWebsite = (() => {
 
     async getEnquiries() {
       return (await call("/site/enquiries")).map(r => {
+        const order = r.source === "package-order";
         const message = [r.needs, r.services && "Services: " + r.services, r.event_types && "Events: " + r.event_types,
-          r.budget && "Budget: " + r.budget, r.timeline && "Timeline: " + r.timeline, r.company && "Company: " + r.company].filter(Boolean).join(" · ");
-        return { id: r.id, name: both(r.name || "—"), contact: [r.phone, r.email].filter(Boolean).join(" · "), package: both(r.package || r.source || "—"),
+          r.budget && "Budget: " + r.budget, r.timeline && (order ? "Preferred date: " : "Timeline: ") + r.timeline, r.company && "Company: " + r.company].filter(Boolean).join(" · ");
+        const pkg = order ? ["Order: " + (r.package || "") + (r.price ? " (" + r.price + ")" : ""), "طلب: " + (r.package || "") + (r.price ? " (" + r.price + ")" : "")] : both(r.package || r.source || "—");
+        return { id: r.id, name: both(r.name || "—"), contact: [r.phone, r.email].filter(Boolean).join(" · "), package: pkg,
           message: both(message || "—"), date: r.created_at, handled: r.handled, color: color(r.email || r.phone || r.name) };
       });
     },
