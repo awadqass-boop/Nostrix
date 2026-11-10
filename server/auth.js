@@ -154,9 +154,12 @@ export async function createUser(ctx, input) {
   const DB = db(ctx.env);
   if (await DB.prepare('SELECT id FROM users WHERE email=?').bind(address).first()) fail(409, 'duplicateEmail', 'This email already has an account.');
   const pw = await hashPassword(String(input.password || ''));
-  const id = uuid();
+  // Reuse the id this person had in the imported old workspace, so their old tasks stay theirs.
+  const legacy = JSON.parse((await DB.prepare("SELECT value FROM settings WHERE key='legacy_people'").first())?.value || '{}')[address] || null;
+  const taken = legacy && (await DB.prepare('SELECT id FROM users WHERE id=?').bind(legacy.id).first());
+  const id = legacy && !taken ? legacy.id : uuid();
   await DB.prepare('INSERT INTO users(id,email,display_name,job_title,pass_hash,pass_salt,pass_iter,is_admin,website_access,active,created_at) VALUES(?,?,?,?,?,?,?,?,?,1,?)')
-    .bind(id, address, str(input.name, 80) || address.split('@')[0], str(input.job_title, 80), pw.pass_hash, pw.pass_salt, pw.pass_iter,
+    .bind(id, address, str(input.name, 80) || legacy?.name || address.split('@')[0], str(input.job_title, 80) || legacy?.job || null, pw.pass_hash, pw.pass_salt, pw.pass_iter,
       input.is_admin ? 1 : 0, input.website_access ? 1 : 0, now()).run();
   return publicUser(await DB.prepare('SELECT * FROM users WHERE id=?').bind(id).first());
 }

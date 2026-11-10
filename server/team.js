@@ -199,7 +199,16 @@ export async function importTeam(ctx, input) {
   const DB = db(ctx.env);
   const accounts = (await DB.prepare('SELECT id, email FROM users').all()).results;
   const byEmail = new Map(accounts.map((u) => [u.email.toLowerCase(), u.id]));
-  const people = new Map((input.users || []).map((u) => [u.id, byEmail.get(String(u.email || '').toLowerCase()) || null]));
+  // People without an account yet keep their old id; the account created later for that email reuses it.
+  const legacy = JSON.parse((await setting(ctx.env, 'legacy_people')) || '{}');
+  const profileBy = new Map((input.profiles || []).map((p) => [String(p.email || '').toLowerCase(), p]));
+  const people = new Map((input.users || []).map((u) => {
+    const mail = String(u.email || '').toLowerCase();
+    const current = byEmail.get(mail);
+    if (!current && /^[0-9a-f-]{36}$/.test(u.id)) legacy[mail] = { id: u.id, name: profileBy.get(mail)?.display_name || null, job: profileBy.get(mail)?.job_title || null };
+    return [u.id, current || (/^[0-9a-f-]{36}$/.test(u.id) ? u.id : null)];
+  }));
+  await DB.prepare("INSERT INTO settings(key,value) VALUES('legacy_people',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").bind(JSON.stringify(legacy)).run();
   const person = (id) => (id ? people.get(id) ?? null : null);
   const PEOPLE = new Set(['created_by', 'assigned_to', 'user_id', 'actor_id']);
   const counts = {};
@@ -226,7 +235,7 @@ export async function importTeam(ctx, input) {
   if (profileUpdates.length) await DB.batch(profileUpdates);
   counts.profiles = profileUpdates.length;
   await bumpTeam(ctx.env);
-  return { imported: counts, unmatchedPeople: [...people.entries()].filter(([, v]) => !v).length };
+  return { imported: counts, waitingForAccounts: Object.keys(legacy) };
 }
 
 // ---- Task file storage (Cloudflare KV) ----
