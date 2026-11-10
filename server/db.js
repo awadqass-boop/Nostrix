@@ -2,7 +2,7 @@
 import seed from '../_build/data/portfolio.json';
 import { fail, now, randomHex } from './util.js';
 
-const VERSION = '3';
+const VERSION = '4';
 
 export const CATEGORIES = [
   { id: 'modelling', en: 'Modelling', ar: 'الأزياء' },
@@ -41,6 +41,8 @@ CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT
 CREATE INDEX IF NOT EXISTS events_day ON events(day, type);
 CREATE INDEX IF NOT EXISTS events_at ON events(at);
 CREATE TABLE IF NOT EXISTS notes (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, text TEXT NOT NULL, pinned INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL, updated_at TEXT);
+CREATE TABLE IF NOT EXISTS audit_log (id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT NOT NULL, user_id TEXT, email TEXT, name TEXT, area TEXT NOT NULL, action TEXT NOT NULL, target TEXT, detail TEXT);
+CREATE INDEX IF NOT EXISTS audit_at ON audit_log(at);
 CREATE TABLE IF NOT EXISTS portfolio (id TEXT PRIMARY KEY, category TEXT NOT NULL, label TEXT, src TEXT NOT NULL, thumb TEXT NOT NULL, video TEXT, w INTEGER, h INTEGER, tw INTEGER, th INTEGER, featured INTEGER NOT NULL DEFAULT 0, published INTEGER NOT NULL DEFAULT 0, sort INTEGER NOT NULL DEFAULT 0, media_key TEXT, created_by TEXT, created_at TEXT NOT NULL, updated_at TEXT);
 `;
 
@@ -80,6 +82,15 @@ export async function setting(env, key) {
 
 export async function bumpTeam(env) {
   await db(env).prepare("UPDATE settings SET value=CAST(CAST(value AS INTEGER)+1 AS TEXT) WHERE key='team_rev'").run();
+}
+
+// Activity log: who did what. Never blocks the action it records.
+export async function audit(env, user, area, action, target = null, detail = null) {
+  try {
+    await db(env).prepare('INSERT INTO audit_log(at,user_id,email,name,area,action,target,detail) VALUES(?,?,?,?,?,?,?,?)')
+      .bind(now(), user?.id || null, user?.email || null, user?.display_name || null, area, action,
+        target ? String(target).slice(0, 200) : null, detail ? String(detail).slice(0, 300) : null).run();
+  } catch (e) { console.error('audit', e); }
 }
 
 // Simple sliding-window limiter. Returns false when the limit is reached.

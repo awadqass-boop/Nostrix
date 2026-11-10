@@ -42,6 +42,7 @@ on('GET', '/site/reviews', (c) => site.reviews(c));
 on('DELETE', '/site/reviews/:id', (c, p) => site.removeReview(c, p.id));
 on('POST', '/site/reviews/import', async (c) => site.importReviews(c, await body(c.request, 2 * 1024 * 1024)));
 on('GET', '/site/notes', (c) => site.notes(c));
+on('GET', '/site/log', (c, p, url) => site.activityLog(c, url));
 on('POST', '/site/notes', async (c) => site.addNote(c, await body(c.request)));
 on('PATCH', '/site/notes/:id', async (c, p) => site.updateNote(c, p.id, await body(c.request)));
 on('DELETE', '/site/notes/:id', (c, p) => site.deleteNote(c, p.id));

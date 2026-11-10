@@ -109,6 +109,7 @@ window.NostrixWebsite = (() => {
     updateAccount(id, input) { return post("/admin/users/" + encodeURIComponent(id), input, "PATCH"); },
     deleteAccount(id) { return call("/admin/users/" + encodeURIComponent(id), { method: "DELETE" }); },
     async getSignIns() { return call("/admin/signins"); },
+    async getActivityLog() { return call("/site/log?limit=500"); },
 
     async getNotes() {
       const s = await session();

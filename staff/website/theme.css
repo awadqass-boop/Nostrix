@@ -101,3 +101,13 @@ dialog label { display: grid; gap: 6px; margin: 12px 0; font-size: 12px; color: 
   .flat-map .pin.recent .pin-halo, .geo-live i { animation: none; }
 }
 .account-form textarea { width: 100%; min-height: 40px; resize: vertical; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--text); font: inherit; }
+
+/* Activity log */
+.log-table td { vertical-align: top; font-size: 13px; }
+.log-table .details { color: var(--muted); max-width: 360px; }
+.log-area { display: inline-block; padding: 2px 9px; border-radius: 980px; font-size: 11px; font-weight: 600; background: var(--raised); color: var(--muted); white-space: nowrap; }
+.log-area.team { background: rgba(185, 204, 255, .14); color: #b9ccff; }
+.log-area.website { background: var(--accent-bg); color: var(--accent); }
+.log-area.accounts { background: var(--warn-bg); color: var(--warn); }
+.log-area.login { background: var(--green-bg); color: var(--green); }
+html[data-theme="light"] .log-area.team { color: #3d55b8; }

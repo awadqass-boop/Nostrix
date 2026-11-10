@@ -1,5 +1,5 @@
 // Staff accounts: email + password, stored hashed (PBKDF2-SHA256). Sessions use an HttpOnly cookie.
-import { db, allow } from './db.js';
+import { db, allow, audit } from './db.js';
 import { fail, now, uuid, sha256, randomHex, b64, unb64, safeEqual, email as cleanEmail, str, device, geo, sameOrigin } from './util.js';
 
 // One-time owner setup code (only its SHA-256 is stored here). Works only while no account exists.
@@ -124,6 +124,7 @@ export async function setup(ctx, input) {
     .bind(user.id, user.email, user.display_name, user.pass_hash, user.pass_salt, user.pass_iter, now()).run();
   const row = await DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
   await logSignIn(ctx, row.id, row.email, true);
+  await audit(ctx.env, row, 'accounts', 'Created the owner account', row.email);
   return { user: publicUser(row), cookie: await startSession(ctx, row) };
 }
 
@@ -137,6 +138,7 @@ export async function changePassword(ctx, input) {
     DB.prepare('UPDATE users SET pass_hash=?,pass_salt=?,pass_iter=?,updated_at=? WHERE id=?').bind(next.pass_hash, next.pass_salt, next.pass_iter, now(), u.id),
     DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(u.id)
   ]);
+  await audit(ctx.env, u, 'accounts', 'Changed own password', u.email);
   return { cookie: await startSession(ctx, u) };
 }
 
@@ -148,7 +150,7 @@ export async function listUsers(ctx) {
 }
 
 export async function createUser(ctx, input) {
-  await requireAdmin(ctx);
+  const admin = await requireAdmin(ctx);
   const address = cleanEmail(input.email);
   if (!address) fail(400, 'badEmail', 'Enter a valid email address.');
   const DB = db(ctx.env);
@@ -161,6 +163,7 @@ export async function createUser(ctx, input) {
   await DB.prepare('INSERT INTO users(id,email,display_name,job_title,pass_hash,pass_salt,pass_iter,is_admin,website_access,active,created_at) VALUES(?,?,?,?,?,?,?,?,?,1,?)')
     .bind(id, address, str(input.name, 80) || legacy?.name || address.split('@')[0], str(input.job_title, 80) || legacy?.job || null, pw.pass_hash, pw.pass_salt, pw.pass_iter,
       input.is_admin ? 1 : 0, input.website_access ? 1 : 0, now()).run();
+  await audit(ctx.env, admin, 'accounts', 'Created account', address, [input.is_admin ? 'admin' : 'staff', input.website_access || input.is_admin ? 'Website section' : 'team only'].join(' · '));
   return publicUser(await DB.prepare('SELECT * FROM users WHERE id=?').bind(id).first());
 }
 
@@ -192,6 +195,13 @@ export async function updateUser(ctx, id, input) {
   if (!sets.length) return publicUser(target);
   sets.push('updated_at=?'); args.push(now());
   await DB.batch([DB.prepare(`UPDATE users SET ${sets.join(',')} WHERE id=?`).bind(...args, id), ...batch]);
+  const changes = [];
+  if (input.password) changes.push('set a new password');
+  if ('is_admin' in input) changes.push('admin ' + (input.is_admin ? 'on' : 'off'));
+  if ('website_access' in input) changes.push('Website section ' + (input.website_access ? 'on' : 'off'));
+  if ('active' in input) changes.push(input.active ? 'enabled' : 'disabled');
+  if ('name' in input || 'job_title' in input) changes.push('edited name/title');
+  await audit(ctx.env, admin, 'accounts', 'Updated account', target.email, changes.join(' · '));
   return publicUser(await DB.prepare('SELECT * FROM users WHERE id=?').bind(id).first());
 }
 
@@ -202,6 +212,7 @@ export async function deleteUser(ctx, id) {
   const target = await DB.prepare('SELECT * FROM users WHERE id=?').bind(id).first();
   if (!target) fail(404, 'notFound');
   await DB.batch([DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(id), DB.prepare('DELETE FROM users WHERE id=?').bind(id)]);
+  await audit(ctx.env, admin, 'accounts', 'Deleted account', target.email);
   return { ok: true };
 }
 

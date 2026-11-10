@@ -82,9 +82,11 @@
     hidePhoto:["Hide from website","إخفاء من الموقع"],featured:["Featured","مختارة"],featureOn:["Show in Featured","إظهار في المختارة"],featureOff:["Remove from Featured","إزالة من المختارة"],
     uploadsHidden:["New photos stay hidden until you approve them.","تبقى الصور الجديدة مخفية حتى تعتمدها."],photosUploaded:["Photos uploaded. Approve them to show them on the website.","تم رفع الصور. اعتمدها لإظهارها على الموقع."],
     videoItem:["Video","فيديو"],deleteNote:["Delete","حذف"],pinNote:["Pin","تثبيت"],unpinNote:["Unpin","إلغاء التثبيت"],pinned:["Pinned","مثبّتة"],
-    other:["Other","أخرى"]
+    other:["Other","أخرى"],log:["Activity log","سجل النشاط"],logHelp:["Who did what, and when, across the staff workspace and the website. Admins only.","من فعل ماذا ومتى في مساحة الفريق والموقع. للمسؤولين فقط."],
+    allAreas:["All activity","كل النشاط"],areaTeam:["Staff workspace","مساحة الفريق"],areaWebsite:["Website","الموقع"],areaAccounts:["Accounts","الحسابات"],areaLogin:["Sign-ins","تسجيلات الدخول"],
+    searchLog:["Search the log","ابحث في السجل"],action:["Action","الإجراء"],item:["Item","العنصر"],details:["Details","التفاصيل"],person:["Person","الشخص"],noLog:["Nothing recorded yet.","لا يوجد نشاط مسجّل بعد."],whenCol:["When","الوقت"],area:["Area","القسم"]
   };
-  const sections = ["overview","visitors","clicks","enquiries","reviews","access","portfolio","notes"];
+  const sections = ["overview","visitors","clicks","enquiries","reviews","access","portfolio","notes","log"];
   const state = {overviewDays:7, visitorDays:"7", visitorRange:null, reviewTab:"pending", search:"", enquiryFilter:"all"};
   let session, revision=0, chartStats, allEnquiries=[], noticeTimer, removeTarget=null, focusNextPage=false;
   const ar = () => html.lang === "ar";
@@ -133,7 +135,7 @@
         <div class="nav-label">${t("website")}</div>
         <nav class="side-nav" aria-label="${t("website")}">${sections.slice(0,5).map(key=>navLink(key,page,key==="reviews"?pending:0)).join("")}</nav>
         <div class="nav-label management">${t("management")}</div>
-        <nav class="side-nav" aria-label="${t("management")}">${["portfolio","notes",...(session.is_admin?["access"]:[])].map(k=>navLink(k,page,0)).join("")}</nav>
+        <nav class="side-nav" aria-label="${t("management")}">${["portfolio","notes",...(session.is_admin?["access","log"]:[])].map(k=>navLink(k,page,0)).join("")}</nav>
         <div class="side-foot"><div class="account-wrap">
           <div class="account-menu" id="account-menu" hidden><small><bdi>${esc(session.email)}</bdi></small><button type="button" data-action="signout">${ic("return","directional")}${t("signOut")}</button></div>
           <button type="button" class="account" data-action="profile" aria-expanded="false" aria-controls="account-menu" ${label(t("profile"))}>${avatar(session,true)}<span class="account-text"><b>${personName(session)}</b><small><bdi>${esc(session.email)}</bdi></small></span>${ic("switch")}</button>
@@ -304,6 +306,20 @@
       <label>${t("newPassword")}<input name="password" type="password" minlength="8" autocomplete="new-password"></label>
       <div class="tools"><button class="btn" value="cancel">${t("cancel")}</button><button class="btn primary" value="ok">${t("save")}</button></div></form></dialog>
     <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><h2 id="confirm-title"></h2><div class="tools"><button class="btn" value="cancel" autofocus>${t("cancel")}</button><button class="btn reject" value="ok" id="confirm-ok"></button></div></form></dialog>`;
+  }
+  let logRows=[],logArea="all",logQuery="";
+  const areaKey={team:"areaTeam",website:"areaWebsite",accounts:"areaAccounts",login:"areaLogin"};
+  function logBody() {
+    const q=logQuery.trim().toLocaleLowerCase();
+    const rows=logRows.filter(r=>(logArea==="all"||r.area===logArea)&&[r.email,r.name,r.action,r.target,r.detail].join(" ").toLocaleLowerCase().includes(q));
+    return rows.length?rows.map(r=>`<tr><td class="date-cell">${date(r.at,{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}</td><td>${esc(r.name||"")}${r.email?`<br><small class="meta"><bdi>${esc(r.email)}</bdi></small>`:""}</td><td><span class="log-area ${esc(r.area)}">${t(areaKey[r.area]||"other")}</span></td><td><b>${esc(r.action)}</b></td><td dir="auto">${esc(r.target||"")}</td><td class="details" dir="auto">${esc(r.detail||"")}</td></tr>`).join(""):`<tr><td colspan="6" class="empty">${t("noLog")}</td></tr>`;
+  }
+  async function logPage() {
+    if(!session.is_admin) return sectionHead("log")+`<p class="card empty">${t("adminOnly")}</p>`;
+    logRows=await api.getActivityLog();
+    return sectionHead("log",t("logHelp"))+`<div class="tools"><label class="search-box">${ic("search")}<input id="log-search" type="search" value="${esc(logQuery)}" ${label(t("searchLog"))} placeholder="${t("searchLog")}"></label>
+    ${picker("log-area","allAreas",[["all","allAreas"],["team","areaTeam"],["website","areaWebsite"],["accounts","areaAccounts"],["login","areaLogin"]],logArea)}</div>
+    <div class="card table-wrap"><table class="log-table"><thead><tr>${["whenCol","person","area","action","item","details"].map(k=>`<th>${t(k)}</th>`).join("")}</tr></thead><tbody id="log-rows">${logBody()}</tbody></table></div>`;
   }
   let workspaceLinks={website:null,staff:null}, stopLive=()=>{}, activeGlobe,shownNotes=[];
   let noteDraft="",noteQuery="",draftOwner="",portfolioData,categoryId="",draftPhotos=[],publishTimer;
@@ -578,7 +594,7 @@
         app.innerHTML=authPage(denied,demo);
       } else {
         const reviews=await api.getReviews();
-        const views={overview:()=>overview(reviews),visitors,clicks,enquiries:enquiryPage,reviews:()=>reviewPage(reviews),access:accessPage,portfolio:portfolioPage,notes:notesPage};
+        const views={overview:()=>overview(reviews),visitors,clicks,enquiries:enquiryPage,reviews:()=>reviewPage(reviews),access:accessPage,portfolio:portfolioPage,notes:notesPage,log:logPage};
         const body=await views[page]();
         if (token!==revision) return;
         syncDocument(page);
@@ -766,6 +782,7 @@
   });
   app.addEventListener("input",event=>{
     const field=event.target;
+    if (field.id==="log-search") { logQuery=field.value; document.getElementById("log-rows").innerHTML=logBody(); }
     if (field.id==="enquiry-search") {
       state.search=field.value;
       document.getElementById("enquiry-rows").innerHTML=enquiryRows();
@@ -791,6 +808,8 @@
       state.visitorDays=field.value;
       state.visitorRange=null;
       await render();
+    } else if (field.id==="log-area") {
+      logArea=field.value; document.getElementById("log-rows").innerHTML=logBody();
     } else if (field.id==="enquiry-filter") {
       state.enquiryFilter=field.value;
       document.getElementById("enquiry-rows").innerHTML=enquiryRows();

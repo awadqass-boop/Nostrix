@@ -1,8 +1,9 @@
 // Website management data for /staff/website/ (needs Website access).
-import { db, CATEGORIES } from './db.js';
+import { db, CATEGORIES, audit } from './db.js';
 import { requireWebsite, requireAdmin } from './auth.js';
 import { fail, now, today, uuid, str } from './util.js';
 
+const catName = (id) => CATEGORIES.find((c) => c.id === id)?.en || id;
 const day = (offset, base = today()) => new Date(Date.parse(base + 'T12:00:00Z') + offset * 864e5).toISOString().slice(0, 10);
 const span = (from, to) => Math.round((Date.parse(to) - Date.parse(from)) / 864e5) + 1;
 const change = (value, prev) => (prev ? Math.round(((value - prev) / prev) * 1000) / 10 : value ? 100 : 0);
@@ -68,13 +69,17 @@ export async function enquiries(ctx) {
   return (await db(ctx.env).prepare('SELECT * FROM enquiries ORDER BY created_at DESC LIMIT 1000').all()).results.map((r) => ({ ...r, handled: !!r.handled }));
 }
 export async function setEnquiry(ctx, id, input) {
-  await requireWebsite(ctx);
+  const u = await requireWebsite(ctx);
   await db(ctx.env).prepare('UPDATE enquiries SET handled=? WHERE id=?').bind(input.handled ? 1 : 0, id).run();
+  const e = await db(ctx.env).prepare('SELECT name FROM enquiries WHERE id=?').bind(id).first();
+  await audit(ctx.env, u, 'website', input.handled ? 'Marked enquiry handled' : 'Reopened enquiry', e?.name);
   return { ok: true };
 }
 export async function deleteEnquiry(ctx, id) {
-  await requireAdmin(ctx);
+  const u = await requireAdmin(ctx);
+  const e = await db(ctx.env).prepare('SELECT name, phone, email FROM enquiries WHERE id=?').bind(id).first();
   await db(ctx.env).prepare('DELETE FROM enquiries WHERE id=?').bind(id).run();
+  if (e) await audit(ctx.env, u, 'website', 'Deleted enquiry', e.name, [e.phone, e.email].filter(Boolean).join(' · '));
   return { ok: true };
 }
 
@@ -85,11 +90,13 @@ export async function reviews(ctx) {
 }
 export async function removeReview(ctx, id) {
   const u = await requireWebsite(ctx);
+  const r = await db(ctx.env).prepare('SELECT display_name, rating, testimonial FROM reviews WHERE id=?').bind(id).first();
   await db(ctx.env).prepare('UPDATE reviews SET deleted_at=?, deleted_by=? WHERE id=? AND deleted_at IS NULL').bind(now(), u.id, id).run();
+  if (r) await audit(ctx.env, u, 'website', 'Removed review', r.display_name, (r.rating ? r.rating + '★ · ' : '') + String(r.testimonial || '').slice(0, 160));
   return { ok: true };
 }
 export async function importReviews(ctx, input) {
-  await requireAdmin(ctx);
+  const u = await requireAdmin(ctx);
   const DB = db(ctx.env), stmts = [];
   for (const r of (Array.isArray(input.reviews) ? input.reviews : []).slice(0, 500)) {
     const text = str(r.testimonial, 1200);
@@ -101,6 +108,7 @@ export async function importReviews(ctx, input) {
         str(r.instagram, 60), r.instagram ? 1 : 0, sid, created, sid));
   }
   if (stmts.length) await DB.batch(stmts);
+  await audit(ctx.env, u, 'website', 'Imported old reviews', null, stmts.length + ' reviews');
   return { imported: stmts.length };
 }
 
@@ -115,6 +123,7 @@ export async function addNote(ctx, input) {
   if (!text) fail(400, 'invalidNote');
   const id = uuid();
   await db(ctx.env).prepare('INSERT INTO notes(id,user_id,text,created_at) VALUES(?,?,?,?)').bind(id, u.id, text, now()).run();
+  await audit(ctx.env, u, 'website', 'Posted note', null, text.slice(0, 160));
   return { id };
 }
 export async function updateNote(ctx, id, input) {
@@ -126,8 +135,12 @@ export async function updateNote(ctx, id, input) {
     const text = str(input.text, 2000);
     if (!text) fail(400, 'invalidNote');
     await DB.prepare('UPDATE notes SET text=?, updated_at=? WHERE id=?').bind(text, now(), id).run();
+    await audit(ctx.env, u, 'website', 'Edited note', null, text.slice(0, 160));
   }
-  if ('pinned' in input) await DB.prepare('UPDATE notes SET pinned=? WHERE id=?').bind(input.pinned ? 1 : 0, id).run();
+  if ('pinned' in input) {
+    await DB.prepare('UPDATE notes SET pinned=? WHERE id=?').bind(input.pinned ? 1 : 0, id).run();
+    await audit(ctx.env, u, 'website', input.pinned ? 'Pinned note' : 'Unpinned note', null, String(note.text).slice(0, 160));
+  }
   return { ok: true };
 }
 export async function deleteNote(ctx, id) {
@@ -136,6 +149,7 @@ export async function deleteNote(ctx, id) {
   if (!note) return { ok: true };
   if (note.user_id !== u.id && !u.is_admin) fail(403, 'notAuthor');
   await DB.prepare('DELETE FROM notes WHERE id=?').bind(id).run();
+  await audit(ctx.env, u, 'website', 'Deleted note', null, String(note.text).slice(0, 160));
   return { ok: true };
 }
 
@@ -156,6 +170,7 @@ export async function createPhoto(ctx, input) {
     .bind(id, category, str(input.label, 120) || CATEGORIES.find((c) => c.id === category).en,
       '/api/media/pf/' + id + '.webp', '/api/media/pf/' + id + '-t.webp', num(input.w, 8000), num(input.h, 8000), num(input.tw, 2000), num(input.th, 2000),
       top - 1, id, u.id, now()).run();
+  await audit(ctx.env, u, 'website', 'Uploaded photo (hidden)', str(input.label, 120) || catName(category), catName(category));
   return { id };
 }
 export async function putPhoto(ctx, id, kind) {
@@ -169,7 +184,7 @@ export async function putPhoto(ctx, id, kind) {
   return { ok: true };
 }
 export async function updatePhoto(ctx, id, input) {
-  await requireWebsite(ctx);
+  const u = await requireWebsite(ctx);
   const sets = [], args = [];
   if ('label' in input) { sets.push('label=?'); args.push(str(input.label, 120)); }
   if ('category' in input) {
@@ -180,20 +195,39 @@ export async function updatePhoto(ctx, id, input) {
   if ('published' in input) { sets.push('published=?'); args.push(input.published ? 1 : 0); }
   if (!sets.length) return { ok: true };
   await db(ctx.env).prepare(`UPDATE portfolio SET ${sets.join(',')}, updated_at=? WHERE id=?`).bind(...args, now(), id).run();
+  const p = await db(ctx.env).prepare('SELECT label, category FROM portfolio WHERE id=?').bind(id).first();
+  const what = 'published' in input ? (input.published ? 'Published photo' : 'Hid photo') : 'featured' in input ? (input.featured ? 'Added photo to Featured' : 'Removed photo from Featured') : 'Edited photo';
+  await audit(ctx.env, u, 'website', what, p?.label || id, p ? catName(p.category) : null);
   return { ok: true };
 }
 export async function deletePhoto(ctx, id) {
-  await requireWebsite(ctx);
+  const u = await requireWebsite(ctx);
   const DB = db(ctx.env), row = await DB.prepare('SELECT * FROM portfolio WHERE id=?').bind(id).first();
   if (!row) return { ok: true };
   if (row.media_key && ctx.env.MEDIA) await Promise.all([ctx.env.MEDIA.delete('pf/' + row.media_key + '.webp'), ctx.env.MEDIA.delete('pf/' + row.media_key + '-t.webp')]);
   await DB.prepare('DELETE FROM portfolio WHERE id=?').bind(id).run();
+  await audit(ctx.env, u, 'website', 'Deleted photo', row.label || id, catName(row.category));
   return { ok: true };
 }
 export async function reorderPhotos(ctx, input) {
-  await requireWebsite(ctx);
+  const u = await requireWebsite(ctx);
   const ids = (Array.isArray(input.ids) ? input.ids : []).slice(0, 500).map(String);
   const DB = db(ctx.env);
   if (ids.length) await DB.batch(ids.map((id, i) => DB.prepare('UPDATE portfolio SET sort=? WHERE id=?').bind(i, id)));
+  await audit(ctx.env, u, 'website', 'Reordered photos', catName(input.category));
   return { ok: true };
+}
+
+// ---- Activity log (admins) ----
+export async function activityLog(ctx, url) {
+  await requireAdmin(ctx);
+  const limit = Math.min(Math.max(+url.searchParams.get('limit') || 400, 1), 1000);
+  const { results } = await db(ctx.env).prepare(`
+    SELECT at, email, name, area, action, target, detail FROM audit_log
+    UNION ALL
+    SELECT s.at, s.email, u.display_name, 'login', CASE s.ok WHEN 1 THEN 'Signed in' ELSE 'Failed sign-in attempt' END, NULL,
+      TRIM(COALESCE(s.city || ', ', '') || COALESCE(s.country, '') || COALESCE(' · ' || s.device, ''))
+    FROM sign_ins s LEFT JOIN users u ON u.id = s.user_id
+    ORDER BY at DESC LIMIT ?`).bind(limit).all();
+  return results;
 }

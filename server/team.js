@@ -1,5 +1,5 @@
 // Team workspace data (tasks, projects, announcements…). A small, whitelisted query API used by /staff/.
-import { db, bumpTeam, setting } from './db.js';
+import { db, bumpTeam, setting, audit } from './db.js';
 import { requireUser, publicUser } from './auth.js';
 import { fail, now, uuid } from './util.js';
 
@@ -16,6 +16,23 @@ const TABLES = {
   quick_links: { cols: ['label', 'url', 'icon', 'sort_order', 'active', 'created_by'], owner: 'created_by', admin: true }
 };
 const LIVE = new Set(['projects', 'tasks', 'announcements', 'quick_links']);
+// What the activity log calls each table, and which column names the item.
+const LOG = {
+  projects: ['project', 'name'], tasks: ['task', 'title'], task_comments: ['comment', 'body'], task_links: ['link', 'label'],
+  task_files: ['file', 'file_name'], announcements: ['announcement', 'title'], quick_links: ['quick link', 'label']
+};
+async function logRows(ctx, user, verb, table, rows, detail) {
+  const def = LOG[table];
+  if (!def || !rows.length) return;
+  const name = (r) => String(r?.[def[1]] ?? '').slice(0, 120) || null;
+  const parentTask = table.startsWith('task_') && rows[0]?.task_id
+    ? (await db(ctx.env).prepare('SELECT title FROM tasks WHERE id=?').bind(rows[0].task_id).first())?.title : null;
+  for (const r of rows.slice(0, 20)) {
+    const target = table.startsWith('task_') && table !== 'task_files' && table !== 'task_links' ? parentTask : name(r);
+    const extra = table === 'task_comments' ? name(r) : table.startsWith('task_') && parentTask ? 'on task: ' + parentTask : detail;
+    await audit(ctx.env, user, 'team', `${verb} ${def[0]}`, target, extra);
+  }
+}
 const SYSTEM = ['id', 'created_at', 'updated_at'];
 
 const toDb = (v) => (v === true ? 1 : v === false ? 0 : v === undefined ? null : v);
@@ -79,6 +96,8 @@ async function profiles(ctx, q, user) {
   }
   if (!sets.length) fail(403, 'notAllowed');
   await DB.prepare(`UPDATE users SET ${sets.join(',')},updated_at=? WHERE id=?`).bind(...args, now(), target).run();
+  const who = (await DB.prepare('SELECT email FROM users WHERE id=?').bind(target).first())?.email;
+  await audit(ctx.env, user, 'team', 'is_admin' in v ? (v.is_admin ? 'Made team admin' : 'Removed team admin') : 'Edited profile', who);
   return [map(await DB.prepare('SELECT * FROM users WHERE id=?').bind(target).first())];
 }
 
@@ -113,8 +132,9 @@ export async function query(ctx, q) {
     });
     if (stmts.length) await DB.batch(stmts);
     if (LIVE.has(q.table)) await bumpTeam(ctx.env);
-    if (!q.returning) return { data: null };
     const { results } = await DB.prepare(`SELECT * FROM ${q.table} WHERE id IN (${ids.map(() => '?').join(',')})`).bind(...ids).all();
+    await logRows(ctx, user, q.table === 'task_comments' ? 'Commented on' : q.table === 'task_files' ? 'Attached' : 'Created', q.table, results);
+    if (!q.returning) return { data: null };
     return { data: results.map(out) };
   }
 
@@ -131,7 +151,11 @@ export async function query(ctx, q) {
     if (!sets.length) return { data: [] };
     if (all.includes('updated_at') && TABLES[q.table].cols && ['projects', 'tasks', 'announcements', 'quick_links'].includes(q.table)) { sets.push('updated_at=?'); args.push(now()); }
     if (q.table === 'tasks' && 'status' in (q.values || {})) sets.push('recurred=0');
+    const before = LOG[q.table] ? (await DB.prepare(`SELECT * FROM ${q.table}${w.sql} LIMIT 20`).bind(...w.args).all()).results : [];
     await DB.prepare(`UPDATE ${q.table} SET ${sets.join(',')}${w.sql}`).bind(...args, ...w.args).run();
+    const v = q.values || {}, keys = Object.keys(v).filter((k) => def.cols.includes(k));
+    const detail = keys.length === 1 && ['status', 'priority', 'active'].includes(keys[0]) ? `${keys[0]}: ${v[keys[0]]}` : 'changed ' + keys.map((k) => k.replace(/_/g, ' ')).join(', ');
+    await logRows(ctx, user, keys.length === 1 && keys[0] === 'status' ? 'Moved' : 'Edited', q.table, before, detail);
     if (LIVE.has(q.table)) await bumpTeam(ctx.env);
     if (!q.returning) return { data: null };
     return { data: (await DB.prepare(`SELECT * FROM ${q.table}${w.sql}`).bind(...w.args).all()).results.map(out) };
@@ -139,8 +163,10 @@ export async function query(ctx, q) {
 
   if (q.action === 'delete') {
     if (def.noDelete) fail(403, 'readOnly');
-    const doomed = (await DB.prepare(`SELECT id FROM ${q.table}${w.sql}`).bind(...w.args).all()).results.map((r) => r.id);
+    const doomedRows = (await DB.prepare(`SELECT * FROM ${q.table}${w.sql}`).bind(...w.args).all()).results;
+    const doomed = doomedRows.map((r) => r.id);
     if (!doomed.length) return { data: [] };
+    await logRows(ctx, user, q.table === 'task_files' ? 'Removed' : 'Deleted', q.table, doomedRows);
     const marks = doomed.map(() => '?').join(',');
     const stmts = [DB.prepare(`DELETE FROM ${q.table} WHERE id IN (${marks})`).bind(...doomed)];
     if (q.table === 'tasks') {
@@ -235,6 +261,7 @@ export async function importTeam(ctx, input) {
   if (profileUpdates.length) await DB.batch(profileUpdates);
   counts.profiles = profileUpdates.length;
   await bumpTeam(ctx.env);
+  await audit(ctx.env, admin, 'team', 'Imported old staff workspace', null, Object.entries(counts).filter(([, n]) => n).map(([k, n]) => `${n} ${k.replace(/_/g, ' ')}`).join(' · '));
   return { imported: counts, waitingForAccounts: Object.keys(legacy) };
 }
 
