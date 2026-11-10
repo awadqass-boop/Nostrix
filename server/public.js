@@ -1,6 +1,6 @@
 // Public endpoints used by nostrix.ae: visit tracking, reviews, enquiries and the portfolio.
 import { db, allow, setting, CATEGORIES } from './db.js';
-import { fail, now, today, uuid, sha256, str, bool, device, isBot, geo, sameOrigin } from './util.js';
+import { fail, now, today, dubaiDay, uuid, sha256, str, bool, device, isBot, geo, sameOrigin } from './util.js';
 
 function source(ref, host) {
   if (!ref) return 'direct';
@@ -30,7 +30,7 @@ export async function collect(ctx, input) {
   const path = (str(input.p, 200) || '/').split(/[?#]/)[0];
   const g = geo(ctx.request), stamp = now();
   await db(ctx.env).prepare('INSERT INTO events(at,day,type,path,name,label,source,device,lang,country,city,lat,lon,visitor) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)')
-    .bind(stamp, stamp.slice(0, 10), type, path, name, str(input.l, 120), type === 'view' ? source(str(input.r, 400), new URL(ctx.request.url).hostname) : null,
+    .bind(stamp, dubaiDay(stamp), type, path, name, str(input.l, 120), type === 'view' ? source(str(input.r, 400), new URL(ctx.request.url).hostname) : null,
       device(ua), input.lang === 'ar' ? 'ar' : 'en', g.country, g.city, g.lat, g.lon, await visitor(ctx)).run();
   return { ok: true };
 }

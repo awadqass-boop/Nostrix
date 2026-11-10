@@ -26,7 +26,9 @@ export async function body(request, limit = 64 * 1024) {
 }
 
 export const now = () => new Date().toISOString();
-export const today = () => now().slice(0, 10);
+// Calendar day in the UAE (UTC+4, no daylight saving), used for daily stats.
+export const dubaiDay = (iso = now()) => new Date(Date.parse(iso) + 4 * 3600e3).toISOString().slice(0, 10);
+export const today = () => dubaiDay();
 export const uuid = () => crypto.randomUUID();
 
 const enc = new TextEncoder();
