@@ -482,9 +482,10 @@ async function setupOwner(e){
   button.disabled=true;
   const {error}=await S.db.auth.setupOwner({code:$("#setup-code").value,name:$("#setup-name").value,email:$("#setup-email").value,password:pw});
   button.disabled=false;
-  if(error){msg.className="message error";msg.textContent=error.message}
+  if(error){msg.className="message error";msg.textContent=error.message;return}
+  history.replaceState(null,"",location.pathname);
 }
-function showSetup(on){$("#login-form").hidden=!!on;$("#setup-form").hidden=!on;$("#setup-intro").hidden=!on;$("#login-intro").hidden=!!on}
+function showSetup(on){$("#login-form").hidden=!!on;$("#setup-form").hidden=!on;$("#setup-intro").hidden=!on;$("#login-intro").hidden=!!on;if(on){const h=new URLSearchParams(location.hash.slice(1));if(h.get("setup"))$("#setup-code").value=h.get("setup");if(h.get("email"))$("#setup-email").value=h.get("email");if(h.get("name"))$("#setup-name").value=h.get("name");if(h.get("setup"))setTimeout(()=>$("#setup-password").focus(),50)}}
 async function changePassword(e){
   e.preventDefault();
   const current=$("#pw-current").value,next=$("#pw-next").value,out=$("#pw-message");

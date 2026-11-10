@@ -70,7 +70,7 @@
     removeReview:["Remove","حذف"],removeReviewConfirm:["Remove this review from the website?","هل تريد حذف هذا التقييم من الموقع؟"],reviewRemoved:["Review removed.","تم حذف التقييم."],
     privateFeedback:["Private feedback","ملاحظات خاصة"],likedLabel:["Liked","ما أعجبه"],improveLabel:["Could improve","ما يمكن تحسينه"],service:["Service","الخدمة"],
     accountsHelp:["Only admins see this page. Passwords are stored encrypted: nobody, including admins, can read them.","هذه الصفحة للمسؤولين فقط. تُحفظ كلمات المرور مشفّرة ولا يمكن لأحد قراءتها، حتى المسؤولين."],
-    newAccount:["New account","حساب جديد"],displayName:["Name","الاسم"],newPassword:["Password (8+ characters)","كلمة المرور (٨ أحرف على الأقل)"],
+    newAccount:["New accounts · one email, or several separated by commas","حسابات جديدة · بريد واحد أو عدة عناوين مفصولة بفواصل"],displayName:["Name","الاسم"],newPassword:["Password (8+ characters)","كلمة المرور (٨ أحرف على الأقل)"],
     adminRole:["Admin","مسؤول"],websiteRole:["Website section","قسم الموقع"],teamRole:["Team only","الفريق فقط"],createAccount:["Create account","إنشاء الحساب"],
     setPassword:["Set password","تعيين كلمة المرور"],deleteAccount:["Delete","حذف"],accountCreated:["Account created.","تم إنشاء الحساب."],
     accountDeleted:["Account deleted.","تم حذف الحساب."],passwordSet:["Password updated.","تم تحديث كلمة المرور."],
@@ -293,8 +293,8 @@
       </div></div>`).join("");
     return sectionHead("access",t("accountsHelp"))+`<article class="card card-pad"><header class="card-head"><h2>${t("newAccount")}</h2></header>
     <form class="account-form" id="account-form" novalidate autocomplete="off">
-      <label>${t("displayName")}<input name="name" required maxlength="80" autocomplete="off"></label>
-      <label>${t("emailAddress")}<input name="email" type="email" required autocapitalize="none" spellcheck="false" autocomplete="off"></label>
+      <label>${t("displayName")}<input name="name" maxlength="80" autocomplete="off"></label>
+      <label>${t("emailAddress")}<textarea name="email" rows="1" required autocapitalize="none" spellcheck="false" autocomplete="off" placeholder="name@nostrix.ae, name2@nostrix.ae"></textarea></label>
       <label>${t("newPassword")}<input name="password" type="password" required minlength="8" autocomplete="new-password"></label>
       <div class="account-flags"><label class="check-pill"><input type="checkbox" name="website_access" checked>${t("websiteRole")}</label><label class="check-pill"><input type="checkbox" name="is_admin">${t("adminRole")}</label></div>
       <button type="submit" class="btn primary">${ic("plus")}${t("createAccount")}</button></form><p class="error-text" id="account-error" role="alert"></p></article>
@@ -714,12 +714,19 @@
       event.preventDefault();
       const submit=form.querySelector('[type="submit"]'),err=form.parentElement.querySelector("#account-error");
       const f=form.elements;err.textContent="";
-      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim())){err.textContent=t("badEmail");f.email.focus();return;}
+      const emails=[...new Set(f.email.value.split(/[\s,;]+/).map(v=>v.trim().toLowerCase()).filter(Boolean))];
+      if(!emails.length||emails.some(v=>!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))){err.textContent=t("badEmail");f.email.focus();return;}
       if(f.password.value.length<8){err.textContent=t("weakPassword");f.password.focus();return;}
       submit.disabled=true;
-      try { await api.createAccount({name:f.name.value,email:f.email.value,password:f.password.value,website_access:f.website_access.checked,is_admin:f.is_admin.checked}); f.password.value=""; await render(); toast(t("accountCreated")); }
-      catch(error){ err.textContent=t(T[error.message]?error.message:"unavailable"); }
-      finally { submit.disabled=false; }
+      const failed=[];
+      for(const address of emails){
+        try { await api.createAccount({name:emails.length===1?f.name.value:"",email:address,password:f.password.value,website_access:f.website_access.checked,is_admin:f.is_admin.checked}); }
+        catch(error){ failed.push(address+": "+t(T[error.message]?error.message:"unavailable")); }
+      }
+      f.password.value="";submit.disabled=false;
+      await render();
+      if(failed.length){ const e2=document.querySelector("#account-error"); if(e2) e2.textContent=failed.join(" · "); }
+      toast(t("accountCreated")+(emails.length>1?" ("+num(emails.length-failed.length)+")":""));
       return;
     }
     if (!["add-form","login-form","range-form"].includes(form.id)) return;
