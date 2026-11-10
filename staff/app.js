@@ -1,4 +1,4 @@
-import { createClient } from "./db.js";
+import { createClient } from "./db.js?v=20261111";
 const C=window.NOSTRIX_STAFF_CONFIG||{},$=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const ok=true;
 const S={db:null,user:null,profile:null,profiles:[],projects:[],tasks:[],comments:[],links:[],files:[],activity:[],notifications:[],view:"mine",search:"",priority:"all",assignee:"all",project:"all",taskId:null,lang:localStorage.getItem("nostrix_language_v1")==="ar"?"ar":"en",rt:null,announcements:[],quickLinks:[],calendarMonth:new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelected:new Date(),dateViews:{}};
