@@ -26,6 +26,7 @@ on('GET', '/admin/signins', (c) => auth.signIns(c));
 on('POST', '/team/query', async (c) => team.query(c, await body(c.request)));
 on('POST', '/team/recurring', (c) => team.materializeRecurring(c));
 on('GET', '/team/rev', (c) => team.revision(c));
+on('POST', '/team/import', async (c) => team.importTeam(c, await body(c.request, 8 * 1024 * 1024)));
 on('PUT', '/team/storage', (c, p, url) => team.putFile(c, url.searchParams.get('path')));
 on('GET', '/team/storage', (c, p, url) => team.getFile(c, url.searchParams.get('path')));
 on('POST', '/team/storage/delete', async (c) => team.deleteFiles(c, (await body(c.request)).paths));

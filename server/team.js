@@ -191,6 +191,39 @@ export async function revision(ctx) {
   return { rev: await setting(ctx.env, 'team_rev'), notification: out(latest) };
 }
 
+// ---- One-time import of the old Supabase workspace (admins) ----
+// Rows keep their original ids; people are matched to the new accounts by email.
+export async function importTeam(ctx, input) {
+  const admin = await requireUser(ctx);
+  if (!admin.is_admin) fail(403, 'adminOnly');
+  const DB = db(ctx.env);
+  const accounts = (await DB.prepare('SELECT id, email FROM users').all()).results;
+  const byEmail = new Map(accounts.map((u) => [u.email.toLowerCase(), u.id]));
+  const people = new Map((input.users || []).map((u) => [u.id, byEmail.get(String(u.email || '').toLowerCase()) || null]));
+  const person = (id) => (id ? people.get(id) ?? null : null);
+  const PEOPLE = new Set(['created_by', 'assigned_to', 'user_id', 'actor_id']);
+  const counts = {};
+  for (const table of ['projects', 'tasks', 'task_comments', 'task_links', 'task_activity', 'announcements', 'quick_links']) {
+    const def = TABLES[table], rows = Array.isArray(input[table]) ? input[table].slice(0, 5000) : [];
+    const cols = ['id', 'created_at', ...def.cols];
+    const stmts = [];
+    for (const r of rows) {
+      if (!r || !r.id) continue;
+      const values = cols.map((c) => {
+        let v = r[c];
+        if (PEOPLE.has(c)) v = person(v);
+        if (c === 'created_at') v = v || now();
+        return toDb(v === undefined ? null : v);
+      });
+      stmts.push(DB.prepare(`INSERT OR IGNORE INTO ${table}(${cols.join(',')}) VALUES(${cols.map(() => '?').join(',')})`).bind(...values));
+    }
+    for (let i = 0; i < stmts.length; i += 50) await DB.batch(stmts.slice(i, i + 50));
+    counts[table] = stmts.length;
+  }
+  await bumpTeam(ctx.env);
+  return { imported: counts, unmatchedPeople: [...people.entries()].filter(([, v]) => !v).length };
+}
+
 // ---- Task file storage (Cloudflare KV) ----
 const PATH = /^[\w-]{1,64}\/[\w.\-]{1,220}$/;
 function media(env) { if (!env.MEDIA) fail(503, 'notConfigured', 'File storage is not connected yet.'); return env.MEDIA; }
