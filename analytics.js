@@ -1,3 +1,33 @@
+/* Nostrix — first-party visit stats. Anonymous: no cookies and nothing stored on the device.
+   Page views and key clicks go to Nostrix's own API (/api/collect), which keeps country/city only. */
+(function () {
+  'use strict';
+  if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || location.protocol === 'file:') return;
+  if (location.pathname.indexOf('/staff/') === 0) return;
+  var api = String(window.NOSTRIX_API || '/api');
+  function beacon(data) {
+    data.lang = document.documentElement.lang === 'ar' ? 'ar' : 'en';
+    var payload = JSON.stringify(data);
+    try {
+      if (navigator.sendBeacon && navigator.sendBeacon(api + '/collect', new Blob([payload], { type: 'text/plain' }))) return;
+    } catch (e) { /* fall through */ }
+    try { fetch(api + '/collect', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'text/plain' }, body: payload }); } catch (e) { /* offline */ }
+  }
+  window.nostrixStat = function (name, label) { beacon({ t: 'click', n: name, l: String(label || '').slice(0, 120), p: location.pathname }); };
+  beacon({ t: 'view', p: location.pathname, r: document.referrer || '' });
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest && e.target.closest('a, button');
+    if (!el) return;
+    var href = (el.getAttribute('href') || '').toLowerCase();
+    if (href.indexOf('wa.me') !== -1 || href.indexOf('whatsapp') !== -1) window.nostrixStat('whatsapp', el.id || '');
+    else if (href.indexOf('tel:') === 0) window.nostrixStat('call', '');
+    else if (href.indexOf('mailto:') === 0) window.nostrixStat('email', '');
+    else if (href.indexOf('instagram.com') !== -1) window.nostrixStat('instagram', '');
+    else if (href.indexOf('tiktok.com') !== -1) window.nostrixStat('tiktok', '');
+    if (el.hasAttribute('data-builder')) window.nostrixStat('estimate', el.getAttribute('data-builder') || '');
+  }, true);
+}());
+
 /* Nostrix — Google Analytics 4 with consent.
    Nothing loads until the visitor accepts. Disabled on localhost. */
 (function () {

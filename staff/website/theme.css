@@ -1,0 +1,102 @@
+/* Nostrix Website section — design layer matching nostrix.ae (loaded after styles.css). */
+:root {
+  --bg: #000; --sidebar: #0a0a0c; --card: #141416; --raised: #1d1d1f; --hover: #232326;
+  --line: rgba(255, 255, 255, .11); --grid: rgba(255, 255, 255, .08);
+  --text: #f5f5f7; --muted: #a8a8ad; --subtle: #8e8e93;
+  --accent: #d388ff; --accent-bg: rgba(211, 136, 255, .14); --active: rgba(211, 136, 255, .16);
+  --green: #7ee2a8; --green-bg: rgba(126, 226, 168, .12); --warn: #f5c77e; --warn-bg: rgba(245, 199, 126, .12); --error: #ff8f8f;
+  --grad: linear-gradient(120deg, #D388FF, #B9CCFF);
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --radius: 18px;
+  --map-sea: #0b0b10; --map-land: #1f1f26; --map-line: rgba(185, 204, 255, .28); --map-grid: rgba(255, 255, 255, .045);
+}
+html[data-theme="light"] {
+  --bg: #f5f5f7; --sidebar: #fff; --card: #fff; --raised: #f5f5f7; --hover: #ececf0;
+  --line: rgba(0, 0, 0, .1); --grid: rgba(0, 0, 0, .07);
+  --text: #1d1d1f; --muted: #5c5c62; --subtle: #6e6e73;
+  --accent: #8a3fd1; --accent-bg: rgba(165, 62, 232, .1); --active: rgba(165, 62, 232, .1);
+  --green: #12804a; --green-bg: #e6f4ec; --warn: #8a5a12; --warn-bg: #fff3dc; --error: #c62828;
+  --map-sea: #f4f4f8; --map-land: #e4e4ec; --map-line: rgba(90, 80, 140, .35); --map-grid: rgba(0, 0, 0, .05);
+}
+body { letter-spacing: -.011em; }
+h1 { letter-spacing: -.04em; font-weight: 700; }
+
+/* Primary buttons use the brand gradient, like the main site */
+.btn.primary { background: var(--grad); color: #0b0b0d; border: 0; border-radius: 980px; font-weight: 600; }
+.btn.primary:hover { filter: brightness(1.06); }
+.btn { border-radius: 980px; }
+.nav-item.active { background: var(--active); color: var(--text); }
+.nav-item.active .ic { color: var(--accent); }
+.card, .stat { border-radius: var(--radius); }
+
+/* Flat world map */
+.geo-stage { background: var(--map-sea); }
+.geo-stage::before { display: none; }
+.flat-map { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; touch-action: none; display: block; }
+.flat-map:active { cursor: grabbing; }
+.flat-map:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+.flat-map .sphere { fill: var(--map-sea); stroke: var(--map-line); }
+.flat-map .graticule { fill: none; stroke: var(--map-grid); }
+.flat-map .land { fill: var(--map-land); stroke: var(--map-line); stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: fill .2s; }
+.flat-map .land:hover { fill: color-mix(in srgb, var(--map-land) 70%, #b9ccff); }
+.flat-map .pin { cursor: pointer; outline: none; }
+.flat-map .pin-dot { fill: #d388ff; stroke: #fff; stroke-width: .9; vector-effect: non-scaling-stroke; }
+.flat-map .pin-halo { fill: rgba(211, 136, 255, .22); }
+.flat-map .pin.recent .pin-halo { animation: pin-pulse 1.8s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+.flat-map .pin.latest .pin-dot { fill: #b9ccff; }
+.flat-map .pin:focus-visible .pin-dot { stroke: var(--accent); stroke-width: 2.5; }
+@keyframes pin-pulse { 0% { opacity: .9; transform: scale(.6); } 100% { opacity: 0; transform: scale(2.2); } }
+.geo-view, .geo-controls { background: color-mix(in srgb, var(--card) 92%, transparent); border-color: var(--line); color: var(--text); }
+.geo-controls button:hover { background: var(--hover); }
+.geo-live i { animation: live-blink 2s ease-in-out infinite; }
+@keyframes live-blink { 50% { opacity: .35; } }
+
+/* Reviews */
+.private-feedback { margin-top: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--raised); font-size: 13px; }
+.private-feedback summary { display: flex; align-items: center; gap: 7px; cursor: pointer; color: var(--muted); }
+.private-feedback summary .ic { width: 14px; height: 14px; }
+.private-feedback p { margin-top: 8px; }
+.review-item .meta { margin-top: 6px; }
+
+/* Accounts */
+.account-form { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-items: end; }
+.account-form label { display: grid; gap: 6px; font-size: 12px; color: var(--muted); }
+.account-form input:not([type="checkbox"]) { width: 100%; }
+.account-flags { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.account-form .btn.primary { justify-self: start; }
+.account-list { display: grid; }
+.account-row { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 12px 0; border-top: 1px solid var(--line); flex-wrap: wrap; }
+.account-row:first-child { border-top: 0; }
+.account-id { display: grid; gap: 2px; }
+.account-id small { color: var(--muted); font-size: 12px; }
+.account-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.check-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px; border: 1px solid var(--line); border-radius: 980px; font-size: 12px; color: var(--text); cursor: pointer; }
+.check-pill input { accent-color: #b56ce8; }
+.check-pill:has(input:checked) { background: var(--accent-bg); border-color: transparent; }
+.check-pill:has(input:disabled) { opacity: .55; cursor: default; }
+dialog label { display: grid; gap: 6px; margin: 12px 0; font-size: 12px; color: var(--muted); }
+@media (max-width: 760px) { .account-form { grid-template-columns: 1fr; } }
+
+/* Portfolio */
+.gallery-image { position: relative; }
+.gallery-image.is-hidden img { opacity: .45; filter: grayscale(.5); }
+.photo-badge { position: absolute; inset-block-start: 8px; inset-inline-end: 8px; padding: 3px 8px; border-radius: 980px; background: rgba(0, 0, 0, .62); color: #fff; font-size: 11px; }
+.photo-badge.featured { inset-inline-end: auto; inset-inline-start: 8px; background: var(--grad); color: #0b0b0d; }
+.photo-state { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; }
+.photo-state i { width: 7px; height: 7px; border-radius: 50%; }
+.photo-state.live { color: var(--green); } .photo-state.live i { background: var(--green); }
+.photo-state.hidden { color: var(--warn); } .photo-state.hidden i { background: var(--warn); }
+.photo-actions { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
+.photo-actions .btn { font-size: 12px; padding: 5px 11px; }
+
+/* Notes */
+.note-row.is-pinned { background: var(--accent-bg); }
+.pin-chip { margin-inline-start: auto; margin-inline-end: 8px; padding: 2px 8px; border-radius: 980px; background: var(--grad); color: #0b0b0d; font-size: 11px; font-weight: 600; }
+.note-tools { display: flex; gap: 14px; margin-top: 6px; }
+.text-btn { font-size: 12px; color: var(--muted); }
+.text-btn:hover { color: var(--text); }
+.danger-text:hover { color: var(--error); }
+
+@media (prefers-reduced-motion: reduce) {
+  .flat-map .pin.recent .pin-halo, .geo-live i { animation: none; }
+}

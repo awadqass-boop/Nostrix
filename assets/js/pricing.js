@@ -30,6 +30,7 @@
   /* ---------- Package enquiry ---------- */
   var packageSheet = $('#package-sheet');
   function openPackage(name, price) {
+    if (window.nostrixStat) window.nostrixStat('package', name);
     $('#modalTitle').textContent = name;
     $('#modalPrice').textContent = price;
     var msg = "Hi Nostrix, I'm interested in the " + name + ' package (' + price + "). I'd like to discuss the scope, availability and next steps.";

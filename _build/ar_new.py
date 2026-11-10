@@ -6,6 +6,15 @@ Arabic for the packages, estimate builder and legal pages comes from data/ar-leg
 """
 
 AR = {
+    # Reviews published right away (2026-11-11)
+    'Rate your project and write a short review. It appears on our website right away.': 'قيّم مشروعك واكتب مراجعة قصيرة، وستظهر على موقعنا فوراً.',
+    'Only your rating, public testimonial and chosen display name appear on the website.': 'يظهر على الموقع تقييمك وشهادتك العامة والاسم الذي تختاره فقط.',
+    'Add only your username, such as @yourbrand. It stays private unless you tick the option below.': 'أضف اسم المستخدم فقط مثل @yourbrand. يبقى خاصاً ما لم تحدد الخيار أدناه.',
+    'Show my Instagram @ with my testimonial.': 'اعرض حسابي على إنستغرام مع شهادتي.',
+    'I confirm that this feedback reflects my experience and give Nostrix permission to publish the public testimonial, rating, selected display name and Instagram username when I choose that option.': 'أؤكد أن هذه الملاحظات تعكس تجربتي، وأمنح نوستريكس الإذن بنشر الشهادة العامة والتقييم والاسم الذي اخترته واسم المستخدم على إنستغرام عند اختياري ذلك.',
+    'Rate your Nostrix project and leave a short review. Reviews appear on the site right away.': 'قيّم مشروعك مع نوستريكس واترك مراجعة قصيرة. تظهر المراجعات على الموقع فوراً.',
+    'Thank you. Your review is now live on the Nostrix website.': 'شكراً لك. تقييمك منشور الآن على موقع نوستريكس.',
+    'The review could not be submitted. Please try again or contact Support@nostrix.ae.': 'تعذّر إرسال التقييم. حاول مرة أخرى أو تواصل معنا عبر Support@nostrix.ae.',
     # Navigation and shared
     'Work': 'أعمالنا',
     'Social': 'حساباتنا',

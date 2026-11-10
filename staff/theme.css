@@ -1,0 +1,96 @@
+/* Nostrix staff workspace — 2026 design layer.
+   Brings the team workspace in line with nostrix.ae: system fonts, true-black surfaces,
+   the brand gradient for primary actions, softer cards and calmer motion. Loaded after styles.css. */
+
+:root {
+  --bg: #000;
+  --panel: #141416;
+  --panel2: #1d1d1f;
+  --border: rgba(255, 255, 255, .12);
+  --text: #f5f5f7;
+  --muted: #a8a8ad;
+  --soft: #77777d;
+  --a1: #B9CCFF;
+  --a2: #D388FF;
+  --grad: linear-gradient(120deg, #D388FF, #B9CCFF);
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-ar: -apple-system, "SF Arabic", "Segoe UI", "Noto Sans Arabic", "Geeza Pro", Tahoma, Arial, sans-serif;
+  --ease: cubic-bezier(.28, .11, .32, 1);
+}
+
+html, body { font-family: var(--font) !important; letter-spacing: -.011em; -webkit-font-smoothing: antialiased; }
+html[lang=ar] body, html[lang=ar] button, html[lang=ar] input, html[lang=ar] textarea, html[lang=ar] select { font-family: var(--font-ar) !important; letter-spacing: 0; }
+body { background: #000 !important; }
+button, input, textarea, select { font-family: inherit !important; }
+::selection { background: rgba(211, 136, 255, .35); }
+
+/* Top bar: frosted like the main site navigation */
+.topbar {
+  background: rgba(0, 0, 0, .72) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, .1) !important;
+}
+.brand b, .brand-login span { letter-spacing: .32em; font-weight: 700; }
+
+/* Buttons */
+.primary {
+  background: var(--grad) !important;
+  color: #0b0b0d !important;
+  border-radius: 980px !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+  transition: transform .2s var(--ease), filter .2s var(--ease) !important;
+}
+.primary:hover { filter: brightness(1.06); }
+.primary:active { transform: scale(.98); }
+.secondary, .danger { border-radius: 980px !important; }
+.secondary { background: rgba(255, 255, 255, .08) !important; color: var(--text) !important; }
+.icon-btn { border-radius: 980px !important; transition: background .2s var(--ease); }
+.icon-btn:hover { background: rgba(255, 255, 255, .1) !important; }
+.website-link { width: auto !important; padding: 0 .85rem !important; gap: .4rem; display: inline-flex !important; align-items: center; font-size: .78rem; font-weight: 600; color: var(--text); text-decoration: none; background: rgba(255, 255, 255, .08); }
+.website-link[hidden] { display: none !important; }
+.website-link i { font-size: 1rem; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* Cards and surfaces */
+.auth-card, .modal-box, .column, .widget-card, .projects-overview, .controls, .stats, .project-card, .notif-panel, .pop-menu, .team-calendar {
+  background: #141416 !important;
+  border: 1px solid rgba(255, 255, 255, .09) !important;
+  box-shadow: none !important;
+}
+.auth-card { border-radius: 28px !important; box-shadow: 0 24px 70px rgba(0, 0, 0, .55) !important; }
+.modal-box { border-radius: 24px !important; }
+.column, .widget-card, .projects-overview, .controls, .stats, .project-card, .team-calendar { border-radius: 20px !important; }
+.task { background: #1d1d1f !important; border: 1px solid rgba(255, 255, 255, .08) !important; border-radius: 14px !important; transition: transform .2s var(--ease), border-color .2s var(--ease); }
+.task:hover { transform: translateY(-1px); border-color: rgba(211, 136, 255, .35) !important; }
+.backdrop { background: rgba(0, 0, 0, .66) !important; }
+
+/* Headings: tighter, like the main site */
+.hero h1 { letter-spacing: -.04em; font-weight: 700; }
+.hero h1, .auth-card h1 { background: none; }
+.eyebrow { color: var(--a2) !important; letter-spacing: .14em !important; }
+.setup-title { margin: .4rem 0 .2rem; font-size: 1.15rem; letter-spacing: -.02em; }
+
+/* Inputs */
+input, textarea, select, .date-trigger, .nostrix-select {
+  background-color: rgba(255, 255, 255, .06) !important;
+  border: 1px solid rgba(255, 255, 255, .13) !important;
+  border-radius: 12px !important;
+  color: var(--text) !important;
+}
+input:focus, textarea:focus, select:focus { outline: none !important; border-color: rgba(211, 136, 255, .7) !important; box-shadow: 0 0 0 3px rgba(211, 136, 255, .18) !important; }
+#login-form label, #setup-form label { display: block; margin: .9rem 0 .35rem; font-size: .78rem; color: var(--muted); }
+#login-form .primary, #setup-form .primary { margin-top: 1.2rem; }
+
+/* Profile window: change password */
+.password-form { margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid rgba(255, 255, 255, .09); display: grid; gap: .7rem; }
+.password-form h3 { margin: 0; font-size: .95rem; }
+.password-form label { display: grid; gap: .35rem; font-size: .78rem; color: var(--muted); }
+
+/* Status colours from the main site */
+.message.error { color: #ff8f8f !important; }
+.message.success { color: #7ee2a8 !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

@@ -1,11 +1,9 @@
-window.NOSTRIX_REVIEWS_WEB_APP_URL =
-  'https://script.google.com/macros/s/AKfycbw75fLJn2T-ekJsoGh359dCKGae-yLT2nfsJwcMCtJ_k4i97ckFnOz_7xZ7k0Q81qkKjw/exec';
+/* Nostrix site settings. Reviews, enquiries and visit stats go to Nostrix's own API (/api) on Cloudflare.
+   The previous Google Sheets endpoints are kept in _build/backup/site-config.google.js. */
+window.NOSTRIX_API = '/api';
 
 window.NOSTRIX_GA_MEASUREMENT_ID =
   'G-DJ4Y5NSNH5';
-
-window.NOSTRIX_PRICING_WEB_APP_URL =
-  'https://script.google.com/macros/s/AKfycbyelo7LLdjjb5jDxLMBz1W-d3yZEgJigVlNxJL1ZR6rYiFA5yFHN5GmeCfbd1jCEI9zGg/exec';
 
 /* Social accounts shown in the "Latest posts" section. Use the handle without @. */
 window.NOSTRIX_SOCIAL = {

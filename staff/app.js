@@ -1,8 +1,8 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+import { createClient } from "./db.js";
 const C=window.NOSTRIX_STAFF_CONFIG||{},$=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
-const ok=C.SUPABASE_URL&&C.SUPABASE_PUBLISHABLE_KEY&&!C.SUPABASE_URL.includes("PASTE_");
+const ok=true;
 const S={db:null,user:null,profile:null,profiles:[],projects:[],tasks:[],comments:[],links:[],files:[],activity:[],notifications:[],view:"mine",search:"",priority:"all",assignee:"all",project:"all",taskId:null,lang:localStorage.getItem("nostrix_language_v1")==="ar"?"ar":"en",rt:null,announcements:[],quickLinks:[],calendarMonth:new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelected:new Date(),dateViews:{}};
-const T={en:{staffWorkspace:"Staff workspace",welcome:"Welcome back.",loginHelp:"Sign in with an approved Nostrix work email.",workEmail:"Work email",sendLink:"Send sign-in link",inviteOnly:"Invite-only access",workspace:"WORKSPACE",teamTasks:"TEAM TASKS",hello:"Hello",dashboardIntro:"Keep track of what needs to be done, who owns it and what is coming up next.",projects:"Projects",newTask:"New task",toDo:"To do",inProgress:"In progress",dueSoon:"Due soon",overdue:"Overdue",completed:"Completed",projectProgress:"PROJECT PROGRESS",activeProjects:"Active projects",manageProjects:"Manage projects",myTasks:"My tasks",allTasks:"All tasks",today:"Today",review:"Review",done:"Done",privateWorkspace:"Private staff workspace",profile:"Profile",signOut:"Sign out",updates:"Updates",notifications:"Notifications",markAllRead:"Mark all read",browserAlerts:"Enable browser alerts",taskDetails:"TASK DETAILS",details:"Details",comments:"Comments",filesLinks:"Files & links",activity:"Activity"},ar:{staffWorkspace:"مساحة فريق العمل",welcome:"مرحباً بعودتك.",loginHelp:"سجّل الدخول ببريد نوستريكس المعتمد.",workEmail:"بريد العمل",sendLink:"إرسال رابط الدخول",inviteOnly:"الدخول للمدعوين فقط",workspace:"مساحة العمل",teamTasks:"مهام الفريق",hello:"مرحباً",dashboardIntro:"تابع المهام والمسؤولين والمواعيد القادمة.",projects:"المشاريع",newTask:"مهمة جديدة",toDo:"للإنجاز",inProgress:"قيد التنفيذ",dueSoon:"موعد قريب",overdue:"متأخرة",completed:"مكتملة",projectProgress:"تقدم المشاريع",activeProjects:"المشاريع النشطة",manageProjects:"إدارة المشاريع",myTasks:"مهامي",allTasks:"كل المهام",today:"اليوم",review:"للمراجعة",done:"تم",privateWorkspace:"مساحة خاصة بالفريق",profile:"الملف الشخصي",signOut:"تسجيل الخروج",updates:"التحديثات",notifications:"الإشعارات",markAllRead:"تحديد الكل كمقروء",browserAlerts:"تفعيل إشعارات المتصفح",taskDetails:"تفاصيل المهمة",details:"التفاصيل",comments:"التعليقات",filesLinks:"الملفات والروابط",activity:"السجل"}};
+const T={en:{staffWorkspace:"Staff workspace",welcome:"Welcome back.",loginHelp:"Sign in with your Nostrix email and password.",workEmail:"Work email",sendLink:"Send sign-in link",inviteOnly:"Invite-only access",workspace:"WORKSPACE",teamTasks:"TEAM TASKS",hello:"Hello",dashboardIntro:"Keep track of what needs to be done, who owns it and what is coming up next.",projects:"Projects",newTask:"New task",toDo:"To do",inProgress:"In progress",dueSoon:"Due soon",overdue:"Overdue",completed:"Completed",projectProgress:"PROJECT PROGRESS",activeProjects:"Active projects",manageProjects:"Manage projects",myTasks:"My tasks",allTasks:"All tasks",today:"Today",review:"Review",done:"Done",privateWorkspace:"Private staff workspace",profile:"Profile",signOut:"Sign out",updates:"Updates",notifications:"Notifications",markAllRead:"Mark all read",browserAlerts:"Enable browser alerts",taskDetails:"TASK DETAILS",details:"Details",comments:"Comments",filesLinks:"Files & links",activity:"Activity",password:"Password",signIn:"Sign in",loginMissing:"Enter your email and password.",setupTitle:"Create the owner account",setupHelp:"First-time setup. Enter the setup code you were given, then choose your sign-in details.",setupCode:"Setup code",yourName:"Your name",confirmPassword:"Confirm password",createOwner:"Create owner account",passwordMismatch:"The passwords do not match.",website:"Website",changePassword:"Change password",currentPassword:"Current password",newPassword:"New password (8+ characters)",passwordChanged:"Password changed."},ar:{staffWorkspace:"مساحة فريق العمل",welcome:"مرحباً بعودتك.",loginHelp:"سجّل الدخول ببريد نوستريكس وكلمة المرور.",workEmail:"بريد العمل",sendLink:"إرسال رابط الدخول",inviteOnly:"الدخول للمدعوين فقط",workspace:"مساحة العمل",teamTasks:"مهام الفريق",hello:"مرحباً",dashboardIntro:"تابع المهام والمسؤولين والمواعيد القادمة.",projects:"المشاريع",newTask:"مهمة جديدة",toDo:"للإنجاز",inProgress:"قيد التنفيذ",dueSoon:"موعد قريب",overdue:"متأخرة",completed:"مكتملة",projectProgress:"تقدم المشاريع",activeProjects:"المشاريع النشطة",manageProjects:"إدارة المشاريع",myTasks:"مهامي",allTasks:"كل المهام",today:"اليوم",review:"للمراجعة",done:"تم",privateWorkspace:"مساحة خاصة بالفريق",profile:"الملف الشخصي",signOut:"تسجيل الخروج",updates:"التحديثات",notifications:"الإشعارات",markAllRead:"تحديد الكل كمقروء",browserAlerts:"تفعيل إشعارات المتصفح",taskDetails:"تفاصيل المهمة",details:"التفاصيل",comments:"التعليقات",filesLinks:"الملفات والروابط",activity:"السجل",password:"كلمة المرور",signIn:"تسجيل الدخول",loginMissing:"أدخل بريدك الإلكتروني وكلمة المرور.",setupTitle:"إنشاء حساب المالك",setupHelp:"الإعداد لأول مرة. أدخل رمز الإعداد الذي حصلت عليه، ثم اختر بيانات الدخول.",setupCode:"رمز الإعداد",yourName:"اسمك",confirmPassword:"تأكيد كلمة المرور",createOwner:"إنشاء حساب المالك",passwordMismatch:"كلمتا المرور غير متطابقتين.",website:"الموقع",changePassword:"تغيير كلمة المرور",currentPassword:"كلمة المرور الحالية",newPassword:"كلمة المرور الجديدة (٨ أحرف على الأقل)",passwordChanged:"تم تغيير كلمة المرور."}};
 const tr=k=>T[S.lang][k]||T.en[k]||k, esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 const initials=v=>{let p=String(v||"N").split("@")[0].replace(/[._-]/g," ").trim().split(/\s+/);return ((p[0]?.[0]||"N")+(p[1]?.[0]||"")).toUpperCase()};
 const QUACK=new Audio("./duck-quack.wav");QUACK.preload="auto";QUACK.volume=.72;let soundPrimed=false;function primeSound(){if(soundPrimed)return;soundPrimed=true;try{QUACK.load()}catch{}}function playQuack(){try{QUACK.currentTime=0;let p=QUACK.play();if(p?.catch)p.catch(()=>{})}catch{}}
@@ -458,79 +458,44 @@ async function toggleAdmin(uid,next){let{error}=await S.db.from("profiles").upda
 function renderAdminLists(){if(!isAdmin())return;$("#admin-announcements-list").innerHTML=S.announcements.length?S.announcements.map(a=>`<article class="admin-row"><div><strong>${esc(a.title)}</strong><small>${esc(a.level)}${a.expires_on?" · "+prettyDate(a.expires_on):""}</small></div><div><button class="text-btn" data-ea="${a.id}">Edit</button><button class="text-btn admin-delete" data-da="${a.id}">Delete</button></div></article>`).join(""):`<div class="empty">No announcements yet.</div>`;$("#admin-links-list").innerHTML=S.quickLinks.length?S.quickLinks.map(q=>`<article class="admin-row"><div><strong>${esc(q.label)}</strong><small>${esc(q.url)}</small></div><div><button class="text-btn" data-eq="${q.id}">Edit</button><button class="text-btn admin-delete" data-dq="${q.id}">Delete</button></div></article>`).join(""):`<div class="empty">No quick links yet.</div>`;$("#team-role-list").innerHTML=S.profiles.map(p=>`<article class="admin-row team-role-row"><div><span class="mini-avatar">${initials(p.display_name||p.email)}</span><span><strong>${esc(p.display_name||p.email)}</strong><small>${esc(p.job_title||p.email)}</small></span></div><button class="role-toggle ${p.is_admin?"active":""}" type="button" data-role-user="${p.user_id}" data-role-next="${p.is_admin?"false":"true"}"><i class="ph ${p.is_admin?"ph-shield-check":"ph-user"}"></i>${p.is_admin?"Admin":"Staff"}</button></article>`).join("");$$("[data-ea]").forEach(b=>b.onclick=()=>editAnnouncement(b.dataset.ea));$$("[data-da]").forEach(b=>b.onclick=()=>deleteAnnouncement(b.dataset.da));$$("[data-eq]").forEach(b=>b.onclick=()=>editQuickLink(b.dataset.eq));$$("[data-dq]").forEach(b=>b.onclick=()=>deleteQuickLink(b.dataset.dq));$$("[data-role-user]").forEach(b=>b.onclick=()=>toggleAdmin(b.dataset.roleUser,b.dataset.roleNext==="true"))}
 function openProfile(){$("#profile-name").value=S.profile.display_name||"";$("#profile-role").value=S.profile.job_title||"";$("#profile-modal").hidden=false;document.body.style.overflow="hidden"}
 async function saveProfile(e){e.preventDefault();let{data,error}=await S.db.from("profiles").update({display_name:$("#profile-name").value.trim(),job_title:$("#profile-role").value.trim()||null}).eq("user_id",S.user.id).select().single();if(error)return toast(error.message);S.profile=data;await loadProfiles();uiUser();$("#profile-modal").hidden=true;document.body.style.overflow=""}
-function uiUser(){let n=S.profile?.display_name||S.user.email.split("@")[0];$("#user-name").textContent=n;$("#user-email").textContent=S.user.email;$("#hello-name").textContent=n.split(" ")[0];$("#avatar").textContent=initials(n);renderAdminAccess()}
+function uiUser(){let w=$("#website-link");if(w)w.hidden=!(S.profile?.website_access||S.profile?.is_admin);let n=S.profile?.display_name||S.user.email.split("@")[0];$("#user-name").textContent=n;$("#user-email").textContent=S.user.email;$("#hello-name").textContent=n.split(" ")[0];$("#avatar").textContent=initials(n);renderAdminAccess()}
 async function openNotif(id,task){await S.db.from("notifications").update({is_read:true}).eq("id",id);await loadNotifs();renderNotifs();$("#notif-panel").hidden=true;if(task)openTask(task)}
 async function markRead(){await S.db.from("notifications").update({is_read:true}).eq("user_id",S.user.id).eq("is_read",false);await loadNotifs();renderNotifs()}
 async function browserAlerts(){primeSound();playQuack();if("Notification"in window&&await Notification.requestPermission()==="granted")toast("Browser + quack alerts enabled");else toast("Quack sound enabled")}
 async function login(e){
   e.preventDefault();
-
-  const email=$("#email").value.trim().toLowerCase();
-  const domain=(C.ALLOWED_EMAIL_DOMAIN||"nostrix.ae").toLowerCase();
-  const msg=$("#auth-message");
-  const button=$("#login-form button[type='submit']");
-
-  msg.className="message";
-  msg.textContent="";
-
-  if(!email || !email.endsWith("@"+domain)){
-    msg.className="message error";
-    msg.innerHTML='<i class="ph ph-warning-circle"></i><span>Your email isn’t authorized for the Nostrix Staff Workspace.</span>';
-    return;
-  }
-
+  const email=$("#email").value.trim().toLowerCase(),password=$("#password").value;
+  const msg=$("#auth-message"),button=$("#login-form button[type='submit']");
+  msg.className="message";msg.textContent="";
+  if(!email||!password){msg.className="message error";msg.textContent=tr("loginMissing");return}
+  button.disabled=true;button.classList.add("loading");
+  const {error}=await S.db.auth.signInWithPassword({email,password});
+  button.disabled=false;button.classList.remove("loading");
+  if(error){msg.className="message error";msg.textContent=error.message;$("#password").select();return}
+  $("#password").value="";
+}
+async function setupOwner(e){
+  e.preventDefault();
+  const msg=$("#auth-message"),button=$("#setup-form button[type='submit']"),pw=$("#setup-password").value;
+  msg.className="message";msg.textContent="";
+  if(pw!==$("#setup-password2").value){msg.className="message error";msg.textContent=tr("passwordMismatch");return}
   button.disabled=true;
-  button.classList.add("loading");
-  msg.className="message checking";
-  msg.textContent="Checking your Nostrix account…";
-
-  const {data:approved,error:checkError}=await S.db.rpc(
-    "is_approved_staff_email",
-    {candidate_email:email}
-  );
-
-  if(checkError){
-    console.error(checkError);
-    msg.className="message error";
-    msg.textContent="We couldn't verify your account right now. Please try again.";
-    button.disabled=false;
-    button.classList.remove("loading");
-    return;
-  }
-
-  if(!approved){
-    msg.className="message error";
-    msg.innerHTML='<i class="ph ph-warning-circle"></i><span>Your email isn’t authorized for the Nostrix Staff Workspace.</span>';
-    button.disabled=false;
-    button.classList.remove("loading");
-    return;
-  }
-
-  const {error}=await S.db.auth.signInWithOtp({
-    email,
-    options:{
-      shouldCreateUser:false,
-      emailRedirectTo:location.origin+(C.STAFF_PATH||"/staff/")
-    }
-  });
-
+  const {error}=await S.db.auth.setupOwner({code:$("#setup-code").value,name:$("#setup-name").value,email:$("#setup-email").value,password:pw});
   button.disabled=false;
-  button.classList.remove("loading");
-
-  if(error){
-    console.error(error);
-    msg.className="message error";
-    msg.textContent="We couldn't send the sign-in link. Please try again.";
-    return;
-  }
-
-  msg.className="message success";
-  msg.innerHTML='<i class="ph ph-check-circle"></i><span>Approved. Check your Nostrix inbox for the sign-in link.</span>';
+  if(error){msg.className="message error";msg.textContent=error.message}
+}
+function showSetup(on){$("#login-form").hidden=!!on;$("#setup-form").hidden=!on;$("#setup-intro").hidden=!on;$("#login-intro").hidden=!!on}
+async function changePassword(e){
+  e.preventDefault();
+  const current=$("#pw-current").value,next=$("#pw-next").value,out=$("#pw-message");
+  const {error}=await S.db.auth.changePassword(current,next);
+  out.textContent=error?error.message:tr("passwordChanged");out.className="message "+(error?"error":"success");
+  if(!error){$("#pw-current").value="";$("#pw-next").value=""}
 }
 async function enter(session){S.user=session.user;let{data}=await S.db.from("profiles").select("*").eq("user_id",S.user.id).maybeSingle();if(!data){await S.db.auth.signOut();return show("auth-screen")}S.profile=data;show("app-screen");await loadAll();uiUser();subscribe()}
 async function subscribe(){if(S.rt)await S.db.removeChannel(S.rt);S.rt=S.db.channel("nostrix-v8").on("postgres_changes",{event:"*",schema:"public",table:"tasks"},async()=>{await loadTasks();renderAll()}).on("postgres_changes",{event:"*",schema:"public",table:"projects"},async()=>{await loadProjects();renderAll()}).on("postgres_changes",{event:"*",schema:"public",table:"announcements"},async()=>{await loadAnnouncements();renderAnnouncements();if(isAdmin())renderAdminLists()}).on("postgres_changes",{event:"*",schema:"public",table:"quick_links"},async()=>{await loadQuickLinks();renderQuickLinks();if(isAdmin())renderAdminLists()}).on("postgres_changes",{event:"INSERT",schema:"public",table:"notifications",filter:`user_id=eq.${S.user.id}`},async p=>{playQuack();await loadNotifs();renderNotifs();if("Notification"in window&&Notification.permission==="granted"&&document.hidden)new Notification(p.new.title,{body:p.new.body||"",icon:"/favicon.png"})}).subscribe()}
 async function signout(){if(S.rt)await S.db.removeChannel(S.rt);await S.db.auth.signOut();show("auth-screen")}
-function bind(){$$(".lang").forEach(b=>b.onclick=()=>{S.lang=S.lang==="ar"?"en":"ar";applyLang()});$("#login-form").onsubmit=login;initDatePickers();$("#home-btn").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});$("#assignee-trigger").onclick=e=>{e.stopPropagation();$("#assignee-menu").hidden?openAssigneeMenu():closeAssigneeMenu()};document.addEventListener("click",e=>{if(!e.target.closest("#assignee-picker"))closeAssigneeMenu();if(!e.target.closest(".nostrix-select"))closeAllCustomSelects();if(!e.target.closest(".date-picker"))closeDatePickers()});document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeAssigneeMenu();closeAllCustomSelects()}});refreshCustomSelects();$("#new-task").onclick=()=>openTask();$("#task-form").onsubmit=saveTask;$("#delete-task").onclick=delTask;$$("[data-close-task]").forEach(b=>b.onclick=closeTask);$$(".task-tab").forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));$("#comment-form").onsubmit=comment;$("#link-form").onsubmit=addLink;$("#file-input").onchange=e=>{if(e.target.files[0])upload(e.target.files[0]);e.target.value=""};$("#projects-btn").onclick=$("#manage-projects").onclick=openProjects;$("#admin-btn").onclick=openAdmin;$$("[data-close-admin]").forEach(b=>b.onclick=closeAdmin);$$(".admin-tab").forEach(b=>b.onclick=()=>switchAdminTab(b.dataset.adminTab));$("#announcement-form").onsubmit=saveAnnouncement;$("#announcement-clear").onclick=clearAnnouncement;$("#quicklink-form").onsubmit=saveQuickLink;$("#quicklink-clear").onclick=clearQuickLink;$("#cal-prev").onclick=()=>{S.calendarMonth=new Date(S.calendarMonth.getFullYear(),S.calendarMonth.getMonth()-1,1);renderCalendar()};$("#cal-next").onclick=()=>{S.calendarMonth=new Date(S.calendarMonth.getFullYear(),S.calendarMonth.getMonth()+1,1);renderCalendar()};$("#cal-today").onclick=()=>{S.calendarSelected=new Date();S.calendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);renderCalendar()};$$("[data-close-projects]").forEach(b=>b.onclick=closeProjects);$("#project-form").onsubmit=saveProject;$("#project-clear").onclick=clearProject;$("#edit-profile").onclick=()=>{$("#profile-menu").hidden=true;openProfile()};$$("[data-close-profile]").forEach(b=>b.onclick=()=>{$("#profile-modal").hidden=true;document.body.style.overflow=""});$("#profile-form").onsubmit=saveProfile;$("#signout").onclick=signout;$("#refresh-btn").onclick=async()=>{await loadAll();toast("Refreshed")};$("#profile-btn").onclick=()=>$("#profile-menu").hidden=!$("#profile-menu").hidden;$("#notif-btn").onclick=()=>$("#notif-panel").hidden=!$("#notif-panel").hidden;$("#mark-read").onclick=markRead;$("#enable-browser").onclick=browserAlerts;$$(".view").forEach(b=>b.onclick=()=>{setView(b.dataset.view);renderTasks()});$("#search").oninput=e=>{S.search=e.target.value.trim();renderTasks()};$("#priority-filter").onchange=e=>{S.priority=e.target.value;renderTasks()};$("#assignee-filter").onchange=e=>{S.assignee=e.target.value;renderTasks()};$("#project-filter").onchange=e=>{S.project=e.target.value;renderTasks()};$$(".column").forEach(c=>{c.ondragover=e=>e.preventDefault();c.ondrop=e=>{e.preventDefault();move(e.dataTransfer.getData("text/plain"),c.dataset.status)}})}
+function bind(){$$(".lang").forEach(b=>b.onclick=()=>{S.lang=S.lang==="ar"?"en":"ar";applyLang()});$("#login-form").onsubmit=login;$("#setup-form").onsubmit=setupOwner;$("#password-form")&&($("#password-form").onsubmit=changePassword);window.addEventListener("nostrix:signed-out",()=>{if(S.user){S.user=null;show("auth-screen")}});initDatePickers();$("#home-btn").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});$("#assignee-trigger").onclick=e=>{e.stopPropagation();$("#assignee-menu").hidden?openAssigneeMenu():closeAssigneeMenu()};document.addEventListener("click",e=>{if(!e.target.closest("#assignee-picker"))closeAssigneeMenu();if(!e.target.closest(".nostrix-select"))closeAllCustomSelects();if(!e.target.closest(".date-picker"))closeDatePickers()});document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeAssigneeMenu();closeAllCustomSelects()}});refreshCustomSelects();$("#new-task").onclick=()=>openTask();$("#task-form").onsubmit=saveTask;$("#delete-task").onclick=delTask;$$("[data-close-task]").forEach(b=>b.onclick=closeTask);$$(".task-tab").forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));$("#comment-form").onsubmit=comment;$("#link-form").onsubmit=addLink;$("#file-input").onchange=e=>{if(e.target.files[0])upload(e.target.files[0]);e.target.value=""};$("#projects-btn").onclick=$("#manage-projects").onclick=openProjects;$("#admin-btn").onclick=openAdmin;$$("[data-close-admin]").forEach(b=>b.onclick=closeAdmin);$$(".admin-tab").forEach(b=>b.onclick=()=>switchAdminTab(b.dataset.adminTab));$("#announcement-form").onsubmit=saveAnnouncement;$("#announcement-clear").onclick=clearAnnouncement;$("#quicklink-form").onsubmit=saveQuickLink;$("#quicklink-clear").onclick=clearQuickLink;$("#cal-prev").onclick=()=>{S.calendarMonth=new Date(S.calendarMonth.getFullYear(),S.calendarMonth.getMonth()-1,1);renderCalendar()};$("#cal-next").onclick=()=>{S.calendarMonth=new Date(S.calendarMonth.getFullYear(),S.calendarMonth.getMonth()+1,1);renderCalendar()};$("#cal-today").onclick=()=>{S.calendarSelected=new Date();S.calendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);renderCalendar()};$$("[data-close-projects]").forEach(b=>b.onclick=closeProjects);$("#project-form").onsubmit=saveProject;$("#project-clear").onclick=clearProject;$("#edit-profile").onclick=()=>{$("#profile-menu").hidden=true;openProfile()};$$("[data-close-profile]").forEach(b=>b.onclick=()=>{$("#profile-modal").hidden=true;document.body.style.overflow=""});$("#profile-form").onsubmit=saveProfile;$("#signout").onclick=signout;$("#refresh-btn").onclick=async()=>{await loadAll();toast("Refreshed")};$("#profile-btn").onclick=()=>$("#profile-menu").hidden=!$("#profile-menu").hidden;$("#notif-btn").onclick=()=>$("#notif-panel").hidden=!$("#notif-panel").hidden;$("#mark-read").onclick=markRead;$("#enable-browser").onclick=browserAlerts;$$(".view").forEach(b=>b.onclick=()=>{setView(b.dataset.view);renderTasks()});$("#search").oninput=e=>{S.search=e.target.value.trim();renderTasks()};$("#priority-filter").onchange=e=>{S.priority=e.target.value;renderTasks()};$("#assignee-filter").onchange=e=>{S.assignee=e.target.value;renderTasks()};$("#project-filter").onchange=e=>{S.project=e.target.value;renderTasks()};$$(".column").forEach(c=>{c.ondragover=e=>e.preventDefault();c.ondrop=e=>{e.preventDefault();move(e.dataTransfer.getData("text/plain"),c.dataset.status)}})}
 document.addEventListener("DOMContentLoaded",async()=>{$("#year").textContent=new Date().getFullYear();document.addEventListener("pointerdown",primeSound,{once:true,capture:true});bind();applyLang();if(!ok)return show("auth-screen");S.db=createClient(
   C.SUPABASE_URL,
   C.SUPABASE_PUBLISHABLE_KEY,
@@ -541,4 +506,4 @@ document.addEventListener("DOMContentLoaded",async()=>{$("#year").textContent=ne
       detectSessionInUrl:true
     }
   }
-);let{data:{session}}=await S.db.auth.getSession();session?await enter(session):show("auth-screen");S.db.auth.onAuthStateChange(async(e,s)=>{if(e==="SIGNED_IN"&&s)await enter(s);if(e==="SIGNED_OUT")show("auth-screen")})});
+);let{data:{session,needsSetup}}=await S.db.auth.getSession();if(session)await enter(session);else{showSetup(needsSetup);show("auth-screen")}S.db.auth.onAuthStateChange(async(e,s)=>{if(e==="SIGNED_IN"&&s)await enter(s);if(e==="SIGNED_OUT")show("auth-screen")})});

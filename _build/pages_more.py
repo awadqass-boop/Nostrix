@@ -346,8 +346,8 @@ def review():
 <div class="wrap-narrow">
 <p class="eyebrow">Reviews</p>
 <h1 class="h1">Leave a review</h1>
-<p class="lead">Rate your project and write a short review. We publish it after approval.</p>
-<div class="notice">''' + ic('lock') + '''<span><strong>Your improvement feedback stays private.</strong> Nothing appears publicly until Nostrix reviews and approves it, and only the public testimonial is displayed.</span></div>
+<p class="lead">Rate your project and write a short review. It appears on our website right away.</p>
+<div class="notice">''' + ic('lock') + '''<span><strong>Your improvement feedback stays private.</strong> Only your rating, public testimonial and chosen display name appear on the website.</span></div>
 </div>
 </section>
 <section class="wrap-narrow" style="padding-block-end:var(--section)">
@@ -371,8 +371,8 @@ def review():
 <div class="field">
 <label for="instagram">Instagram username <span class="hint">Optional</span></label>
 <input class="control ltr" id="instagram" name="instagram" type="text" maxlength="31" autocomplete="off" pattern="@?[A-Za-z0-9._]{1,30}" placeholder="@yourusername">
-<span class="hint">Add only your username, such as @yourbrand. It will stay private unless you tick the option below and Nostrix approves the review.</span>
-<label class="check" for="showInstagram"><input id="showInstagram" name="showInstagram" type="checkbox" value="yes" disabled><span>Show my Instagram @ with my approved testimonial.</span></label>
+<span class="hint">Add only your username, such as @yourbrand. It stays private unless you tick the option below.</span>
+<label class="check" for="showInstagram"><input id="showInstagram" name="showInstagram" type="checkbox" value="yes" disabled><span>Show my Instagram @ with my testimonial.</span></label>
 </div>
 <div class="field"><label for="liked">What did you like most about working with Nostrix?</label><textarea class="control" id="liked" name="liked" maxlength="1200" required placeholder="Tell us what worked well..."></textarea></div>
 <div class="field"><label for="improve">What could we improve or fix? <span class="hint">Private — this will never be displayed publicly</span></label><textarea class="control" id="improve" name="improve" maxlength="1200" required placeholder="Please be honest. Write “Nothing” if you have no suggestions."></textarea></div>
@@ -385,7 +385,7 @@ def review():
 <label class="opt"><input id="display-anonymous" type="radio" name="displayPreference" value="anonymous"><span>Keep my identity anonymous</span></label>
 </div>
 </fieldset>
-<label class="check" for="publishConsent"><input id="publishConsent" name="publishConsent" type="checkbox" value="yes" required><span>I confirm that this feedback reflects my experience and give Nostrix permission to publish the public testimonial, rating, selected display name and Instagram username when I choose that option, after approval.</span></label>
+<label class="check" for="publishConsent"><input id="publishConsent" name="publishConsent" type="checkbox" value="yes" required><span>I confirm that this feedback reflects my experience and give Nostrix permission to publish the public testimonial, rating, selected display name and Instagram username when I choose that option.</span></label>
 <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 <div>
 <button class="btn btn-primary" type="submit" id="submit-review">''' + ic('send') + '''Submit review</button>
@@ -395,7 +395,7 @@ def review():
 </section>
 '''
     return page('review/index.html', 'Leave a Review | Nostrix Marketing Services',
-                'Rate your Nostrix project and leave a short review. Reviews are published after approval.',
+                'Rate your Nostrix project and leave a short review. Reviews appear on the site right away.',
                 body, css=['pages'], js=['review'])
 
 

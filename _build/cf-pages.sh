@@ -3,6 +3,7 @@
 # Cloudflare Pages settings: build command `sh _build/cf-pages.sh`, output directory `_site`.
 # Everything in the repo is copied except private or host-specific files:
 #   _build/        build scripts and source data (must not be public)
+#   functions/, server/   API code that runs on Cloudflare (never served as files)
 #   CNAME          only used by GitHub Pages
 #   privacy.html, review.html   old redirect stubs, replaced by the _redirects file
 set -eu
@@ -15,6 +16,8 @@ find . -type f \
   ! -path './.git/*' \
   ! -path "./$OUT/*" \
   ! -path './_build/*' \
+  ! -path './functions/*' \
+  ! -path './server/*' \
   ! -path './privacy.html' \
   ! -path './review.html' \
   ! -name 'CNAME' \

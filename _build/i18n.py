@@ -32,7 +32,7 @@ JS_STRINGS = [
     'Decline', 'Accept', 'Analytics settings',
     # review.js
     'Complete the required fields.', 'The review form is not connected yet.', 'Submitting your review…',
-    'Thank you. Your review was submitted privately and is now awaiting approval.',
+    'Thank you. Your review is now live on the Nostrix website.', 'Sending your brief…',
     'The review could not be submitted. Please try again or contact Support@nostrix.ae.',
     # pricing.js (estimate builder)
     'Rebrand complexity', 'Launch identity layer', 'Deep positioning workshop', 'Naming support', 'Social template kit',

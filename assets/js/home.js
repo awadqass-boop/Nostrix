@@ -192,7 +192,7 @@
     show('instagram');
   }
 
-  /* ---------- Approved reviews (Google Sheet) ---------- */
+  /* ---------- Client reviews (Nostrix API) ---------- */
   var reviewsSection = $('#reviews');
   var reviewsRail = $('#reviews-rail');
   var demoNames = ['Fashion Brand Client', 'Events Client', 'E-commerce Client', 'Real Estate Client', 'Automotive Client'];
@@ -246,41 +246,27 @@
   }
 
   function loadReviews() {
-    var endpoint = String(window.NOSTRIX_REVIEWS_WEB_APP_URL || '');
-    if (!reviewsSection || !reviewsRail || !endpoint || endpoint.indexOf('PASTE_GOOGLE') !== -1) return;
-    var cb = 'nostrixApprovedReviews_' + Date.now();
-    var script = document.createElement('script');
-    var finished = false;
-    var finish = function () {
-      if (finished) return;
-      finished = true;
-      delete window[cb];
-      script.remove();
-    };
-    window[cb] = function (payload) {
-      var list = payload && Array.isArray(payload.reviews) ? payload.reviews : [];
-      var seen = {};
-      list.forEach(function (r) {
-        if (!r || !r.testimonial) return;
-        if (demoNames.indexOf(String(r.displayName || '').trim()) !== -1) return;
-        if (r.id && seen[r.id]) return;
-        if (r.id) seen[r.id] = true;
-        reviewsRail.appendChild(reviewCard(r));
-      });
-      if (reviewsRail.children.length) {
-        reviewsSection.hidden = false;
-        var sync = rail(reviewsRail, $('#reviews-prev'), $('#reviews-next'));
-        var nav = $('#reviews-nav');
-        if (nav) nav.hidden = reviewsRail.scrollWidth <= reviewsRail.clientWidth + 4;
-        if (sync) sync();
-      }
-      finish();
-    };
-    script.async = true;
-    script.src = endpoint + '?action=approved&callback=' + encodeURIComponent(cb) + '&t=' + Date.now();
-    script.onerror = finish;
-    document.head.appendChild(script);
-    setTimeout(finish, 9000);
+    if (!reviewsSection || !reviewsRail) return;
+    fetch(String(window.NOSTRIX_API || '/api') + '/reviews', { headers: { Accept: 'application/json' } })
+      .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
+      .then(function (list) {
+        var seen = {};
+        (Array.isArray(list) ? list : []).forEach(function (r) {
+          if (!r || !r.testimonial) return;
+          if (demoNames.indexOf(String(r.displayName || '').trim()) !== -1) return;
+          if (r.id && seen[r.id]) return;
+          if (r.id) seen[r.id] = true;
+          reviewsRail.appendChild(reviewCard(r));
+        });
+        if (reviewsRail.children.length) {
+          reviewsSection.hidden = false;
+          var sync = rail(reviewsRail, $('#reviews-prev'), $('#reviews-next'));
+          var nav = $('#reviews-nav');
+          if (nav) nav.hidden = reviewsRail.scrollWidth <= reviewsRail.clientWidth + 4;
+          if (sync) sync();
+        }
+      })
+      .catch(function () { /* reviews stay hidden if the API is unavailable */ });
   }
   if ('requestIdleCallback' in window) requestIdleCallback(loadReviews, { timeout: 2500 });
   else setTimeout(loadReviews, 1200);
@@ -301,7 +287,7 @@
     var budget = $('#budget');
     var customBudget = $('#custom-budget');
     var sendButton = $('#email-project');
-    var endpoint = String(window.NOSTRIX_PRICING_WEB_APP_URL || '').trim();
+    var endpoint = String(window.NOSTRIX_API || '/api') + '/enquiries';
 
     var say = function (text, cls) { status.textContent = text; status.className = 'status' + (cls ? ' ' + cls : ''); };
 
@@ -399,10 +385,12 @@
       sendButton.disabled = true;
       say('Sending your brief…');
       fetch(endpoint, {
-        method: 'POST', mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload())
-      }).then(function () {
+      }).then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        if (window.nostrixStat) window.nostrixStat('enquiry', 'project brief');
         say('Brief sent. Nostrix will contact you to confirm the details.', 'ok');
         form.reset();
         sync();

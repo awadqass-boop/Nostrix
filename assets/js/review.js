@@ -1,4 +1,4 @@
-/* Nostrix — review form. Sends to the reviews Google Sheet; reviews show on the site after approval. */
+/* Nostrix — review form. Sends to Nostrix's own API; the review appears on the site right away. */
 (function () {
   'use strict';
 
@@ -61,8 +61,7 @@
       $('#event-types-field').scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
-    var endpoint = String(window.NOSTRIX_REVIEWS_WEB_APP_URL || '');
-    if (!endpoint || endpoint.indexOf('PASTE_GOOGLE') !== -1) { say('The review form is not connected yet.', 'bad'); return; }
+    var endpoint = String(window.NOSTRIX_API || '/api') + '/reviews';
 
     button.disabled = true;
     say('Submitting your review…');
@@ -76,15 +75,18 @@
     }
     ['services', 'event_types', 'custom_service', 'custom_event'].forEach(function (k) { data.delete(k); });
     data.set('service', selected.join(', '));
+    var payload = {};
+    data.forEach(function (value, key) { payload[key] = value; });
 
     fetch(endpoint, {
-      method: 'POST', mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-      body: new URLSearchParams(data)
-    }).then(function () {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
       form.reset();
       sync();
-      say('Thank you. Your review was submitted privately and is now awaiting approval.', 'ok');
+      say('Thank you. Your review is now live on the Nostrix website.', 'ok');
     }).catch(function () {
       say('The review could not be submitted. Please try again or contact Support@nostrix.ae.', 'bad');
     }).then(function () { button.disabled = false; });
