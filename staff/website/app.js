@@ -1559,12 +1559,19 @@
         <form id="wa-form" class="hub-form" autocomplete="off"><div class="form-row"><label>${L("Phone number ID","معرّف رقم الهاتف")}<input name="phoneId" inputmode="numeric" required></label><label>${L("System-user token","رمز مستخدم النظام")}<input name="token" type="password" autocomplete="off" required placeholder="EAA…"></label></div>
         <div class="tools"><button class="btn primary" type="submit">${L("Connect WhatsApp","اربط واتساب")}</button><span class="meta" id="wa-status" role="status"></span></div></form>`:`<p class="meta">${t("adminEdits")}</p>`}</article>`;
   }
+  function igPageSetup() {
+    return `<article class="card card-pad agent-card"><header><span class="brand-badge instagram" aria-hidden="true">${ic("instagram")}</span><div><h2>${L("Turn on Instagram DMs (free, one time)","فعّل رسائل إنستغرام (مجاناً ولمرة واحدة)")}</h2><p class="meta">${L("Meta only shares Instagram messages through a Facebook Page linked to the account.","تشارك Meta رسائل إنستغرام فقط عبر صفحة فيسبوك مرتبطة بالحساب.")}</p></div></header>
+      <ol class="prep-list"><li>${L("Create a free Facebook Page called Nostrix (or use one you have), and link it to @nostrix.ae: Instagram → Settings → Accounts Center, or Page settings → Linked accounts → Instagram.","أنشئ صفحة فيسبوك مجانية باسم Nostrix (أو استخدم صفحتك)، واربطها بحساب @nostrix.ae من إعدادات إنستغرام ← مركز الحسابات، أو إعدادات الصفحة ← الحسابات المرتبطة.")}</li>
+      <li>${L("Business settings → Accounts → Pages → Add the Page to Nostrix Marketing Services.","إعدادات الأعمال ← الحسابات ← الصفحات ← أضف الصفحة إلى Nostrix Marketing Services.")}</li>
+      <li>${L("System users → Nostrix Hub → Assign assets → Pages → your Page → Full control.","مستخدمو النظام ← Nostrix Hub ← تعيين الأصول ← الصفحات ← صفحتك ← تحكم كامل.")}</li>
+      <li>${L("Generate a new token (same as before) and also tick pages_show_list, pages_manage_metadata, pages_messaging and pages_read_engagement. Paste it in Social → Instagram → Disconnect, then Connect with a Meta token.","أنشئ رمزاً جديداً كالسابق وحدد أيضاً pages_show_list و pages_manage_metadata و pages_messaging و pages_read_engagement، ثم الصقه في التواصل الاجتماعي ← إلغاء ربط إنستغرام ← الربط برمز Meta.")}</li></ol></article>`;
+  }
   function drawInbox() {
     const b=document.getElementById("inbox-body");if(!b||!inboxData)return;
     app.querySelectorAll("[data-ib-ch]").forEach(x=>x.classList.toggle("on",x.dataset.ibCh===inboxChannel));
     const list=inboxThreads(),ig=inboxData.instagram;
     const notes=[!ig.connected?L("Instagram is not connected. Connect it in Social.","إنستغرام غير مربوط. اربطه من صفحة التواصل الاجتماعي."):ig.error?ig.error:""].filter(Boolean);
-    b.innerHTML=`${notes.map(n=>`<p class="card card-pad meta">${esc(n)}</p>`).join("")}${inboxChannel!=="instagram"?waSetup():""}
+    b.innerHTML=`${notes.map(n=>`<p class="card card-pad meta">${esc(n)}</p>`).join("")}${ig.needsPage&&inboxChannel!=="whatsapp"?igPageSetup():""}${inboxChannel!=="instagram"?waSetup():""}
       <div class="inbox"><aside class="card inbox-list">${list.map(x=>`<button type="button" class="ib-row ${openThread&&openThread.id===x.id?"on":""}" data-ib-open="${esc(x.channel)}|${esc(x.id)}"><span class="pl-plat ${x.channel==="whatsapp"?"whatsapp":"instagram"}">${ic(x.channel)}</span><span class="ib-txt"><b dir="auto">${esc(x.name)}</b><small dir="auto">${x.lastFromMe?L("You: ","أنت: "):""}${esc((x.last||"").slice(0,80))}</small></span><time class="meta">${x.at?esc(date(x.at,{day:"numeric",month:"short"})):""}</time></button>`).join("")||`<p class="empty">${L("No conversations yet.","لا توجد محادثات بعد.")}</p>`}</aside>
       <section class="card inbox-thread" id="ib-thread">${openThread?threadHtml(openThread):`<p class="empty">${L("Choose a conversation.","اختر محادثة.")}</p>`}</section></div>`;
     const box=document.querySelector(".ib-msgs");if(box)box.scrollTop=box.scrollHeight;

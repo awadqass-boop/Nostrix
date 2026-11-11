@@ -22,33 +22,39 @@ async function getJson(url, init) {
 const igHost = (a) => (a.mode === 'ig' ? 'https://graph.instagram.com' : 'https://graph.facebook.com');
 
 // ---------- Instagram ----------
+// Instagram DMs go through the Facebook Page linked to the Instagram account (Meta's rule).
+async function igPage(env, a) {
+  const r = await getJson(`https://graph.facebook.com/${GRAPH}/me/accounts?fields=id,name,access_token,instagram_business_account&limit=50&access_token=${encodeURIComponent(a.token)}`).catch(() => ({ data: [] }));
+  const pages = r.data || [];
+  return pages.find((p) => p.instagram_business_account?.id === a.igId) || pages.find((p) => p.instagram_business_account) || null;
+}
+
 async function igThreads(env) {
   const a = await account(env, 'instagram');
   if (!a) return { connected: false, threads: [] };
+  const page = await igPage(env, a);
+  if (!page) return { connected: true, threads: [], needsPage: true, error: 'Instagram messages need a Facebook Page linked to @' + (a.username || 'nostrix.ae') + '. Follow the steps below once, then refresh.' };
   const fields = 'id,updated_time,participants,messages.limit(1){message,from,created_time}';
-  const tok = encodeURIComponent(a.token);
-  const urls = [`${igHost(a)}/${GRAPH}/${a.igId}/conversations?platform=instagram&fields=${fields}&limit=30&access_token=${tok}`,
-    `https://graph.instagram.com/${GRAPH}/${a.igId}/conversations?platform=instagram&fields=${fields}&limit=30&access_token=${tok}`];
-  let last = '';
-  for (const u of urls) {
-    try {
-      const r = await getJson(u);
-      const threads = (r.data || []).map((c) => {
-        const other = (c.participants?.data || []).find((p) => p.username !== a.username && p.id !== a.igId) || {};
-        const m = c.messages?.data?.[0] || {};
-        return { id: c.id, name: other.username || other.name || 'Instagram user', contactId: other.id || '', last: m.message || '', lastFromMe: m.from?.id === a.igId || m.from?.username === a.username, at: m.created_time || c.updated_time };
-      });
-      return { connected: true, threads };
-    } catch (e) { last = e.message; }
+  try {
+    const r = await getJson(`https://graph.facebook.com/${GRAPH}/${page.id}/conversations?platform=instagram&fields=${fields}&limit=30&access_token=${encodeURIComponent(page.access_token)}`);
+    const threads = (r.data || []).map((c) => {
+      const other = (c.participants?.data || []).find((p) => p.id !== a.igId && p.username !== a.username) || {};
+      const m = c.messages?.data?.[0] || {};
+      return { id: c.id, name: other.username || other.name || 'Instagram user', contactId: other.id || '', last: m.message || '', lastFromMe: m.from?.id === a.igId || m.from?.username === a.username, at: m.created_time || c.updated_time };
+    });
+    return { connected: true, threads, page: page.name };
+  } catch (e) {
+    return { connected: true, threads: [], error: 'Meta did not share Instagram messages: ' + e.message.slice(0, 200) };
   }
-  return { connected: true, threads: [], error: 'Meta did not share Instagram messages yet: ' + last.slice(0, 200) };
 }
 
 async function igThread(env, id) {
   const a = await account(env, 'instagram');
   if (!a) fail(409, 'notConnected');
-  const r = await getJson(`${igHost(a)}/${GRAPH}/${encodeURIComponent(id)}?fields=participants,messages.limit(40){id,message,from,created_time}&access_token=${encodeURIComponent(a.token)}`);
-  const other = (r.participants?.data || []).find((p) => p.username !== a.username && p.id !== a.igId) || {};
+  const page = await igPage(env, a);
+  if (!page) fail(409, 'needsPage', 'Link a Facebook Page to Instagram first.');
+  const r = await getJson(`https://graph.facebook.com/${GRAPH}/${encodeURIComponent(id)}?fields=participants,messages.limit(40){id,message,from,created_time}&access_token=${encodeURIComponent(page.access_token)}`);
+  const other = (r.participants?.data || []).find((p) => p.id !== a.igId && p.username !== a.username) || {};
   const messages = (r.messages?.data || []).map((m) => ({ id: m.id, text: m.message || '', mine: m.from?.id === a.igId || m.from?.username === a.username, at: m.created_time })).reverse();
   return { id, name: other.username || 'Instagram user', contactId: other.id || '', messages };
 }
@@ -56,10 +62,11 @@ async function igThread(env, id) {
 async function igSend(env, to, text) {
   const a = await account(env, 'instagram');
   if (!a) fail(409, 'notConnected');
-  const r = await getJson(`${igHost(a)}/${GRAPH}/${a.igId}/messages?access_token=${encodeURIComponent(a.token)}`, {
+  const page = await igPage(env, a);
+  if (!page) fail(409, 'needsPage', 'Link a Facebook Page to Instagram first.');
+  return getJson(`https://graph.facebook.com/${GRAPH}/${page.id}/messages?access_token=${encodeURIComponent(page.access_token)}`, {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ recipient: { id: to }, message: { text } })
-  }).catch((e) => fail(502, 'sendFailed', 'Instagram did not send the message: ' + e.message.slice(0, 160)));
-  return r;
+  }).catch((e) => fail(502, 'sendFailed', 'Instagram did not send the message: ' + e.message.slice(0, 160) + ' (Replies work within 24 hours of the customer\'s last message.)'));
 }
 
 // ---------- WhatsApp (Cloud API) ----------
