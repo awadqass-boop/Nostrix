@@ -1547,16 +1547,22 @@
     if(inboxChannel!=="instagram")(inboxData.whatsapp.threads||[]).forEach(x=>list.push({...x,channel:"whatsapp"}));
     return list.sort((a,b)=>Date.parse(b.at||0)-Date.parse(a.at||0));
   }
+  function waStatus() {
+    const w=inboxData.whatsapp;if(!w.connected)return "";
+    const hit=w.lastHit;
+    return `<article class="card card-pad wa-status"><span class="pl-plat whatsapp">${ic("whatsapp")}</span><div><b>WhatsApp ${esc(w.number||"")}</b><p class="meta">${hit?(hit.ok?L("Last message from Meta: ","آخر رسالة من Meta: ")+esc(date(hit.at,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})):L("Meta reached us but the signature did not match. Check META_APP_SECRET in Cloudflare.","وصلتنا Meta لكن التوقيع غير مطابق. تحقق من META_APP_SECRET في Cloudflare.")):L("No messages from Meta yet. Check the webhook in Configuration and that messages is subscribed.","لم تصل رسائل من Meta بعد. تحقق من Webhook في الإعداد ومن الاشتراك في messages.")}${w.subscribed===0?" · "+L("Account not subscribed to the app yet: reconnect below.","الحساب غير مشترك في التطبيق بعد: أعد الربط أدناه."):""}</p></div>
+      ${session.is_admin?`<button class="btn" type="button" data-ib-wa-reconnect>${L("Reconnect","إعادة الربط")}</button>`:""}</article>`;
+  }
   function waSetup() {
     const w=inboxData.whatsapp,s=w.setup;
-    if(w.connected)return "";
+    if(w.connected&&!w._reconnect)return waStatus();
     return `<article class="card card-pad agent-card"><header><span class="brand-badge whatsapp" aria-hidden="true">${ic("whatsapp")}</span><div><h2>${L("Connect WhatsApp (free)","اربط واتساب (مجاناً)")}</h2><p class="meta">${L("Uses Meta's free WhatsApp Cloud API. Replies within 24 hours of a customer's message are free.","يستخدم واجهة واتساب السحابية المجانية من Meta. الردود خلال 24 ساعة من رسالة العميل مجانية.")}</p></div></header>
       ${s?`<ol class="prep-list"><li>${L("In developers.facebook.com → Nostrix Hub → Add use case → Connect with customers through WhatsApp.","في developers.facebook.com ← Nostrix Hub ← إضافة حالة استخدام ← التواصل مع العملاء عبر واتساب.")}</li>
         <li>${L("WhatsApp → Configuration → Webhook: Callback URL and Verify token below, then subscribe to messages.","واتساب ← الإعداد ← Webhook: الرابط ورمز التحقق أدناه، ثم اشترك في messages.")}</li>
         <li>${L("Add your number in WhatsApp → API setup, then give the Nostrix Hub system user the WhatsApp account and generate a token with whatsapp_business_messaging.","أضف رقمك في واتساب ← إعداد API، ثم امنح مستخدم النظام حساب واتساب وأنشئ رمزاً بصلاحية whatsapp_business_messaging.")}</li></ol>
         <div class="copy-row"><span>${L("Callback URL","رابط الاستدعاء")}</span><input readonly value="${esc(s.webhookUrl)}"><button class="btn" type="button" data-ib-copy>${L("Copy","نسخ")}</button></div>
         <div class="copy-row"><span>${L("Verify token","رمز التحقق")}</span><input readonly value="${esc(s.verifyToken)}"><button class="btn" type="button" data-ib-copy>${L("Copy","نسخ")}</button></div>
-        <form id="wa-form" class="hub-form" autocomplete="off"><div class="form-row"><label>${L("Phone number ID","معرّف رقم الهاتف")}<input name="phoneId" inputmode="numeric" required></label><label>${L("System-user token","رمز مستخدم النظام")}<input name="token" type="password" autocomplete="off" required placeholder="EAA…"></label></div>
+        <form id="wa-form" class="hub-form" autocomplete="off"><div class="form-row"><label>${L("Phone number ID","معرّف رقم الهاتف")}<input name="phoneId" inputmode="numeric" required></label><label>${L("WhatsApp account ID (optional)","معرّف حساب واتساب (اختياري)")}<input name="wabaId" inputmode="numeric"></label><label>${L("System-user token","رمز مستخدم النظام")}<input name="token" type="password" autocomplete="off" required placeholder="EAA…"></label></div>
         <div class="tools"><button class="btn primary" type="submit">${L("Connect WhatsApp","اربط واتساب")}</button><span class="meta" id="wa-status" role="status"></span></div></form>`:`<p class="meta">${t("adminEdits")}</p>`}</article>`;
   }
   function igPageSetup() {
@@ -1583,10 +1589,11 @@
       <div class="tools"><button type="button" class="btn" data-ib-suggest="en">✨ ${L("Suggest (English)","اقترح (إنجليزي)")}</button><button type="button" class="btn" data-ib-suggest="ar">✨ ${L("Suggest (Arabic)","اقترح (عربي)")}</button><span class="meta" id="ib-status" role="status"></span><button class="btn primary" type="submit">${L("Send","إرسال")}</button></div></form>`;
   }
   app.addEventListener("click",async e=>{
-    const b=e.target.closest?.("[data-ib-ch],[data-ib-refresh],[data-ib-open],[data-ib-suggest],[data-ib-copy]");if(!b||!app.contains(b))return;
+    const b=e.target.closest?.("[data-ib-ch],[data-ib-refresh],[data-ib-open],[data-ib-suggest],[data-ib-copy],[data-ib-wa-reconnect]");if(!b||!app.contains(b))return;
     if(b.dataset.ibCh){inboxChannel=b.dataset.ibCh;drawInbox();}
     else if(b.hasAttribute("data-ib-refresh")){b.disabled=true;try{inboxData=await api.getInbox();if(openThread)openThread={...await api.getThread(openThread.channel,openThread.id),channel:openThread.channel};drawInbox();}catch(error){toast(aiError(error));}finally{b.disabled=false;}}
     else if(b.dataset.ibOpen){const [ch,id]=b.dataset.ibOpen.split("|");try{openThread={...await api.getThread(ch,id),channel:ch};drawInbox();}catch(error){toast(aiError(error));}}
+    else if(b.hasAttribute("data-ib-wa-reconnect")){inboxData.whatsapp._reconnect=true;drawInbox();}
     else if(b.hasAttribute("data-ib-copy")){try{await navigator.clipboard.writeText(b.previousElementSibling.value);toast(t("copied"));}catch{toast(t("unavailable"));}}
     else if(b.dataset.ibSuggest&&openThread){const last=[...openThread.messages].reverse().find(m=>!m.mine);if(!last){toast(L("No customer message to answer yet.","لا توجد رسالة من العميل بعد."));return;}
       const st=document.getElementById("ib-status");busy(b,true,L("Writing…","جارٍ الكتابة…"));
@@ -1599,7 +1606,7 @@
       try{await api.sendMessage({channel:openThread.channel,to:openThread.contactId,text:form.elements.text.value});openThread={...await api.getThread(openThread.channel,openThread.id),channel:openThread.channel};drawInbox();toast(L("Sent.","تم الإرسال."));}
       catch(error){st.textContent=aiError(error);busy(btn,false);}}
     else if(form.id==="wa-form"){e.preventDefault();const st=document.getElementById("wa-status"),btn=form.querySelector('[type="submit"]');busy(btn,true);
-      try{const f=new FormData(form);const r=await api.connectWhatsApp({phoneId:f.get("phoneId"),token:f.get("token")});form.reset();inboxData=await api.getInbox();drawInbox();toast(L("WhatsApp connected: ","تم ربط واتساب: ")+r.number);}
+      try{const f=new FormData(form);const r=await api.connectWhatsApp({phoneId:f.get("phoneId"),token:f.get("token"),wabaId:f.get("wabaId")});form.reset();inboxData=await api.getInbox();drawInbox();toast(L("WhatsApp connected: ","تم ربط واتساب: ")+r.number);}
       catch(error){st.textContent=aiError(error);busy(btn,false);}}
   });
   // Automation switches save immediately

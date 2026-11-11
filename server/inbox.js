@@ -108,6 +108,9 @@ export async function list(ctx) {
   const [instagram, whatsapp] = await Promise.all([igThreads(ctx.env).catch((e) => ({ connected: true, threads: [], error: e.message })), waThreads(ctx.env)]);
   const origin = new URL(ctx.request.url).origin;
   if (user.is_admin) whatsapp.setup = { webhookUrl: origin + '/api/wa/webhook', verifyToken: await verifyToken(ctx.env) };
+  try { whatsapp.lastHit = JSON.parse(await setting(ctx.env, 'wa_last_hit') || 'null'); } catch { whatsapp.lastHit = null; }
+  const cfg = await waConfig(ctx.env);
+  if (cfg) whatsapp.subscribed = (cfg.subscribed || []).length;
   return { instagram, whatsapp };
 }
 
@@ -138,10 +141,22 @@ export async function connectWhatsApp(ctx, input) {
   if (!token || token.length < 40) fail(400, 'badToken', 'Paste the full token from Meta.');
   const info = await getJson(`https://graph.facebook.com/${GRAPH}/${phoneId}?fields=display_phone_number,verified_name&access_token=${encodeURIComponent(token)}`)
     .catch((e) => fail(400, 'tokenRejected', 'Meta did not accept this token for that number: ' + e.message.slice(0, 160)));
+  // Meta only sends a WhatsApp account's messages to apps that account is subscribed to.
+  let wabaIds = [], subscribed = [];
+  if (ctx.env.META_APP_ID && ctx.env.META_APP_SECRET) {
+    const dbg = await getJson(`https://graph.facebook.com/${GRAPH}/debug_token?input_token=${encodeURIComponent(token)}&access_token=${encodeURIComponent(ctx.env.META_APP_ID + '|' + ctx.env.META_APP_SECRET)}`).catch(() => null);
+    wabaIds = [...new Set((dbg?.data?.granular_scopes || []).filter((g) => /^whatsapp_/.test(g.scope)).flatMap((g) => g.target_ids || []))];
+  }
+  const extra = str(input.wabaId, 40);
+  if (extra && /^\d{6,30}$/.test(extra)) wabaIds = [...new Set([extra, ...wabaIds])];
+  for (const id of wabaIds) {
+    const r = await getJson(`https://graph.facebook.com/${GRAPH}/${id}/subscribed_apps`, { method: 'POST', headers: { Authorization: 'Bearer ' + token } }).catch((e) => ({ error: e.message }));
+    if (r?.success) subscribed.push(id);
+  }
   await db(ctx.env).prepare('INSERT INTO social_accounts(platform,data,updated_at) VALUES(?,?,?) ON CONFLICT(platform) DO UPDATE SET data=excluded.data, updated_at=excluded.updated_at')
-    .bind('whatsapp', JSON.stringify({ phoneId, token, number: info.display_phone_number || '', name: info.verified_name || '', connectedAt: now() }), now()).run();
+    .bind('whatsapp', JSON.stringify({ phoneId, token, number: info.display_phone_number || '', name: info.verified_name || '', wabaIds, subscribed, connectedAt: now() }), now()).run();
   await audit(ctx.env, user, 'inbox', 'Connected WhatsApp', info.display_phone_number || phoneId);
-  return { ok: true, number: info.display_phone_number || '' };
+  return { ok: true, number: info.display_phone_number || '', subscribed: subscribed.length };
 }
 
 // Meta calls these. GET verifies the webhook once; POST delivers incoming WhatsApp messages.
@@ -151,13 +166,19 @@ export async function webhookVerify(ctx, url) {
   return new Response('Forbidden', { status: 403 });
 }
 
+async function markHit(env, ok) {
+  try { await db(env).prepare("INSERT INTO settings(key,value) VALUES('wa_last_hit',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").bind(JSON.stringify({ at: now(), ok })).run(); } catch { /* status only */ }
+}
+
 export async function webhook(ctx) {
   const raw = await ctx.request.text();
   const sig = (ctx.request.headers.get('x-hub-signature-256') || '').replace(/^sha256=/, '');
   if (!ctx.env.META_APP_SECRET) return new Response('not configured', { status: 503 });
   const key = await crypto.subtle.importKey('raw', enc.encode(ctx.env.META_APP_SECRET), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
   const mac = [...new Uint8Array(await crypto.subtle.sign('HMAC', key, enc.encode(raw)))].map((b) => b.toString(16).padStart(2, '0')).join('');
-  if (!sig || !safeEqual(sig, mac)) return new Response('bad signature', { status: 401 });
+  const ok = !!sig && safeEqual(sig, mac);
+  await markHit(ctx.env, ok);
+  if (!ok) return new Response('bad signature', { status: 401 });
   let body = {};
   try { body = JSON.parse(raw); } catch { return new Response('ok'); }
   for (const entry of body.entry || []) for (const ch of entry.changes || []) {
