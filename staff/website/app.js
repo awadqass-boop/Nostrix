@@ -579,6 +579,48 @@
       ${xy.map((q,i)=>`<g class="viz-col" data-tip="${esc(date(points[i].day))}: ${esc(num(points[i].v))}"><rect class="viz-hit" x="${q[0]-W/points.length/2}" y="0" width="${W/points.length}" height="${H}"/><circle cx="${q[0]}" cy="${q[1]}" r="4" class="viz-dot"/></g>`).join("")}
       </svg><div class="viz-ends"><span>${esc(date(points[0].day))}</span><span>${esc(date(points[points.length-1].day))}</span></div>`;
   }
+  function heatmap(p,items) {
+    const cells=DAYS.map((_,d)=>SLOTS.map(([, ,a,b])=>avg(items.filter(x=>{const t=dubai(x.at),hr=t.getUTCHours(),v=hr<6?hr+24:hr;return t.getUTCDay()===d&&v>=a&&v<b;}).map(x=>score(p,x)))));
+    const max=Math.max(1,...cells.flat().filter(v=>v!=null));
+    if(!cells.flat().some(v=>v))return `<p class="empty chart-empty">${L("Not enough posts yet.","لا توجد منشورات كافية بعد.")}</p>`;
+    return `<div class="heat" role="img"><span></span>${SLOTS.map(n=>`<span class="heat-h">${esc(pick([n[0],n[1]]).split(" ")[0])}</span>`).join("")}
+      ${DAYS.map((dn,d)=>`<span class="heat-d">${esc(pick(dn))}</span>${cells[d].map((v,i)=>`<div class="heat-c" style="--a:${v==null?0:.12+.88*v/max}" data-tip="${esc(pick(dn))} · ${esc(pick([SLOTS[i][0],SLOTS[i][1]]))}: ${v==null?L("no posts","لا منشورات"):compact(Math.round(v))}"></div>`).join("")}`).join("")}</div>
+      <div class="heat-key"><span>${L("Fewer","أقل")}</span><i></i><span>${L("More","أكثر")}</span></div>`;
+  }
+  function hbars(rows,fmt=compact) {
+    const max=Math.max(1,...rows.map(r=>r.v||0));
+    if(!rows.length)return `<p class="empty chart-empty">${L("Not enough data yet.","لا توجد بيانات كافية بعد.")}</p>`;
+    return `<div class="hbars">${rows.map(r=>`<div class="hbar" data-tip="${esc(r.tip||r.label)}"><span dir="auto">${esc(r.label)}</span><div><i style="width:${Math.max(2,(r.v||0)/max*100)}%"></i></div><b>${esc(fmt(r.v))}</b></div>`).join("")}</div>`;
+  }
+  function mixBar(parts) {
+    const total=parts.reduce((n,x)=>n+(x.v||0),0);
+    if(!total)return `<p class="empty chart-empty">${L("No interactions yet.","لا توجد تفاعلات بعد.")}</p>`;
+    return `<div class="mix">${parts.filter(x=>x.v).map((x,i)=>`<i class="m${i}" style="flex:${x.v}" data-tip="${esc(x.label)}: ${compact(x.v)} (${pct(x.v/total)})"></i>`).join("")}</div>
+      <ul class="mix-key">${parts.map((x,i)=>`<li><i class="m${i}"></i><span>${esc(x.label)}</span><b>${pct(x.v/total)}</b><small>${compact(x.v)}</small></li>`).join("")}</ul>`;
+  }
+  function sparkline(h) {
+    if(!h||h.length<2)return "";
+    const v=h.map(r=>r.followers),mn=Math.min(...v),sp=Math.max(1,Math.max(...v)-mn);
+    const d=v.map((y,i)=>(i?"L":"M")+(i/(v.length-1)*100).toFixed(1)+","+(28-(y-mn)/sp*24).toFixed(1)).join(" ");
+    return `<svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><path d="${d}"/></svg>`;
+  }
+  function weekly(items) {
+    const weeks=Array.from({length:12},(_,i)=>{const end=Date.now()-(11-i)*7*864e5,start=end-7*864e5;return {n:items.filter(x=>{const t=Date.parse(x.at);return t>start&&t<=end;}).length,start};});
+    return weeks.map((w,i)=>({v:w.n,label:L("Week of ","أسبوع ")+date(new Date(w.start).toISOString()),short:i%3===0?date(new Date(w.start).toISOString()):"",fmtCount:true}));
+  }
+  function captionBuckets(p,items) {
+    const B=[[L("Short (<60)","قصير (<60)"),0,60],[L("Medium (60–200)","متوسط (60–200)"),60,200],[L("Long (200+)","طويل (+200)"),200,1e9]];
+    return B.map(([l,a,b])=>{const g=items.filter(x=>(x.caption||"").length>=a&&(x.caption||"").length<b);return {v:avg(g.map(x=>score(p,x))),label:l+" · "+g.length,short:l.split(" ")[0]};});
+  }
+  function hashtagRows(p,items) {
+    const m=new Map();
+    items.forEach(x=>((x.caption||"").match(/#[\p{L}\p{N}_]+/gu)||[]).forEach(tag=>{const k=tag.toLowerCase();const e=m.get(k)||{n:0,s:0};e.n++;e.s+=score(p,x);m.set(k,e);}));
+    return [...m].filter(([,e])=>e.n>=2).map(([k,e])=>({label:k,v:e.s/e.n,tip:k+" · "+e.n+" "+L("posts","منشورات")})).sort((a,b)=>b.v-a.v).slice(0,8);
+  }
+  function durationBuckets(items) {
+    const B=[["<15s",0,15],["15–30s",15,30],["30–60s",30,60],["1–3m",60,180],["3m+",180,1e9]];
+    return B.map(([l,a,b])=>{const g=items.filter(x=>x.duration!=null&&x.duration>=a&&x.duration<b);return {v:avg(g.map(x=>x.views||0)),label:l+" · "+g.length+" "+L("videos","فيديو"),short:l};});
+  }
   const kpi=(label,value,foot="",tone="")=>`<div class="kpi ${tone}"><span>${label}</span><strong>${value}</strong>${foot?`<small>${foot}</small>`:""}</div>`;
   const delta=v=>v==null?"":`<em class="${v<0?"down":"up"}">${v>0?"+":""}${num(v)}</em>`;
   function connectCard(p,d) {
@@ -624,6 +666,12 @@
         <article class="card card-pad"><h2>${L("Best day to post","أفضل يوم للنشر")}</h2><p class="meta">${p==="tiktok"?L("Average views","متوسط المشاهدات"):L("Average interactions","متوسط التفاعل")} · ${L("UAE time","بتوقيت الإمارات")}</p>${barChart(DAYS.map((n,i)=>({v:s.byDay[i],label:pick(n),short:pick(n),hi:s.byDay[i]!=null&&s.byDay[i]===Math.max(...s.byDay.filter(v=>v!=null))})))}</article>
         <article class="card card-pad"><h2>${L("Best time to post","أفضل وقت للنشر")}</h2><p class="meta">${L("UAE time","بتوقيت الإمارات")}</p>${barChart(SLOTS.map((n,i)=>({v:s.bySlot[i],label:pick([n[0],n[1]]),short:pick([n[0],n[1]]).split(" ")[0],hi:s.bySlot[i]!=null&&s.bySlot[i]===Math.max(...s.bySlot.filter(v=>v!=null))})))}</article>
         ${s.kinds.length>1?`<article class="card card-pad"><h2>${L("What works best","ما الأفضل أداءً")}</h2><p class="meta">${L("Average per post by format","المتوسط لكل منشور حسب النوع")}</p>${barChart(s.kinds.map(([k,a])=>({v:avg(a.map(x=>score(p,x))),label:pick(KINDS[k])+" ("+a.length+")",short:pick(KINDS[k])})))}</article>`:""}
+        <article class="card card-pad wide"><h2>${L("When your audience responds","متى يتفاعل جمهورك")}</h2><p class="meta">${p==="tiktok"?L("Average views by day and time","متوسط المشاهدات حسب اليوم والوقت"):L("Average interactions by day and time","متوسط التفاعل حسب اليوم والوقت")} · ${L("UAE time","بتوقيت الإمارات")}</p>${heatmap(p,s.items)}</article>
+        <article class="card card-pad"><h2>${L("Engagement mix","توزيع التفاعل")}</h2><p class="meta">${L("How people interact with your posts","كيف يتفاعل الناس مع منشوراتك")}</p>${mixBar([{label:L("Likes","إعجابات"),v:s.items.reduce((n,x)=>n+(x.likes||0),0)},{label:L("Comments","تعليقات"),v:s.items.reduce((n,x)=>n+(x.comments||0),0)},...(p==="tiktok"?[{label:L("Shares","مشاركات"),v:s.items.reduce((n,x)=>n+(x.shares||0),0)}]:[])])}</article>
+        <article class="card card-pad"><h2>${L("Posting rhythm","إيقاع النشر")}</h2><p class="meta">${L("Posts per week · last 12 weeks","منشورات أسبوعياً · آخر 12 أسبوعاً")}</p>${barChart(weekly(s.items),v=>num(v))}</article>
+        <article class="card card-pad"><h2>${L("Caption length","طول التعليق")}</h2><p class="meta">${L("Does writing more help?","هل الكتابة الأطول تساعد؟")}</p>${barChart(captionBuckets(p,s.items))}</article>
+        ${p==="tiktok"?`<article class="card card-pad"><h2>${L("Video length","طول الفيديو")}</h2><p class="meta">${L("Average views by length","متوسط المشاهدات حسب الطول")}</p>${barChart(durationBuckets(s.items))}</article>`:""}
+        <article class="card card-pad"><h2>${L("Top hashtags","أفضل الوسوم")}</h2><p class="meta">${L("Average per post, used 2+ times","المتوسط لكل منشور، مستخدم مرتين على الأقل")}</p>${hbars(hashtagRows(p,s.items))}</article>
       </div>
       <article class="card card-pad"><header class="card-head"><h2>${L("Posts","المنشورات")}</h2><div class="seg" role="group">${[["top",L("Top","الأفضل")],["recent",L("Recent","الأحدث")]].map(([k,l])=>`<button type="button" data-social-sort="${k}" class="${socialSort===k?"on":""}">${l}</button>`).join("")}</div></header>
         <div class="post-grid">${posts.slice(0,24).map(x=>postCard(p,x)).join("")||`<p class="empty">${L("No posts yet.","لا توجد منشورات بعد.")}</p>`}</div></article>`;
@@ -634,10 +682,11 @@
       const s=socialStats(p,d);
       return `<article class="card card-pad social-mini ${p}" data-social-open="${p}"><header><span class="brand-badge ${p}">${ic(P.icon)}</span><div><h2>${P.name}</h2><span class="meta">@${esc(d.username)}</span></div></header>
         <div class="kpis small">${kpi(L("Followers","المتابعون"),compact(d.followers),s.d30!=null?delta(s.d30)+" "+L("30 days","30 يوماً"):"")}${kpi(L("Engagement","التفاعل"),pct(s.rate))}${kpi(L("Posts · 30 days","منشورات · 30 يوماً"),num(s.recent))}</div>
-        <span class="text-btn">${L("Open full dashboard","افتح اللوحة الكاملة")} →</span></article>`;}).join("");
+        ${sparkline(d.history)}<span class="text-btn">${L("Open full dashboard","افتح اللوحة الكاملة")} →</span></article>`;}).join("");
     const live=["instagram","tiktok"].filter(p=>socialData[p].connected&&!socialData[p].error);
     const total=live.reduce((n,p)=>n+(socialData[p].followers||0),0);
-    return (live.length?`<article class="card card-pad audience"><span class="meta">${L("Total audience","إجمالي الجمهور")}</span><strong>${compact(total)}</strong><span class="meta">${L("followers across","متابع على")} ${live.map(p=>PLAT[p].name).join(" + ")}</span></article>`:"")+`<div class="social-pair">${cards}</div>`;
+    return (live.length?`<article class="card card-pad audience"><span class="meta">${L("Total audience","إجمالي الجمهور")}</span><strong>${compact(total)}</strong><span class="meta">${L("followers across","متابع على")} ${live.map(p=>PLAT[p].name).join(" + ")}</span>
+      ${live.length>1?mixBar(live.map(p=>({label:PLAT[p].name,v:socialData[p].followers||0}))):""}</article>`:"")+`<div class="social-pair">${cards}</div>`;
   }
   async function socialPage(fresh=false) {
     socialData=await api.getSocial(fresh);
