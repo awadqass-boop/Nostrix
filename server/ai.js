@@ -21,45 +21,90 @@ Services: photography, videography, reels and content creation, social media man
 Typical starting prices: creator photo sessions from AED 650 for 2 hours, event coverage and monthly content packages on the website.
 Clients include cafés, pop-up markets, brands and events across the UAE. Portfolio: nostrix.ae/portfolio/`;
 
+// Business types and preferences the settings page offers as tap-to-pick chips.
+export const TYPES = {
+  cafe: 'cafés and specialty coffee shops', 'coffee-b2b': 'coffee roasteries, coffee carts and coffee suppliers',
+  popup: 'pop-up markets and pop-up shops', event: 'events, festivals and brand activations', restaurant: 'restaurants and bakeries',
+  fashion: 'fashion, beauty and salons', 'real-estate': 'real estate agencies and developers', automotive: 'car dealers, garages and detailing',
+  wellness: 'gyms, studios and wellness', hospitality: 'hotels, resorts and tourism'
+};
+const PREFER = {
+  new: 'newly opened or about to open', 'weak-ig': 'Instagram content that looks weak, old or irregular',
+  events: 'announcing events, launches or seasonal offers', growing: 'growing (new branches, hiring, new menu or products)'
+};
+
 const DEFAULT_PROFILE = {
   about: NOSTRIX,
-  targets: 'B2B coffee (cafés, specialty coffee shops, roasteries, coffee carts and coffee suppliers) and pop-up events (markets, pop-up shops, festivals, brand activations), then any other local business that clearly needs better photos, videos or social media content.',
-  avoid: 'Big chains and franchises with in-house marketing teams, businesses that closed, and anything outside the UAE.',
+  types: ['cafe', 'coffee-b2b', 'popup', 'event'],
+  prefer: ['new', 'weak-ig', 'events'],
+  size: 30,
   emirate: 'Ras Al Khaimah',
-  perRun: '8',
+  perRun: 8,
+  avoid: 'Big chains and franchises with in-house marketing teams, businesses that closed, and anything outside the UAE.',
   huntRules: '',
-  tone: 'Warm, confident, local, never pushy or salesy. Mention one specific thing about the business. Offer one clear, small next step (for example a quick call, a sample shoot idea or sending the portfolio).',
-  length: 'Instagram and WhatsApp: 50-90 words. Email: 90-140 words.',
+  formal: 40,
+  direct: 40,
+  length: 35,
+  energy: 55,
+  emoji: false,
   rules: '',
   signoff: 'Nostrix Team'
 };
 
-// What the agent knows and how it writes. Admins edit this on the Leads page.
+const clamp = (v, lo, hi, d) => { const n = Math.round(+v); return Number.isFinite(n) ? Math.max(lo, Math.min(hi, n)) : d; };
+function clean(input, base) {
+  const out = { ...base };
+  for (const k of ['about', 'avoid', 'huntRules', 'rules']) if (k in input) out[k] = str(input[k], 3000) || '';
+  if ('signoff' in input) out.signoff = str(input.signoff, 80) || base.signoff;
+  if ('emirate' in input) out.emirate = str(input.emirate, 40) || base.emirate;
+  if (Array.isArray(input.types)) out.types = input.types.filter((t) => TYPES[t]);
+  if (Array.isArray(input.prefer)) out.prefer = input.prefer.filter((t) => PREFER[t]);
+  for (const k of ['size', 'formal', 'direct', 'length', 'energy']) if (k in input) out[k] = clamp(input[k], 0, 100, base[k]);
+  if ('perRun' in input) out.perRun = clamp(input.perRun, 3, 10, base.perRun);
+  if ('emoji' in input) out.emoji = !!input.emoji;
+  return out;
+}
+
+// What the agent knows and how it writes. Admins edit this in Marketing hub → Agent settings.
 async function profile(env) {
   let saved = {};
   try { saved = JSON.parse(await setting(env, 'ai_profile') || '{}'); } catch { saved = {}; }
-  const out = {};
-  for (const k of Object.keys(DEFAULT_PROFILE)) out[k] = k in saved ? (str(saved[k], 3000) || '') : DEFAULT_PROFILE[k];
-  out.perRun = String(Math.max(3, Math.min(10, Math.round(+out.perRun || 8))));
-  return out;
+  if (typeof saved.length === 'string') delete saved.length; // older text setting
+  return clean(saved, DEFAULT_PROFILE);
+}
+
+const band = (v, low, mid, high) => (v < 34 ? low : v < 67 ? mid : high);
+function huntBrief(p) {
+  const types = p.types.length ? p.types.map((t) => TYPES[t]).join('; ') : 'any local business that needs photos, videos or social media content';
+  return `Who to look for: ${types}.
+Business size: ${band(p.size, 'small independent local businesses', 'small and mid-size businesses', 'established brands with bigger budgets')}.
+${p.prefer.length ? 'Prefer businesses that are: ' + p.prefer.map((t) => PREFER[t]).join('; ') + '.' : ''}`;
+}
+function voice(p) {
+  const words = band(p.length, [35, 60], [60, 90], [90, 130]);
+  return `Formality: ${band(p.formal, 'casual and friendly, like a local creative talking to a business owner', 'friendly but professional', 'formal and polished')}.
+Sales approach: ${band(p.direct, 'soft: start a conversation and show genuine interest, no hard pitch', 'mention how Nostrix could help and suggest one small next step', 'direct: pitch one specific service and clearly ask for a call or booking')}.
+Energy: ${band(p.energy, 'calm and understated', 'balanced', 'upbeat and enthusiastic')}.
+Length: Instagram and WhatsApp ${words[0]}-${words[1]} words; email ${words[0] + 40}-${words[1] + 50} words.
+Emojis: ${p.emoji ? 'one or two fitting emojis at most' : 'no emojis'}.
+Always mention one specific thing about the business.`;
 }
 
 export async function getProfile(ctx) {
   await requireWebsite(ctx);
-  return { profile: await profile(ctx.env), defaults: DEFAULT_PROFILE, cap: await monthCap(ctx.env) };
+  return { profile: await profile(ctx.env), defaults: DEFAULT_PROFILE, cap: await monthCap(ctx.env), spent: await monthSpend(ctx.env) };
 }
 
 export async function saveProfile(ctx, input) {
   const user = await requireAdmin(ctx);
-  const out = {};
-  for (const k of Object.keys(DEFAULT_PROFILE)) if (k in input) { const v = str(input[k], 3000) || ''; if (v !== DEFAULT_PROFILE[k]) out[k] = v; }
+  const out = clean(input, await profile(ctx.env));
   const DB = db(ctx.env);
   await DB.prepare("INSERT INTO settings(key,value) VALUES('ai_profile',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").bind(JSON.stringify(out)).run();
   if ('cap' in input) {
-    const cap = Math.max(1, Math.min(500, Math.round(+input.cap || DEFAULT_MONTH_CAP)));
+    const cap = clamp(input.cap, 1, 500, DEFAULT_MONTH_CAP);
     await DB.prepare("INSERT INTO settings(key,value) VALUES('ai_month_cap',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").bind(String(cap)).run();
   }
-  await audit(ctx.env, user, 'leads', 'Changed the agent instructions');
+  await audit(ctx.env, user, 'leads', 'Changed the agent settings');
   return { ok: true };
 }
 
@@ -223,9 +268,8 @@ export async function hunt(ctx, input) {
       messages: [{
         role: 'user',
         content: `Find up to ${p.perRun} new potential clients for Nostrix ${/^all/i.test(emirate) ? 'anywhere in the UAE' : 'in ' + emirate + ' (nearby emirates are fine if ' + emirate + ' runs short)'}.
-Who to look for: ${p.targets}
-${focus ? 'Extra focus from the team: ' + focus + '\n' : ''}Avoid: ${p.avoid || 'nothing specific'}
-Prefer businesses that are new, recently opened, growing, announcing events, or whose Instagram content looks weak or irregular.${p.huntRules ? '\nMore instructions: ' + p.huntRules : ''}
+${huntBrief(p)}
+${focus ? 'Extra focus from the team: ' + focus + '\n' : ''}Avoid: ${p.avoid || 'nothing specific'}${p.huntRules ? '\nMore instructions: ' + p.huntRules : ''}
 Skip these, we already have them: ${skip || 'none yet'}.
 
 For each one write: name; type; emirate and area; one or two sentences on why it is a good fit and what Nostrix could offer; a fit score from 1 to 10; the best Nostrix service to pitch; Instagram handle; website; public business phone; public business email; the URL where you found it.`
@@ -302,7 +346,7 @@ export async function writeMessage(ctx, id, input) {
       model: WRITER,
       max_tokens: 3000,
       output_config: { effort: 'low', format: { type: 'json_schema', schema: MESSAGE_SCHEMA } },
-      system: `You write first-contact sales messages for Nostrix.\n${p.about}\n\nTone and approach: ${p.tone}\nLength: ${p.length}\n${p.rules ? 'More rules: ' + p.rules + '\n' : ''}Do not invent facts, prices, discounts or past work with this business. Sign off as "${p.signoff}". Write the Arabic version as natural Gulf-friendly Modern Standard Arabic, not a word-for-word translation. Leave subject empty unless it is an email.`,
+      system: `You write first-contact sales messages for Nostrix.\n${p.about}\n\n${voice(p)}\nOffer one clear, small next step (for example a quick call, a sample shoot idea or sending the portfolio).\n${p.rules ? 'More rules: ' + p.rules + '\n' : ''}Do not invent facts, prices, discounts or past work with this business. Sign off as "${p.signoff}". Write the Arabic version as natural Gulf-friendly Modern Standard Arabic, not a word-for-word translation. Leave subject empty unless it is an email.`,
       messages: [{
         role: 'user',
         content: `Write ${CHANNELS[channel]}, in English and in Arabic.\n\nBusiness: ${lead.name}\nType: ${lead.kind || ''}\nWhere: ${[lead.area, lead.emirate].filter(Boolean).join(', ')}\nWhy they fit: ${lead.why || ''}\nService to pitch: ${lead.service || ''}${note ? '\nExtra note from the team: ' + note : ''}`

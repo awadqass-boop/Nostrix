@@ -1,7 +1,7 @@
 // Cache only the known static app shell. Never cache staff pages or API responses.
 const base = new URL("./", self.location.href);
 const prefix = "nostrix-website-shell:" + base.pathname + ":";
-const version = prefix + "6";
+const version = prefix + "7";
 const shell = ["index.html", "styles.css", "theme.css", "app.js", "data.js", "maps/flatmap.js", "manifest.webmanifest",
   "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png"];
 const urls = shell.map(path => new URL(path, base).href);

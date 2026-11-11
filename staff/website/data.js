@@ -7,7 +7,22 @@ window.NostrixWebsite = (() => {
   const color = s => { let h = 0; for (const c of String(s || "")) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h % 5; };
   let me = null, meAt = 0;
 
+  // Short memory of recent reads so switching pages is instant. Any change clears it.
+  const cache = new Map();
   async function call(path, options = {}) {
+    const read = !options.method || options.method === "GET";
+    if (!read) cache.clear();
+    else {
+      const hit = cache.get(path);
+      if (hit && Date.now() - hit.at < 20000) return hit.promise;
+      const promise = send(path, options);
+      cache.set(path, { at: Date.now(), promise });
+      promise.catch(() => cache.delete(path));
+      return promise;
+    }
+    return send(path, options);
+  }
+  async function send(path, options) {
     const isBinary = options.body instanceof Blob;
     const res = await fetch(API + path, {
       credentials: "same-origin", ...options,
@@ -26,7 +41,7 @@ window.NostrixWebsite = (() => {
   const slow = data => { if (data && data.error) { const e = new Error(data.error); e.detail = data.message || ""; throw e; } return data; };
 
   async function session(force) {
-    if (!force && me !== null && Date.now() - meAt < 8000) return me;
+    if (!force && me !== null && Date.now() - meAt < 300000) return me;
     const r = await call("/auth/me");
     me = r.user ? { ...r.user, name: both(r.user.display_name || r.user.email.split("@")[0]), color: color(r.user.email) } : false;
     meAt = Date.now();
@@ -37,7 +52,7 @@ window.NostrixWebsite = (() => {
     let stopped = false, timer;
     const tick = async () => {
       if (stopped) return;
-      if (!document.hidden) { try { listener(await load()); } catch (e) { onError?.(e); if (e.message === "signedOut" || e.message === "noAccess") return; } }
+      if (!document.hidden) { try { cache.clear(); listener(await load()); } catch (e) { onError?.(e); if (e.message === "signedOut" || e.message === "noAccess") return; } }
       timer = setTimeout(tick, every);
     };
     tick();
@@ -157,6 +172,11 @@ window.NostrixWebsite = (() => {
     deletePhoto(id) { return call("/site/portfolio/" + encodeURIComponent(id), { method: "DELETE" }); },
     reorderPhotos(category, ids) { return post("/site/portfolio-order", { category, ids }); },
     // Marketing hub: leads and the AI agent. Slow AI calls answer with spaces first, then JSON.
+    // Start loading a page's data before it is opened (on hover or touch of a menu link).
+    prefetch(page) {
+      const loads = { leads: ["/ai/leads"], agent: ["/ai/profile"], enquiries: ["/site/enquiries"], reviews: ["/site/reviews"], notes: ["/site/notes"], portfolio: ["/site/portfolio"], overview: ["/site/reviews", "/site/enquiries"] }[page] || [];
+      loads.forEach(path => call(path).catch(() => {}));
+    },
     getLeads() { return call("/ai/leads"); },
     async huntLeads(input) { return slow(await call("/ai/leads/hunt", { method: "POST", body: JSON.stringify(input || {}) })); },
     updateLead(id, input) { return post("/ai/leads/" + encodeURIComponent(id), input, "PATCH"); },

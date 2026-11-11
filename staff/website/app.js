@@ -414,8 +414,8 @@
     leadData=await api.getLeads();
     const u=leadData.usage;
     return sectionHead("leads",t("leadsNote"))+`${leadData.ready?"":`<p class="card card-pad error-text">${t("aiNotReady")}</p>`}
-    <div class="ai-meters"><span>${t("aiSpend")}: <b>${money(u.spent)}</b> / ${money(u.cap)}</span><span>${t("huntsToday")}: <b>${num(u.hunts)}</b> / ${num(u.huntLimit)}</span><span>${t("messagesToday")}: <b>${num(u.messages)}</b> / ${num(u.messageLimit)}</span></div>
-    <article class="card card-pad"><form id="hunt-form" class="hunt-form">
+    <div class="ai-meters"><span>💳 ${t("aiSpend")}: <b>${money(u.spent)}</b> / ${money(u.cap)}</span><span>🔎 ${t("huntsToday")}: <b>${num(u.hunts)}</b> / ${num(u.huntLimit)}</span><span>💬 ${t("messagesToday")}: <b>${num(u.messages)}</b> / ${num(u.messageLimit)}</span></div>
+    <article class="card card-pad agent-card"><header><span class="agent-emoji" aria-hidden="true">🔎</span><div><h2>${t("findLeads")}</h2><p class="meta">${L("Searches the web for businesses that match your Agent settings.","يبحث في الإنترنت عن أعمال تطابق إعدادات الوكيل.")} <a href="#agent">${t("agent")}</a></p></div></header><form id="hunt-form" class="hunt-form">
       <label>${t("emirate")}<select name="emirate">${EMIRATES.map(e=>`<option ${e==="Ras Al Khaimah"?"selected":""}>${e}</option>`).join("")}</select></label>
       <label class="grow">${t("focus")}<input name="focus" maxlength="300" dir="auto" placeholder="${t("focusHint")}"></label>
       <button class="btn primary" type="submit" ${leadData.ready?"":"disabled"}>${ic("search")}${t("findLeads")}</button>
@@ -424,12 +424,13 @@
     <div id="lead-list" class="lead-list"></div>
     <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><h2 id="confirm-title"></h2><div class="tools"><button class="btn" value="cancel" autofocus>${t("cancel")}</button><button class="btn reject" value="ok" id="confirm-ok"></button></div></form></dialog>`;
   }
+  const kindName=k=>{const c=TYPE_CHIPS.find(x=>x[0]===k);return c?c[1]+" "+L(c[2],c[3]):({brand:L("Brand","علامة تجارية"),retail:L("Retail","متجر"),other:""})[k]??k;};
   function leadCard(l) {
     const link=(href,text,icon)=>href?`<a class="chip-link" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${ic(icon)}<bdi>${esc(text)}</bdi></a>`:"";
     const ig=l.instagram?"https://www.instagram.com/"+encodeURIComponent(l.instagram)+"/":"";
     const msg=l.message_en||l.message_ar;
     return `<article class="card card-pad lead" data-lead="${esc(l.id)}">
-      <header class="lead-head"><div><h2 dir="auto">${esc(l.name)}</h2><p class="meta">${esc([l.kind,l.area,l.emirate].filter(Boolean).join(" · "))}</p></div>
+      <header class="lead-head"><div><h2 dir="auto">${esc(l.name)}</h2><p class="meta">${esc([kindName(l.kind),l.area,l.emirate].filter(Boolean).join(" · "))}</p></div>
       <span class="score" title="${t("fit")}">${num(l.score||0)}/10</span></header>
       <p dir="auto">${esc(l.why||"")}</p>${l.service?`<p class="meta"><b>${t("pitch")}:</b> <span dir="auto">${esc(l.service)}</span></p>`:""}
       <div class="lead-links">${link(ig,"@"+l.instagram,"instagram")}${link(l.website,(l.website||"").replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,""),"external")}${l.phone?`<a class="chip-link" href="tel:${esc(l.phone.replace(/[^+\d]/g,""))}">${ic("call")}<bdi>${esc(l.phone)}</bdi></a>`:""}${l.email?`<a class="chip-link" href="mailto:${esc(l.email)}">${ic("enquiries")}<bdi>${esc(l.email)}</bdi></a>`:""}${link(l.source_url,t("source"),"external")}</div>
@@ -448,18 +449,76 @@
     const rows=leadData.leads.filter(l=>leadFilter==="all"||(leadFilter==="open"?["new","contacted","replied"].includes(l.status):l.status===leadFilter));
     list.innerHTML=rows.map(leadCard).join("")||`<p class="card card-pad empty">${t("noLeads")}</p>`;
   }
-  const AGENT_FIELDS=[["agFinding",[["about","agAbout",6,"agAboutHint"],["targets","agTargets",4],["avoid","agAvoid",3],["emirate","agEmirate",0],["perRun","agPerRun",0],["huntRules","agHuntRules",3]]],
-    ["agWriting",[["tone","agTone",4],["length","agLength",2],["rules","agRules",3,"agRulesHint"],["signoff","agSignoff",0]]]];
+  // ---------- Agent settings: chips, sliders and a live preview ----------
+  const L=(en,arText)=>pick([en,arText]);
+  const TYPE_CHIPS=[["cafe","☕","Cafés","المقاهي"],["coffee-b2b","🫘","Roasters & suppliers","المحامص والموردون"],["popup","🛍️","Pop-up markets","الأسواق المؤقتة"],["event","🎪","Events & festivals","الفعاليات والمهرجانات"],["restaurant","🍽️","Restaurants & bakeries","المطاعم والمخابز"],["fashion","👗","Fashion & beauty","الأزياء والتجميل"],["real-estate","🏠","Real estate","العقارات"],["automotive","🚗","Automotive","السيارات"],["wellness","🧘","Gyms & wellness","الرياضة والعافية"],["hospitality","🏨","Hotels & tourism","الفنادق والسياحة"]];
+  const PREFER_CHIPS=[["new","✨","Newly opened","افتُتح حديثاً"],["weak-ig","📉","Weak Instagram","إنستغرام ضعيف"],["events","📣","Running events","لديه فعاليات"],["growing","📈","Growing","في توسّع"]];
+  const EMIRATE_CHIPS=[["Ras Al Khaimah","رأس الخيمة"],["Dubai","دبي"],["Sharjah","الشارقة"],["Ajman","عجمان"],["Umm Al Quwain","أم القيوين"],["Abu Dhabi","أبوظبي"],["Fujairah","الفجيرة"],["All UAE","كل الإمارات"]];
+  const TONE_SLIDERS=[["formal",["Casual","عفوي"],["Formal","رسمي"],[["Casual & friendly","عفوي وودود"],["Friendly but professional","ودود ومهني"],["Formal & polished","رسمي ومتقن"]]],
+    ["direct",["Soft","هادئ"],["Direct sell","عرض مباشر"],[["Just start a chat","بدء محادثة فقط"],["Suggest a small next step","اقتراح خطوة صغيرة"],["Pitch and ask for a call","عرض وطلب مكالمة"]]],
+    ["length",["Short","قصيرة"],["Detailed","مفصّلة"],[["Short","قصيرة"],["Medium","متوسطة"],["Detailed","مفصّلة"]]],
+    ["energy",["Calm","هادئة"],["Upbeat","حماسية"],[["Calm","هادئة"],["Balanced","متوازنة"],["Upbeat","حماسية"]]]];
+  const bandOf=(v,list)=>list[v<34?0:v<67?1:2];
+  const chip=(type,name,value,checked,icon,text,dis)=>`<label class="chip"><input type="${type}" name="${name}" value="${esc(value)}" ${checked?"checked":""} ${dis}><span>${icon?`<i aria-hidden="true">${icon}</i>`:""}${esc(text)}</span></label>`;
+  const slider=(name,value,min,max,left,right,out,dis,step=1)=>`<div class="slider-row"><div class="slider-top"><span>${left}</span><output data-out="${name}">${out}</output><span>${right}</span></div>
+    <input type="range" name="${name}" min="${min}" max="${max}" step="${step}" value="${esc(value)}" ${dis} style="--fill:${(value-min)/(max-min)*100}%"></div>`;
   async function agentPage() {
     agentData=await api.getAgent();
-    const p=agentData.profile,edit=session.is_admin,dis=edit?"":"disabled";
-    const field=([key,lab,rows,hint])=>`<label class="agent-field">${t(lab)}${hint?`<small>${t(hint)}</small>`:""}${rows?`<textarea name="${key}" rows="${rows}" dir="auto" maxlength="3000" ${dis}>${esc(p[key]||"")}</textarea>`:`<input name="${key}" ${key==="perRun"?'type="number" min="3" max="10"':'maxlength="200"'} dir="auto" value="${esc(p[key]||"")}" ${dis}>`}</label>`;
-    return sectionHead("agent",t("agentNote"))+(edit?"":`<p class="card card-pad meta">${t("adminEdits")}</p>`)+`<form id="agent-form" class="agent-form">
-      ${AGENT_FIELDS.map(([title,fields])=>`<article class="card card-pad"><h2>${t(title)}</h2>${fields.map(field).join("")}</article>`).join("")}
-      <article class="card card-pad"><h2>${t("agBudget")}</h2><label class="agent-field">${t("agCap")}<small>${t("agCapHint")}</small><input name="cap" type="number" min="1" max="500" value="${esc(agentData.cap)}" ${dis}></label></article>
-      ${edit?`<div class="tools"><button class="btn" type="button" data-agent-reset>${t("resetAgent")}</button><button class="btn primary" type="submit">${ic("check")}${t("saveAgent")}</button></div>`:""}
+    const p=agentData.profile,edit=session.is_admin,dis=edit?"":"disabled",spent=agentData.spent||0,cap=agentData.cap;
+    return sectionHead("agent",t("agentNote"))+(edit?"":`<p class="card card-pad meta">${ic("lock")} ${t("adminEdits")}</p>`)+`<form id="agent-form" class="agent-form" novalidate>
+      <article class="card card-pad agent-card"><header><span class="agent-emoji" aria-hidden="true">🎯</span><div><h2>${L("Who the agent looks for","من يبحث عنه الوكيل")}</h2><p class="meta">${L("Tap to pick. The agent searches these first.","اضغط للاختيار. يبحث الوكيل عن هؤلاء أولاً.")}</p></div></header>
+        <div class="chips">${TYPE_CHIPS.map(([v,i,en,a])=>chip("checkbox","types",v,p.types.includes(v),i,L(en,a),dis)).join("")}</div>
+        <h3>${L("Main emirate","الإمارة الرئيسية")}</h3><div class="chips">${EMIRATE_CHIPS.map(([v,a])=>chip("radio","emirate",v,p.emirate===v,"",L(v,a),dis)).join("")}</div>
+        <h3>${L("Look for businesses that are","ابحث عن أعمال")}</h3><div class="chips">${PREFER_CHIPS.map(([v,i,en,a])=>chip("checkbox","prefer",v,p.prefer.includes(v),i,L(en,a),dis)).join("")}</div>
+        <div class="slider-grid">${slider("size",p.size,0,100,L("Small local","محلي صغير"),L("Big brands","علامات كبيرة"),pick(bandOf(p.size,[["Small & local","صغيرة ومحلية"],["Small to mid-size","صغيرة إلى متوسطة"],["Established brands","علامات معروفة"]])),dis)}
+        ${slider("perRun",p.perRun,3,10,"3","10",num(p.perRun)+" "+L("leads per search","عملاء في كل بحث"),dis)}</div>
+      </article>
+      <article class="card card-pad agent-card"><header><span class="agent-emoji" aria-hidden="true">💬</span><div><h2>${L("How messages sound","أسلوب الرسائل")}</h2><p class="meta">${L("Slide to set the voice. The preview updates as you go.","حرّك لضبط الأسلوب. تتحدّث المعاينة فوراً.")}</p></div></header>
+        <div class="voice-grid"><div class="slider-grid">${TONE_SLIDERS.map(([k,l,r,bands])=>slider(k,p[k],0,100,pick(l),pick(r),pick(bandOf(p[k],bands)),dis)).join("")}
+          <label class="switch-row"><input type="checkbox" name="emoji" ${p.emoji?"checked":""} ${dis}><span class="toggle" aria-hidden="true"></span>${L("Use emojis","استخدام الرموز التعبيرية")} 😊</label>
+          <label class="agent-field">${L("Sign-off","التوقيع")}<input name="signoff" maxlength="80" dir="auto" value="${esc(p.signoff)}" ${dis}></label></div>
+          <div class="preview"><p class="meta">${ic("eye")} ${L("Preview · example café","معاينة · مقهى مثال")}</p><div class="bubble" id="voice-preview" dir="auto"></div><p class="meta small">${L("Real messages are written by the AI for each business, in English and Arabic.","يكتب الذكاء الاصطناعي الرسائل الفعلية لكل عمل بالإنجليزية والعربية.")}</p></div></div>
+      </article>
+      <article class="card card-pad agent-card"><header><span class="agent-emoji" aria-hidden="true">🧠</span><div><h2>${L("What the agent knows","ما يعرفه الوكيل")}</h2><p class="meta">${L("Optional details in your own words.","تفاصيل اختيارية بكلماتك.")}</p></div></header>
+        <details><summary>${L("About Nostrix","عن نوستريكس")}</summary><textarea name="about" rows="6" dir="auto" maxlength="3000" ${dis}>${esc(p.about)}</textarea></details>
+        <details><summary>${L("Never contact","لا تتواصل مع")}</summary><textarea name="avoid" rows="3" dir="auto" maxlength="3000" ${dis}>${esc(p.avoid)}</textarea></details>
+        <details><summary>${L("Extra search instructions","تعليمات إضافية للبحث")}</summary><textarea name="huntRules" rows="3" dir="auto" maxlength="3000" placeholder="${L("e.g. only places that opened in the last 6 months","مثال: الأماكن التي افتُتحت خلال آخر 6 أشهر فقط")}" ${dis}>${esc(p.huntRules)}</textarea></details>
+        <details><summary>${L("Extra writing rules","قواعد إضافية للكتابة")}</summary><textarea name="rules" rows="3" dir="auto" maxlength="3000" placeholder="${t("agRulesHint")}" ${dis}>${esc(p.rules)}</textarea></details>
+      </article>
+      <article class="card card-pad agent-card"><header><span class="agent-emoji" aria-hidden="true">💳</span><div><h2>${L("Monthly budget","الميزانية الشهرية")}</h2><p class="meta">${t("agCapHint")}</p></div></header>
+        <div class="budget"><div class="budget-bar"><span style="width:${Math.min(100,spent/cap*100)}%"></span></div><p class="meta">${L("Used this month","المستخدم هذا الشهر")}: <b>${money(spent)}</b></p></div>
+        ${slider("cap",Math.min(cap,40),5,40,"$5","$40",money(cap).replace(".00",""),dis)}
+      </article>
+      ${edit?`<div class="save-bar" id="agent-save" hidden><span>${L("You have unsaved changes","لديك تغييرات غير محفوظة")}</span><button class="btn" type="button" data-agent-reset>${t("resetAgent")}</button><button class="btn primary" type="submit">${ic("check")}${t("saveAgent")}</button></div>`:""}
       <p role="alert" class="error-text" id="agent-error"></p></form>
       <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><h2 id="confirm-title"></h2><div class="tools"><button class="btn" value="cancel" autofocus>${t("cancel")}</button><button class="btn reject" value="ok" id="confirm-ok"></button></div></form></dialog>`;
+  }
+  function agentValues(form) {
+    const f=new FormData(form),n=k=>Number(f.get(k));
+    return {types:f.getAll("types"),prefer:f.getAll("prefer"),emirate:f.get("emirate")||"Ras Al Khaimah",size:n("size"),perRun:n("perRun"),formal:n("formal"),direct:n("direct"),length:n("length"),energy:n("energy"),
+      emoji:form.elements.emoji.checked,signoff:f.get("signoff")||"",about:f.get("about")||"",avoid:f.get("avoid")||"",huntRules:f.get("huntRules")||"",rules:f.get("rules")||"",cap:n("cap")};
+  }
+  // A quick, local sample so people can feel the voice. It is not AI output.
+  function voicePreview(v) {
+    const e=v.emoji,en=!ar(),band=x=>x<34?0:x<67?1:2;
+    const hello=en?["Hey Bloom Coffee team!"+(e?" 👋":""),"Hi Bloom Coffee team,","Dear Bloom Coffee team,"]:["أهلاً فريق بلوم كوفي!"+(e?" 👋":""),"مرحباً فريق بلوم كوفي،","فريق بلوم كوفي المحترم،"];
+    const notice=en?["Loved the new pour-over bar you just opened"+(e?" ☕":"")+".","We noticed your new pour-over bar.","We noticed the recent opening of your pour-over bar."]:["أعجبنا ركن القهوة المقطّرة الجديد"+(e?" ☕":"")+".","لاحظنا ركن القهوة المقطّرة الجديد لديكم.","لاحظنا افتتاح ركن القهوة المقطّرة لديكم مؤخراً."];
+    const energy=en?["","It looks great.","It looks amazing, the space has so much character!"+(e?" ✨":"")]:["","يبدو رائعاً.","يبدو مذهلاً، المكان مليء بالشخصية!"+(e?" ✨":"")];
+    const pitch=en?["We're Nostrix, a creative team in RAK. Would love to hear how you share it online.","We're Nostrix, a creative team in RAK. Happy to share a few photo and reel ideas for it if useful.","We're Nostrix, a creative team in RAK. We'd like to shoot a reel and photo set for the launch. Could we book a quick 10-minute call this week?"]:["نحن نوستريكس، فريق إبداعي في رأس الخيمة. يسعدنا أن نعرف كيف تشاركونه على الإنترنت.","نحن نوستريكس، فريق إبداعي في رأس الخيمة. يسعدنا مشاركة بعض أفكار الصور والريلز إن كان ذلك مفيداً.","نحن نوستريكس، فريق إبداعي في رأس الخيمة. نودّ تصوير ريل ومجموعة صور للافتتاح. هل يمكننا حجز مكالمة قصيرة هذا الأسبوع؟"];
+    const extra=en?["","","Our portfolio is at nostrix.ae/portfolio, with recent café and event work."]:["","","أعمالنا على nostrix.ae/portfolio، ومنها أعمال حديثة لمقاهٍ وفعاليات."];
+    const parts=[hello[band(v.formal)],[notice[band(v.formal)],energy[band(v.energy)]].filter(Boolean).join(" "),pitch[band(v.direct)],extra[band(v.length)],(band(v.length)>0?"":"")+"— "+(v.signoff||"Nostrix Team")];
+    return parts.filter(Boolean).map(x=>`<p>${esc(x)}</p>`).join("");
+  }
+  function syncAgent(form,dirty) {
+    const v=agentValues(form);
+    form.querySelectorAll('input[type="range"]').forEach(r=>{
+      r.style.setProperty("--fill",(r.value-r.min)/(r.max-r.min)*100+"%");
+      const out=form.querySelector(`[data-out="${r.name}"]`),x=Number(r.value);if(!out)return;
+      const tone=TONE_SLIDERS.find(s=>s[0]===r.name);
+      out.textContent=tone?pick(bandOf(x,tone[3])):r.name==="size"?pick(bandOf(x,[["Small & local","صغيرة ومحلية"],["Small to mid-size","صغيرة إلى متوسطة"],["Established brands","علامات معروفة"]])):r.name==="perRun"?num(x)+" "+L("leads per search","عملاء في كل بحث"):"$"+x;
+    });
+    const pv=document.getElementById("voice-preview");if(pv)pv.innerHTML=voicePreview(v);
+    if(dirty){const bar=document.getElementById("agent-save");if(bar)bar.hidden=false;}
   }
   const aiError=error=>error.detail||t(T[error.message]?error.message:"unavailable");
   function notesPage() {
@@ -543,6 +602,8 @@
       pendingPhotos();
     } else if(page==="leads") {
       drawLeads();
+    } else if(page==="agent") {
+      const form=document.getElementById("agent-form");if(form)syncAgent(form,false);
     }
     if(stop){if(token===revision)stopLive=stop;else stop();}
   }
@@ -665,8 +726,14 @@
     const page=route();
     disposeLive();
     if(page!=="portfolio")clearPhotoDraft();
+    // Keep the current page on screen while the next one loads; only the very first load shows a loading screen.
+    const hasShell=!!app.querySelector(".shell");
+    if(hasShell){
+      app.querySelectorAll(".nav-item").forEach(a=>{const on=a.getAttribute("href")==="#"+page;a.classList.toggle("active",on);on?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current");});
+      document.body.classList.add("is-loading");
+    }
     const loadingTimer=setTimeout(()=>{
-      if(token===revision)app.innerHTML=`<main class="auth-layout"><p class="loading-state" role="status">${t("loading")}</p></main>`;
+      if(token===revision&&!hasShell)app.innerHTML=`<main class="auth-layout"><p class="loading-state" role="status">${t("loading")}</p></main>`;
     },160);
     try {
       [session,workspaceLinks]=await Promise.all([api.getSession(),api.getWorkspaceLinks()]);
@@ -681,13 +748,14 @@
         syncDocument(denied?"noAccess":"signIn");
         app.innerHTML=authPage(denied,demo);
       } else {
-        const reviews=await api.getReviews();
+        const reviews=page==="overview"||page==="reviews"?await api.getReviews():[];
         const views={overview:()=>overview(reviews),visitors,clicks,enquiries:enquiryPage,reviews:()=>reviewPage(reviews),access:accessPage,portfolio:portfolioPage,notes:notesPage,log:logPage,leads:leadsPage,agent:agentPage};
         const body=await views[page]();
         if (token!==revision) return;
         syncDocument(page);
         app.innerHTML=shell(page,0,body);
         clearTimeout(loadingTimer);
+        document.body.classList.remove("is-loading");
         await startPage(page,token);
         if(token!==revision)return;
       }
@@ -702,7 +770,7 @@
       const denied=error.message==="noAccess";
       syncDocument(denied?"noAccess":"unavailable");
       app.innerHTML=denied?authPage(true,{}):`<main class="auth-layout" id="content"><section class="auth-box">${brand()}<h1>${t(T[error.message]?error.message:"unavailable")}</h1><button class="btn" data-action="retry">${t("retry")}</button></section></main>`;
-    } finally {clearTimeout(loadingTimer);}
+    } finally {clearTimeout(loadingTimer);if(token===revision)document.body.classList.remove("is-loading");}
   }
   function navigate(page) {
     if (route()===page) return render();
@@ -942,6 +1010,8 @@
   });
   document.querySelector(".skip").addEventListener("click",event=>{event.preventDefault();document.getElementById("content")?.focus();});
   window.addEventListener("hashchange",()=>{focusNextPage=true;render();});
+  const warm=e=>{const a=e.target.closest?.(".nav-item");if(a&&api.prefetch)api.prefetch(a.getAttribute("href").slice(1));};
+  app.addEventListener("pointerover",warm);app.addEventListener("touchstart",warm,{passive:true});app.addEventListener("focusin",warm);
   window.addEventListener("storage",event=>{
     if (!event.key || (event.key.startsWith("nostrix.website.demo.") && !/\.(note|visit)\.|\.noteSeedDate$/.test(event.key))) render();
     if (event.key==="nostrix_theme" && ["light","dark"].includes(event.newValue)) { html.dataset.theme=event.newValue; render(); }
@@ -972,6 +1042,7 @@
     else if(f.hasAttribute("data-lead-status")&&lead){try{await api.updateLead(lead.id,{status:f.value});lead.status=f.value;toast(t("saved"));}catch(error){toast(aiError(error));}}
     else if(f.dataset.leadText&&lead){const key=f.dataset.leadText;try{await api.updateLead(lead.id,{[key]:f.value});lead[key]=f.value;toast(t("saved"));}catch(error){toast(aiError(error));}}
   });
+  app.addEventListener("input",e=>{const form=e.target.closest?.("#agent-form");if(form)syncAgent(form,true);});
   app.addEventListener("submit",async e=>{
     const form=e.target;
     if(form.id==="hunt-form"){
@@ -983,8 +1054,8 @@
       finally{leadBusy=false;}
     } else if(form.id==="agent-form"){
       e.preventDefault();const submit=form.querySelector('[type="submit"]');if(!submit||submit.disabled)return;submit.disabled=true;
-      const input=Object.fromEntries([...form.elements].filter(x=>x.name).map(x=>[x.name,x.value]));
-      try{await api.saveAgent(input);toast(t("saved"));document.getElementById("agent-error").textContent="";}
+      const input=agentValues(form);
+      try{await api.saveAgent(input);toast(t("saved"));document.getElementById("agent-error").textContent="";document.getElementById("agent-save").hidden=true;}
       catch(error){document.getElementById("agent-error").textContent=aiError(error);}
       finally{submit.disabled=false;}
     }
