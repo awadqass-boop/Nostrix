@@ -264,7 +264,12 @@ export async function hunt(ctx, input) {
   const focus = str(input.focus, 300);
   const p = await profile(ctx.env);
   const emirate = str(input.emirate, 40) || p.emirate;
-  return slowJob(ctx, async () => {
+  return slowJob(ctx, () => runHunt(ctx, user, emirate, focus), 'hunt');
+}
+
+// The lead search itself. Also run by the daily scheduler (user is null then).
+export async function runHunt(ctx, user, emirate, focus) {
+  const p = await profile(ctx.env);
     const DB = db(ctx.env), anthropic = client(ctx.env);
     const known = (await DB.prepare('SELECT name, instagram FROM leads ORDER BY created_at DESC LIMIT 200').all()).results;
     const skip = known.map((r) => r.name).join('; ');
@@ -321,11 +326,11 @@ For each one write: name; type; emirate and area; one or two sentences on why it
           str(l.service, 160), str(String(l.instagram || '').replace(/^@/, ''), 80), safeUrl(l.website), str(l.phone, 40), str(l.email, 160), safeUrl(l.source_url), 'new', user.id, stamp, stamp).run();
       added.push(id);
     }
-    await audit(ctx.env, user, 'leads', 'Ran the lead hunter', emirate, `${added.length} new leads · $${cost.toFixed(2)}`);
+    await audit(ctx.env, user, 'leads', user ? 'Ran the lead hunter' : 'Daily lead search ran', emirate, `${added.length} new leads · $${cost.toFixed(2)}`);
     if (added.length) ctx.waitUntil?.(notify(ctx.env, 'lead', `${added.length} new leads found`, `${emirate} · open the Leads page to review them.`, '/staff/marketing/#leads'));
     return { added: added.length, cost };
-  }, 'hunt');
 }
+
 
 function safeUrl(v) {
   const s = str(v, 400);
@@ -421,4 +426,13 @@ export async function writeReminder(ctx, input) {
   return writePair(ctx, 'reminder',
     'You write follow-up messages for the Nostrix team. Polite, warm, never pushy or guilt-tripping, and easy to answer in one line.',
     `Write ${kind}, for WhatsApp, in English and in Arabic.\nTo: ${str(input.name, 120) || 'the client'}\nDetails: ${str(input.details, 600) || ''}`, 1500);
+}
+
+// For the daily scheduler: same checks as a person pressing the button (budget and daily limit), without a signed-in user.
+export async function scheduledHunt(ctx) {
+  if (!ctx.env.ANTHROPIC_API_KEY) return { skipped: 'no AI key' };
+  if ((await monthSpend(ctx.env)) >= (await monthCap(ctx.env))) return { skipped: 'monthly AI budget used up' };
+  if (!(await allow(ctx.env, 'ai:hunt:' + today(), LIMITS.hunt, 86400))) return { skipped: 'daily limit reached' };
+  const p = await profile(ctx.env);
+  return runHunt(ctx, null, p.emirate, '');
 }

@@ -185,6 +185,8 @@ window.NostrixWebsite = (() => {
     updatePost(id, v) { return post("/hub/posts/" + encodeURIComponent(id), v, "PATCH"); },
     deletePost(id) { return call("/hub/posts/" + encodeURIComponent(id), { method: "DELETE" }); },
     postImage(id, blob) { return call("/hub/posts/" + encodeURIComponent(id) + "/image", { method: "PUT", body: blob, headers: { "Content-Type": "image/jpeg" } }); },
+    getAutomation() { return send("/hub/automation", {}); },
+    saveAutomation(v) { return post("/hub/automation", v, "PUT"); },
     getPublishStatus() { return call("/hub/publish-status"); },
     publishPost(id, platform) { return post("/hub/posts/" + encodeURIComponent(id) + "/publish", { platform }); },
     async writeCaption(v) { return slow(await call("/ai/caption", { method: "POST", body: JSON.stringify(v) })); },

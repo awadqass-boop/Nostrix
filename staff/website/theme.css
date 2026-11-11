@@ -436,3 +436,17 @@ html[dir=rtl] .chev { display: inline-block; transform: scaleX(-1); }
 .token-box { width: 100%; border-top: 1px solid var(--line); padding-top: 10px; }
 .token-box summary { cursor: pointer; font-size: 13px; color: var(--muted); }
 .token-box .hub-form { padding: 12px 0 0; }
+
+/* Automation */
+.auto-bar { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.auto-bar > div { flex: 1; }
+.auto-bar strong { font-size: 15px; }
+.auto-bar p { margin: 2px 0 0; }
+.auto-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--subtle); flex: none; }
+.auto-bar.on .auto-dot { background: var(--green); box-shadow: 0 0 0 5px color-mix(in srgb, var(--green) 22%, transparent); animation: nx-pulse 2s infinite; }
+@keyframes nx-pulse { 50% { box-shadow: 0 0 0 9px color-mix(in srgb, var(--green) 6%, transparent); } }
+.switch-row.big { align-items: flex-start; padding: 12px; border-radius: 14px; background: var(--raised); }
+.switch-row.big > span:last-child { display: grid; gap: 2px; }
+.switch-row.big small { font-size: 12px; }
+#auto-card select { min-height: 38px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--text); font: inherit; font-size: 13px; }
+@media (prefers-reduced-motion: reduce) { .auto-bar.on .auto-dot { animation: none; } }

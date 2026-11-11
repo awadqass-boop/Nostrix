@@ -10,6 +10,7 @@ import * as social from './social.js';
 import * as planner from './planner.js';
 import * as sales from './sales.js';
 import * as push from './push.js';
+import * as automation from './automation.js';
 
 const routes = [];
 const on = (method, pattern, fn) => routes.push({ method, re: new RegExp('^' + pattern.replace(/:(\w+)/g, '(?<$1>[^/]+)') + '$'), fn });
@@ -83,6 +84,9 @@ on('POST', '/hub/posts', async (c) => planner.create(c, await body(c.request)));
 on('PATCH', '/hub/posts/:id', async (c, p) => planner.update(c, p.id, await body(c.request)));
 on('DELETE', '/hub/posts/:id', (c, p) => planner.remove(c, p.id));
 on('PUT', '/hub/posts/:id/image', (c, p) => planner.putImage(c, p.id));
+on('GET', '/hub/automation', (c) => automation.get(c));
+on('PUT', '/hub/automation', async (c) => automation.save(c, await body(c.request)));
+on('POST', '/cron', (c) => automation.cron(c));
 on('GET', '/hub/publish-status', (c) => planner.publishStatus(c));
 on('POST', '/hub/posts/:id/publish', async (c, p) => planner.publish(c, p.id, await body(c.request)));
 

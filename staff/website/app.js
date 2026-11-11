@@ -414,11 +414,32 @@
   const EMIRATES=["Ras Al Khaimah","Dubai","Sharjah","Ajman","Umm Al Quwain","Abu Dhabi","Fujairah","All UAE"];
   const LEAD_STATUS=[["new","stNew"],["contacted","stContacted"],["replied","stReplied"],["won","stWon"],["lost","stLost"]];
   const money=v=>"$"+(Number(v)||0).toFixed(2);
+  // ---------- Automation (daily lead search, auto-publish) ----------
+  let autoData=null;
+  const hourLabel=h=>new Intl.DateTimeFormat(locale(),{hour:"numeric",minute:"2-digit",timeZone:"UTC"}).format(new Date(Date.UTC(2026,0,1,h)));
+  function autoBar() {
+    if(!autoData)return "";
+    const on=autoData.leadsOn,st=autoData.status||{};
+    return `<article class="card card-pad auto-bar ${on?"on":""}"><span class="auto-dot" aria-hidden="true"></span><div><strong>${on?L("Daily lead search is running","البحث اليومي عن العملاء يعمل"):L("Daily lead search is paused","البحث اليومي عن العملاء متوقف")}</strong>
+      <p class="meta">${on?L("Every day at ","كل يوم الساعة ")+esc(hourLabel(autoData.leadsHour))+L(" (UAE)"," (الإمارات)"):L("Nothing runs until you resume it.","لن يعمل شيء حتى تستأنفه.")}${st.leadsResult?" · "+L("Last run: ","آخر تشغيل: ")+esc(st.leadsResult):""}${autoData.schedulerReady?"":" · "+L("Scheduler not set up yet","المُجدول غير مُعدّ بعد")}</p></div>
+      ${session.is_admin?`<button class="btn ${on?"reject":"primary"}" type="button" data-auto-toggle="leadsOn">${on?"⏸ "+L("Pause","إيقاف مؤقت"):"▶ "+L("Resume","استئناف")}</button>`:""}</article>`;
+  }
+  function autoCard() {
+    if(!autoData)return "";
+    const a=autoData,dis=session.is_admin?"":"disabled",st=a.status||{};
+    const days=[[1,"Mon","الاثنين"],[2,"Tue","الثلاثاء"],[3,"Wed","الأربعاء"],[4,"Thu","الخميس"],[5,"Fri","الجمعة"],[6,"Sat","السبت"],[0,"Sun","الأحد"]];
+    return `<article class="card card-pad agent-card" id="auto-card"><header><span class="agent-emoji" aria-hidden="true">⏱️</span><div><h2>${L("Automation","الأتمتة")}</h2><p class="meta">${a.schedulerReady?(a.schedulerSeen?L("Scheduler running · last check ","المُجدول يعمل · آخر فحص ")+esc(date(a.schedulerSeen,{hour:"2-digit",minute:"2-digit"})):L("Scheduler is set up, waiting for its first check.","المُجدول مُعدّ وينتظر أول فحص.")):L("The free Cloudflare scheduler is not set up yet. Your settings are saved and start working once it is.","المُجدول المجاني في Cloudflare غير مُعدّ بعد. إعداداتك محفوظة وتبدأ بالعمل عند إعداده.")}</p></div></header>
+      <label class="switch-row big"><input type="checkbox" data-auto="leadsOn" ${a.leadsOn?"checked":""} ${dis}><span class="toggle"></span><span><b>${L("Daily lead search","البحث اليومي عن العملاء")}</b><small class="meta">${L("Uses your settings below. About $0.25 a run, inside your monthly budget.","يستخدم إعداداتك أدناه. نحو 0.25 دولار لكل تشغيل ضمن ميزانيتك الشهرية.")}</small></span></label>
+      <div class="form-row"><label class="agent-field">${L("Time (UAE)","الوقت (الإمارات)")}<select data-auto="leadsHour" ${dis}>${Array.from({length:24},(_,h)=>`<option value="${h}" ${a.leadsHour===h?"selected":""}>${esc(hourLabel(h))}</option>`).join("")}</select></label></div>
+      <div class="chips">${days.map(([d,en,ar])=>chip("checkbox","autoDays",d,a.leadsDays.includes(d),"",L(en,ar),dis)).join("")}</div>
+      ${st.leadsResult?`<p class="meta">${L("Last run","آخر تشغيل")}: ${esc(st.leadsResult)}${st.leadsAt?" · "+esc(date(st.leadsAt,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})):""}</p>`:""}
+      <label class="switch-row big"><input type="checkbox" data-auto="publishInstagram" ${a.publishInstagram?"checked":""} ${dis}><span class="toggle"></span><span><b>${L("Publish to Instagram from the hub","النشر على إنستغرام من المركز")}</b><small class="meta">${L("Turns on the Publish button, and posts that are Scheduled with an image go out automatically at their time.","يفعّل زر النشر، وتُنشر المنشورات المجدولة التي تحتوي صورة تلقائياً في وقتها.")}</small></span></label></article>`;
+  }
   async function leadsPage() {
-    leadData=await api.getLeads();
+    [leadData,autoData]=await Promise.all([api.getLeads(),api.getAutomation().catch(()=>null)]);
     const u=leadData.usage;
     return sectionHead("leads",t("leadsNote"))+`${leadData.ready?"":`<p class="card card-pad error-text">${t("aiNotReady")}</p>`}
-    <div class="ai-meters"><span>💳 ${t("aiSpend")}: <b>${money(u.spent)}</b> / ${money(u.cap)}</span><span>🔎 ${t("huntsToday")}: <b>${num(u.hunts)}</b> / ${num(u.huntLimit)}</span><span>💬 ${t("messagesToday")}: <b>${num(u.messages)}</b> / ${num(u.messageLimit)}</span></div>
+    ${autoBar()}<div class="ai-meters"><span>💳 ${t("aiSpend")}: <b>${money(u.spent)}</b> / ${money(u.cap)}</span><span>🔎 ${t("huntsToday")}: <b>${num(u.hunts)}</b> / ${num(u.huntLimit)}</span><span>💬 ${t("messagesToday")}: <b>${num(u.messages)}</b> / ${num(u.messageLimit)}</span></div>
     <article class="card card-pad agent-card"><header><span class="agent-emoji" aria-hidden="true">🔎</span><div><h2>${t("findLeads")}</h2><p class="meta">${L("Searches the web for businesses that match your Agent settings.","يبحث في الإنترنت عن أعمال تطابق إعدادات الوكيل.")} <a href="#agent">${t("agent")}</a></p></div></header><form id="hunt-form" class="hunt-form">
       <label>${t("emirate")}<select name="emirate">${EMIRATES.map(e=>`<option ${e==="Ras Al Khaimah"?"selected":""}>${e}</option>`).join("")}</select></label>
       <label class="grow">${t("focus")}<input name="focus" maxlength="300" dir="auto" placeholder="${t("focusHint")}"></label>
@@ -467,7 +488,7 @@
   const slider=(name,value,min,max,left,right,out,dis,step=1)=>`<div class="slider-row"><div class="slider-top"><span>${left}</span><output data-out="${name}">${out}</output><span>${right}</span></div>
     <input type="range" name="${name}" min="${min}" max="${max}" step="${step}" value="${esc(value)}" ${dis} style="--fill:${(value-min)/(max-min)*100}%"></div>`;
   async function agentPage() {
-    agentData=await api.getAgent();
+    [agentData,autoData]=await Promise.all([api.getAgent(),api.getAutomation().catch(()=>null)]);
     const p=agentData.profile,edit=session.is_admin,dis=edit?"":"disabled",spent=agentData.spent||0,cap=agentData.cap;
     return sectionHead("agent",t("agentNote"))+(edit?"":`<p class="card card-pad meta">${ic("lock")} ${t("adminEdits")}</p>`)+`<form id="agent-form" class="agent-form" novalidate>
       <article class="card card-pad agent-card"><header><span class="agent-emoji" aria-hidden="true">🎯</span><div><h2>${L("Who the agent looks for","من يبحث عنه الوكيل")}</h2><p class="meta">${L("Tap to pick. The agent searches these first.","اضغط للاختيار. يبحث الوكيل عن هؤلاء أولاً.")}</p></div></header>
@@ -495,6 +516,7 @@
       </article>
       ${edit?`<div class="save-bar" id="agent-save" hidden><span>${L("You have unsaved changes","لديك تغييرات غير محفوظة")}</span><button class="btn" type="button" data-agent-reset>${t("resetAgent")}</button><button class="btn primary" type="submit">${ic("check")}${t("saveAgent")}</button></div>`:""}
       <p role="alert" class="error-text" id="agent-error"></p></form>
+      ${autoCard()}
       <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><h2 id="confirm-title"></h2><div class="tools"><button class="btn" value="cancel" autofocus>${t("cancel")}</button><button class="btn reject" value="ok" id="confirm-ok"></button></div></form></dialog>`;
   }
   function agentValues(form) {
@@ -1509,6 +1531,13 @@
   app.addEventListener("dragleave",e=>{e.target.closest?.("[data-pl-drop]")?.classList.remove("drag-over");});
   app.addEventListener("drop",async e=>{const col=e.target.closest?.("[data-pl-drop]");const id=e.dataTransfer?.getData("text/nx-post");if(!col||!id)return;e.preventDefault();col.classList.remove("drag-over");
     const p=findPost(id);if(!p||p.status===col.dataset.plDrop)return;p.status=col.dataset.plDrop;drawPlanner();try{await api.updatePost(id,{status:p.status});}catch(error){toast(aiError(error));await refreshPlanner();}});
+  // Automation switches save immediately
+  async function saveAuto(change){try{await api.saveAutomation(change);autoData=await api.getAutomation();const bar=app.querySelector(".auto-bar");if(bar)bar.outerHTML=autoBar();const card=document.getElementById("auto-card");if(card)card.outerHTML=autoCard();toast(t("saved"));}catch(error){toast(aiError(error));}}
+  app.addEventListener("click",e=>{const b=e.target.closest?.("[data-auto-toggle]");if(b&&autoData)saveAuto({[b.dataset.autoToggle]:!autoData[b.dataset.autoToggle]});});
+  app.addEventListener("change",e=>{const f=e.target;
+    if(f.dataset?.auto){saveAuto({[f.dataset.auto]:f.type==="checkbox"?f.checked:Number(f.value)});}
+    else if(f.name==="autoDays"){saveAuto({leadsDays:[...app.querySelectorAll('input[name="autoDays"]:checked')].map(x=>Number(x.value))});}
+  });
   // Social dashboard
   app.addEventListener("click",async e=>{
     const b=e.target.closest("[data-social-tab],[data-social-sort],[data-social-refresh],[data-social-disconnect],[data-social-open]");if(!b||!app.contains(b))return;

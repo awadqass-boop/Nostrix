@@ -1,5 +1,5 @@
 // Post planner and idea list for the Marketing hub, plus the prepared publishing path.
-import { db, audit } from './db.js';
+import { db, audit, setting } from './db.js';
 import { requireMarketing as requireWebsite, requireAdmin } from './auth.js';
 import { fail, now, uuid, str, randomHex } from './util.js';
 
@@ -80,13 +80,39 @@ export async function putImage(ctx, id) {
   return { media_url: url };
 }
 
-// Publishing is prepared but switched on per platform only after Meta and TikTok approve the app.
+async function autoSettings(env) { try { return JSON.parse(await setting(env, 'automation') || '{}'); } catch { return {}; } }
+export async function instagramEnabled(env) { return env.PUBLISH_INSTAGRAM === 'on' || !!(await autoSettings(env)).publishInstagram; }
+
+// Publish one planned post to Instagram (image posts). Used by the Publish button and by the scheduler.
+export async function publishInstagramPost(env, origin, post, user) {
+  const acc = await db(env).prepare("SELECT data FROM social_accounts WHERE platform='instagram'").first();
+  if (!acc) fail(409, 'notConnected', 'Connect Instagram in Social first.');
+  if (!post.media_url) fail(400, 'noMedia', 'Add an image to the post first.');
+  const a = JSON.parse(acc.data);
+  const host = a.mode === 'ig' ? 'https://graph.instagram.com' : 'https://graph.facebook.com';
+  const igId = a.mode === 'ig' ? 'me' : a.igId;
+  const caption = [post.caption_en, post.caption_ar].filter(Boolean).join('\n\n');
+  const make = await fetch(`${host}/v23.0/${igId}/media`, { method: 'POST', body: new URLSearchParams({ image_url: origin + post.media_url, caption, access_token: a.token }) }).then((r) => r.json());
+  if (!make.id) fail(502, 'publishFailed', make.error?.message || 'Instagram did not accept the post.');
+  let done = null;
+  for (let i = 0; i < 5 && !done?.id; i++) {
+    done = await fetch(`${host}/v23.0/${igId}/media_publish`, { method: 'POST', body: new URLSearchParams({ creation_id: make.id, access_token: a.token }) }).then((r) => r.json());
+    if (!done.id) await new Promise((r) => setTimeout(r, 3000));
+  }
+  if (!done?.id) fail(502, 'publishFailed', done?.error?.message || 'Instagram did not publish the post.');
+  const published = { ...safe(post.published, {}), instagram: { id: done.id, at: now() } };
+  await db(env).prepare("UPDATE posts SET published=?, status='posted', updated_at=? WHERE id=?").bind(JSON.stringify(published), now(), post.id).run();
+  await audit(env, user, 'planner', user ? 'Published to Instagram' : 'Auto-published to Instagram', post.title);
+  return { ok: true };
+}
+
+// Publishing is prepared per platform; Instagram switches on in Agent settings, TikTok after TikTok approves the app.
 export async function publishStatus(ctx) {
   await requireWebsite(ctx);
   const ig = await db(ctx.env).prepare("SELECT 1 FROM social_accounts WHERE platform='instagram'").first();
   const tt = await db(ctx.env).prepare("SELECT 1 FROM social_accounts WHERE platform='tiktok'").first();
   return {
-    instagram: { connected: !!ig, enabled: ctx.env.PUBLISH_INSTAGRAM === 'on', needs: ['Instagram connected in Social', 'Meta app review for instagram_content_publish (or tester access)', 'Owner turns on PUBLISH_INSTAGRAM'] },
+    instagram: { connected: !!ig, enabled: await instagramEnabled(ctx.env), needs: ['Instagram connected in Social', 'Meta app review for instagram_content_publish (or tester access)', 'Owner turns on PUBLISH_INSTAGRAM'] },
     tiktok: { connected: !!tt, enabled: ctx.env.PUBLISH_TIKTOK === 'on', needs: ['TikTok app review (Content Posting API audit) for public posts', 'Reconnect TikTok with posting permission', 'Owner turns on PUBLISH_TIKTOK'] }
   };
 }
@@ -97,23 +123,8 @@ export async function publish(ctx, id, input) {
   if (!post) fail(404, 'notFound');
   const platform = input.platform;
   if (platform === 'instagram') {
-    if (ctx.env.PUBLISH_INSTAGRAM !== 'on') fail(409, 'notEnabled', 'Instagram publishing is prepared but not switched on yet. It needs Meta approval first.');
-    const acc = await db(ctx.env).prepare("SELECT data FROM social_accounts WHERE platform='instagram'").first();
-    if (!acc) fail(409, 'notConnected', 'Connect Instagram in Social first.');
-    if (!post.media_url) fail(400, 'noMedia', 'Add an image to the post first.');
-    const a = JSON.parse(acc.data);
-    const host = a.mode === 'ig' ? 'https://graph.instagram.com' : 'https://graph.facebook.com';
-    const igId = a.mode === 'ig' ? 'me' : a.igId;
-    const imageUrl = new URL(ctx.request.url).origin + post.media_url;
-    const caption = [post.caption_en, post.caption_ar].filter(Boolean).join('\n\n');
-    const make = await fetch(`${host}/v23.0/${igId}/media`, { method: 'POST', body: new URLSearchParams({ image_url: imageUrl, caption, access_token: a.token }) }).then((r) => r.json());
-    if (!make.id) fail(502, 'publishFailed', make.error?.message || 'Instagram did not accept the post.');
-    const done = await fetch(`${host}/v23.0/${igId}/media_publish`, { method: 'POST', body: new URLSearchParams({ creation_id: make.id, access_token: a.token }) }).then((r) => r.json());
-    if (!done.id) fail(502, 'publishFailed', done.error?.message || 'Instagram did not publish the post.');
-    const published = { ...safe(post.published, {}), instagram: { id: done.id, at: now() } };
-    await db(ctx.env).prepare("UPDATE posts SET published=?, status='posted', updated_at=? WHERE id=?").bind(JSON.stringify(published), now(), id).run();
-    await audit(ctx.env, user, 'planner', 'Published to Instagram', post.title);
-    return { ok: true };
+    if (!(await instagramEnabled(ctx.env))) fail(409, 'notEnabled', 'Instagram publishing is off. Turn it on in Agent settings → Automation.');
+    return publishInstagramPost(ctx.env, new URL(ctx.request.url).origin, post, user);
   }
   if (platform === 'tiktok') fail(409, 'notEnabled', 'TikTok publishing is prepared but needs TikTok to approve the app first. Until then, post from the TikTok app.');
   fail(400, 'badPlatform');
