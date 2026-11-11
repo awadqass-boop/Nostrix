@@ -81,7 +81,7 @@ export async function callback(ctx, platform, url) {
     return back(ctx, { social_ok: platform });
   } catch (e) {
     console.error('social callback', platform, e.message);
-    return back(ctx, { social_error: str(e.message, 200) || 'The connection failed.' });
+    return back(ctx, { social_error: str(e.message, 500) || 'The connection failed.' });
   }
 }
 
@@ -93,10 +93,11 @@ async function finishInstagram(ctx, code) {
   if (!token) throw new Error('Meta did not return an access token.');
   // Find the Instagram account this token can reach. Unified-login tokens can work on either Graph host.
   let found = null;
+  const notes = [];
   try {
     const me = await getJson(`https://graph.instagram.com/${GRAPH}/me?fields=user_id,username&access_token=${encodeURIComponent(token)}`);
     if (me.username) found = { mode: 'ig', igId: me.user_id || me.id, username: me.username };
-  } catch { /* try the Facebook route */ }
+  } catch (e) { notes.push('ig/me:' + e.message.slice(0, 80)); }
   if (!found) {
     const pages = await getJson(`https://graph.facebook.com/${GRAPH}/me/accounts?fields=name,instagram_business_account{id,username}&limit=50&access_token=${encodeURIComponent(token)}`).catch(() => ({ data: [] }));
     const page = (pages.data || []).find((p) => p.instagram_business_account);
@@ -109,17 +110,42 @@ async function finishInstagram(ctx, code) {
   }
   if (!found) {
     // Business-login tokens: ask Meta which Instagram account each permission was granted for.
-    const dbg = await getJson(`https://graph.facebook.com/${GRAPH}/debug_token?input_token=${encodeURIComponent(token)}&access_token=${encodeURIComponent(env.META_APP_ID + '|' + env.META_APP_SECRET)}`).catch((e) => { console.error('ig debug_token', e.message); return null; });
+    const dbg = await getJson(`https://graph.facebook.com/${GRAPH}/debug_token?input_token=${encodeURIComponent(token)}&access_token=${encodeURIComponent(env.META_APP_ID + '|' + env.META_APP_SECRET)}`).catch((e) => { notes.push('debug_token:' + e.message.slice(0, 80)); return null; });
     const scopes = dbg?.data?.granular_scopes || [];
     const ids = [...new Set(scopes.filter((g) => /^instagram_/.test(g.scope)).flatMap((g) => g.target_ids || []))];
     for (const id of ids) {
       const ig = await getJson(`https://graph.facebook.com/${GRAPH}/${id}?fields=id,username&access_token=${encodeURIComponent(token)}`).catch((e) => { console.error('ig lookup', id, e.message); return null; });
       if (ig?.username) { found = { mode: 'fb', igId: ig.id, username: ig.username }; break; }
     }
+    notes.push('scopes:' + scopes.map((g) => g.scope + '(' + (g.target_ids || []).length + ')').join(','));
+    // Other routes Meta uses for business tokens.
+    const tok = encodeURIComponent(token);
+    const tries = [
+      [`me/instagram_accounts?fields=id,username`, (r) => r.data?.[0]],
+      [`me/businesses?fields=owned_instagram_accounts{id,username},instagram_accounts{id,username}`, (r) => (r.data || []).flatMap((b) => [...(b.owned_instagram_accounts?.data || []), ...(b.instagram_accounts?.data || [])])[0]],
+      [`me?fields=id,name`, () => null]
+    ];
+    for (const [path, pick] of tries) {
+      if (found) break;
+      try {
+        const r = await getJson(`https://graph.facebook.com/${GRAPH}/${path}${path.includes('?') ? '&' : '?'}access_token=${tok}`);
+        const ig = pick(r);
+        if (ig?.id) found = { mode: 'fb', igId: ig.id, username: ig.username || '' };
+        else notes.push(path.split('?')[0] + ':' + JSON.stringify(r).slice(0, 80));
+      } catch (e) { notes.push(path.split('?')[0] + ':' + e.message.slice(0, 80)); }
+    }
+    // An Instagram asset id from the scopes may need its user id; try reading it on both hosts.
+    for (const id of ids) {
+      if (found?.username) break;
+      for (const host of ['https://graph.facebook.com', 'https://graph.instagram.com']) {
+        const ig = await getJson(`${host}/${GRAPH}/${id}?fields=id,username&access_token=${tok}`).catch((e) => { notes.push('lookup ' + id + ':' + e.message.slice(0, 60)); return null; });
+        if (ig?.username) { found = { mode: host.includes('instagram') ? 'ig' : 'fb', igId: ig.id, username: ig.username }; break; }
+      }
+    }
     if (!found && ids.length) found = { mode: 'fb', igId: ids[0], username: '' };
-    if (!found) console.error('ig: no account', JSON.stringify(scopes.map((g) => g.scope)));
+    console.error('ig connect notes', notes.join(' | '));
   }
-  if (!found) throw new Error('Connected to Meta, but no Instagram account was shared. Choose the Nostrix Instagram account when asked.');
+  if (!found) throw new Error('No Instagram account found. Details: ' + notes.join(' | ').slice(0, 400));
   await saveAccount(env, 'instagram', { ...found, token, connectedAt: now(), expiresAt: t.expires_in ? new Date(Date.now() + t.expires_in * 1000).toISOString() : null });
 }
 
