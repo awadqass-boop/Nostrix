@@ -433,3 +433,6 @@ html[dir=rtl] .chev { display: inline-block; transform: scaleX(-1); }
 .items .text-btn { display: inline-flex; align-items: center; gap: 6px; justify-self: start; }
 .items .text-btn .ic { width: 13px; height: 13px; }
 .hub-form label.switch-row { display: flex; align-items: center; gap: 10px; color: var(--text); font-size: 13px; min-height: 38px; }
+.token-box { width: 100%; border-top: 1px solid var(--line); padding-top: 10px; }
+.token-box summary { cursor: pointer; font-size: 13px; color: var(--muted); }
+.token-box .hub-form { padding: 12px 0 0; }

@@ -633,7 +633,12 @@
     return `<article class="card card-pad social-connect"><div class="brand-badge ${p}">${ic(P.icon)}</div><h2>${L("Connect "+P.name,"اربط "+P.name)}</h2>
       <p class="meta">${L("See followers, growth, engagement, your best times to post and your top content, all in one place.","شاهد المتابعين والنمو والتفاعل وأفضل أوقات النشر وأفضل محتوى في مكان واحد.")}</p>
       ${session.is_admin?`<a class="btn primary" href="/api/social/${p}/connect">${ic(P.icon)}${L("Connect "+P.name,"اربط "+P.name)}</a>`:`<p class="meta">${t("adminEdits")}</p>`}
-      <p class="meta small">${L("You log in on "+P.name+"'s own page. Nostrix never sees your password.","تسجّل الدخول من صفحة "+P.name+" نفسها، ولا ترى نوستريكس كلمة مرورك.")}</p></article>`;
+      <p class="meta small">${L("You log in on "+P.name+"'s own page. Nostrix never sees your password.","تسجّل الدخول من صفحة "+P.name+" نفسها، ولا ترى نوستريكس كلمة مرورك.")}</p>
+      ${p==="instagram"&&session.is_admin?`<details class="token-box"><summary>${L("Or connect with a Meta token","أو اربط باستخدام رمز من Meta")}</summary>
+        <form id="ig-token-form" class="hub-form" autocomplete="off"><label>${L("System-user token","رمز مستخدم النظام")}<input name="token" type="password" autocomplete="off" spellcheck="false" required placeholder="EAA…"></label>
+        <label>${L("Instagram account ID","معرّف حساب إنستغرام")}<input name="igId" inputmode="numeric" placeholder="17841…"></label>
+        <p class="meta small">${L("Saved only on the server and never shown again.","يُحفظ على الخادم فقط ولن يظهر مرة أخرى.")}</p>
+        <div class="tools"><button class="btn primary" type="submit">${L("Connect","ربط")}</button><span class="meta" id="ig-token-status" role="status"></span></div></form></details>`:""}</article>`;
   }
   function postCard(p,x) {
     return `<a class="post" href="${esc(x.url||"#")}" target="_blank" rel="noopener noreferrer">
@@ -1473,6 +1478,9 @@
   });
   app.addEventListener("submit",async e=>{
     const form=e.target;
+    if(form.id==="ig-token-form"){e.preventDefault();const st=document.getElementById("ig-token-status"),btn=form.querySelector('[type="submit"]');busy(btn,true);st.textContent="";
+      try{const f=new FormData(form);const r=await api.saveInstagramToken({token:f.get("token"),igId:f.get("igId")});form.reset();socialData=await api.getSocial(true);socialTab="instagram";redrawSocial();toast(L("Instagram connected: @","تم ربط إنستغرام: @")+r.username);}
+      catch(error){st.textContent=aiError(error);}finally{busy(btn,false);}return;}
     if(form.id==="idea-form"){e.preventDefault();const v=form.elements.title.value.trim();if(!v)return;await api.createPost({title:v,status:"idea",platforms:["instagram"],kind:"reel"});form.reset();await refreshPlanner();return;}
     if(form.id==="post-form"){e.preventDefault();const btn=form.querySelector('[type="submit"]');busy(btn,true);
       try{const v=postValues(form);if(v.scheduled_at&&v.status==="idea")v.status="draft";const p=form.dataset.id?await api.updatePost(form.dataset.id,v):await api.createPost(v);

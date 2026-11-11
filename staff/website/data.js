@@ -178,6 +178,7 @@ window.NostrixWebsite = (() => {
       loads.forEach(path => call(path).catch(() => {}));
     },
     getSocial(fresh) { return fresh ? send("/social/overview?fresh=1", {}) : call("/social/overview"); },
+    saveInstagramToken(v) { return post("/social/instagram/token", v); },
     disconnectSocial(platform) { return post("/social/" + encodeURIComponent(platform) + "/disconnect", {}); },
     getPosts() { return call("/hub/posts"); },
     createPost(v) { return post("/hub/posts", v); },

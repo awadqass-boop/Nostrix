@@ -179,6 +179,35 @@ async function tiktokToken(env) {
   return next;
 }
 
+// Plan B for Instagram: the owner pastes a system-user token made in Meta Business settings.
+// It is checked against Meta, stored only in the private database, and never sent back to the browser.
+export async function saveInstagramToken(ctx, input) {
+  const user = await requireAdmin(ctx);
+  const token = str(input.token, 1000);
+  const wanted = str(input.igId, 40);
+  if (!token || token.length < 40) fail(400, 'badToken', 'Paste the full token from Meta.');
+  if (wanted && !/^\d{6,25}$/.test(wanted)) fail(400, 'badId', 'The Instagram account ID is only numbers.');
+  const tok = encodeURIComponent(token);
+  let ids = wanted ? [wanted] : [];
+  if (!ids.length && ctx.env.META_APP_ID && ctx.env.META_APP_SECRET) {
+    const dbg = await getJson(`https://graph.facebook.com/${GRAPH}/debug_token?input_token=${tok}&access_token=${encodeURIComponent(ctx.env.META_APP_ID + '|' + ctx.env.META_APP_SECRET)}`).catch(() => null);
+    ids = [...new Set((dbg?.data?.granular_scopes || []).filter((g) => /^instagram_/.test(g.scope)).flatMap((g) => g.target_ids || []))];
+  }
+  if (!ids.length) fail(400, 'needId', 'Add the Instagram account ID (Business settings → Instagram accounts → @nostrix.ae → ID).');
+  let found = null, last = '';
+  for (const id of ids) {
+    try {
+      const ig = await getJson(`https://graph.facebook.com/${GRAPH}/${id}?fields=id,username,followers_count&access_token=${tok}`);
+      if (ig?.username) { found = { mode: 'fb', igId: ig.id, username: ig.username }; break; }
+    } catch (e) { last = e.message; }
+  }
+  if (!found) fail(400, 'tokenRejected', 'Meta did not accept this token for that Instagram account: ' + (last || 'no access').slice(0, 200));
+  await saveAccount(ctx.env, 'instagram', { ...found, token, connectedAt: now(), via: 'system-user' });
+  await db(ctx.env).prepare("DELETE FROM settings WHERE key='social_cache'").run();
+  await audit(ctx.env, user, 'social', 'Connected Instagram with a system-user token', '@' + found.username);
+  return { ok: true, username: found.username };
+}
+
 export async function disconnect(ctx, platform) {
   const user = await requireAdmin(ctx);
   if (!['instagram', 'tiktok'].includes(platform)) fail(404, 'notFound');

@@ -74,6 +74,7 @@ on('POST', '/ai/leads/:id/message', async (c, p) => ai.writeMessage(c, p.id, awa
 on('GET', '/social/overview', (c, p, url) => social.overview(c, url));
 on('GET', '/social/:platform/connect', (c, p) => social.connect(c, p.platform));
 on('GET', '/social/:platform/callback', (c, p, url) => social.callback(c, p.platform, url));
+on('POST', '/social/instagram/token', async (c) => social.saveInstagramToken(c, await body(c.request)));
 on('POST', '/social/:platform/disconnect', (c, p) => social.disconnect(c, p.platform));
 
 // Post planner (publishing prepared, switched on after platform approval)
