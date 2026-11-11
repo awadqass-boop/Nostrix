@@ -174,9 +174,11 @@ window.NostrixWebsite = (() => {
     // Marketing hub: leads and the AI agent. Slow AI calls answer with spaces first, then JSON.
     // Start loading a page's data before it is opened (on hover or touch of a menu link).
     prefetch(page) {
-      const loads = { leads: ["/ai/leads"], agent: ["/ai/profile"], enquiries: ["/site/enquiries"], reviews: ["/site/reviews"], notes: ["/site/notes"], portfolio: ["/site/portfolio"], overview: ["/site/reviews", "/site/enquiries"] }[page] || [];
+      const loads = { social: ["/social/overview"], leads: ["/ai/leads"], agent: ["/ai/profile"], enquiries: ["/site/enquiries"], reviews: ["/site/reviews"], notes: ["/site/notes"], portfolio: ["/site/portfolio"], overview: ["/site/reviews", "/site/enquiries"] }[page] || [];
       loads.forEach(path => call(path).catch(() => {}));
     },
+    getSocial(fresh) { return fresh ? send("/social/overview?fresh=1", {}) : call("/social/overview"); },
+    disconnectSocial(platform) { return post("/social/" + encodeURIComponent(platform) + "/disconnect", {}); },
     getLeads() { return call("/ai/leads"); },
     async huntLeads(input) { return slow(await call("/ai/leads/hunt", { method: "POST", body: JSON.stringify(input || {}) })); },
     updateLead(id, input) { return post("/ai/leads/" + encodeURIComponent(id), input, "PATCH"); },

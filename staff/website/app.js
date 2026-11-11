@@ -23,7 +23,7 @@
     badPhoto:["Choose a JPEG, PNG, WebP, GIF or AVIF image that your browser can preview.","اختر صورة بصيغة JPEG أو PNG أو WebP أو GIF أو AVIF يمكن لمتصفحك عرضها."],
     loading:["Loading…","جارٍ التحميل…"],noData:["No data yet.","لا توجد بيانات بعد."],
 
-    marketingHub:["Marketing hub","مركز التسويق"],leads:["Leads","العملاء المحتملون"],agent:["Agent settings","إعدادات الوكيل"],
+    marketingHub:["Marketing hub","مركز التسويق"],social:["Social","التواصل الاجتماعي"],leads:["Leads","العملاء المحتملون"],agent:["Agent settings","إعدادات الوكيل"],
     leadsNote:["Possible clients found by the AI agent. Check each one before you contact them.","عملاء محتملون وجدهم الوكيل الذكي. راجع كل واحد قبل التواصل معه."],
     findLeads:["Find new leads","ابحث عن عملاء جدد"],emirate:["Emirate","الإمارة"],focus:["Focus (optional)","التركيز (اختياري)"],
     focusHint:["e.g. new specialty cafés, weekend markets, Ramadan pop-ups","مثال: مقاهٍ مختصة جديدة، أسواق نهاية الأسبوع، فعاليات رمضان"],
@@ -113,7 +113,7 @@
     allAreas:["All activity","كل النشاط"],areaTeam:["Staff workspace","مساحة الفريق"],areaWebsite:["Website","الموقع"],areaAccounts:["Accounts","الحسابات"],areaLogin:["Sign-ins","تسجيلات الدخول"],
     searchLog:["Search the log","ابحث في السجل"],action:["Action","الإجراء"],item:["Item","العنصر"],details:["Details","التفاصيل"],person:["Person","الشخص"],noLog:["Nothing recorded yet.","لا يوجد نشاط مسجّل بعد."],whenCol:["When","الوقت"],area:["Area","القسم"]
   };
-  const sections = ["overview","visitors","clicks","enquiries","reviews","access","portfolio","notes","log","leads","agent"];
+  const sections = ["overview","visitors","clicks","enquiries","reviews","access","portfolio","notes","log","social","leads","agent"];
   const state = {overviewDays:7, visitorDays:"7", visitorRange:null, reviewTab:"pending", search:"", enquiryFilter:"all"};
   let leadData=null, agentData=null, leadFilter="open", leadBusy=false;
   let session, revision=0, chartStats, allEnquiries=[], noticeTimer, removeTarget=null, focusNextPage=false;
@@ -163,7 +163,7 @@
         <div class="nav-label">${t("website")}</div>
         <nav class="side-nav" aria-label="${t("website")}">${sections.slice(0,5).map(key=>navLink(key,page,key==="reviews"?pending:0)).join("")}</nav>
         <div class="nav-label management">${t("marketingHub")}</div>
-        <nav class="side-nav" aria-label="${t("marketingHub")}">${["leads","agent"].map(k=>navLink(k,page,0)).join("")}</nav>
+        <nav class="side-nav" aria-label="${t("marketingHub")}">${["social","leads","agent"].map(k=>navLink(k,page,0)).join("")}</nav>
         <div class="nav-label management">${t("management")}</div>
         <nav class="side-nav" aria-label="${t("management")}">${["portfolio","notes",...(session.is_admin?["access","log"]:[])].map(k=>navLink(k,page,0)).join("")}</nav>
         <div class="side-foot"><div class="account-wrap">
@@ -521,6 +521,138 @@
     if(dirty){const bar=document.getElementById("agent-save");if(bar)bar.hidden=false;}
   }
   const aiError=error=>error.detail||t(T[error.message]?error.message:"unavailable");
+  // ---------- Social: Instagram and TikTok analytics ----------
+  let socialData=null, socialTab="overview", socialSort="top", socialNotice=null;
+  const compact=v=>v==null||isNaN(v)?"—":new Intl.NumberFormat(locale(),{notation:"compact",maximumFractionDigits:1}).format(v);
+  const pct=v=>v==null||!isFinite(v)?"—":new Intl.NumberFormat(locale(),{style:"percent",maximumFractionDigits:v<0.1?2:1}).format(v);
+  const PLAT={instagram:{name:"Instagram",icon:"instagram"},tiktok:{name:"TikTok",icon:"tiktok"}};
+  const KINDS={reel:["Reels","ريلز"],photo:["Photos","صور"],carousel:["Carousels","منشورات متعددة"],video:["Videos","فيديوهات"]};
+  const DAYS=[["Sun","الأحد"],["Mon","الاثنين"],["Tue","الثلاثاء"],["Wed","الأربعاء"],["Thu","الخميس"],["Fri","الجمعة"],["Sat","السبت"]];
+  const SLOTS=[["Morning 6–10","الصباح 6–10",6,10],["Midday 10–14","الظهيرة 10–14",10,14],["Afternoon 14–18","العصر 14–18",14,18],["Evening 18–22","المساء 18–22",18,22],["Night 22–6","الليل 22–6",22,30]];
+  const dubai=iso=>new Date(Date.parse(iso)+4*3600e3);
+  const inter=x=>(x.likes||0)+(x.comments||0)+(x.shares||0);
+  const avg=a=>a.length?a.reduce((s,v)=>s+v,0)/a.length:null;
+  // The number that says how well a post did: views on TikTok, interactions on Instagram.
+  const score=(p,x)=>p==="tiktok"&&x.views!=null?x.views:inter(x);
+  function socialStats(p,d) {
+    const items=(d.items||[]).filter(x=>x.at);
+    const rate=p==="tiktok"
+      ? avg(items.filter(x=>x.views).map(x=>inter(x)/x.views))
+      : (d.followers?avg(items.map(x=>inter(x)/d.followers)):null);
+    const h=d.history||[], last=h[h.length-1];
+    const delta=days=>{if(!last||h.length<2)return null;const cut=offsetDate(last.day,-days);const base=h.find(r=>r.day>=cut);return base&&base!==last?last.followers-base.followers:null;};
+    const recent=items.filter(x=>Date.now()-Date.parse(x.at)<30*864e5).length;
+    const byDay=DAYS.map((_,i)=>avg(items.filter(x=>dubai(x.at).getUTCDay()===i).map(x=>score(p,x))));
+    const bySlot=SLOTS.map(([, ,a,b])=>avg(items.filter(x=>{const hr=dubai(x.at).getUTCHours(),v=hr<6?hr+24:hr;return v>=a&&v<b;}).map(x=>score(p,x))));
+    const kinds=Object.keys(KINDS).map(k=>[k,items.filter(x=>x.kind===k)]).filter(([,a])=>a.length);
+    return {items,rate,d7:delta(7),d30:delta(30),recent,byDay,bySlot,kinds,
+      avgLikes:avg(items.map(x=>x.likes||0)),avgComments:avg(items.map(x=>x.comments||0)),avgViews:p==="tiktok"?avg(items.map(x=>x.views||0)):null,avgScore:avg(items.map(x=>score(p,x)))};
+  }
+  function socialTips(p,d,s) {
+    const tips=[],unit=p==="tiktok"?L("views","مشاهدة"):L("interactions","تفاعل");
+    const best=(arr,names)=>{let i=-1,v=-1;arr.forEach((x,j)=>{if(x!=null&&x>v){v=x;i=j;}});return i<0?null:{name:pick(names[i]),v};};
+    const day=best(s.byDay,DAYS),slot=best(s.bySlot,SLOTS.map(x=>[x[0],x[1]]));
+    if(day&&s.items.length>=5)tips.push(["📅",L(`Your posts on ${day.name} get the most ${unit} on average (${compact(Math.round(day.v))}).`,`منشوراتك يوم ${day.name} تحصل على أعلى ${unit} في المتوسط (${compact(Math.round(day.v))}).`)]);
+    if(slot&&s.items.length>=5)tips.push(["⏰",L(`Best time slot so far: ${slot.name} (UAE time).`,`أفضل وقت حتى الآن: ${slot.name} (بتوقيت الإمارات).`)]);
+    if(s.kinds.length>1){const r=s.kinds.map(([k,a])=>[k,avg(a.map(x=>score(p,x)))]).sort((a,b)=>b[1]-a[1]);const[top,low]=[r[0],r[r.length-1]];
+      if(low[1]>0)tips.push(["🎬",L(`${pick(KINDS[top[0]])} get ${(top[1]/low[1]).toFixed(1)}× more ${unit} than ${pick(KINDS[low[0]]).toLowerCase()}.`,`${pick(KINDS[top[0]])} تحصل على ${(top[1]/low[1]).toFixed(1)}× ${unit} أكثر من ${pick(KINDS[low[0]])}.`)]);}
+    tips.push(["🗓️",s.recent>=8?L(`Great rhythm: ${s.recent} posts in the last 30 days.`,`إيقاع ممتاز: ${s.recent} منشوراً خلال آخر 30 يوماً.`):L(`${s.recent} posts in the last 30 days. Accounts that post 3–4 times a week usually grow faster.`,`${s.recent} منشورات خلال آخر 30 يوماً. الحسابات التي تنشر 3–4 مرات أسبوعياً تنمو عادةً أسرع.`)]);
+    const top=[...s.items].sort((a,b)=>score(p,b)-score(p,a))[0];
+    if(top&&s.avgScore)tips.push(["🔥",L(`Your top post did ${(score(p,top)/s.avgScore).toFixed(1)}× your average. Make more like it.`,`أفضل منشور لك حقق ${(score(p,top)/s.avgScore).toFixed(1)}× متوسطك. اصنع المزيد مثله.`)]);
+    if(s.d30!=null)tips.push([s.d30>=0?"📈":"📉",L(`${s.d30>=0?"+":""}${num(s.d30)} followers in the last 30 days.`,`${s.d30>=0?"+":""}${num(s.d30)} متابعاً خلال آخر 30 يوماً.`)]);
+    return tips;
+  }
+  // Charts: one measure each, brand colour, hover tooltips (data-tip).
+  function barChart(rows,fmt=compact) {
+    const max=Math.max(1,...rows.map(r=>r.v||0));
+    if(!rows.some(r=>r.v))return `<p class="empty chart-empty">${L("Not enough posts yet.","لا توجد منشورات كافية بعد.")}</p>`;
+    return `<div class="bars" role="img">${rows.map(r=>`<div class="bar-col" data-tip="${esc(r.label)}: ${esc(r.v==null?"—":fmt(r.v))}"><div class="bar-track"><div class="bar ${r.hi?"hi":""}" style="height:${r.v?Math.max(2,r.v/max*100):0}%"></div></div><span>${esc(r.short||"")}</span></div>`).join("")}</div>`;
+  }
+  function lineChart(points) {
+    if(points.length<2)return `<p class="empty chart-empty">${L("Follower history starts today. Check back tomorrow to see growth.","يبدأ سجل المتابعين اليوم. عد غداً لرؤية النمو.")}</p>`;
+    const W=600,H=180,vals=points.map(p=>p.v),min=Math.min(...vals),max=Math.max(...vals),span=Math.max(1,max-min);
+    const xy=points.map((p,i)=>[i/(points.length-1)*W,H-8-((p.v-min)/span)*(H-28)]);
+    const d=xy.map((q,i)=>(i?"L":"M")+q[0].toFixed(1)+","+q[1].toFixed(1)).join(" ");
+    return `<svg class="viz" viewBox="0 0 ${W} ${H}" role="img" preserveAspectRatio="none">
+      <defs><linearGradient id="vizfade" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--brand-a)" stop-opacity=".28"/><stop offset="1" stop-color="var(--brand-a)" stop-opacity="0"/></linearGradient></defs>
+      <path d="${d} L${W},${H} L0,${H} Z" fill="url(#vizfade)"/><path d="${d}" class="viz-line"/>
+      ${xy.map((q,i)=>`<g class="viz-col" data-tip="${esc(date(points[i].day))}: ${esc(num(points[i].v))}"><rect class="viz-hit" x="${q[0]-W/points.length/2}" y="0" width="${W/points.length}" height="${H}"/><circle cx="${q[0]}" cy="${q[1]}" r="4" class="viz-dot"/></g>`).join("")}
+      </svg><div class="viz-ends"><span>${esc(date(points[0].day))}</span><span>${esc(date(points[points.length-1].day))}</span></div>`;
+  }
+  const kpi=(label,value,foot="",tone="")=>`<div class="kpi ${tone}"><span>${label}</span><strong>${value}</strong>${foot?`<small>${foot}</small>`:""}</div>`;
+  const delta=v=>v==null?"":`<em class="${v<0?"down":"up"}">${v>0?"+":""}${num(v)}</em>`;
+  function connectCard(p,d) {
+    const P=PLAT[p];
+    if(!d.ready)return `<article class="card card-pad social-connect"><div class="brand-badge ${p}">${ic(P.icon)}</div><h2>${P.name}</h2><p class="meta">${L("The app keys for this platform are not set up in Cloudflare yet.","مفاتيح التطبيق لهذه المنصة غير مُعدّة في Cloudflare بعد.")}</p></article>`;
+    return `<article class="card card-pad social-connect"><div class="brand-badge ${p}">${ic(P.icon)}</div><h2>${L("Connect "+P.name,"اربط "+P.name)}</h2>
+      <p class="meta">${L("See followers, growth, engagement, your best times to post and your top content, all in one place.","شاهد المتابعين والنمو والتفاعل وأفضل أوقات النشر وأفضل محتوى في مكان واحد.")}</p>
+      ${session.is_admin?`<a class="btn primary" href="/api/social/${p}/connect">${ic(P.icon)}${L("Connect "+P.name,"اربط "+P.name)}</a>`:`<p class="meta">${t("adminEdits")}</p>`}
+      <p class="meta small">${L("You log in on "+P.name+"'s own page. Nostrix never sees your password.","تسجّل الدخول من صفحة "+P.name+" نفسها، ولا ترى نوستريكس كلمة مرورك.")}</p></article>`;
+  }
+  function postCard(p,x) {
+    return `<a class="post" href="${esc(x.url||"#")}" target="_blank" rel="noopener noreferrer">
+      <div class="post-media">${x.image?`<img src="${esc(x.image)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:""}<span class="post-kind">${esc(pick(KINDS[x.kind]||KINDS.photo))}</span>
+      <div class="post-over">${x.views!=null?`<span>▶ ${compact(x.views)}</span>`:""}<span>♥ ${compact(x.likes)}</span><span>💬 ${compact(x.comments)}</span>${x.shares!=null?`<span>↗ ${compact(x.shares)}</span>`:""}</div></div>
+      <p dir="auto">${esc(x.caption||"")}</p><small class="meta">${x.at?esc(date(x.at)):""}</small></a>`;
+  }
+  function platformView(p) {
+    const d=socialData[p],P=PLAT[p];
+    if(!d.connected)return connectCard(p,d);
+    if(d.error)return `<article class="card card-pad social-connect"><div class="brand-badge ${p}">${ic(P.icon)}</div><h2>${P.name}</h2><p class="error-text">${esc(d.error)}</p>
+      ${session.is_admin?`<div class="tools"><a class="btn primary" href="/api/social/${p}/connect">${L("Reconnect","إعادة الربط")}</a><button class="btn" type="button" data-social-disconnect="${p}">${L("Disconnect","إلغاء الربط")}</button></div>`:""}</article>`;
+    const s=socialStats(p,d),ins=d.insights||{};
+    const posts=[...s.items].sort(socialSort==="top"?(a,b)=>score(p,b)-score(p,a):(a,b)=>Date.parse(b.at)-Date.parse(a.at));
+    const recent=[...s.items].sort((a,b)=>Date.parse(a.at)-Date.parse(b.at)).slice(-20);
+    const tiles=[
+      kpi(L("Followers","المتابعون"),compact(d.followers),[s.d7!=null?delta(s.d7)+" "+L("7 days","7 أيام"):"",s.d30!=null?delta(s.d30)+" "+L("30 days","30 يوماً"):""].filter(Boolean).join(" · ")||L("Tracking from today","التتبع من اليوم"),"main"),
+      kpi(L("Engagement rate","معدل التفاعل"),pct(s.rate),p==="tiktok"?L("of views","من المشاهدات"):L("of followers, per post","من المتابعين لكل منشور")),
+      p==="tiktok"?kpi(L("Avg views","متوسط المشاهدات"),compact(s.avgViews),L("per video","لكل فيديو")):kpi(L("Reach · 28 days","الوصول · 28 يوماً"),compact(ins.reach),ins.reach==null?L("Needs insights permission","يتطلب صلاحية الإحصاءات"):""),
+      kpi(L("Avg likes","متوسط الإعجابات"),compact(s.avgLikes),L("per post","لكل منشور")),
+      kpi(L("Avg comments","متوسط التعليقات"),compact(s.avgComments),L("per post","لكل منشور")),
+      p==="tiktok"?kpi(L("Total likes","إجمالي الإعجابات"),compact(d.likes),""):kpi(L("Profile views · 28 days","مشاهدات الملف · 28 يوماً"),compact(ins.profile_views),""),
+      kpi(L("Posts","المنشورات"),compact(d.posts),num(s.recent)+" "+L("in 30 days","خلال 30 يوماً"))
+    ].join("");
+    return `<article class="card card-pad social-hero ${p}">
+        <div class="social-id">${d.avatar?`<img src="${esc(d.avatar)}" alt="" referrerpolicy="no-referrer">`:`<span class="brand-badge ${p}">${ic(P.icon)}</span>`}
+          <div><h2>${esc(d.name||d.username)}</h2><a class="meta" href="${esc(d.url)}" target="_blank" rel="noopener noreferrer">@${esc(d.username)} ${ic("external")}</a></div>
+          ${session.is_admin?`<button class="btn subtle" type="button" data-social-disconnect="${p}">${L("Disconnect","إلغاء الربط")}</button>`:""}</div>
+        <div class="kpis">${tiles}</div></article>
+      <div class="social-grid">
+        <article class="card card-pad"><h2>${L("Follower growth","نمو المتابعين")}</h2>${lineChart((d.history||[]).map(r=>({day:r.day,v:r.followers})))}</article>
+        <article class="card card-pad tips"><h2>${L("Insights","رؤى")}</h2><ul>${socialTips(p,d,s).map(([i,txt])=>`<li><span aria-hidden="true">${i}</span><p>${esc(txt)}</p></li>`).join("")}</ul></article>
+        <article class="card card-pad wide"><h2>${p==="tiktok"?L("Views per video · last 20","المشاهدات لكل فيديو · آخر 20"):L("Interactions per post · last 20","التفاعل لكل منشور · آخر 20")}</h2>${barChart(recent.map((x,i)=>({v:score(p,x),label:(x.caption||"").slice(0,40)||date(x.at),short:i%4===0?date(x.at):""})))}</article>
+        <article class="card card-pad"><h2>${L("Best day to post","أفضل يوم للنشر")}</h2><p class="meta">${p==="tiktok"?L("Average views","متوسط المشاهدات"):L("Average interactions","متوسط التفاعل")} · ${L("UAE time","بتوقيت الإمارات")}</p>${barChart(DAYS.map((n,i)=>({v:s.byDay[i],label:pick(n),short:pick(n),hi:s.byDay[i]!=null&&s.byDay[i]===Math.max(...s.byDay.filter(v=>v!=null))})))}</article>
+        <article class="card card-pad"><h2>${L("Best time to post","أفضل وقت للنشر")}</h2><p class="meta">${L("UAE time","بتوقيت الإمارات")}</p>${barChart(SLOTS.map((n,i)=>({v:s.bySlot[i],label:pick([n[0],n[1]]),short:pick([n[0],n[1]]).split(" ")[0],hi:s.bySlot[i]!=null&&s.bySlot[i]===Math.max(...s.bySlot.filter(v=>v!=null))})))}</article>
+        ${s.kinds.length>1?`<article class="card card-pad"><h2>${L("What works best","ما الأفضل أداءً")}</h2><p class="meta">${L("Average per post by format","المتوسط لكل منشور حسب النوع")}</p>${barChart(s.kinds.map(([k,a])=>({v:avg(a.map(x=>score(p,x))),label:pick(KINDS[k])+" ("+a.length+")",short:pick(KINDS[k])})))}</article>`:""}
+      </div>
+      <article class="card card-pad"><header class="card-head"><h2>${L("Posts","المنشورات")}</h2><div class="seg" role="group">${[["top",L("Top","الأفضل")],["recent",L("Recent","الأحدث")]].map(([k,l])=>`<button type="button" data-social-sort="${k}" class="${socialSort===k?"on":""}">${l}</button>`).join("")}</div></header>
+        <div class="post-grid">${posts.slice(0,24).map(x=>postCard(p,x)).join("")||`<p class="empty">${L("No posts yet.","لا توجد منشورات بعد.")}</p>`}</div></article>`;
+  }
+  function socialOverview() {
+    const cards=["instagram","tiktok"].map(p=>{const d=socialData[p],P=PLAT[p];
+      if(!d.connected||d.error)return connectCard(p,d);
+      const s=socialStats(p,d);
+      return `<article class="card card-pad social-mini ${p}" data-social-open="${p}"><header><span class="brand-badge ${p}">${ic(P.icon)}</span><div><h2>${P.name}</h2><span class="meta">@${esc(d.username)}</span></div></header>
+        <div class="kpis small">${kpi(L("Followers","المتابعون"),compact(d.followers),s.d30!=null?delta(s.d30)+" "+L("30 days","30 يوماً"):"")}${kpi(L("Engagement","التفاعل"),pct(s.rate))}${kpi(L("Posts · 30 days","منشورات · 30 يوماً"),num(s.recent))}</div>
+        <span class="text-btn">${L("Open full dashboard","افتح اللوحة الكاملة")} →</span></article>`;}).join("");
+    const live=["instagram","tiktok"].filter(p=>socialData[p].connected&&!socialData[p].error);
+    const total=live.reduce((n,p)=>n+(socialData[p].followers||0),0);
+    return (live.length?`<article class="card card-pad audience"><span class="meta">${L("Total audience","إجمالي الجمهور")}</span><strong>${compact(total)}</strong><span class="meta">${L("followers across","متابع على")} ${live.map(p=>PLAT[p].name).join(" + ")}</span></article>`:"")+`<div class="social-pair">${cards}</div>`;
+  }
+  async function socialPage(fresh=false) {
+    socialData=await api.getSocial(fresh);
+    const q=new URLSearchParams(location.search);
+    if(q.has("social_ok")||q.has("social_error")){socialNotice=q.has("social_ok")?["ok",L(PLAT[q.get("social_ok")]?.name+" connected.","تم ربط "+PLAT[q.get("social_ok")]?.name+".")]:["bad",q.get("social_error")];if(q.get("social_ok"))socialTab=q.get("social_ok");history.replaceState(null,"",location.pathname+location.hash);}
+    const tabs=[["overview",L("Overview","نظرة عامة")],["instagram","Instagram"],["tiktok","TikTok"]];
+    const note=socialNotice?`<p class="card card-pad notice ${socialNotice[0]}" role="status">${esc(socialNotice[1])}</p>`:"";socialNotice=null;
+    return sectionHead("social",L("Your Instagram and TikTok in one place, with the insights the apps don't show you.","إنستغرام وتيك توك في مكان واحد، مع رؤى لا تعرضها التطبيقات."))+note+
+      `<div class="social-bar"><div class="seg big" role="tablist">${tabs.map(([k,l])=>`<button type="button" role="tab" aria-selected="${socialTab===k}" data-social-tab="${k}" class="${socialTab===k?"on":""}">${k==="overview"?"":ic(PLAT[k].icon)}${l}</button>`).join("")}</div>
+      <span class="meta">${L("Updated","آخر تحديث")} ${esc(date(socialData.at,{hour:"2-digit",minute:"2-digit"}))}</span><button class="btn" type="button" data-social-refresh>${L("Refresh","تحديث")}</button></div>
+      <div id="social-body">${socialTab==="overview"?socialOverview():platformView(socialTab)}</div><div class="viz-tip" id="viz-tip" hidden></div>
+      <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><h2 id="confirm-title"></h2><div class="tools"><button class="btn" value="cancel" autofocus>${t("cancel")}</button><button class="btn reject" value="ok" id="confirm-ok"></button></div></form></dialog>`;
+  }
+  const redrawSocial=()=>{const b=document.getElementById("social-body");if(b&&socialData)b.innerHTML=socialTab==="overview"?socialOverview():platformView(socialTab);
+    app.querySelectorAll("[data-social-tab]").forEach(x=>{const on=x.dataset.socialTab===socialTab;x.classList.toggle("on",on);x.setAttribute("aria-selected",on);});};
   function notesPage() {
     return sectionHead("notes")+`<article class="card card-pad"><header class="card-head"><h2>${t("writeNote")}</h2><span class="scope-label">${ic("lock")}${t("websiteStaff")}</span></header>
     <form id="note-form"><label class="sr-only" for="note-text">${t("writeNote")}</label><textarea id="note-text" maxlength="2000" rows="3" dir="auto" placeholder="${t("notePrompt")}">${esc(noteDraft)}</textarea>
@@ -749,7 +881,7 @@
         app.innerHTML=authPage(denied,demo);
       } else {
         const reviews=page==="overview"||page==="reviews"?await api.getReviews():[];
-        const views={overview:()=>overview(reviews),visitors,clicks,enquiries:enquiryPage,reviews:()=>reviewPage(reviews),access:accessPage,portfolio:portfolioPage,notes:notesPage,log:logPage,leads:leadsPage,agent:agentPage};
+        const views={overview:()=>overview(reviews),visitors,clicks,enquiries:enquiryPage,reviews:()=>reviewPage(reviews),access:accessPage,portfolio:portfolioPage,notes:notesPage,log:logPage,social:()=>socialPage(),leads:leadsPage,agent:agentPage};
         const body=await views[page]();
         if (token!==revision) return;
         syncDocument(page);
@@ -1017,6 +1149,17 @@
     if (event.key==="nostrix_theme" && ["light","dark"].includes(event.newValue)) { html.dataset.theme=event.newValue; render(); }
     if (event.key==="nostrix_language_v1" && ["en","ar"].includes(event.newValue)) { html.lang=event.newValue; html.dir=ar()?"rtl":"ltr"; render(); }
   });
+  // Social dashboard
+  app.addEventListener("click",async e=>{
+    const b=e.target.closest("[data-social-tab],[data-social-sort],[data-social-refresh],[data-social-disconnect],[data-social-open]");if(!b||!app.contains(b))return;
+    if(b.dataset.socialTab){socialTab=b.dataset.socialTab;redrawSocial();}
+    else if(b.dataset.socialOpen){socialTab=b.dataset.socialOpen;redrawSocial();window.scrollTo({top:0,behavior:"smooth"});}
+    else if(b.dataset.socialSort){socialSort=b.dataset.socialSort;redrawSocial();}
+    else if(b.hasAttribute("data-social-refresh")){b.disabled=true;try{socialData=await api.getSocial(true);redrawSocial();toast(t("saved").replace(/.*/,L("Updated.","تم التحديث.")));}catch(error){toast(aiError(error));}finally{b.disabled=false;}}
+    else if(b.dataset.socialDisconnect){const p=b.dataset.socialDisconnect;if(await confirmBox(L("Disconnect "+PLAT[p].name+"?","إلغاء ربط "+PLAT[p].name+"؟"),L("Disconnect","إلغاء الربط"))){try{await api.disconnectSocial(p);socialData=await api.getSocial(true);redrawSocial();}catch(error){toast(aiError(error));}}}
+  });
+  app.addEventListener("mousemove",e=>{const tip=document.getElementById("viz-tip");if(!tip)return;const c=e.target.closest?.("[data-tip]");
+    if(!c){tip.hidden=true;return;}tip.textContent=c.dataset.tip;tip.hidden=false;tip.style.left=Math.min(innerWidth-220,e.clientX+14)+"px";tip.style.top=(e.clientY+14)+"px";});
   // Marketing hub: leads and agent settings
   const leadOf=node=>leadData?.leads.find(l=>l.id===node.closest("[data-lead]")?.dataset.lead);
   app.addEventListener("click",async e=>{

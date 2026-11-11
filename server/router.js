@@ -6,6 +6,7 @@ import * as team from './team.js';
 import * as site from './site.js';
 import * as pub from './public.js';
 import * as ai from './ai.js';
+import * as social from './social.js';
 
 const routes = [];
 const on = (method, pattern, fn) => routes.push({ method, re: new RegExp('^' + pattern.replace(/:(\w+)/g, '(?<$1>[^/]+)') + '$'), fn });
@@ -62,6 +63,12 @@ on('POST', '/ai/leads/hunt', async (c) => ai.hunt(c, await body(c.request)));
 on('PATCH', '/ai/leads/:id', async (c, p) => ai.updateLead(c, p.id, await body(c.request)));
 on('DELETE', '/ai/leads/:id', (c, p) => ai.deleteLead(c, p.id));
 on('POST', '/ai/leads/:id/message', async (c, p) => ai.writeMessage(c, p.id, await body(c.request)));
+
+// Instagram and TikTok (keys and tokens stay on the server)
+on('GET', '/social/overview', (c, p, url) => social.overview(c, url));
+on('GET', '/social/:platform/connect', (c, p) => social.connect(c, p.platform));
+on('GET', '/social/:platform/callback', (c, p, url) => social.callback(c, p.platform, url));
+on('POST', '/social/:platform/disconnect', (c, p) => social.disconnect(c, p.platform));
 
 // Public website
 on('POST', '/collect', async (c) => pub.collect(c, await body(c.request, 4096)));
