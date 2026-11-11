@@ -153,13 +153,19 @@ function stopCheck(message) {
 }
 
 // A slow AI job: answer at once and keep the connection alive with spaces until the JSON result is ready.
-function slowJob(ctx, work) {
+function slowJob(ctx, work, feature) {
   const { readable, writable } = new TransformStream();
   const writer = writable.getWriter(), enc = new TextEncoder();
   const tick = setInterval(() => { writer.write(enc.encode(' ')).catch(() => {}); }, 8000);
   const job = (async () => {
     let out;
-    try { out = await work(); } catch (e) { out = describe(e); }
+    try { out = await work(); } catch (e) {
+      out = describe(e);
+      if (feature) {
+        // A failed attempt should not use up the daily limit.
+        try { await db(ctx.env).prepare('DELETE FROM rate WHERE rowid = (SELECT MAX(rowid) FROM rate WHERE key=?)').bind('ai:' + feature + ':' + today()).run(); } catch { /* ignore */ }
+      }
+    }
     clearInterval(tick);
     try { await writer.write(enc.encode(JSON.stringify(out))); await writer.close(); } catch { /* browser left */ }
   })();
@@ -268,7 +274,7 @@ export async function hunt(ctx, input) {
       max_tokens: 8000,
       output_config: { effort: 'medium' },
       system: `You research sales leads for a small UAE creative agency.\n${p.about}\n\nOnly list real businesses or event organisers you found in search results. Never invent names, accounts or contact details; leave a field empty when it is not published. Use only business contact details the business itself publishes (Instagram handle, website, business phone or email), never private people's details.`,
-      tools: [{ type: 'web_search_20260209', name: 'web_search', max_uses: 8, user_location: { type: 'approximate', country: 'AE', ...(/^all/i.test(emirate) ? {} : { city: emirate }) } }],
+      tools: [{ type: 'web_search_20260209', name: 'web_search', max_uses: 8 }],
       messages: [{
         role: 'user',
         content: `Find up to ${p.perRun} new potential clients for Nostrix ${/^all/i.test(emirate) ? 'anywhere in the UAE' : 'in ' + emirate + ' (nearby emirates are fine if ' + emirate + ' runs short)'}.
@@ -316,7 +322,7 @@ For each one write: name; type; emirate and area; one or two sentences on why it
     }
     await audit(ctx.env, user, 'leads', 'Ran the lead hunter', emirate, `${added.length} new leads · $${cost.toFixed(2)}`);
     return { added: added.length, cost };
-  });
+  }, 'hunt');
 }
 
 function safeUrl(v) {
@@ -364,5 +370,5 @@ export async function writeMessage(ctx, id, input) {
       .bind(channel, str(out.en, 4000), str(out.ar, 4000), str(out.subject, 200), now(), id).run();
     await audit(ctx.env, user, 'leads', 'Wrote a message with AI', lead.name, channel);
     return { channel, en: out.en, ar: out.ar, subject: out.subject, cost };
-  });
+  }, 'message');
 }
