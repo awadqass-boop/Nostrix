@@ -171,7 +171,11 @@ function describe(e) {
   if (e instanceof HttpError) return { error: e.code, message: e.message };
   if (e instanceof Anthropic.AuthenticationError) return { error: 'aiKey', message: 'The AI key in Cloudflare is not valid.' };
   if (e instanceof Anthropic.RateLimitError) return { error: 'aiBusy', message: 'The AI is busy. Try again in a minute.' };
-  if (e instanceof Anthropic.APIError) { console.error('anthropic', e.status, e.message); return { error: 'aiError', message: 'The AI service returned an error. Try again later.' }; }
+  if (e instanceof Anthropic.APIError) {
+    console.error('anthropic', e.status, e.message);
+    // The provider's message never contains the key; showing it helps the owner fix settings.
+    return { error: 'aiError', message: 'The AI service returned an error (' + (e.status || '?') + '): ' + String(e.message || '').slice(0, 300) };
+  }
   console.error(e && e.stack || e);
   return { error: 'serverError', message: 'Something went wrong. Try again.' };
 }
