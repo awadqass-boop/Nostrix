@@ -23,7 +23,7 @@
     badPhoto:["Choose a JPEG, PNG, WebP, GIF or AVIF image that your browser can preview.","اختر صورة بصيغة JPEG أو PNG أو WebP أو GIF أو AVIF يمكن لمتصفحك عرضها."],
     loading:["Loading…","جارٍ التحميل…"],noData:["No data yet.","لا توجد بيانات بعد."],
 
-    marketingHub:["Marketing hub","مركز التسويق"],planner:["Planner","المخطط"],replies:["Reply helper","مساعد الردود"],salesGroup:["Sales","المبيعات"],sales:["Quotes & invoices","العروض والفواتير"],followups:["Follow-ups","المتابعات"],alerts:["Phone alerts","تنبيهات الهاتف"],social:["Social","التواصل الاجتماعي"],leads:["Leads","العملاء المحتملون"],agent:["Agent settings","إعدادات الوكيل"],
+    marketingHub:["Marketing hub","مركز التسويق"],planner:["Planner","المخطط"],inbox:["Inbox","صندوق الرسائل"],replies:["Reply helper","مساعد الردود"],salesGroup:["Sales","المبيعات"],sales:["Quotes & invoices","العروض والفواتير"],followups:["Follow-ups","المتابعات"],alerts:["Phone alerts","تنبيهات الهاتف"],social:["Social","التواصل الاجتماعي"],leads:["Leads","العملاء المحتملون"],agent:["Agent settings","إعدادات الوكيل"],
     leadsNote:["Possible clients found by the AI agent. Check each one before you contact them.","عملاء محتملون وجدهم الوكيل الذكي. راجع كل واحد قبل التواصل معه."],
     findLeads:["Find new leads","ابحث عن عملاء جدد"],emirate:["Emirate","الإمارة"],focus:["Focus (optional)","التركيز (اختياري)"],
     focusHint:["e.g. new specialty cafés, weekend markets, Ramadan pop-ups","مثال: مقاهٍ مختصة جديدة، أسواق نهاية الأسبوع، فعاليات رمضان"],
@@ -114,7 +114,7 @@
     searchLog:["Search the log","ابحث في السجل"],action:["Action","الإجراء"],item:["Item","العنصر"],details:["Details","التفاصيل"],person:["Person","الشخص"],noLog:["Nothing recorded yet.","لا يوجد نشاط مسجّل بعد."],whenCol:["When","الوقت"],area:["Area","القسم"]
   };
   const AREA = window.NX_AREA==="marketing"?"marketing":"website";
-  const sections = AREA==="marketing" ? ["social","planner","replies","leads","agent","sales","followups","alerts"] : ["overview","visitors","clicks","enquiries","reviews","access","portfolio","notes","log","alerts"];
+  const sections = AREA==="marketing" ? ["social","inbox","planner","replies","leads","agent","sales","followups","alerts"] : ["overview","visitors","clicks","enquiries","reviews","access","portfolio","notes","log","alerts"];
   const state = {overviewDays:7, visitorDays:"7", visitorRange:null, reviewTab:"pending", search:"", enquiryFilter:"all"};
   let leadData=null, agentData=null, leadFilter="open", leadBusy=false;
   let session, revision=0, chartStats, allEnquiries=[], noticeTimer, removeTarget=null, focusNextPage=false;
@@ -140,7 +140,7 @@
   const status = handled => `<span class="status ${handled?"handled":""}">${t(handled?"handled":"open")}</span>`;
   function route() {
     const hash=location.hash.slice(1);
-    if(AREA==="website"&&["social","planner","replies","leads","agent","sales","followups"].includes(hash)){location.replace("/staff/marketing/#"+hash);return "overview";}
+    if(AREA==="website"&&["social","inbox","planner","replies","leads","agent","sales","followups"].includes(hash)){location.replace("/staff/marketing/#"+hash);return "overview";}
     return sections.includes(hash)||hash==="login"||hash==="no-access" ? hash : sections[0];
   }
   function savePref(key,value) { try { localStorage.setItem(key,value); } catch { /* Session-only preference. */ } }
@@ -163,7 +163,7 @@
         <div class="side-brand">${brand()}<button type="button" class="mobile-close icon-btn" data-action="close-nav" ${label(t("close"))}>${ic("close")}</button></div>
         ${workspaceLinks.staff ? `<a class="workspace-return" href="${esc(workspaceLinks.staff)}">${ic("back","directional")}${t("staff")}</a>` : `<div class="workspace-return">${ic("panel")}${t("staff")}</div>`}
         ${AREA==="marketing"?`<div class="nav-label">${t("marketingHub")}</div>
-        <nav class="side-nav" aria-label="${t("marketingHub")}">${["social","planner","replies","leads","agent"].map(k=>navLink(k,page,0)).join("")}</nav>
+        <nav class="side-nav" aria-label="${t("marketingHub")}">${["social","inbox","planner","replies","leads","agent"].map(k=>navLink(k,page,0)).join("")}</nav>
         ${session.is_admin?`<div class="nav-label management">${t("salesGroup")}</div><nav class="side-nav" aria-label="${t("salesGroup")}">${["sales","followups"].map(k=>navLink(k,page,0)).join("")}</nav>`:""}
         <div class="nav-label management">${t("management")}</div><nav class="side-nav" aria-label="${t("management")}">${navLink("alerts",page,0)}</nav>`:`<div class="nav-label">${t("website")}</div>
         <nav class="side-nav" aria-label="${t("website")}">${sections.slice(0,5).map(key=>navLink(key,page,key==="reviews"?pending:0)).join("")}</nav>
@@ -1026,6 +1026,8 @@
       pendingPhotos();
     } else if(page==="leads") {
       drawLeads();
+    } else if(page==="inbox") {
+      drawInbox();
     } else if(page==="planner") {
       drawPlanner();
     } else if(page==="sales") {
@@ -1177,7 +1179,7 @@
         app.innerHTML=authPage(denied,demo);
       } else {
         const reviews=page==="overview"||page==="reviews"?await api.getReviews():[];
-        const views={overview:()=>overview(reviews),visitors,clicks,enquiries:enquiryPage,reviews:()=>reviewPage(reviews),access:accessPage,portfolio:portfolioPage,notes:notesPage,log:logPage,social:()=>socialPage(),planner:plannerPage,replies:repliesPage,leads:leadsPage,agent:agentPage,sales:salesPage,followups:followupsPage,alerts:alertsPage};
+        const views={overview:()=>overview(reviews),visitors,clicks,enquiries:enquiryPage,reviews:()=>reviewPage(reviews),access:accessPage,portfolio:portfolioPage,notes:notesPage,log:logPage,social:()=>socialPage(),inbox:inboxPage,planner:plannerPage,replies:repliesPage,leads:leadsPage,agent:agentPage,sales:salesPage,followups:followupsPage,alerts:alertsPage};
         const body=await views[page]();
         if (token!==revision) return;
         syncDocument(page);
@@ -1531,6 +1533,68 @@
   app.addEventListener("dragleave",e=>{e.target.closest?.("[data-pl-drop]")?.classList.remove("drag-over");});
   app.addEventListener("drop",async e=>{const col=e.target.closest?.("[data-pl-drop]");const id=e.dataTransfer?.getData("text/nx-post");if(!col||!id)return;e.preventDefault();col.classList.remove("drag-over");
     const p=findPost(id);if(!p||p.status===col.dataset.plDrop)return;p.status=col.dataset.plDrop;drawPlanner();try{await api.updatePost(id,{status:p.status});}catch(error){toast(aiError(error));await refreshPlanner();}});
+  // ---------- Inbox: Instagram DMs and WhatsApp ----------
+  let inboxData=null, inboxChannel="all", openThread=null;
+  async function inboxPage() {
+    inboxData=await api.getInbox();
+    return sectionHead("inbox",L("Instagram DMs and WhatsApp in one place, with AI reply suggestions.","رسائل إنستغرام وواتساب في مكان واحد، مع اقتراح ردود بالذكاء الاصطناعي."))+
+      `<div class="social-bar"><div class="seg big">${[["all",L("All","الكل")],["instagram","Instagram"],["whatsapp","WhatsApp"]].map(([k,l])=>`<button type="button" data-ib-ch="${k}" class="${inboxChannel===k?"on":""}">${k==="all"?"":ic(k)}${l}</button>`).join("")}</div><span class="meta"></span><button class="btn" type="button" data-ib-refresh>${L("Refresh","تحديث")}</button></div>
+      <div id="inbox-body"></div>`;
+  }
+  function inboxThreads() {
+    const list=[];
+    if(inboxChannel!=="whatsapp")(inboxData.instagram.threads||[]).forEach(x=>list.push({...x,channel:"instagram"}));
+    if(inboxChannel!=="instagram")(inboxData.whatsapp.threads||[]).forEach(x=>list.push({...x,channel:"whatsapp"}));
+    return list.sort((a,b)=>Date.parse(b.at||0)-Date.parse(a.at||0));
+  }
+  function waSetup() {
+    const w=inboxData.whatsapp,s=w.setup;
+    if(w.connected)return "";
+    return `<article class="card card-pad agent-card"><header><span class="brand-badge whatsapp" aria-hidden="true">${ic("whatsapp")}</span><div><h2>${L("Connect WhatsApp (free)","اربط واتساب (مجاناً)")}</h2><p class="meta">${L("Uses Meta's free WhatsApp Cloud API. Replies within 24 hours of a customer's message are free.","يستخدم واجهة واتساب السحابية المجانية من Meta. الردود خلال 24 ساعة من رسالة العميل مجانية.")}</p></div></header>
+      ${s?`<ol class="prep-list"><li>${L("In developers.facebook.com → Nostrix Hub → Add use case → Connect with customers through WhatsApp.","في developers.facebook.com ← Nostrix Hub ← إضافة حالة استخدام ← التواصل مع العملاء عبر واتساب.")}</li>
+        <li>${L("WhatsApp → Configuration → Webhook: Callback URL and Verify token below, then subscribe to messages.","واتساب ← الإعداد ← Webhook: الرابط ورمز التحقق أدناه، ثم اشترك في messages.")}</li>
+        <li>${L("Add your number in WhatsApp → API setup, then give the Nostrix Hub system user the WhatsApp account and generate a token with whatsapp_business_messaging.","أضف رقمك في واتساب ← إعداد API، ثم امنح مستخدم النظام حساب واتساب وأنشئ رمزاً بصلاحية whatsapp_business_messaging.")}</li></ol>
+        <div class="copy-row"><span>${L("Callback URL","رابط الاستدعاء")}</span><input readonly value="${esc(s.webhookUrl)}"><button class="btn" type="button" data-ib-copy>${L("Copy","نسخ")}</button></div>
+        <div class="copy-row"><span>${L("Verify token","رمز التحقق")}</span><input readonly value="${esc(s.verifyToken)}"><button class="btn" type="button" data-ib-copy>${L("Copy","نسخ")}</button></div>
+        <form id="wa-form" class="hub-form" autocomplete="off"><div class="form-row"><label>${L("Phone number ID","معرّف رقم الهاتف")}<input name="phoneId" inputmode="numeric" required></label><label>${L("System-user token","رمز مستخدم النظام")}<input name="token" type="password" autocomplete="off" required placeholder="EAA…"></label></div>
+        <div class="tools"><button class="btn primary" type="submit">${L("Connect WhatsApp","اربط واتساب")}</button><span class="meta" id="wa-status" role="status"></span></div></form>`:`<p class="meta">${t("adminEdits")}</p>`}</article>`;
+  }
+  function drawInbox() {
+    const b=document.getElementById("inbox-body");if(!b||!inboxData)return;
+    app.querySelectorAll("[data-ib-ch]").forEach(x=>x.classList.toggle("on",x.dataset.ibCh===inboxChannel));
+    const list=inboxThreads(),ig=inboxData.instagram;
+    const notes=[!ig.connected?L("Instagram is not connected. Connect it in Social.","إنستغرام غير مربوط. اربطه من صفحة التواصل الاجتماعي."):ig.error?ig.error:""].filter(Boolean);
+    b.innerHTML=`${notes.map(n=>`<p class="card card-pad meta">${esc(n)}</p>`).join("")}${inboxChannel!=="instagram"?waSetup():""}
+      <div class="inbox"><aside class="card inbox-list">${list.map(x=>`<button type="button" class="ib-row ${openThread&&openThread.id===x.id?"on":""}" data-ib-open="${esc(x.channel)}|${esc(x.id)}"><span class="pl-plat ${x.channel==="whatsapp"?"whatsapp":"instagram"}">${ic(x.channel)}</span><span class="ib-txt"><b dir="auto">${esc(x.name)}</b><small dir="auto">${x.lastFromMe?L("You: ","أنت: "):""}${esc((x.last||"").slice(0,80))}</small></span><time class="meta">${x.at?esc(date(x.at,{day:"numeric",month:"short"})):""}</time></button>`).join("")||`<p class="empty">${L("No conversations yet.","لا توجد محادثات بعد.")}</p>`}</aside>
+      <section class="card inbox-thread" id="ib-thread">${openThread?threadHtml(openThread):`<p class="empty">${L("Choose a conversation.","اختر محادثة.")}</p>`}</section></div>`;
+    const box=document.querySelector(".ib-msgs");if(box)box.scrollTop=box.scrollHeight;
+  }
+  function threadHtml(th) {
+    return `<header class="ib-head"><span class="pl-plat ${th.channel==="whatsapp"?"whatsapp":"instagram"}">${ic(th.channel)}</span><b dir="auto">${esc(th.name)}</b></header>
+      <div class="ib-msgs">${th.messages.map(m=>`<div class="ib-msg ${m.mine?"mine":""}"><p dir="auto">${esc(m.text)}</p><time>${m.at?esc(date(m.at,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})):""}</time></div>`).join("")||`<p class="empty">${L("No messages.","لا توجد رسائل.")}</p>`}</div>
+      <form id="ib-reply" class="ib-reply"><textarea name="text" rows="3" dir="auto" maxlength="2000" placeholder="${L("Write a reply…","اكتب رداً…")}" required></textarea>
+      <div class="tools"><button type="button" class="btn" data-ib-suggest="en">✨ ${L("Suggest (English)","اقترح (إنجليزي)")}</button><button type="button" class="btn" data-ib-suggest="ar">✨ ${L("Suggest (Arabic)","اقترح (عربي)")}</button><span class="meta" id="ib-status" role="status"></span><button class="btn primary" type="submit">${L("Send","إرسال")}</button></div></form>`;
+  }
+  app.addEventListener("click",async e=>{
+    const b=e.target.closest?.("[data-ib-ch],[data-ib-refresh],[data-ib-open],[data-ib-suggest],[data-ib-copy]");if(!b||!app.contains(b))return;
+    if(b.dataset.ibCh){inboxChannel=b.dataset.ibCh;drawInbox();}
+    else if(b.hasAttribute("data-ib-refresh")){b.disabled=true;try{inboxData=await api.getInbox();if(openThread)openThread={...await api.getThread(openThread.channel,openThread.id),channel:openThread.channel};drawInbox();}catch(error){toast(aiError(error));}finally{b.disabled=false;}}
+    else if(b.dataset.ibOpen){const [ch,id]=b.dataset.ibOpen.split("|");try{openThread={...await api.getThread(ch,id),channel:ch};drawInbox();}catch(error){toast(aiError(error));}}
+    else if(b.hasAttribute("data-ib-copy")){try{await navigator.clipboard.writeText(b.previousElementSibling.value);toast(t("copied"));}catch{toast(t("unavailable"));}}
+    else if(b.dataset.ibSuggest&&openThread){const last=[...openThread.messages].reverse().find(m=>!m.mine);if(!last){toast(L("No customer message to answer yet.","لا توجد رسالة من العميل بعد."));return;}
+      const st=document.getElementById("ib-status");busy(b,true,L("Writing…","جارٍ الكتابة…"));
+      try{const r=await api.writeReply({message:last.text,channel:openThread.channel==="whatsapp"?"whatsapp":"instagram",context:openThread.messages.slice(-6).map(m=>(m.mine?"Us: ":"Customer: ")+m.text).join("\n")});document.querySelector('#ib-reply textarea').value=b.dataset.ibSuggest==="ar"?r.ar:r.en;st.textContent=r.note?"💡 "+r.note:"";}
+      catch(error){st.textContent=aiError(error);}finally{busy(b,false);}}
+  });
+  app.addEventListener("submit",async e=>{
+    const form=e.target;
+    if(form.id==="ib-reply"&&openThread){e.preventDefault();const btn=form.querySelector('[type="submit"]'),st=document.getElementById("ib-status");busy(btn,true);
+      try{await api.sendMessage({channel:openThread.channel,to:openThread.contactId,text:form.elements.text.value});openThread={...await api.getThread(openThread.channel,openThread.id),channel:openThread.channel};drawInbox();toast(L("Sent.","تم الإرسال."));}
+      catch(error){st.textContent=aiError(error);busy(btn,false);}}
+    else if(form.id==="wa-form"){e.preventDefault();const st=document.getElementById("wa-status"),btn=form.querySelector('[type="submit"]');busy(btn,true);
+      try{const f=new FormData(form);const r=await api.connectWhatsApp({phoneId:f.get("phoneId"),token:f.get("token")});form.reset();inboxData=await api.getInbox();drawInbox();toast(L("WhatsApp connected: ","تم ربط واتساب: ")+r.number);}
+      catch(error){st.textContent=aiError(error);busy(btn,false);}}
+  });
   // Automation switches save immediately
   async function saveAuto(change){try{await api.saveAutomation(change);autoData=await api.getAutomation();const bar=app.querySelector(".auto-bar");if(bar)bar.outerHTML=autoBar();const card=document.getElementById("auto-card");if(card)card.outerHTML=autoCard();toast(t("saved"));}catch(error){toast(aiError(error));}}
   app.addEventListener("click",e=>{const b=e.target.closest?.("[data-auto-toggle]");if(b&&autoData)saveAuto({[b.dataset.autoToggle]:!autoData[b.dataset.autoToggle]});});

@@ -2,7 +2,7 @@
 import seed from '../_build/data/portfolio.json';
 import { fail, now, randomHex } from './util.js';
 
-const VERSION = '8';
+const VERSION = '9';
 
 export const CATEGORIES = [
   { id: 'modelling', en: 'Modelling', ar: 'الأزياء' },
@@ -48,6 +48,8 @@ CREATE INDEX IF NOT EXISTS posts_when ON posts(scheduled_at);
 CREATE TABLE IF NOT EXISTS clients (id TEXT PRIMARY KEY, name TEXT NOT NULL, company TEXT, email TEXT, phone TEXT, trn TEXT, address TEXT, notes TEXT, created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS docs (id TEXT PRIMARY KEY, kind TEXT NOT NULL, number TEXT NOT NULL UNIQUE, client_id TEXT, client TEXT, issue_date TEXT, due_date TEXT, currency TEXT NOT NULL DEFAULT 'AED', items TEXT, vat INTEGER NOT NULL DEFAULT 0, discount REAL NOT NULL DEFAULT 0, notes TEXT, status TEXT NOT NULL DEFAULT 'draft', paid REAL NOT NULL DEFAULT 0, token TEXT NOT NULL UNIQUE, quote_id TEXT, created_by TEXT, created_at TEXT NOT NULL, updated_at TEXT, sent_at TEXT, paid_at TEXT);
 CREATE TABLE IF NOT EXISTS push_subs (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, endpoint TEXT NOT NULL UNIQUE, p256dh TEXT NOT NULL, auth TEXT NOT NULL, kinds TEXT, device TEXT, created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS inbox_msgs (id TEXT PRIMARY KEY, channel TEXT NOT NULL, contact_id TEXT NOT NULL, contact_name TEXT, direction TEXT NOT NULL, text TEXT, at TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS inbox_contact ON inbox_msgs(channel, contact_id, at);
 CREATE TABLE IF NOT EXISTS social_accounts (platform TEXT PRIMARY KEY, data TEXT NOT NULL, updated_at TEXT);
 CREATE TABLE IF NOT EXISTS social_snapshots (day TEXT NOT NULL, platform TEXT NOT NULL, followers INTEGER, posts INTEGER, likes INTEGER, PRIMARY KEY(day, platform));
 CREATE TABLE IF NOT EXISTS oauth_states (state TEXT PRIMARY KEY, platform TEXT NOT NULL, user_id TEXT NOT NULL, created_at TEXT NOT NULL);
