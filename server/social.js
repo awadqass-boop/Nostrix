@@ -107,6 +107,18 @@ async function finishInstagram(ctx, code) {
     const ig = biz?.instagram_accounts?.data?.[0];
     if (ig) found = { mode: 'fb', igId: ig.id, username: ig.username };
   }
+  if (!found) {
+    // Business-login tokens: ask Meta which Instagram account each permission was granted for.
+    const dbg = await getJson(`https://graph.facebook.com/${GRAPH}/debug_token?input_token=${encodeURIComponent(token)}&access_token=${encodeURIComponent(env.META_APP_ID + '|' + env.META_APP_SECRET)}`).catch((e) => { console.error('ig debug_token', e.message); return null; });
+    const scopes = dbg?.data?.granular_scopes || [];
+    const ids = [...new Set(scopes.filter((g) => /^instagram_/.test(g.scope)).flatMap((g) => g.target_ids || []))];
+    for (const id of ids) {
+      const ig = await getJson(`https://graph.facebook.com/${GRAPH}/${id}?fields=id,username&access_token=${encodeURIComponent(token)}`).catch((e) => { console.error('ig lookup', id, e.message); return null; });
+      if (ig?.username) { found = { mode: 'fb', igId: ig.id, username: ig.username }; break; }
+    }
+    if (!found && ids.length) found = { mode: 'fb', igId: ids[0], username: '' };
+    if (!found) console.error('ig: no account', JSON.stringify(scopes.map((g) => g.scope)));
+  }
   if (!found) throw new Error('Connected to Meta, but no Instagram account was shared. Choose the Nostrix Instagram account when asked.');
   await saveAccount(env, 'instagram', { ...found, token, connectedAt: now(), expiresAt: t.expires_in ? new Date(Date.now() + t.expires_in * 1000).toISOString() : null });
 }
