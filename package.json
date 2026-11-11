@@ -1,0 +1,8 @@
+{
+  "name": "nostrix-site",
+  "private": true,
+  "description": "Server code for nostrix.ae on Cloudflare Pages. Only the API functions use these packages.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "1.3.0"
+  }
+}

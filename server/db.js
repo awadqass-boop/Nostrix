@@ -2,7 +2,7 @@
 import seed from '../_build/data/portfolio.json';
 import { fail, now, randomHex } from './util.js';
 
-const VERSION = '4';
+const VERSION = '5';
 
 export const CATEGORIES = [
   { id: 'modelling', en: 'Modelling', ar: 'الأزياء' },
@@ -43,6 +43,11 @@ CREATE INDEX IF NOT EXISTS events_at ON events(at);
 CREATE TABLE IF NOT EXISTS notes (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, text TEXT NOT NULL, pinned INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL, updated_at TEXT);
 CREATE TABLE IF NOT EXISTS audit_log (id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT NOT NULL, user_id TEXT, email TEXT, name TEXT, area TEXT NOT NULL, action TEXT NOT NULL, target TEXT, detail TEXT);
 CREATE INDEX IF NOT EXISTS audit_at ON audit_log(at);
+CREATE TABLE IF NOT EXISTS leads (id TEXT PRIMARY KEY, name TEXT NOT NULL, kind TEXT, emirate TEXT, area TEXT, why TEXT, score INTEGER, service TEXT, instagram TEXT, website TEXT, phone TEXT, email TEXT, source_url TEXT, status TEXT NOT NULL DEFAULT 'new', notes TEXT, message_channel TEXT, message_en TEXT, message_ar TEXT, message_subject TEXT, created_by TEXT, created_at TEXT NOT NULL, updated_at TEXT);
+CREATE INDEX IF NOT EXISTS leads_status ON leads(status, score);
+CREATE TABLE IF NOT EXISTS ai_usage (id TEXT PRIMARY KEY, at TEXT NOT NULL, day TEXT NOT NULL, month TEXT NOT NULL, user_id TEXT, feature TEXT NOT NULL, model TEXT NOT NULL, input_tokens INTEGER, output_tokens INTEGER, searches INTEGER, cost REAL NOT NULL);
+CREATE INDEX IF NOT EXISTS ai_usage_month ON ai_usage(month);
+CREATE INDEX IF NOT EXISTS ai_usage_day ON ai_usage(day, feature);
 CREATE TABLE IF NOT EXISTS portfolio (id TEXT PRIMARY KEY, category TEXT NOT NULL, label TEXT, src TEXT NOT NULL, thumb TEXT NOT NULL, video TEXT, w INTEGER, h INTEGER, tw INTEGER, th INTEGER, featured INTEGER NOT NULL DEFAULT 0, published INTEGER NOT NULL DEFAULT 0, sort INTEGER NOT NULL DEFAULT 0, media_key TEXT, created_by TEXT, created_at TEXT NOT NULL, updated_at TEXT);
 `;
 

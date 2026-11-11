@@ -5,6 +5,7 @@ import * as auth from './auth.js';
 import * as team from './team.js';
 import * as site from './site.js';
 import * as pub from './public.js';
+import * as ai from './ai.js';
 
 const routes = [];
 const on = (method, pattern, fn) => routes.push({ method, re: new RegExp('^' + pattern.replace(/:(\w+)/g, '(?<$1>[^/]+)') + '$'), fn });
@@ -52,6 +53,15 @@ on('PUT', '/site/portfolio/:id/:kind', (c, p) => site.putPhoto(c, p.id, p.kind))
 on('PATCH', '/site/portfolio/:id', async (c, p) => site.updatePhoto(c, p.id, await body(c.request)));
 on('DELETE', '/site/portfolio/:id', (c, p) => site.deletePhoto(c, p.id));
 on('POST', '/site/portfolio-order', async (c) => site.reorderPhotos(c, await body(c.request)));
+
+// Leads and AI (key stays on the server)
+on('GET', '/ai/leads', (c) => ai.leads(c));
+on('GET', '/ai/profile', (c) => ai.getProfile(c));
+on('PUT', '/ai/profile', async (c) => ai.saveProfile(c, await body(c.request)));
+on('POST', '/ai/leads/hunt', async (c) => ai.hunt(c, await body(c.request)));
+on('PATCH', '/ai/leads/:id', async (c, p) => ai.updateLead(c, p.id, await body(c.request)));
+on('DELETE', '/ai/leads/:id', (c, p) => ai.deleteLead(c, p.id));
+on('POST', '/ai/leads/:id/message', async (c, p) => ai.writeMessage(c, p.id, await body(c.request)));
 
 // Public website
 on('POST', '/collect', async (c) => pub.collect(c, await body(c.request, 4096)));

@@ -4,6 +4,7 @@
 # Everything in the repo is copied except private or host-specific files:
 #   _build/        build scripts and source data (must not be public)
 #   functions/, server/   API code that runs on Cloudflare (never served as files)
+#   node_modules/, package.json, package-lock.json   server packages (installed by Cloudflare)
 #   CNAME          only used by GitHub Pages
 #   privacy.html, review.html   old redirect stubs, replaced by the _redirects file
 set -eu
@@ -18,6 +19,9 @@ find . -type f \
   ! -path './_build/*' \
   ! -path './functions/*' \
   ! -path './server/*' \
+  ! -path './node_modules/*' \
+  ! -name 'package.json' \
+  ! -name 'package-lock.json' \
   ! -path './privacy.html' \
   ! -path './review.html' \
   ! -name 'CNAME' \

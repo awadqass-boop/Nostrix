@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 _build/data/missing-ar.txt
 _site/
+node_modules/

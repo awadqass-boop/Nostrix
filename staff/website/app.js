@@ -23,6 +23,33 @@
     badPhoto:["Choose a JPEG, PNG, WebP, GIF or AVIF image that your browser can preview.","اختر صورة بصيغة JPEG أو PNG أو WebP أو GIF أو AVIF يمكن لمتصفحك عرضها."],
     loading:["Loading…","جارٍ التحميل…"],noData:["No data yet.","لا توجد بيانات بعد."],
 
+    marketingHub:["Marketing hub","مركز التسويق"],leads:["Leads","العملاء المحتملون"],agent:["Agent settings","إعدادات الوكيل"],
+    leadsNote:["Possible clients found by the AI agent. Check each one before you contact them.","عملاء محتملون وجدهم الوكيل الذكي. راجع كل واحد قبل التواصل معه."],
+    findLeads:["Find new leads","ابحث عن عملاء جدد"],emirate:["Emirate","الإمارة"],focus:["Focus (optional)","التركيز (اختياري)"],
+    focusHint:["e.g. new specialty cafés, weekend markets, Ramadan pop-ups","مثال: مقاهٍ مختصة جديدة، أسواق نهاية الأسبوع، فعاليات رمضان"],
+    huntNote:["Takes 1–3 minutes and costs about $0.20–0.40. Keep this page open.","يستغرق من دقيقة إلى ثلاث دقائق ويكلّف نحو 0.20–0.40 دولار. أبقِ الصفحة مفتوحة."],
+    hunting:["Searching the web for leads…","جارٍ البحث عن عملاء محتملين…"],huntDone:["new leads added.","عملاء جدد أُضيفوا."],
+    aiSpend:["AI spend this month","إنفاق الذكاء الاصطناعي هذا الشهر"],huntsToday:["Searches today","عمليات البحث اليوم"],messagesToday:["Messages today","الرسائل اليوم"],
+    aiNotReady:["The AI key is not set up in Cloudflare yet.","مفتاح الذكاء الاصطناعي غير مُعدّ في Cloudflare بعد."],
+    noLeads:["No leads yet. Press Find new leads to start.","لا يوجد عملاء محتملون بعد. اضغط ابحث عن عملاء جدد للبدء."],
+    stNew:["New","جديد"],stContacted:["Contacted","تم التواصل"],stReplied:["Replied","ردّ"],stWon:["Won","تم الفوز"],stLost:["Not interested","غير مهتم"],
+    openLeads:["Open leads","العملاء المفتوحون"],allLeads:["All leads","كل العملاء"],fit:["Fit","الملاءمة"],pitch:["Pitch","العرض المقترح"],
+    writeMsg:["Write message","اكتب رسالة"],rewriteMsg:["Write again","اكتب مجدداً"],writing:["Writing…","جارٍ الكتابة…"],
+    chInstagram:["Instagram DM","رسالة إنستغرام"],chWhatsapp:["WhatsApp","واتساب"],chEmail:["Email","البريد الإلكتروني"],
+    copyEn:["Copy English","نسخ الإنجليزية"],copyAr:["Copy Arabic","نسخ العربية"],copied:["Copied.","تم النسخ."],source:["Source","المصدر"],
+    leadNotes:["Team notes","ملاحظات الفريق"],deleteLead:["Delete lead","حذف العميل"],deleteLeadConfirm:["Delete this lead?","هل تريد حذف هذا العميل المحتمل؟"],leadDeleted:["Lead deleted.","تم حذف العميل."],
+    saved:["Saved.","تم الحفظ."],subjectLabel:["Subject","الموضوع"],
+    agentNote:["Everything the AI agent knows and how it writes. Changes apply to the next search or message.","كل ما يعرفه الوكيل الذكي وطريقة كتابته. تُطبّق التغييرات على البحث أو الرسالة التالية."],
+    agFinding:["Finding leads","البحث عن العملاء"],agWriting:["Writing messages","كتابة الرسائل"],agBudget:["Budget","الميزانية"],
+    agAbout:["About Nostrix","عن نوستريكس"],agAboutHint:["What the agent knows about your business: services, prices, location, clients.","ما يعرفه الوكيل عن عملك: الخدمات والأسعار والموقع والعملاء."],
+    agTargets:["Who to look for","من نبحث عنه"],agAvoid:["Avoid","تجنّب"],agEmirate:["Default emirate","الإمارة الافتراضية"],agPerRun:["Leads per search (3–10)","عدد العملاء في كل بحث (3–10)"],
+    agHuntRules:["Extra search instructions","تعليمات إضافية للبحث"],agTone:["Tone and approach","الأسلوب والنبرة"],agLength:["Message length","طول الرسالة"],
+    agRules:["Extra writing rules","قواعد إضافية للكتابة"],agRulesHint:["e.g. never mention prices, always invite them to see the portfolio","مثال: لا تذكر الأسعار أبداً، وادعُهم دائماً لمشاهدة الأعمال"],
+    agSignoff:["Sign-off","التوقيع"],agCap:["Monthly AI budget (USD)","ميزانية الذكاء الاصطناعي الشهرية (دولار)"],agCapHint:["The agent stops for the month when this is reached. Keep it below your Claude Console limit.","يتوقف الوكيل لبقية الشهر عند بلوغها. أبقها أقل من حدّ Claude Console."],
+    saveAgent:["Save settings","حفظ الإعدادات"],resetAgent:["Reset to defaults","استعادة الإعدادات الافتراضية"],resetAgentConfirm:["Reset all agent settings to the defaults?","هل تريد استعادة جميع إعدادات الوكيل الافتراضية؟"],
+    adminEdits:["Only the owner can change these settings.","يمكن للمالك فقط تغيير هذه الإعدادات."],
+    aiMonthCap:["The monthly AI budget is used up.","تم استهلاك ميزانية الذكاء الاصطناعي الشهرية."],aiDailyLimit:["Today's limit for this AI feature is reached.","تم بلوغ الحد اليومي لهذه الميزة."],
+    aiNotConfigured:["The AI key is not set up in Cloudflare yet.","مفتاح الذكاء الاصطناعي غير مُعدّ في Cloudflare بعد."],
     website:["Website","الموقع"],overview:["Overview","نظرة عامة"],visitors:["Visitors","الزوّار"],clicks:["Clicks","النقرات"],
     enquiries:["Enquiries","الاستفسارات"],reviews:["Reviews","التقييمات"],access:["Accounts","الحسابات"],
     management:["Management","الإدارة"],staff:["Staff workspace","مساحة عمل الفريق"],viewSite:["View website","عرض الموقع"],
@@ -86,8 +113,9 @@
     allAreas:["All activity","كل النشاط"],areaTeam:["Staff workspace","مساحة الفريق"],areaWebsite:["Website","الموقع"],areaAccounts:["Accounts","الحسابات"],areaLogin:["Sign-ins","تسجيلات الدخول"],
     searchLog:["Search the log","ابحث في السجل"],action:["Action","الإجراء"],item:["Item","العنصر"],details:["Details","التفاصيل"],person:["Person","الشخص"],noLog:["Nothing recorded yet.","لا يوجد نشاط مسجّل بعد."],whenCol:["When","الوقت"],area:["Area","القسم"]
   };
-  const sections = ["overview","visitors","clicks","enquiries","reviews","access","portfolio","notes","log"];
+  const sections = ["overview","visitors","clicks","enquiries","reviews","access","portfolio","notes","log","leads","agent"];
   const state = {overviewDays:7, visitorDays:"7", visitorRange:null, reviewTab:"pending", search:"", enquiryFilter:"all"};
+  let leadData=null, agentData=null, leadFilter="open", leadBusy=false;
   let session, revision=0, chartStats, allEnquiries=[], noticeTimer, removeTarget=null, focusNextPage=false;
   const ar = () => html.lang === "ar";
   const locale = () => ar() ? "ar-AE-u-nu-arab" : "en-GB";
@@ -134,6 +162,8 @@
         ${workspaceLinks.staff ? `<a class="workspace-return" href="${esc(workspaceLinks.staff)}">${ic("back","directional")}${t("staff")}</a>` : `<div class="workspace-return">${ic("panel")}${t("staff")}</div>`}
         <div class="nav-label">${t("website")}</div>
         <nav class="side-nav" aria-label="${t("website")}">${sections.slice(0,5).map(key=>navLink(key,page,key==="reviews"?pending:0)).join("")}</nav>
+        <div class="nav-label management">${t("marketingHub")}</div>
+        <nav class="side-nav" aria-label="${t("marketingHub")}">${["leads","agent"].map(k=>navLink(k,page,0)).join("")}</nav>
         <div class="nav-label management">${t("management")}</div>
         <nav class="side-nav" aria-label="${t("management")}">${["portfolio","notes",...(session.is_admin?["access","log"]:[])].map(k=>navLink(k,page,0)).join("")}</nav>
         <div class="side-foot"><div class="account-wrap">
@@ -377,6 +407,61 @@
     newest.disabled=!first;
     newest.textContent=first?pick(first.city)+" · "+date(first.at,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):"—";
   }
+  const EMIRATES=["Ras Al Khaimah","Dubai","Sharjah","Ajman","Umm Al Quwain","Abu Dhabi","Fujairah","All UAE"];
+  const LEAD_STATUS=[["new","stNew"],["contacted","stContacted"],["replied","stReplied"],["won","stWon"],["lost","stLost"]];
+  const money=v=>"$"+(Number(v)||0).toFixed(2);
+  async function leadsPage() {
+    leadData=await api.getLeads();
+    const u=leadData.usage;
+    return sectionHead("leads",t("leadsNote"))+`${leadData.ready?"":`<p class="card card-pad error-text">${t("aiNotReady")}</p>`}
+    <div class="ai-meters"><span>${t("aiSpend")}: <b>${money(u.spent)}</b> / ${money(u.cap)}</span><span>${t("huntsToday")}: <b>${num(u.hunts)}</b> / ${num(u.huntLimit)}</span><span>${t("messagesToday")}: <b>${num(u.messages)}</b> / ${num(u.messageLimit)}</span></div>
+    <article class="card card-pad"><form id="hunt-form" class="hunt-form">
+      <label>${t("emirate")}<select name="emirate">${EMIRATES.map(e=>`<option ${e==="Ras Al Khaimah"?"selected":""}>${e}</option>`).join("")}</select></label>
+      <label class="grow">${t("focus")}<input name="focus" maxlength="300" dir="auto" placeholder="${t("focusHint")}"></label>
+      <button class="btn primary" type="submit" ${leadData.ready?"":"disabled"}>${ic("search")}${t("findLeads")}</button>
+    </form><p class="meta" id="hunt-status" role="status">${t("huntNote")}</p></article>
+    <div class="tools">${picker("lead-filter","status",[["open","openLeads"],["all","allLeads"],...LEAD_STATUS],leadFilter)}</div>
+    <div id="lead-list" class="lead-list"></div>
+    <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><h2 id="confirm-title"></h2><div class="tools"><button class="btn" value="cancel" autofocus>${t("cancel")}</button><button class="btn reject" value="ok" id="confirm-ok"></button></div></form></dialog>`;
+  }
+  function leadCard(l) {
+    const link=(href,text,icon)=>href?`<a class="chip-link" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${ic(icon)}<bdi>${esc(text)}</bdi></a>`:"";
+    const ig=l.instagram?"https://www.instagram.com/"+encodeURIComponent(l.instagram)+"/":"";
+    const msg=l.message_en||l.message_ar;
+    return `<article class="card card-pad lead" data-lead="${esc(l.id)}">
+      <header class="lead-head"><div><h2 dir="auto">${esc(l.name)}</h2><p class="meta">${esc([l.kind,l.area,l.emirate].filter(Boolean).join(" · "))}</p></div>
+      <span class="score" title="${t("fit")}">${num(l.score||0)}/10</span></header>
+      <p dir="auto">${esc(l.why||"")}</p>${l.service?`<p class="meta"><b>${t("pitch")}:</b> <span dir="auto">${esc(l.service)}</span></p>`:""}
+      <div class="lead-links">${link(ig,"@"+l.instagram,"instagram")}${link(l.website,(l.website||"").replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,""),"external")}${l.phone?`<a class="chip-link" href="tel:${esc(l.phone.replace(/[^+\d]/g,""))}">${ic("call")}<bdi>${esc(l.phone)}</bdi></a>`:""}${l.email?`<a class="chip-link" href="mailto:${esc(l.email)}">${ic("enquiries")}<bdi>${esc(l.email)}</bdi></a>`:""}${link(l.source_url,t("source"),"external")}</div>
+      <div class="lead-actions"><label class="picker"><select data-lead-status aria-label="${t("status")}">${LEAD_STATUS.map(([v,k])=>`<option value="${v}" ${l.status===v?"selected":""}>${t(k)}</option>`).join("")}</select>${ic("down")}</label>
+        <label class="picker"><select data-lead-channel aria-label="${t("writeMsg")}">${[["instagram","chInstagram"],["whatsapp","chWhatsapp"],["email","chEmail"]].map(([v,k])=>`<option value="${v}" ${(l.message_channel||"instagram")===v?"selected":""}>${t(k)}</option>`).join("")}</select>${ic("down")}</label>
+        <button class="btn" type="button" data-lead-write ${leadData.ready?"":"disabled"}>${ic("plus")}${t(msg?"rewriteMsg":"writeMsg")}</button>
+        <button class="icon-btn" type="button" data-lead-delete ${label(t("deleteLead"))}>${ic("trash")}</button></div>
+      ${msg?`<div class="lead-msg">${l.message_subject?`<p class="meta"><b>${t("subjectLabel")}:</b> ${esc(l.message_subject)}</p>`:""}
+        <div class="msg-pair"><div><textarea data-lead-text="message_en" dir="ltr" rows="6">${esc(l.message_en||"")}</textarea><button class="text-btn" type="button" data-copy="message_en">${t("copyEn")}</button></div>
+        <div><textarea data-lead-text="message_ar" dir="rtl" lang="ar" rows="6">${esc(l.message_ar||"")}</textarea><button class="text-btn" type="button" data-copy="message_ar">${t("copyAr")}</button></div></div></div>`:""}
+      <label class="lead-notes">${t("leadNotes")}<textarea data-lead-text="notes" dir="auto" rows="2" maxlength="2000">${esc(l.notes||"")}</textarea></label>
+    </article>`;
+  }
+  function drawLeads() {
+    const list=document.getElementById("lead-list");if(!list||!leadData)return;
+    const rows=leadData.leads.filter(l=>leadFilter==="all"||(leadFilter==="open"?["new","contacted","replied"].includes(l.status):l.status===leadFilter));
+    list.innerHTML=rows.map(leadCard).join("")||`<p class="card card-pad empty">${t("noLeads")}</p>`;
+  }
+  const AGENT_FIELDS=[["agFinding",[["about","agAbout",6,"agAboutHint"],["targets","agTargets",4],["avoid","agAvoid",3],["emirate","agEmirate",0],["perRun","agPerRun",0],["huntRules","agHuntRules",3]]],
+    ["agWriting",[["tone","agTone",4],["length","agLength",2],["rules","agRules",3,"agRulesHint"],["signoff","agSignoff",0]]]];
+  async function agentPage() {
+    agentData=await api.getAgent();
+    const p=agentData.profile,edit=session.is_admin,dis=edit?"":"disabled";
+    const field=([key,lab,rows,hint])=>`<label class="agent-field">${t(lab)}${hint?`<small>${t(hint)}</small>`:""}${rows?`<textarea name="${key}" rows="${rows}" dir="auto" maxlength="3000" ${dis}>${esc(p[key]||"")}</textarea>`:`<input name="${key}" ${key==="perRun"?'type="number" min="3" max="10"':'maxlength="200"'} dir="auto" value="${esc(p[key]||"")}" ${dis}>`}</label>`;
+    return sectionHead("agent",t("agentNote"))+(edit?"":`<p class="card card-pad meta">${t("adminEdits")}</p>`)+`<form id="agent-form" class="agent-form">
+      ${AGENT_FIELDS.map(([title,fields])=>`<article class="card card-pad"><h2>${t(title)}</h2>${fields.map(field).join("")}</article>`).join("")}
+      <article class="card card-pad"><h2>${t("agBudget")}</h2><label class="agent-field">${t("agCap")}<small>${t("agCapHint")}</small><input name="cap" type="number" min="1" max="500" value="${esc(agentData.cap)}" ${dis}></label></article>
+      ${edit?`<div class="tools"><button class="btn" type="button" data-agent-reset>${t("resetAgent")}</button><button class="btn primary" type="submit">${ic("check")}${t("saveAgent")}</button></div>`:""}
+      <p role="alert" class="error-text" id="agent-error"></p></form>
+      <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><h2 id="confirm-title"></h2><div class="tools"><button class="btn" value="cancel" autofocus>${t("cancel")}</button><button class="btn reject" value="ok" id="confirm-ok"></button></div></form></dialog>`;
+  }
+  const aiError=error=>error.detail||t(T[error.message]?error.message:"unavailable");
   function notesPage() {
     return sectionHead("notes")+`<article class="card card-pad"><header class="card-head"><h2>${t("writeNote")}</h2><span class="scope-label">${ic("lock")}${t("websiteStaff")}</span></header>
     <form id="note-form"><label class="sr-only" for="note-text">${t("writeNote")}</label><textarea id="note-text" maxlength="2000" rows="3" dir="auto" placeholder="${t("notePrompt")}">${esc(noteDraft)}</textarea>
@@ -456,6 +541,8 @@
       stop=await api.subscribeNotes(rows=>{if(token===revision)drawNotes(rows);},error);
     } else if(page==="portfolio") {
       pendingPhotos();
+    } else if(page==="leads") {
+      drawLeads();
     }
     if(stop){if(token===revision)stopLive=stop;else stop();}
   }
@@ -595,7 +682,7 @@
         app.innerHTML=authPage(denied,demo);
       } else {
         const reviews=await api.getReviews();
-        const views={overview:()=>overview(reviews),visitors,clicks,enquiries:enquiryPage,reviews:()=>reviewPage(reviews),access:accessPage,portfolio:portfolioPage,notes:notesPage,log:logPage};
+        const views={overview:()=>overview(reviews),visitors,clicks,enquiries:enquiryPage,reviews:()=>reviewPage(reviews),access:accessPage,portfolio:portfolioPage,notes:notesPage,log:logPage,leads:leadsPage,agent:agentPage};
         const body=await views[page]();
         if (token!==revision) return;
         syncDocument(page);
@@ -859,6 +946,48 @@
     if (!event.key || (event.key.startsWith("nostrix.website.demo.") && !/\.(note|visit)\.|\.noteSeedDate$/.test(event.key))) render();
     if (event.key==="nostrix_theme" && ["light","dark"].includes(event.newValue)) { html.dataset.theme=event.newValue; render(); }
     if (event.key==="nostrix_language_v1" && ["en","ar"].includes(event.newValue)) { html.lang=event.newValue; html.dir=ar()?"rtl":"ltr"; render(); }
+  });
+  // Marketing hub: leads and agent settings
+  const leadOf=node=>leadData?.leads.find(l=>l.id===node.closest("[data-lead]")?.dataset.lead);
+  app.addEventListener("click",async e=>{
+    const b=e.target.closest("button");if(!b||!app.contains(b))return;
+    const lead=leadOf(b);
+    if(b.hasAttribute("data-lead-write")&&lead){
+      if(leadBusy)return;leadBusy=true;b.disabled=true;const old=b.innerHTML;b.textContent=t("writing");
+      try{const r=await api.writeLeadMessage(lead.id,{channel:b.closest("[data-lead]").querySelector("[data-lead-channel]").value});Object.assign(lead,{message_channel:r.channel,message_en:r.en,message_ar:r.ar,message_subject:r.subject});leadData.usage.messages++;drawLeads();}
+      catch(error){toast(aiError(error));b.innerHTML=old;b.disabled=false;}
+      finally{leadBusy=false;}
+    } else if(b.hasAttribute("data-lead-delete")&&lead){
+      if(await confirmBox(t("deleteLeadConfirm"),t("deleteLead"))){try{await api.deleteLead(lead.id);leadData.leads=leadData.leads.filter(l=>l!==lead);drawLeads();toast(t("leadDeleted"));}catch(error){toast(aiError(error));}}
+    } else if(b.dataset.copy&&lead){
+      const text=b.closest("[data-lead]").querySelector(`[data-lead-text="${b.dataset.copy}"]`).value;
+      try{await navigator.clipboard.writeText(text);toast(t("copied"));}catch{toast(t("unavailable"));}
+    } else if(b.hasAttribute("data-agent-reset")){
+      if(await confirmBox(t("resetAgentConfirm"),t("resetAgent"))){try{await api.saveAgent({...agentData.defaults,cap:agentData.cap});await render();toast(t("saved"));}catch(error){toast(aiError(error));}}
+    }
+  });
+  app.addEventListener("change",async e=>{
+    const f=e.target,lead=leadOf(f);
+    if(f.id==="lead-filter"){leadFilter=f.value;drawLeads();}
+    else if(f.hasAttribute("data-lead-status")&&lead){try{await api.updateLead(lead.id,{status:f.value});lead.status=f.value;toast(t("saved"));}catch(error){toast(aiError(error));}}
+    else if(f.dataset.leadText&&lead){const key=f.dataset.leadText;try{await api.updateLead(lead.id,{[key]:f.value});lead[key]=f.value;toast(t("saved"));}catch(error){toast(aiError(error));}}
+  });
+  app.addEventListener("submit",async e=>{
+    const form=e.target;
+    if(form.id==="hunt-form"){
+      e.preventDefault();if(leadBusy)return;leadBusy=true;
+      const submit=form.querySelector('[type="submit"]'),status=document.getElementById("hunt-status");
+      submit.disabled=true;status.textContent=t("hunting");status.classList.remove("error-text");
+      try{const r=await api.huntLeads({emirate:form.elements.emirate.value,focus:form.elements.focus.value});leadBusy=false;await render();toast(num(r.added)+" "+t("huntDone"));}
+      catch(error){status.textContent=aiError(error);status.classList.add("error-text");submit.disabled=false;}
+      finally{leadBusy=false;}
+    } else if(form.id==="agent-form"){
+      e.preventDefault();const submit=form.querySelector('[type="submit"]');if(!submit||submit.disabled)return;submit.disabled=true;
+      const input=Object.fromEntries([...form.elements].filter(x=>x.name).map(x=>[x.name,x.value]));
+      try{await api.saveAgent(input);toast(t("saved"));document.getElementById("agent-error").textContent="";}
+      catch(error){document.getElementById("agent-error").textContent=aiError(error);}
+      finally{submit.disabled=false;}
+    }
   });
   window.matchMedia("(min-width:821px)").addEventListener("change",event=>{if(event.matches && app.querySelector(".nav-open"))setNav(false);});
   window.addEventListener("pageshow",event=>{if(event.persisted)render();});

@@ -112,3 +112,37 @@ dialog label { display: grid; gap: 6px; margin: 12px 0; font-size: 12px; color: 
 .log-area.login { background: var(--green-bg); color: var(--green); }
 html[data-theme="light"] .log-area.team { color: #3d55b8; }
 .enquiry-delete { margin-inline-start: 8px; vertical-align: middle; }
+
+/* Marketing hub: leads and agent settings */
+.ai-meters { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-block-end: 12px; font-size: 12px; color: var(--muted); }
+.ai-meters b { color: var(--text); font-weight: 600; }
+.hunt-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px; }
+.hunt-form label, .agent-field, .lead-notes { display: grid; gap: 6px; font-size: 12px; color: var(--muted); }
+.hunt-form .grow { flex: 1 1 260px; }
+.hunt-form select, .hunt-form input, .agent-field input, .agent-field textarea, .lead textarea {
+  width: 100%; min-height: 36px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 9px;
+  background: var(--bg); color: var(--text); font: inherit; font-size: 13px; line-height: 1.55;
+}
+.agent-field textarea, .lead textarea { resize: vertical; }
+.hunt-form input:focus, .hunt-form select:focus, .agent-field input:focus, .agent-field textarea:focus, .lead textarea:focus { outline: none; border-color: var(--accent); }
+#hunt-status { margin-block-start: 10px; }
+.lead-list { display: grid; gap: 12px; margin-block-start: 12px; }
+.lead { display: grid; gap: 10px; }
+.lead h2 { margin: 0; font-size: 16px; }
+.lead p { margin: 0; line-height: 1.55; }
+.lead-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.score { flex: none; padding: 3px 9px; border-radius: 980px; background: var(--accent-bg); color: var(--accent); font-size: 12px; font-weight: 600; }
+.lead-links { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip-link { display: inline-flex; align-items: center; gap: 5px; max-width: 100%; padding: 4px 10px; border-radius: 980px; background: var(--raised); color: var(--text); font-size: 12px; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chip-link:hover { background: var(--hover); }
+.chip-link .ic { width: 13px; height: 13px; flex: none; }
+.lead-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.lead-msg { display: grid; gap: 8px; padding: 12px; border-radius: 12px; background: var(--raised); }
+.msg-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.msg-pair > div { display: grid; gap: 4px; justify-items: start; }
+@media (max-width: 760px) { .msg-pair { grid-template-columns: 1fr; } }
+.agent-form { display: grid; gap: 12px; }
+.agent-form .card { display: grid; gap: 14px; }
+.agent-form h2 { margin: 0; font-size: 15px; }
+.agent-field small { color: var(--subtle); font-size: 11px; }
+.agent-form .tools { justify-content: flex-end; }

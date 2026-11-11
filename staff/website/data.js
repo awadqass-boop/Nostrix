@@ -23,6 +23,7 @@ window.NostrixWebsite = (() => {
     return data;
   }
   const post = (path, body, method = "POST") => call(path, { method, body: JSON.stringify(body || {}) });
+  const slow = data => { if (data && data.error) { const e = new Error(data.error); e.detail = data.message || ""; throw e; } return data; };
 
   async function session(force) {
     if (!force && me !== null && Date.now() - meAt < 8000) return me;
@@ -155,6 +156,14 @@ window.NostrixWebsite = (() => {
     },
     deletePhoto(id) { return call("/site/portfolio/" + encodeURIComponent(id), { method: "DELETE" }); },
     reorderPhotos(category, ids) { return post("/site/portfolio-order", { category, ids }); },
+    // Marketing hub: leads and the AI agent. Slow AI calls answer with spaces first, then JSON.
+    getLeads() { return call("/ai/leads"); },
+    async huntLeads(input) { return slow(await call("/ai/leads/hunt", { method: "POST", body: JSON.stringify(input || {}) })); },
+    updateLead(id, input) { return post("/ai/leads/" + encodeURIComponent(id), input, "PATCH"); },
+    deleteLead(id) { return call("/ai/leads/" + encodeURIComponent(id), { method: "DELETE" }); },
+    async writeLeadMessage(id, input) { return slow(await call("/ai/leads/" + encodeURIComponent(id) + "/message", { method: "POST", body: JSON.stringify(input || {}) })); },
+    getAgent() { return call("/ai/profile"); },
+    saveAgent(input) { return post("/ai/profile", input, "PUT"); },
     async getPublishStatus() { return { status: "live", progress: 100 }; },
     async retryPublish() { return { status: "live", progress: 100 }; }
   };
