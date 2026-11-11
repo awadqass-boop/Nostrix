@@ -4,7 +4,8 @@
 // and records its cost in ai_usage.
 import Anthropic from '@anthropic-ai/sdk';
 import { db, audit, allow, setting } from './db.js';
-import { requireWebsite, requireAdmin } from './auth.js';
+import { requireMarketing as requireWebsite, requireAdmin } from './auth.js';
+import { notify } from './push.js';
 import { HttpError, fail, now, today, uuid, str, sameOrigin } from './util.js';
 
 const WRITER = 'claude-sonnet-5-5';
@@ -13,7 +14,7 @@ const SORTER = 'claude-haiku-5-5';
 const PRICES = { [WRITER]: [2, 10], [SORTER]: [0.1, 0.5] };
 const SEARCH_PRICE = 0.01;
 const DEFAULT_MONTH_CAP = 25;
-const LIMITS = { hunt: 3, message: 60 };
+const LIMITS = { hunt: 3, message: 60, caption: 80, reply: 80, reminder: 60 };
 const STATUSES = ['new', 'contacted', 'replied', 'won', 'lost'];
 
 const NOSTRIX = `Nostrix Marketing Services is a small creative agency based in Ras Al Khaimah, UAE (website nostrix.ae).
@@ -321,6 +322,7 @@ For each one write: name; type; emirate and area; one or two sentences on why it
       added.push(id);
     }
     await audit(ctx.env, user, 'leads', 'Ran the lead hunter', emirate, `${added.length} new leads · $${cost.toFixed(2)}`);
+    if (added.length) ctx.waitUntil?.(notify(ctx.env, 'lead', `${added.length} new leads found`, `${emirate} · open the Leads page to review them.`, '/staff/marketing/#leads'));
     return { added: added.length, cost };
   }, 'hunt');
 }
@@ -371,4 +373,52 @@ export async function writeMessage(ctx, id, input) {
     await audit(ctx.env, user, 'leads', 'Wrote a message with AI', lead.name, channel);
     return { channel, en: out.en, ar: out.ar, subject: out.subject, cost };
   }, 'message');
+}
+
+// ---------- Short writing jobs: captions, customer replies, payment and follow-up reminders ----------
+const PAIR_SCHEMA = {
+  type: 'object', additionalProperties: false, required: ['en', 'ar', 'note'],
+  properties: { en: { type: 'string' }, ar: { type: 'string' }, note: { type: 'string' } }
+};
+
+async function writePair(ctx, feature, system, prompt, maxTokens = 2500) {
+  const user = await gate(ctx, feature);
+  const p = await profile(ctx.env);
+  return slowJob(ctx, async () => {
+    const message = await client(ctx.env).messages.create({
+      model: WRITER, max_tokens: maxTokens,
+      output_config: { effort: 'low', format: { type: 'json_schema', schema: PAIR_SCHEMA } },
+      system: `${system}\n\nAbout the business:\n${p.about}\n\nVoice:\n${voice(p)}\n${p.rules ? 'More rules: ' + p.rules + '\n' : ''}Never invent facts, prices, discounts or promises. Write the Arabic as natural Gulf-friendly Modern Standard Arabic, not a word-for-word translation. Put a one-line tip for the team in "note" (or leave it empty).`,
+      messages: [{ role: 'user', content: prompt }]
+    });
+    const cost = await record(ctx.env, user, feature, WRITER, message.usage);
+    stopCheck(message);
+    let out;
+    try { out = JSON.parse(textOf(message)); } catch { fail(502, 'aiFormat', 'The AI answer could not be read. Try again.'); }
+    await audit(ctx.env, user, 'ai', 'Used the ' + feature + ' writer');
+    return { ...out, cost };
+  }, feature);
+}
+
+export async function writeCaption(ctx, input) {
+  const platform = input.platform === 'tiktok' ? 'TikTok' : input.platform === 'both' ? 'Instagram and TikTok' : 'Instagram';
+  const topic = str(input.topic, 400) || fail(400, 'missing', 'Describe the post first.');
+  return writePair(ctx, 'caption',
+    'You write social media captions for Nostrix, a creative agency. Captions are scroll-stopping in the first line, clear, and end with a soft call to action. Add 5-10 relevant hashtags at the end (mix of UAE/RAK local and niche tags).',
+    `Write a ${platform} caption, in English and in Arabic.\nPost: ${topic}${input.notes ? '\nNotes from the team: ' + str(input.notes, 600) : ''}`);
+}
+
+export async function writeReply(ctx, input) {
+  const msg = str(input.message, 3000) || fail(400, 'missing', 'Paste the customer message first.');
+  const channel = { whatsapp: 'WhatsApp', instagram: 'Instagram DM', email: 'email', tiktok: 'TikTok' }[input.channel] || 'WhatsApp';
+  return writePair(ctx, 'reply',
+    'You draft replies to customer messages for the Nostrix team. Be helpful and specific, answer what was asked, and move the conversation one step forward (a question, a booking step, or sending the price list or portfolio). If the customer asks for a price that you were not given, say the team will confirm the exact quote. Keep it short enough for chat unless it is an email.',
+    `Draft a ${channel} reply, in English and in Arabic. Reply in the same spirit as the customer.\nCustomer message:\n"""${msg}"""${input.context ? '\nWhat the team knows: ' + str(input.context, 800) : ''}`);
+}
+
+export async function writeReminder(ctx, input) {
+  const kind = { invoice: 'a polite reminder that an invoice is unpaid', quote: 'a friendly follow-up on a quote we sent', lead: 'a short second message to a business that did not reply' }[input.kind] || 'a friendly follow-up';
+  return writePair(ctx, 'reminder',
+    'You write follow-up messages for the Nostrix team. Polite, warm, never pushy or guilt-tripping, and easy to answer in one line.',
+    `Write ${kind}, for WhatsApp, in English and in Arabic.\nTo: ${str(input.name, 120) || 'the client'}\nDetails: ${str(input.details, 600) || ''}`, 1500);
 }

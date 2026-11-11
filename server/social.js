@@ -2,14 +2,14 @@
 // App keys live only in Cloudflare secrets (META_APP_ID, META_APP_SECRET, TIKTOK_CLIENT_KEY, TIKTOK_CLIENT_SECRET).
 // Account tokens are stored in the private database table social_accounts and never sent to the browser.
 import { db, audit } from './db.js';
-import { requireWebsite, requireAdmin } from './auth.js';
+import { requireMarketing as requireWebsite, requireAdmin } from './auth.js';
 import { fail, now, randomHex, str, today } from './util.js';
 
 const GRAPH = 'v23.0';
 const META_CONFIG_ID = '1423798033157752'; // "Instagram API (Unified Login)" configuration in the Nostrix Hub Meta app
 const TIKTOK_SCOPES = 'user.info.basic,user.info.profile,user.info.stats,video.list';
 const CACHE_MS = 10 * 60 * 1000;
-const BACK = '/staff/website/';
+const BACK = '/staff/marketing/';
 
 const callbackUrl = (ctx, platform) => new URL(ctx.request.url).origin + '/api/social/' + platform + '/callback';
 const back = (ctx, params = {}) => {

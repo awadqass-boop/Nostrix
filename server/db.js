@@ -2,7 +2,7 @@
 import seed from '../_build/data/portfolio.json';
 import { fail, now, randomHex } from './util.js';
 
-const VERSION = '6';
+const VERSION = '8';
 
 export const CATEGORIES = [
   { id: 'modelling', en: 'Modelling', ar: 'الأزياء' },
@@ -43,6 +43,11 @@ CREATE INDEX IF NOT EXISTS events_at ON events(at);
 CREATE TABLE IF NOT EXISTS notes (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, text TEXT NOT NULL, pinned INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL, updated_at TEXT);
 CREATE TABLE IF NOT EXISTS audit_log (id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT NOT NULL, user_id TEXT, email TEXT, name TEXT, area TEXT NOT NULL, action TEXT NOT NULL, target TEXT, detail TEXT);
 CREATE INDEX IF NOT EXISTS audit_at ON audit_log(at);
+CREATE TABLE IF NOT EXISTS posts (id TEXT PRIMARY KEY, title TEXT NOT NULL, caption_en TEXT, caption_ar TEXT, platforms TEXT, status TEXT NOT NULL DEFAULT 'idea', scheduled_at TEXT, notes TEXT, media_url TEXT, media_key TEXT, kind TEXT, published TEXT, created_by TEXT, created_at TEXT NOT NULL, updated_at TEXT);
+CREATE INDEX IF NOT EXISTS posts_when ON posts(scheduled_at);
+CREATE TABLE IF NOT EXISTS clients (id TEXT PRIMARY KEY, name TEXT NOT NULL, company TEXT, email TEXT, phone TEXT, trn TEXT, address TEXT, notes TEXT, created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS docs (id TEXT PRIMARY KEY, kind TEXT NOT NULL, number TEXT NOT NULL UNIQUE, client_id TEXT, client TEXT, issue_date TEXT, due_date TEXT, currency TEXT NOT NULL DEFAULT 'AED', items TEXT, vat INTEGER NOT NULL DEFAULT 0, discount REAL NOT NULL DEFAULT 0, notes TEXT, status TEXT NOT NULL DEFAULT 'draft', paid REAL NOT NULL DEFAULT 0, token TEXT NOT NULL UNIQUE, quote_id TEXT, created_by TEXT, created_at TEXT NOT NULL, updated_at TEXT, sent_at TEXT, paid_at TEXT);
+CREATE TABLE IF NOT EXISTS push_subs (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, endpoint TEXT NOT NULL UNIQUE, p256dh TEXT NOT NULL, auth TEXT NOT NULL, kinds TEXT, device TEXT, created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS social_accounts (platform TEXT PRIMARY KEY, data TEXT NOT NULL, updated_at TEXT);
 CREATE TABLE IF NOT EXISTS social_snapshots (day TEXT NOT NULL, platform TEXT NOT NULL, followers INTEGER, posts INTEGER, likes INTEGER, PRIMARY KEY(day, platform));
 CREATE TABLE IF NOT EXISTS oauth_states (state TEXT PRIMARY KEY, platform TEXT NOT NULL, user_id TEXT NOT NULL, created_at TEXT NOT NULL);
@@ -69,6 +74,7 @@ export async function ensureSchema(env) {
     try { version = (await DB.prepare("SELECT value FROM settings WHERE key='schema'").first())?.value; } catch { /* first run */ }
     if (version === VERSION) return;
     for (const statement of SCHEMA.split(';').map((s) => s.trim()).filter(Boolean)) await DB.prepare(statement).run();
+    try { await DB.prepare('ALTER TABLE users ADD COLUMN marketing_access INTEGER NOT NULL DEFAULT 0').run(); } catch { /* column already there */ }
     await DB.prepare("INSERT OR IGNORE INTO settings(key,value) VALUES('salt',?)").bind(randomHex(32)).run();
     await DB.prepare("INSERT OR IGNORE INTO settings(key,value) VALUES('team_rev','0')").run();
     const count = (await DB.prepare('SELECT COUNT(*) AS n FROM portfolio').first()).n;

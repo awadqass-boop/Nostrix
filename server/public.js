@@ -1,5 +1,6 @@
 // Public endpoints used by nostrix.ae: visit tracking, reviews, enquiries and the portfolio.
 import { db, allow, setting, CATEGORIES } from './db.js';
+import { notify } from './push.js';
 import { fail, now, today, dubaiDay, uuid, sha256, str, bool, device, isBot, geo, sameOrigin } from './util.js';
 
 function source(ref, host) {
@@ -65,6 +66,7 @@ export async function submitReview(ctx, input) {
     .bind(id, display, name, company, pref, str(input.email, 200), /^[A-Za-z0-9._]{1,30}$/.test(handle) ? handle : null,
       bool(input.showInstagram === 'yes' || input.showInstagram === true), str(input.service, 300), rating, testimonial,
       str(input.liked, 1200), str(input.improve, 1200), str(input.invoice, 60), 'website', now()).run();
+  ctx.waitUntil?.(notify(ctx.env, 'review', `New ${rating}★ review from ${display}`, testimonial.slice(0, 140), '/staff/website/#reviews'));
   return { ok: true, id };
 }
 
@@ -78,6 +80,9 @@ export async function submitEnquiry(ctx, input) {
     .bind(uuid(), str(input.source, 60), str(input.package, 120), str(input.price, 60), name, str(input.company, 120), mail, phone,
       str(input.services, 500), str(input.eventTypes, 300), str(input.budget, 80), str(input.timeline, 120), str(input.needs, 4000),
       str(input.pageUrl, 300), now()).run();
+  const order = str(input.source, 60) === 'package-order';
+  ctx.waitUntil?.(notify(ctx.env, order ? 'order' : 'enquiry', order ? `New order: ${str(input.package, 80) || 'package'}` : 'New enquiry',
+    `${name}${phone ? ' · ' + phone : ''}${order && input.price ? ' · ' + str(input.price, 40) : ''}`, '/staff/website/#enquiries'));
   return { ok: true };
 }
 
@@ -87,13 +92,14 @@ export async function publicPortfolio(ctx) {
 }
 
 export async function media(ctx, key) {
-  if (!/^pf\/[\w-]{1,80}\.webp$/.test(key || '')) fail(404, 'notFound');
+  const jpg = /^pl\/[a-f0-9]{24}\.jpg$/.test(key || '');
+  if (!jpg && !/^pf\/[\w-]{1,80}\.webp$/.test(key || '')) fail(404, 'notFound');
   const cache = caches.default, hit = await cache.match(ctx.request);
   if (hit) return hit;
   if (!ctx.env.MEDIA) fail(503, 'notConfigured');
   const value = await ctx.env.MEDIA.get(key, { type: 'stream' });
   if (!value) fail(404, 'notFound');
-  const res = new Response(value, { headers: { 'content-type': 'image/webp', 'cache-control': 'public, max-age=31536000, immutable', 'x-content-type-options': 'nosniff' } });
+  const res = new Response(value, { headers: { 'content-type': jpg ? 'image/jpeg' : 'image/webp', 'cache-control': 'public, max-age=31536000, immutable', 'x-content-type-options': 'nosniff' } });
   ctx.waitUntil?.(cache.put(ctx.request, res.clone()));
   return res;
 }

@@ -3,7 +3,7 @@ import { db, bumpTeam, setting, audit } from './db.js';
 import { requireUser, publicUser } from './auth.js';
 import { fail, now, uuid } from './util.js';
 
-const BOOLS = new Set(['assigned_to_all', 'is_read', 'active', 'is_admin', 'website_access']);
+const BOOLS = new Set(['assigned_to_all', 'is_read', 'active', 'is_admin', 'website_access', 'marketing_access']);
 const TABLES = {
   projects: { cols: ['name', 'client_name', 'due_date', 'status', 'created_by'], owner: 'created_by' },
   tasks: { cols: ['title', 'details', 'project_id', 'assigned_to', 'assigned_to_all', 'due_date', 'due_end_date', 'start_time', 'end_time', 'priority', 'status', 'repeat_rule', 'created_by'], owner: 'created_by' },

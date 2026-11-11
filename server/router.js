@@ -7,6 +7,9 @@ import * as site from './site.js';
 import * as pub from './public.js';
 import * as ai from './ai.js';
 import * as social from './social.js';
+import * as planner from './planner.js';
+import * as sales from './sales.js';
+import * as push from './push.js';
 
 const routes = [];
 const on = (method, pattern, fn) => routes.push({ method, re: new RegExp('^' + pattern.replace(/:(\w+)/g, '(?<$1>[^/]+)') + '$'), fn });
@@ -62,6 +65,9 @@ on('PUT', '/ai/profile', async (c) => ai.saveProfile(c, await body(c.request)));
 on('POST', '/ai/leads/hunt', async (c) => ai.hunt(c, await body(c.request)));
 on('PATCH', '/ai/leads/:id', async (c, p) => ai.updateLead(c, p.id, await body(c.request)));
 on('DELETE', '/ai/leads/:id', (c, p) => ai.deleteLead(c, p.id));
+on('POST', '/ai/caption', async (c) => ai.writeCaption(c, await body(c.request)));
+on('POST', '/ai/reply', async (c) => ai.writeReply(c, await body(c.request)));
+on('POST', '/ai/reminder', async (c) => ai.writeReminder(c, await body(c.request)));
 on('POST', '/ai/leads/:id/message', async (c, p) => ai.writeMessage(c, p.id, await body(c.request)));
 
 // Instagram and TikTok (keys and tokens stay on the server)
@@ -70,6 +76,34 @@ on('GET', '/social/:platform/connect', (c, p) => social.connect(c, p.platform));
 on('GET', '/social/:platform/callback', (c, p, url) => social.callback(c, p.platform, url));
 on('POST', '/social/:platform/disconnect', (c, p) => social.disconnect(c, p.platform));
 
+// Post planner (publishing prepared, switched on after platform approval)
+on('GET', '/hub/posts', (c) => planner.list(c));
+on('POST', '/hub/posts', async (c) => planner.create(c, await body(c.request)));
+on('PATCH', '/hub/posts/:id', async (c, p) => planner.update(c, p.id, await body(c.request)));
+on('DELETE', '/hub/posts/:id', (c, p) => planner.remove(c, p.id));
+on('PUT', '/hub/posts/:id/image', (c, p) => planner.putImage(c, p.id));
+on('GET', '/hub/publish-status', (c) => planner.publishStatus(c));
+on('POST', '/hub/posts/:id/publish', async (c, p) => planner.publish(c, p.id, await body(c.request)));
+
+// Quotes, invoices and follow-ups (owner only)
+on('GET', '/sales', (c) => sales.overview(c));
+on('PUT', '/sales/business', async (c) => sales.saveBusiness(c, await body(c.request)));
+on('POST', '/sales/clients', async (c) => sales.createClient(c, await body(c.request)));
+on('PATCH', '/sales/clients/:id', async (c, p) => sales.updateClient(c, p.id, await body(c.request)));
+on('DELETE', '/sales/clients/:id', (c, p) => sales.deleteClient(c, p.id));
+on('POST', '/sales/docs', async (c) => sales.createDoc(c, await body(c.request)));
+on('PATCH', '/sales/docs/:id', async (c, p) => sales.updateDoc(c, p.id, await body(c.request)));
+on('DELETE', '/sales/docs/:id', (c, p) => sales.deleteDoc(c, p.id));
+on('POST', '/sales/docs/:id/convert', (c, p) => sales.convert(c, p.id));
+on('GET', '/doc/:token', (c, p) => sales.publicDoc(c, p.token));
+on('POST', '/doc/:token/accept', (c, p) => sales.acceptQuote(c, p.token));
+
+// Phone alerts
+on('GET', '/push/key', (c) => push.publicKey(c));
+on('POST', '/push/subscribe', async (c) => push.subscribe(c, await body(c.request)));
+on('POST', '/push/unsubscribe', async (c) => push.unsubscribe(c, await body(c.request)));
+on('POST', '/push/test', async (c) => push.test(c, await body(c.request)));
+
 // Public website
 on('POST', '/collect', async (c) => pub.collect(c, await body(c.request, 4096)));
 on('GET', '/reviews', async (c) => json(await pub.listReviews(c), 200, { 'cache-control': 'public, max-age=20' }));
@@ -77,6 +111,7 @@ on('POST', '/reviews', async (c) => pub.submitReview(c, await body(c.request)));
 on('POST', '/enquiries', async (c) => pub.submitEnquiry(c, await body(c.request)));
 on('GET', '/portfolio', async (c) => json(await pub.publicPortfolio(c), 200, { 'cache-control': 'public, max-age=30' }));
 on('GET', '/media/pf/:file', (c, p) => pub.media(c, 'pf/' + p.file));
+on('GET', '/media/pl/:file', (c, p) => pub.media(c, 'pl/' + p.file));
 on('GET', '/health', () => ({ ok: true }));
 
 export async function handle(context) {

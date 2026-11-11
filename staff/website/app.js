@@ -23,7 +23,7 @@
     badPhoto:["Choose a JPEG, PNG, WebP, GIF or AVIF image that your browser can preview.","اختر صورة بصيغة JPEG أو PNG أو WebP أو GIF أو AVIF يمكن لمتصفحك عرضها."],
     loading:["Loading…","جارٍ التحميل…"],noData:["No data yet.","لا توجد بيانات بعد."],
 
-    marketingHub:["Marketing hub","مركز التسويق"],social:["Social","التواصل الاجتماعي"],leads:["Leads","العملاء المحتملون"],agent:["Agent settings","إعدادات الوكيل"],
+    marketingHub:["Marketing hub","مركز التسويق"],planner:["Planner","المخطط"],replies:["Reply helper","مساعد الردود"],salesGroup:["Sales","المبيعات"],sales:["Quotes & invoices","العروض والفواتير"],followups:["Follow-ups","المتابعات"],alerts:["Phone alerts","تنبيهات الهاتف"],social:["Social","التواصل الاجتماعي"],leads:["Leads","العملاء المحتملون"],agent:["Agent settings","إعدادات الوكيل"],
     leadsNote:["Possible clients found by the AI agent. Check each one before you contact them.","عملاء محتملون وجدهم الوكيل الذكي. راجع كل واحد قبل التواصل معه."],
     findLeads:["Find new leads","ابحث عن عملاء جدد"],emirate:["Emirate","الإمارة"],focus:["Focus (optional)","التركيز (اختياري)"],
     focusHint:["e.g. new specialty cafés, weekend markets, Ramadan pop-ups","مثال: مقاهٍ مختصة جديدة، أسواق نهاية الأسبوع، فعاليات رمضان"],
@@ -98,7 +98,7 @@
     privateFeedback:["Private feedback","ملاحظات خاصة"],likedLabel:["Liked","ما أعجبه"],improveLabel:["Could improve","ما يمكن تحسينه"],service:["Service","الخدمة"],
     accountsHelp:["Only admins see this page. Passwords are stored encrypted: nobody, including admins, can read them.","هذه الصفحة للمسؤولين فقط. تُحفظ كلمات المرور مشفّرة ولا يمكن لأحد قراءتها، حتى المسؤولين."],
     newAccount:["New accounts · one email, or several separated by commas","حسابات جديدة · بريد واحد أو عدة عناوين مفصولة بفواصل"],displayName:["Name","الاسم"],newPassword:["Password (8+ characters)","كلمة المرور (٨ أحرف على الأقل)"],
-    adminRole:["Admin","مسؤول"],websiteRole:["Website section","قسم الموقع"],teamRole:["Team only","الفريق فقط"],createAccount:["Create account","إنشاء الحساب"],
+    adminRole:["Admin","مسؤول"],websiteRole:["Website section","قسم الموقع"],marketingRole:["Marketing hub","مركز التسويق"],teamRole:["Team only","الفريق فقط"],createAccount:["Create account","إنشاء الحساب"],
     setPassword:["Set password","تعيين كلمة المرور"],deleteAccount:["Delete","حذف"],accountCreated:["Account created.","تم إنشاء الحساب."],
     accountDeleted:["Account deleted.","تم حذف الحساب."],passwordSet:["Password updated.","تم تحديث كلمة المرور."],
     weakPassword:["Use a password of at least 8 characters.","استخدم كلمة مرور من ٨ أحرف على الأقل."],lastAdmin:["Keep at least one admin.","يجب الإبقاء على مسؤول واحد على الأقل."],
@@ -113,7 +113,8 @@
     allAreas:["All activity","كل النشاط"],areaTeam:["Staff workspace","مساحة الفريق"],areaWebsite:["Website","الموقع"],areaAccounts:["Accounts","الحسابات"],areaLogin:["Sign-ins","تسجيلات الدخول"],
     searchLog:["Search the log","ابحث في السجل"],action:["Action","الإجراء"],item:["Item","العنصر"],details:["Details","التفاصيل"],person:["Person","الشخص"],noLog:["Nothing recorded yet.","لا يوجد نشاط مسجّل بعد."],whenCol:["When","الوقت"],area:["Area","القسم"]
   };
-  const sections = ["overview","visitors","clicks","enquiries","reviews","access","portfolio","notes","log","social","leads","agent"];
+  const AREA = window.NX_AREA==="marketing"?"marketing":"website";
+  const sections = AREA==="marketing" ? ["social","planner","replies","leads","agent","sales","followups","alerts"] : ["overview","visitors","clicks","enquiries","reviews","access","portfolio","notes","log","alerts"];
   const state = {overviewDays:7, visitorDays:"7", visitorRange:null, reviewTab:"pending", search:"", enquiryFilter:"all"};
   let leadData=null, agentData=null, leadFilter="open", leadBusy=false;
   let session, revision=0, chartStats, allEnquiries=[], noticeTimer, removeTarget=null, focusNextPage=false;
@@ -139,7 +140,8 @@
   const status = handled => `<span class="status ${handled?"handled":""}">${t(handled?"handled":"open")}</span>`;
   function route() {
     const hash=location.hash.slice(1);
-    return sections.includes(hash)||hash==="login"||hash==="no-access" ? hash : "overview";
+    if(AREA==="website"&&["social","planner","replies","leads","agent","sales","followups"].includes(hash)){location.replace("/staff/marketing/#"+hash);return "overview";}
+    return sections.includes(hash)||hash==="login"||hash==="no-access" ? hash : sections[0];
   }
   function savePref(key,value) { try { localStorage.setItem(key,value); } catch { /* Session-only preference. */ } }
   function toast(message) {
@@ -160,12 +162,13 @@
       <aside class="sidebar" id="section-menu" aria-label="${t("website")}">
         <div class="side-brand">${brand()}<button type="button" class="mobile-close icon-btn" data-action="close-nav" ${label(t("close"))}>${ic("close")}</button></div>
         ${workspaceLinks.staff ? `<a class="workspace-return" href="${esc(workspaceLinks.staff)}">${ic("back","directional")}${t("staff")}</a>` : `<div class="workspace-return">${ic("panel")}${t("staff")}</div>`}
-        <div class="nav-label">${t("website")}</div>
+        ${AREA==="marketing"?`<div class="nav-label">${t("marketingHub")}</div>
+        <nav class="side-nav" aria-label="${t("marketingHub")}">${["social","planner","replies","leads","agent"].map(k=>navLink(k,page,0)).join("")}</nav>
+        ${session.is_admin?`<div class="nav-label management">${t("salesGroup")}</div><nav class="side-nav" aria-label="${t("salesGroup")}">${["sales","followups"].map(k=>navLink(k,page,0)).join("")}</nav>`:""}
+        <div class="nav-label management">${t("management")}</div><nav class="side-nav" aria-label="${t("management")}">${navLink("alerts",page,0)}</nav>`:`<div class="nav-label">${t("website")}</div>
         <nav class="side-nav" aria-label="${t("website")}">${sections.slice(0,5).map(key=>navLink(key,page,key==="reviews"?pending:0)).join("")}</nav>
-        <div class="nav-label management">${t("marketingHub")}</div>
-        <nav class="side-nav" aria-label="${t("marketingHub")}">${["social","leads","agent"].map(k=>navLink(k,page,0)).join("")}</nav>
         <div class="nav-label management">${t("management")}</div>
-        <nav class="side-nav" aria-label="${t("management")}">${["portfolio","notes",...(session.is_admin?["access","log"]:[])].map(k=>navLink(k,page,0)).join("")}</nav>
+        <nav class="side-nav" aria-label="${t("management")}">${["portfolio","notes","alerts",...(session.is_admin?["access","log"]:[])].map(k=>navLink(k,page,0)).join("")}</nav>`}
         <div class="side-foot"><div class="account-wrap">
           <div class="account-menu" id="account-menu" hidden><small><bdi>${esc(session.email)}</bdi></small><button type="button" data-action="signout">${ic("return","directional")}${t("signOut")}</button></div>
           <button type="button" class="account" data-action="profile" aria-expanded="false" aria-controls="account-menu" ${label(t("profile"))}>${avatar(session,true)}<span class="account-text"><b>${personName(session)}</b><small><bdi>${esc(session.email)}</bdi></small></span>${ic("switch")}</button>
@@ -321,6 +324,7 @@
       <div class="account-tools">
         <label class="check-pill"><input type="checkbox" data-account-flag="is_admin" ${p.is_admin?"checked":""} ${p.id===session.id?"disabled":""}>${t("adminRole")}</label>
         <label class="check-pill"><input type="checkbox" data-account-flag="website_access" ${p.website_access?"checked":""} ${p.is_admin?"disabled":""}>${t("websiteRole")}</label>
+        <label class="check-pill"><input type="checkbox" data-account-flag="marketing_access" ${p.marketing_access?"checked":""} ${p.is_admin?"disabled":""}>${t("marketingRole")}</label>
         <button type="button" class="btn" data-account-password="${esc(p.id)}">${t("setPassword")}</button>
         ${p.id===session.id?"":`<button type="button" class="btn reject" data-account-delete="${esc(p.id)}">${t("deleteAccount")}</button>`}
       </div></div>`).join("");
@@ -329,7 +333,7 @@
       <label>${t("displayName")}<input name="name" maxlength="80" autocomplete="off"></label>
       <label>${t("emailAddress")}<textarea name="email" rows="1" required autocapitalize="none" spellcheck="false" autocomplete="off" placeholder="name@nostrix.ae, name2@nostrix.ae"></textarea></label>
       <label>${t("newPassword")}<input name="password" type="password" required minlength="8" autocomplete="new-password"></label>
-      <div class="account-flags"><label class="check-pill"><input type="checkbox" name="website_access" checked>${t("websiteRole")}</label><label class="check-pill"><input type="checkbox" name="is_admin">${t("adminRole")}</label></div>
+      <div class="account-flags"><label class="check-pill"><input type="checkbox" name="website_access" checked>${t("websiteRole")}</label><label class="check-pill"><input type="checkbox" name="marketing_access">${t("marketingRole")}</label><label class="check-pill"><input type="checkbox" name="is_admin">${t("adminRole")}</label></div>
       <button type="submit" class="btn primary">${ic("plus")}${t("createAccount")}</button></form><p class="error-text" id="account-error" role="alert"></p></article>
     <article class="card card-pad"><header class="card-head"><h2>${t("people")}</h2><span class="meta">${num(people.length)}</span></header><div class="account-list">${rows}</div></article>
     <article class="card"><header class="table-heading"><h2>${t("signinHistory")}</h2></header><div class="table-wrap"><table><thead><tr><th>${t("who")}</th><th>${t("when")}</th><th>${t("status")}</th></tr></thead><tbody>${!history.length?`<tr><td class="empty" colspan="3">${t("noData")}</td></tr>`:""}${history.map(h=>`<tr><td><bdi>${esc(h.email)}</bdi></td><td>${when(h.at)}${h.city||h.country?` · ${esc([h.city,h.country].filter(Boolean).join(", "))}`:""}</td><td>${h.ok?`<span class="status handled">${t("signIn")}</span>`:`<span class="status">${t("failed")}</span>`}</td></tr>`).join("")}</tbody></table></div></article>
@@ -702,6 +706,218 @@
   }
   const redrawSocial=()=>{const b=document.getElementById("social-body");if(b&&socialData)b.innerHTML=socialTab==="overview"?socialOverview():platformView(socialTab);
     app.querySelectorAll("[data-social-tab]").forEach(x=>{const on=x.dataset.socialTab===socialTab;x.classList.toggle("on",on);x.setAttribute("aria-selected",on);});};
+  // ================= Planner, reply helper, sales, follow-ups and alerts =================
+  const CONFIRM_HTML=`<dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><h2 id="confirm-title"></h2><div class="tools"><button class="btn" value="cancel" autofocus>${"Cancel"}</button><button class="btn reject" value="ok" id="confirm-ok"></button></div></form></dialog>`;
+  const hubDialog=()=>`<dialog class="hub-dialog" id="hub-dialog"></dialog>`;
+  const cur$=(c,v)=>(c||"AED")+" "+new Intl.NumberFormat("en-AE",{minimumFractionDigits:0,maximumFractionDigits:2}).format(Number(v)||0);
+  const openDialog=html=>{const d=document.getElementById("hub-dialog");if(!d)return null;d.innerHTML=html;d.showModal();return d;};
+  const closeDialog=()=>document.getElementById("hub-dialog")?.close();
+  const pairBox=(r,waText)=>`<div class="pair-out">${r.note?`<p class="meta">💡 ${esc(r.note)}</p>`:""}<div class="msg-pair">
+    <div><textarea dir="ltr" rows="7" data-pair="en">${esc(r.en||"")}</textarea><div class="tools"><button class="text-btn" type="button" data-copy-pair="en">${L("Copy English","نسخ الإنجليزية")}</button>${waText!==false?`<a class="text-btn" target="_blank" rel="noopener" data-wa-pair="en" href="https://wa.me/?text=${encodeURIComponent(r.en||"")}">WhatsApp</a>`:""}</div></div>
+    <div><textarea dir="rtl" lang="ar" rows="7" data-pair="ar">${esc(r.ar||"")}</textarea><div class="tools"><button class="text-btn" type="button" data-copy-pair="ar">${L("Copy Arabic","نسخ العربية")}</button>${waText!==false?`<a class="text-btn" target="_blank" rel="noopener" data-wa-pair="ar" href="https://wa.me/?text=${encodeURIComponent(r.ar||"")}">WhatsApp</a>`:""}</div></div></div></div>`;
+
+  // ---------- Planner ----------
+  let plannerData=null, plannerView="month", plannerMonth=new Date(), publishInfo=null;
+  const PSTATUS=[["idea",["Ideas","أفكار"],"💡"],["draft",["Draft","مسودة"],"✏️"],["ready",["Ready","جاهز"],"✅"],["scheduled",["Scheduled","مجدول"],"⏰"],["posted",["Posted","منشور"],"🚀"]];
+  const PKINDS=[["reel","Reel"],["photo",["Photo","صورة"]],["carousel",["Carousel","منشور متعدد"]],["story",["Story","ستوري"]],["video",["TikTok video","فيديو تيك توك"]]];
+  const kindLabel=k=>{const x=PKINDS.find(p=>p[0]===k);return x?(Array.isArray(x[1])?pick(x[1]):x[1]):k;};
+  const platIcons=ps=>(ps||[]).map(p=>`<span class="pl-plat ${p}" title="${p}">${ic(p)}</span>`).join("");
+  async function plannerPage() {
+    const [d,pub]=await Promise.all([api.getPosts(),api.getPublishStatus().catch(()=>null)]);plannerData=d;publishInfo=pub;
+    return sectionHead("planner",L("Plan every post, keep ideas in one place, and let AI write the captions.","خطط لكل منشور، واحفظ الأفكار في مكان واحد، ودع الذكاء الاصطناعي يكتب التعليقات."))+
+      `<div class="social-bar"><div class="seg big" role="tablist">${[["month",L("Calendar","التقويم")],["board",L("Board","اللوحة")]].map(([k,l])=>`<button type="button" data-pl-view="${k}" class="${plannerView===k?"on":""}">${l}</button>`).join("")}</div>
+      <span class="meta"></span><button class="btn" type="button" data-pl-new="idea">💡 ${L("New idea","فكرة جديدة")}</button><button class="btn primary" type="button" data-pl-new="draft">${ic("plus")}${L("Plan a post","خطط لمنشور")}</button></div>
+      <div id="planner-body"></div>${hubDialog()}${CONFIRM_HTML}`;
+  }
+  function drawPlanner() {
+    const b=document.getElementById("planner-body");if(!b||!plannerData)return;
+    app.querySelectorAll("[data-pl-view]").forEach(x=>x.classList.toggle("on",x.dataset.plView===plannerView));
+    b.innerHTML=plannerView==="month"?plannerMonthHtml():plannerBoardHtml();
+  }
+  function postChip(p) {
+    const time=p.scheduled_at?new Intl.DateTimeFormat(locale(),{timeZone:"Asia/Dubai",hour:"2-digit",minute:"2-digit"}).format(new Date(p.scheduled_at)):"";
+    return `<button type="button" class="pl-chip st-${p.status}" data-pl-open="${esc(p.id)}">${platIcons(p.platforms)}<span>${esc(p.title)}</span>${time?`<small>${time}</small>`:""}</button>`;
+  }
+  function plannerMonthHtml() {
+    const y=plannerMonth.getFullYear(),m=plannerMonth.getMonth(),first=new Date(Date.UTC(y,m,1)),startDow=(first.getUTCDay()+6)%7,days=new Date(Date.UTC(y,m+1,0)).getUTCDate();
+    const key=iso=>dubai(iso).toISOString().slice(0,10);
+    const byDay={};plannerData.posts.filter(p=>p.scheduled_at).forEach(p=>{(byDay[key(p.scheduled_at)]=byDay[key(p.scheduled_at)]||[]).push(p);});
+    const todayKey=dubai(new Date().toISOString()).toISOString().slice(0,10);
+    const cells=[];for(let i=0;i<startDow;i++)cells.push(`<div class="cal-cell empty"></div>`);
+    for(let d=1;d<=days;d++){const k=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;const list=byDay[k]||[];
+      cells.push(`<div class="cal-cell ${k===todayKey?"today":""}" data-pl-day="${k}"><span class="cal-n">${num(d)}</span>${list.map(postChip).join("")}<button type="button" class="cal-add" data-pl-new="draft" data-day="${k}" ${label(L("Plan a post on this day","خطط لمنشور في هذا اليوم"))}>+</button></div>`);}
+    const ideas=plannerData.posts.filter(p=>p.status==="idea"&&!p.scheduled_at);
+    const monthName=new Intl.DateTimeFormat(locale(),{month:"long",year:"numeric"}).format(plannerMonth);
+    const thisMonth=plannerData.posts.filter(p=>p.scheduled_at&&key(p.scheduled_at).slice(0,7)===`${y}-${String(m+1).padStart(2,"0")}`);
+    return `<div class="planner-wrap"><article class="card card-pad cal"><header class="cal-head"><button class="icon-btn" type="button" data-pl-month="-1" ${label(L("Previous month","الشهر السابق"))}><span class="chev">‹</span></button><h2>${esc(monthName)}</h2><button class="icon-btn" type="button" data-pl-month="1" ${label(L("Next month","الشهر التالي"))}><span class="chev">›</span></button>
+      <span class="meta">${num(thisMonth.length)} ${L("posts planned","منشورات مخططة")} · ${num(thisMonth.filter(p=>p.status==="posted").length)} ${L("posted","منشور")}</span></header>
+      <div class="cal-grid">${["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((d,i)=>`<span class="cal-dow">${esc(pick([d,["الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت","الأحد"][i]]).slice(0,3))}</span>`).join("")}${cells.join("")}</div></article>
+      <aside class="card card-pad ideas"><h2>💡 ${L("Idea list","قائمة الأفكار")}</h2><p class="meta">${L("Drop ideas here, plan them later.","ضع الأفكار هنا وخطط لها لاحقاً.")}</p>
+      <form id="idea-form" class="idea-form"><input name="title" maxlength="200" dir="auto" placeholder="${L("New idea…","فكرة جديدة…")}" required><button class="btn" type="submit">${ic("plus")}</button></form>
+      <div class="idea-list">${ideas.map(p=>`<button type="button" class="idea" data-pl-open="${esc(p.id)}">${platIcons(p.platforms)}<span dir="auto">${esc(p.title)}</span></button>`).join("")||`<p class="empty">${L("No ideas yet.","لا توجد أفكار بعد.")}</p>`}</div></aside></div>`;
+  }
+  function plannerBoardHtml() {
+    return `<div class="board">${PSTATUS.map(([k,l,i])=>{const list=plannerData.posts.filter(p=>p.status===k);
+      return `<section class="board-col" data-pl-drop="${k}"><header><span>${i} ${esc(pick(l))}</span><b>${num(list.length)}</b></header>
+      ${list.map(p=>`<article class="board-card" draggable="true" data-pl-drag="${esc(p.id)}" data-pl-open="${esc(p.id)}">${p.media_url?`<img src="${esc(p.media_url)}" alt="" loading="lazy">`:""}<div><strong dir="auto">${esc(p.title)}</strong><p class="meta">${platIcons(p.platforms)} ${esc(kindLabel(p.kind))}${p.scheduled_at?" · "+esc(date(p.scheduled_at,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})):""}</p></div></article>`).join("")}
+      <button type="button" class="board-add" data-pl-new="${k}">${ic("plus")}${L("Add","إضافة")}</button></section>`;}).join("")}</div>`;
+  }
+  function postEditor(p) {
+    const local=p.scheduled_at?new Date(Date.parse(p.scheduled_at)+4*3600e3).toISOString().slice(0,16):(p._day?p._day+"T19:00":"");
+    const pub=publishInfo||{};
+    const pubRow=pl=>{const s=pub[pl]||{};const done=p.published?.[pl];
+      return `<div class="pub-row"><span class="pl-plat ${pl}">${ic(pl)}</span><div><strong>${pl==="tiktok"?"TikTok":"Instagram"}</strong><small class="meta">${done?L("Published","تم النشر")+" · "+esc(date(done.at)):s.enabled?L("Ready to publish","جاهز للنشر"):L("Prepared: switches on after ","مُجهّز: يعمل بعد موافقة ")+(pl==="tiktok"?"TikTok":"Meta")+L(" approval","")}</small></div>
+      ${session.is_admin&&p.id?`<button type="button" class="btn" data-pl-publish="${pl}" ${s.enabled&&!done?"":"disabled"}>${L("Publish now","انشر الآن")}</button>`:""}</div>`;};
+    return `<form method="dialog" id="post-form" class="hub-form" data-id="${esc(p.id||"")}"><header><h2>${p.id?L("Edit post","تعديل المنشور"):p.status==="idea"?L("New idea","فكرة جديدة"):L("Plan a post","خطط لمنشور")}</h2><button type="button" class="icon-btn" data-close-dialog>${ic("close")}</button></header>
+      <label>${L("Title / idea","العنوان / الفكرة")}<input name="title" maxlength="200" dir="auto" required value="${esc(p.title||"")}" placeholder="${L("e.g. Behind the scenes at the café shoot","مثال: كواليس تصوير المقهى")}"></label>
+      <div class="form-row"><label>${L("Status","الحالة")}<select name="status">${PSTATUS.map(([k,l])=>`<option value="${k}" ${p.status===k?"selected":""}>${esc(pick(l))}</option>`).join("")}</select></label>
+      <label>${L("Format","النوع")}<select name="kind">${PKINDS.map(([k])=>`<option value="${k}" ${p.kind===k?"selected":""}>${esc(kindLabel(k))}</option>`).join("")}</select></label>
+      <label>${L("Date & time (UAE)","التاريخ والوقت (الإمارات)")}<input type="datetime-local" name="when" value="${esc(local)}"></label></div>
+      <fieldset class="chips"><legend class="meta">${L("Platforms","المنصات")}</legend>${["instagram","tiktok"].map(pl=>chip("checkbox","platforms",pl,(p.platforms||["instagram"]).includes(pl),"",pl==="tiktok"?"TikTok":"Instagram","")).join("")}</fieldset>
+      <div class="media-pick">${p.media_url?`<img src="${esc(p.media_url)}" alt="">`:`<div class="media-empty">${ic("image")}</div>`}<label class="btn">${ic("image")}${L("Add image","أضف صورة")}<input type="file" accept="image/*" data-pl-image hidden></label><small class="meta">${L("Used for Instagram publishing later. Videos: post from the app for now.","تُستخدم للنشر على إنستغرام لاحقاً. الفيديو: انشره من التطبيق حالياً.")}</small></div>
+      <label>${L("Notes / brief","ملاحظات / وصف")}<textarea name="notes" rows="2" dir="auto" maxlength="2000">${esc(p.notes||"")}</textarea></label>
+      <div class="cap-head"><strong>${L("Caption","التعليق")}</strong><button type="button" class="btn" data-pl-ai>✨ ${L("Write with AI","اكتب بالذكاء الاصطناعي")}</button></div>
+      <div class="msg-pair"><textarea name="caption_en" rows="6" dir="ltr" placeholder="English">${esc(p.caption_en||"")}</textarea><textarea name="caption_ar" rows="6" dir="rtl" lang="ar" placeholder="العربية">${esc(p.caption_ar||"")}</textarea></div>
+      <p class="meta" id="pl-ai-note" role="status"></p>
+      ${p.id?`<div class="pub"><strong>${L("Publish","النشر")}</strong>${(p.platforms||[]).map(pubRow).join("")||`<p class="meta">${L("Pick a platform above.","اختر منصة أعلاه.")}</p>`}</div>`:""}
+      <footer>${p.id?`<button type="button" class="btn reject" data-pl-delete>${L("Delete","حذف")}</button>`:""}<span></span><button type="button" class="btn" data-close-dialog>${t("cancel")}</button><button type="submit" class="btn primary">${ic("check")}${L("Save","حفظ")}</button></footer></form>`;
+  }
+  async function toJpeg(file) {
+    const bmp=await createImageBitmap(file),s=Math.min(1,1440/Math.max(bmp.width,bmp.height));
+    const c=document.createElement("canvas");c.width=Math.round(bmp.width*s);c.height=Math.round(bmp.height*s);c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
+    return await new Promise(r=>c.toBlob(r,"image/jpeg",.88));
+  }
+  const postValues=form=>{const f=new FormData(form),w=f.get("when");
+    return {title:f.get("title"),status:f.get("status"),kind:f.get("kind"),platforms:f.getAll("platforms"),scheduled_at:w?new Date(w+":00+04:00").toISOString():"",notes:f.get("notes"),caption_en:f.get("caption_en"),caption_ar:f.get("caption_ar")};};
+
+  // ---------- Reply helper ----------
+  async function repliesPage() {
+    return sectionHead("replies",L("Paste a customer message and get a ready reply in English and Arabic, in your voice.","الصق رسالة العميل واحصل على رد جاهز بالإنجليزية والعربية بأسلوبك."))+
+      `<article class="card card-pad agent-card"><header><span class="agent-emoji" aria-hidden="true">💬</span><div><h2>${L("Reply helper","مساعد الردود")}</h2><p class="meta">${L("Works today with copy and paste. When Meta approves messaging, Instagram and WhatsApp messages will appear here automatically.","يعمل اليوم بالنسخ واللصق. عند موافقة Meta على الرسائل ستظهر رسائل إنستغرام وواتساب هنا تلقائياً.")}</p></div></header>
+      <form id="reply-form" class="hub-form"><div class="chips">${[["whatsapp","WhatsApp"],["instagram","Instagram DM"],["tiktok","TikTok"],["email","Email"]].map(([v,l],i)=>chip("radio","channel",v,i===0,"",l,"")).join("")}</div>
+      <label>${L("Customer message","رسالة العميل")}<textarea name="message" rows="5" dir="auto" maxlength="3000" required placeholder="${L("e.g. Hi, how much for a 2-hour shoot for my café next week?","مثال: مرحباً، كم سعر جلسة تصوير لمدة ساعتين لمقهاي الأسبوع القادم؟")}"></textarea></label>
+      <label>${L("Anything the AI should know (optional)","معلومات إضافية (اختياري)")}<input name="context" maxlength="800" dir="auto" placeholder="${L("e.g. We are free on Tuesday; Creator Photo is AED 650","مثال: متاحون يوم الثلاثاء؛ باقة التصوير 650 درهم")}"></label>
+      <div class="tools"><button class="btn primary" type="submit">✨ ${L("Draft reply","اكتب الرد")}</button><span class="meta" id="reply-status" role="status"></span></div></form>
+      <div id="reply-out"></div></article>
+      <article class="card card-pad prep"><h2>🔌 ${L("Coming next, already prepared","قريباً، وتم تجهيزه")}</h2><ul class="prep-list">
+        <li><b>${L("Instagram DMs and comments inbox","صندوق رسائل وتعليقات إنستغرام")}</b><span>${L("Needs: Instagram connected + Meta approval for messaging.","يتطلب: ربط إنستغرام + موافقة Meta على الرسائل.")}</span></li>
+        <li><b>${L("WhatsApp Business inbox","صندوق واتساب للأعمال")}</b><span>${L("Needs: WhatsApp Business number added to your Meta business portfolio + business verification.","يتطلب: إضافة رقم واتساب للأعمال إلى ملف أعمالك في Meta + توثيق النشاط.")}</span></li>
+        <li><b>${L("Suggested replies on every message","ردود مقترحة لكل رسالة")}</b><span>${L("Uses this same reply helper and your Agent settings voice.","يستخدم نفس مساعد الردود وأسلوب إعدادات الوكيل.")}</span></li></ul></article>${CONFIRM_HTML}`;
+  }
+
+  // ---------- Quotes and invoices ----------
+  let salesData=null, salesTab="docs";
+  const DSTAT={draft:["Draft","مسودة"],sent:["Sent","مُرسل"],accepted:["Accepted","مقبول"],declined:["Declined","مرفوض"],expired:["Expired","منتهي"],paid:["Paid","مدفوع"],partial:["Part paid","مدفوع جزئياً"],overdue:["Overdue","متأخر"],cancelled:["Cancelled","ملغى"]};
+  const pill=s=>`<span class="pill s-${s}">${esc(pick(DSTAT[s]||[s,s]))}</span>`;
+  const docLink=d=>location.origin+"/api/doc/"+d.token;
+  async function salesPage() {
+    salesData=await api.getSales();
+    if(!session.is_admin)return sectionHead("sales")+`<p class="card empty">${t("adminOnly")}</p>`;
+    return sectionHead("sales",L("Quotes, invoices and clients. Share a link the client can view, accept or print as PDF.","عروض الأسعار والفواتير والعملاء. شارك رابطاً يمكن للعميل مشاهدته أو قبوله أو طباعته PDF."))+
+      `<div id="sales-body"></div>${hubDialog()}${CONFIRM_HTML}`;
+  }
+  function drawSales() {
+    const b=document.getElementById("sales-body");if(!b||!salesData)return;
+    const s=salesData.stats;
+    const tabs=[["docs",L("Quotes & invoices","العروض والفواتير")],["clients",L("Clients","العملاء")],["business",L("Business details","بيانات النشاط")]];
+    b.innerHTML=`<div class="kpis sales-kpis">${kpi(L("Outstanding","المستحق"),cur$("AED",s.outstanding),L("unpaid invoices","فواتير غير مدفوعة"),"main")}${kpi(L("Overdue","متأخر"),cur$("AED",s.overdue),s.overdue?"⚠️ "+L("chase these","تابع هذه"):"")}${kpi(L("Paid this month","مدفوع هذا الشهر"),cur$("AED",s.paidThisMonth))}${kpi(L("Open quotes","عروض مفتوحة"),cur$("AED",s.openQuotes))}</div>
+      <div class="social-bar"><div class="seg big">${tabs.map(([k,l])=>`<button type="button" data-sl-tab="${k}" class="${salesTab===k?"on":""}">${l}</button>`).join("")}</div><span class="meta"></span>
+      ${salesTab==="docs"?`<button class="btn" type="button" data-sl-new="quote">${ic("plus")}${L("New quote","عرض سعر جديد")}</button><button class="btn primary" type="button" data-sl-new="invoice">${ic("plus")}${L("New invoice","فاتورة جديدة")}</button>`:salesTab==="clients"?`<button class="btn primary" type="button" data-sl-client="">${ic("plus")}${L("Add client","إضافة عميل")}</button>`:""}</div>
+      ${salesTab==="docs"?docsTable():salesTab==="clients"?clientsList():businessForm()}`;
+  }
+  function docsTable() {
+    const docs=salesData.docs;
+    if(!docs.length)return `<article class="card card-pad empty-state"><h2>🧾 ${L("No quotes or invoices yet","لا توجد عروض أو فواتير بعد")}</h2><p class="meta">${L("Create your first quote. Fill in Business details first so your name, TRN and bank details appear on documents.","أنشئ أول عرض سعر. املأ بيانات النشاط أولاً لتظهر على المستندات.")}</p></article>`;
+    return `<div class="card table-wrap"><table class="docs-table"><thead><tr><th>${L("Number","الرقم")}</th><th>${L("Client","العميل")}</th><th>${L("Date","التاريخ")}</th><th>${L("Due","الاستحقاق")}</th><th class="r">${L("Total","الإجمالي")}</th><th>${L("Status","الحالة")}</th></tr></thead><tbody>
+      ${docs.map(d=>`<tr data-sl-open="${esc(d.id)}"><td><b>${esc(d.number)}</b><br><small class="meta">${d.kind==="quote"?L("Quote","عرض سعر"):L("Invoice","فاتورة")}</small></td><td dir="auto">${esc(d.client.name||"—")}<br><small class="meta">${esc(d.client.company||"")}</small></td><td>${esc(d.issue_date||"")}</td><td>${esc(d.due_date||"—")}</td><td class="r"><b>${esc(cur$(d.currency,d.total))}</b>${d.kind==="invoice"&&d.paid&&d.balance>0?`<br><small class="meta">${L("Balance","المتبقي")} ${esc(cur$(d.currency,d.balance))}</small>`:""}</td><td>${pill(d.status)}</td></tr>`).join("")}</tbody></table></div>`;
+  }
+  function clientsList() {
+    const cl=salesData.clients;
+    if(!cl.length)return `<article class="card card-pad empty-state"><h2>👥 ${L("No clients yet","لا يوجد عملاء بعد")}</h2><p class="meta">${L("Add Short & Sweet and your other clients to reuse their details on every document.","أضف عملاءك لإعادة استخدام بياناتهم في كل مستند.")}</p></article>`;
+    return `<div class="client-grid">${cl.map(c=>{const docs=salesData.docs.filter(d=>d.client_id===c.id),billed=docs.filter(d=>d.kind==="invoice"&&d.status!=="cancelled").reduce((n,d)=>n+d.total,0);
+      return `<article class="card card-pad client" data-sl-client="${esc(c.id)}"><h2 dir="auto">${esc(c.name)}</h2><p class="meta">${esc(c.company||"")}</p><p class="meta">${esc([c.phone,c.email].filter(Boolean).join(" · "))}</p><div class="kpis small">${kpi(L("Documents","مستندات"),num(docs.length))}${kpi(L("Billed","المفوتر"),cur$("AED",billed))}</div></article>`;}).join("")}</div>`;
+  }
+  function businessForm() {
+    const b=salesData.business||{};
+    const f=(k,l,ph="",rows=0)=>`<label>${l}${rows?`<textarea name="${k}" rows="${rows}" dir="auto">${esc(b[k]||"")}</textarea>`:`<input name="${k}" dir="auto" value="${esc(b[k]||"")}" placeholder="${esc(ph)}">`}</label>`;
+    return `<form id="business-form" class="card card-pad hub-form"><h2>${L("Shown on every quote and invoice","يظهر على كل عرض وفاتورة")}</h2>
+      <div class="form-row">${f("name",L("Business name","اسم النشاط"),"Nostrix Marketing Services")}${f("trn",L("TRN (only if VAT registered)","الرقم الضريبي (إن وُجد)"))}</div>
+      ${f("address",L("Address","العنوان"),"Ras Al Khaimah, UAE")}<div class="form-row">${f("email",L("Email","البريد"),"marketing@nostrix.ae")}${f("phone",L("Phone","الهاتف"))}</div>
+      <div class="form-row">${f("bank",L("Bank name","اسم البنك"))}${f("iban","IBAN")}</div>${f("terms",L("Payment terms / footer","شروط الدفع / التذييل"),"",3)}
+      <div class="tools"><button class="btn primary" type="submit">${ic("check")}${L("Save","حفظ")}</button></div></form>`;
+  }
+  function docEditor(d) {
+    const isQ=d.kind==="quote",clients=salesData.clients;
+    const items=(d.items&&d.items.length?d.items:[{desc:"",qty:1,price:0}]);
+    const stats=isQ?["draft","sent","accepted","declined"]:["draft","sent","partial","paid","cancelled"];
+    return `<form method="dialog" id="doc-form" class="hub-form wide" data-id="${esc(d.id||"")}" data-kind="${d.kind}"><header><h2>${d.id?esc(d.number):isQ?L("New quote","عرض سعر جديد"):L("New invoice","فاتورة جديدة")} ${d.id?pill(d.status):""}</h2><button type="button" class="icon-btn" data-close-dialog>${ic("close")}</button></header>
+      <div class="form-row"><label>${L("Client","العميل")}<select name="client_id"><option value="">${L("New client (type below)","عميل جديد (اكتب أدناه)")}</option>${clients.map(c=>`<option value="${esc(c.id)}" ${d.client_id===c.id?"selected":""}>${esc(c.name)}${c.company?" · "+esc(c.company):""}</option>`).join("")}</select></label>
+        <label>${L("Client name","اسم العميل")}<input name="c_name" dir="auto" value="${esc(d.client?.name||"")}"></label><label>${L("Phone","الهاتف")}<input name="c_phone" value="${esc(d.client?.phone||"")}"></label><label>${L("Email","البريد")}<input name="c_email" value="${esc(d.client?.email||"")}"></label></div>
+      <div class="form-row"><label>${L("Date","التاريخ")}<input type="date" name="issue_date" value="${esc(d.issue_date||new Date().toISOString().slice(0,10))}"></label><label>${isQ?L("Valid until","صالح حتى"):L("Due date","تاريخ الاستحقاق")}<input type="date" name="due_date" value="${esc(d.due_date||new Date(Date.now()+(isQ?14:7)*864e5).toISOString().slice(0,10))}"></label>
+        <label>${L("Currency","العملة")}<select name="currency">${["AED","USD"].map(c=>`<option ${d.currency===c?"selected":""}>${c}</option>`).join("")}</select></label><label>${L("Status","الحالة")}<select name="status">${stats.map(s=>`<option value="${s}" ${(d.status==="overdue"?"sent":d.status)===s?"selected":""}>${esc(pick(DSTAT[s]))}</option>`).join("")}</select></label></div>
+      <div class="items"><div class="item head"><span>${L("Description","الوصف")}</span><span>${L("Qty","الكمية")}</span><span>${L("Price","السعر")}</span><span class="r">${L("Amount","المبلغ")}</span><span></span></div>
+        <div id="item-rows">${items.map(itemRow).join("")}</div><button type="button" class="text-btn" data-sl-item>${ic("plus")}${L("Add line","إضافة بند")}</button></div>
+      <div class="doc-bottom"><div><label>${L("Notes","ملاحظات")}<textarea name="notes" rows="3" dir="auto">${esc(d.notes||"")}</textarea></label>
+        <div class="form-row"><label class="switch-row"><input type="checkbox" name="vat" ${d.vat?"checked":""}><span class="toggle"></span>${L("Add VAT 5%","إضافة ضريبة 5%")}</label><label>${L("Discount","الخصم")}<input type="number" step="0.01" min="0" name="discount" value="${esc(d.discount||0)}"></label>${isQ?"":`<label>${L("Amount paid","المبلغ المدفوع")}<input type="number" step="0.01" min="0" name="paid" value="${esc(d.paid||0)}"></label>`}</div></div>
+        <div class="totals" id="doc-totals"></div></div>
+      ${d.id&&d.status!=="draft"?`<div class="share"><strong>${L("Client link","رابط العميل")}</strong><input readonly value="${esc(docLink(d))}"><button type="button" class="btn" data-sl-copy>${L("Copy","نسخ")}</button><a class="btn" target="_blank" rel="noopener" href="https://wa.me/${esc((d.client?.phone||"").replace(/[^\d]/g,""))}?text=${encodeURIComponent((isQ?"Hi, here is your quote ":"Hi, here is your invoice ")+d.number+": "+docLink(d))}">${ic("whatsapp")}WhatsApp</a><a class="btn" target="_blank" rel="noopener" href="${esc(docLink(d))}">${L("Open / PDF","فتح / PDF")}</a></div>`:d.id?`<p class="meta">${L("Set the status to Sent to get a link for the client.","اجعل الحالة «مُرسل» للحصول على رابط للعميل.")}</p>`:""}
+      <footer>${d.id?`<button type="button" class="btn reject" data-sl-delete>${L("Delete","حذف")}</button>`:""}${d.id&&isQ&&d.status!=="declined"?`<button type="button" class="btn" data-sl-convert>${L("Turn into invoice","تحويل إلى فاتورة")}</button>`:""}${d.id&&!isQ&&d.balance>0&&d.status!=="draft"?`<button type="button" class="btn" data-sl-paid>✅ ${L("Mark paid","تحديد كمدفوع")}</button>`:""}<span></span>
+      <button type="button" class="btn" data-close-dialog>${t("cancel")}</button><button type="submit" class="btn primary">${ic("check")}${L("Save","حفظ")}</button></footer></form>`;
+  }
+  const itemRow=i=>`<div class="item"><input name="i_desc" dir="auto" value="${esc(i.desc||"")}" placeholder="${L("e.g. Event coverage, 4 hours","مثال: تغطية فعالية 4 ساعات")}"><input name="i_qty" type="number" step="0.5" min="0" value="${esc(i.qty??1)}"><input name="i_price" type="number" step="0.01" min="0" value="${esc(i.price??0)}"><span class="r i-amt"></span><button type="button" class="icon-btn" data-sl-rmitem ${label(L("Remove line","حذف البند"))}>${ic("close")}</button></div>`;
+  function docValues(form) {
+    const f=new FormData(form),q=form.querySelectorAll("#item-rows .item");
+    const items=[...q].map(r=>({desc:r.querySelector('[name="i_desc"]').value,qty:Number(r.querySelector('[name="i_qty"]').value)||0,price:Number(r.querySelector('[name="i_price"]').value)||0})).filter(i=>i.desc||i.price);
+    return {kind:form.dataset.kind,client_id:f.get("client_id")||"",client:{name:f.get("c_name"),phone:f.get("c_phone"),email:f.get("c_email")},issue_date:f.get("issue_date"),due_date:f.get("due_date"),currency:f.get("currency"),status:f.get("status"),items,vat:form.elements.vat.checked,discount:Number(f.get("discount"))||0,paid:Number(f.get("paid")||0),notes:f.get("notes")};
+  }
+  function syncTotals(form) {
+    const v=docValues(form),c=v.currency;
+    form.querySelectorAll("#item-rows .item").forEach(r=>{r.querySelector(".i-amt").textContent=cur$(c,(Number(r.querySelector('[name="i_qty"]').value)||0)*(Number(r.querySelector('[name="i_price"]').value)||0));});
+    const sub=v.items.reduce((n,i)=>n+i.qty*i.price,0),disc=Math.min(sub,v.discount),tax=v.vat?(sub-disc)*salesData.vatRate:0,total=sub-disc+tax;
+    document.getElementById("doc-totals").innerHTML=`<div><span>${L("Subtotal","المجموع")}</span><b>${cur$(c,sub)}</b></div>${disc?`<div><span>${L("Discount","الخصم")}</span><b>− ${cur$(c,disc)}</b></div>`:""}${v.vat?`<div><span>VAT 5%</span><b>${cur$(c,tax)}</b></div>`:""}<div class="grand"><span>${L("Total","الإجمالي")}</span><b>${cur$(c,total)}</b></div>${v.paid?`<div><span>${L("Balance","المتبقي")}</span><b>${cur$(c,total-v.paid)}</b></div>`:""}`;
+  }
+  function clientEditor(c) {
+    const f=(k,l)=>`<label>${l}<input name="${k}" dir="auto" value="${esc(c[k]||"")}"></label>`;
+    return `<form method="dialog" id="client-form" class="hub-form" data-id="${esc(c.id||"")}"><header><h2>${c.id?esc(c.name):L("Add client","إضافة عميل")}</h2><button type="button" class="icon-btn" data-close-dialog>${ic("close")}</button></header>
+      <div class="form-row">${f("name",L("Name","الاسم"))}${f("company",L("Company","الشركة"))}</div><div class="form-row">${f("phone",L("Phone","الهاتف"))}${f("email",L("Email","البريد"))}</div>
+      <div class="form-row">${f("trn",L("TRN","الرقم الضريبي"))}${f("address",L("Address","العنوان"))}</div><label>${L("Notes","ملاحظات")}<textarea name="notes" rows="2" dir="auto">${esc(c.notes||"")}</textarea></label>
+      <footer>${c.id?`<button type="button" class="btn reject" data-sl-delclient>${L("Delete","حذف")}</button>`:""}<span></span><button type="button" class="btn" data-close-dialog>${t("cancel")}</button><button type="submit" class="btn primary">${ic("check")}${L("Save","حفظ")}</button></footer></form>`;
+  }
+
+  // ---------- Follow-ups ----------
+  async function followupsPage() {
+    salesData=await api.getSales();
+    if(!session.is_admin)return sectionHead("followups")+`<p class="card empty">${t("adminOnly")}</p>`;
+    const list=salesData.followups,icon={invoice:"🧾",quote:"📄",lead:"🎯"},tl={invoice:L("Unpaid invoice","فاتورة غير مدفوعة"),quote:L("Quote waiting","عرض بانتظار الرد"),lead:L("Lead didn't reply","عميل محتمل لم يرد")};
+    const days=since=>Math.max(0,Math.round((Date.now()-Date.parse(since))/864e5));
+    return sectionHead("followups",L("Who to chase today. AI writes a polite reminder in English and Arabic.","من تتابع اليوم. يكتب الذكاء الاصطناعي تذكيراً لطيفاً بالإنجليزية والعربية."))+
+      `<div class="kpis sales-kpis">${kpi(L("To follow up","للمتابعة"),num(list.length),"","main")}${kpi(L("Unpaid","غير مدفوع"),cur$("AED",list.filter(x=>x.type==="invoice").reduce((n,x)=>n+x.amount,0)))}${kpi(L("Quotes waiting","عروض بانتظار الرد"),num(list.filter(x=>x.type==="quote").length))}${kpi(L("Leads to nudge","عملاء للتذكير"),num(list.filter(x=>x.type==="lead").length))}</div>
+      <div class="fu-list">${list.map((x,i)=>`<article class="card card-pad fu" data-fu="${i}"><header><span class="fu-ic">${icon[x.type]}</span><div><h2 dir="auto">${esc(x.name)}</h2><p class="meta">${tl[x.type]} · ${esc(x.title)}${x.amount?" · "+esc(cur$(x.currency,x.amount)):""} · ${num(days(x.since))} ${L("days","يوماً")}</p></div>
+        <div class="tools">${x.phone?`<a class="btn" target="_blank" rel="noopener" href="https://wa.me/${esc(x.phone.replace(/[^\d]/g,""))}">${ic("whatsapp")}</a>`:""}<button class="btn primary" type="button" data-fu-write="${i}">✨ ${L("Write reminder","اكتب تذكيراً")}</button>${x.type==="invoice"?`<button class="btn" type="button" data-fu-paid="${esc(x.id)}">✅ ${L("Paid","مدفوع")}</button>`:""}</div></header><div class="fu-out"></div></article>`).join("")||`<article class="card card-pad empty-state"><h2>🎉 ${L("All caught up","لا شيء للمتابعة")}</h2><p class="meta">${L("Unpaid invoices past due, quotes with no answer after 3 days, and leads with no reply after 4 days appear here.","تظهر هنا الفواتير المتأخرة والعروض دون رد بعد 3 أيام والعملاء دون رد بعد 4 أيام.")}</p></article>`}</div>${CONFIRM_HTML}`;
+  }
+
+  // ---------- Phone alerts ----------
+  const ALERT_KINDS=[["order",["New orders","الطلبات الجديدة"],"🛒"],["enquiry",["New enquiries","الاستفسارات الجديدة"],"✉️"],["review",["New reviews","التقييمات الجديدة"],"⭐"],["lead",["New AI leads","العملاء المحتملون الجدد"],"🎯"],["invoice",["Quotes accepted","قبول العروض"],"🧾"]];
+  async function alertsPage() {
+    const ok="serviceWorker" in navigator&&"PushManager" in window;
+    let sub=null;try{sub=ok?await (await swReg()).pushManager.getSubscription():null;}catch{sub=null;}
+    let kinds=ALERT_KINDS.map(k=>k[0]);try{kinds=JSON.parse(localStorage.getItem("nx-alert-kinds")||"null")||kinds;}catch{/* default */}
+    const ios=/iphone|ipad/i.test(navigator.userAgent),standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+    return sectionHead("alerts",L("Get a notification on your phone the moment something happens.","احصل على إشعار على هاتفك فور حدوث أي شيء."))+
+      `<article class="card card-pad agent-card"><header><span class="agent-emoji" aria-hidden="true">🔔</span><div><h2>${sub?L("Alerts are on for this device","التنبيهات مفعّلة على هذا الجهاز"):L("Turn on alerts on this device","فعّل التنبيهات على هذا الجهاز")}</h2><p class="meta">${L("Each phone or laptop is turned on separately.","يتم التفعيل لكل هاتف أو حاسوب على حدة.")}</p></div></header>
+      ${!ok?`<p class="error-text">${ios&&!standalone?L("On iPhone: tap Share → Add to Home Screen, open Nostrix from the home screen, then come back to this page.","على الآيفون: اضغط مشاركة ← إضافة إلى الشاشة الرئيسية، افتح نوستريكس من الشاشة الرئيسية ثم عد إلى هذه الصفحة."):L("This browser does not support notifications.","هذا المتصفح لا يدعم الإشعارات.")}</p>`:""}
+      <div class="chips" id="alert-kinds">${ALERT_KINDS.map(([k,l,i])=>chip("checkbox","kinds",k,kinds.includes(k),i,pick(l),ok?"":"disabled")).join("")}</div>
+      <div class="tools">${sub?`<button class="btn primary" type="button" data-al-save>${ic("check")}${L("Save choices","حفظ الاختيارات")}</button><button class="btn" type="button" data-al-test>${L("Send a test","أرسل تجربة")}</button><button class="btn reject" type="button" data-al-off>${L("Turn off","إيقاف")}</button>`:`<button class="btn primary" type="button" data-al-on ${ok?"":"disabled"}>🔔 ${L("Turn on alerts","فعّل التنبيهات")}</button>`}<span class="meta" id="alert-status" role="status"></span></div></article>
+      <article class="card card-pad prep"><h2>📱 ${L("On iPhone","على الآيفون")}</h2><ol class="prep-list"><li>${L("Open nostrix.ae/staff/website/ in Safari and sign in.","افتح nostrix.ae/staff/website/ في سفاري وسجّل الدخول.")}</li><li>${L("Tap Share → Add to Home Screen.","اضغط مشاركة ← إضافة إلى الشاشة الرئيسية.")}</li><li>${L("Open Nostrix from the home screen, go to Phone alerts and turn them on.","افتح نوستريكس من الشاشة الرئيسية، ثم تنبيهات الهاتف وفعّلها.")}</li></ol></article>`;
+  }
+  // The app's background worker: use the one already registered, or register it now (with a time limit).
+  async function swReg() {
+    const r=await navigator.serviceWorker.getRegistration("./");
+    if(r)return r;
+    return await Promise.race([navigator.serviceWorker.register("./sw.js",{scope:"./"}).then(()=>navigator.serviceWorker.ready),new Promise((_,no)=>setTimeout(()=>no(new Error("worker")),6000))]);
+  }
+  const b64ToBytes=s=>Uint8Array.from(atob(s.replace(/-/g,"+").replace(/_/g,"/")+"===".slice((s.length+3)%4)),c=>c.charCodeAt(0));
+  const chosenKinds=()=>[...app.querySelectorAll('#alert-kinds input:checked')].map(x=>x.value);
   function notesPage() {
     return sectionHead("notes")+`<article class="card card-pad"><header class="card-head"><h2>${t("writeNote")}</h2><span class="scope-label">${ic("lock")}${t("websiteStaff")}</span></header>
     <form id="note-form"><label class="sr-only" for="note-text">${t("writeNote")}</label><textarea id="note-text" maxlength="2000" rows="3" dir="auto" placeholder="${t("notePrompt")}">${esc(noteDraft)}</textarea>
@@ -783,6 +999,10 @@
       pendingPhotos();
     } else if(page==="leads") {
       drawLeads();
+    } else if(page==="planner") {
+      drawPlanner();
+    } else if(page==="sales") {
+      drawSales();
     } else if(page==="agent") {
       const form=document.getElementById("agent-form");if(form)syncAgent(form,false);
     }
@@ -930,7 +1150,7 @@
         app.innerHTML=authPage(denied,demo);
       } else {
         const reviews=page==="overview"||page==="reviews"?await api.getReviews():[];
-        const views={overview:()=>overview(reviews),visitors,clicks,enquiries:enquiryPage,reviews:()=>reviewPage(reviews),access:accessPage,portfolio:portfolioPage,notes:notesPage,log:logPage,social:()=>socialPage(),leads:leadsPage,agent:agentPage};
+        const views={overview:()=>overview(reviews),visitors,clicks,enquiries:enquiryPage,reviews:()=>reviewPage(reviews),access:accessPage,portfolio:portfolioPage,notes:notesPage,log:logPage,social:()=>socialPage(),planner:plannerPage,replies:repliesPage,leads:leadsPage,agent:agentPage,sales:salesPage,followups:followupsPage,alerts:alertsPage};
         const body=await views[page]();
         if (token!==revision) return;
         syncDocument(page);
@@ -1075,7 +1295,7 @@
       submit.disabled=true;
       const failed=[];
       for(const address of emails){
-        try { await api.createAccount({name:emails.length===1?f.name.value:"",email:address,password:f.password.value,website_access:f.website_access.checked,is_admin:f.is_admin.checked}); }
+        try { await api.createAccount({name:emails.length===1?f.name.value:"",email:address,password:f.password.value,website_access:f.website_access.checked,marketing_access:f.marketing_access.checked,is_admin:f.is_admin.checked}); }
         catch(error){ failed.push(address+": "+t(T[error.message]?error.message:"unavailable")); }
       }
       f.password.value="";submit.disabled=false;
@@ -1198,6 +1418,89 @@
     if (event.key==="nostrix_theme" && ["light","dark"].includes(event.newValue)) { html.dataset.theme=event.newValue; render(); }
     if (event.key==="nostrix_language_v1" && ["en","ar"].includes(event.newValue)) { html.lang=event.newValue; html.dir=ar()?"rtl":"ltr"; render(); }
   });
+  // ---------- Handlers: planner, replies, sales, follow-ups, alerts ----------
+  const findPost=id=>plannerData?.posts.find(p=>p.id===id);
+  const busy=(b,on,text)=>{if(!b)return;if(on){b.dataset.label=b.innerHTML;b.disabled=true;if(text)b.textContent=text;}else{b.disabled=false;if(b.dataset.label)b.innerHTML=b.dataset.label;}};
+  async function refreshPlanner(){plannerData=await api.getPosts();drawPlanner();}
+  async function refreshSales(){salesData=await api.getSales();drawSales();}
+  app.addEventListener("click",async e=>{
+    const b=e.target.closest("button,a,[data-pl-open],[data-sl-open],[data-sl-client]");if(!b||!app.contains(b))return;
+    const d=b.dataset;
+    if(b.hasAttribute("data-close-dialog")){closeDialog();return;}
+    // copy / WhatsApp for any EN/AR pair
+    if(d.copyPair){const ta=b.closest(".msg-pair").querySelector(`[data-pair="${d.copyPair}"]`);try{await navigator.clipboard.writeText(ta.value);toast(t("copied"));}catch{toast(t("unavailable"));}return;}
+    // planner
+    if(d.plView){plannerView=d.plView;drawPlanner();return;}
+    if(d.plMonth){plannerMonth=new Date(plannerMonth.getFullYear(),plannerMonth.getMonth()+Number(d.plMonth),1);drawPlanner();return;}
+    if(d.plNew){e.stopPropagation();openDialog(postEditor({status:d.plNew,platforms:["instagram"],kind:"reel",_day:d.day||(d.plNew==="idea"?"":null)}));return;}
+    if(d.plOpen&&!e.target.closest(".cal-add")){const p=findPost(d.plOpen);if(p)openDialog(postEditor(p));return;}
+    if(b.hasAttribute("data-pl-ai")){const form=b.closest("form"),v=postValues(form),note=document.getElementById("pl-ai-note");
+      if(!v.title){form.elements.title.focus();return;}
+      busy(b,true,L("Writing…","جارٍ الكتابة…"));note.textContent="";
+      try{const r=await api.writeCaption({topic:v.title+(v.kind?" ("+kindLabel(v.kind)+")":""),notes:v.notes,platform:v.platforms.length>1?"both":v.platforms[0]||"instagram"});form.elements.caption_en.value=r.en||"";form.elements.caption_ar.value=r.ar||"";note.textContent=r.note?"💡 "+r.note:"";}
+      catch(error){note.textContent=aiError(error);}finally{busy(b,false);}return;}
+    if(b.hasAttribute("data-pl-delete")){const id=b.closest("form").dataset.id;closeDialog();if(await confirmBox(L("Delete this post?","حذف هذا المنشور؟"),L("Delete","حذف"))){await api.deletePost(id);await refreshPlanner();toast(L("Deleted.","تم الحذف."));}return;}
+    if(d.plPublish){const id=b.closest("form").dataset.id;busy(b,true);try{await api.publishPost(id,d.plPublish);toast(L("Published.","تم النشر."));closeDialog();await refreshPlanner();}catch(error){toast(aiError(error));busy(b,false);}return;}
+    // sales
+    if(d.slTab){salesTab=d.slTab;drawSales();return;}
+    if(d.slNew){openDialog(docEditor({kind:d.slNew,items:[],vat:false,currency:"AED",status:"draft"}));syncTotals(document.getElementById("doc-form"));return;}
+    if(d.slOpen){const doc=salesData.docs.find(x=>x.id===d.slOpen);if(doc){openDialog(docEditor(doc));syncTotals(document.getElementById("doc-form"));}return;}
+    if(d.slClient!==undefined&&b.matches("[data-sl-client]")){const c=salesData.clients.find(x=>x.id===d.slClient)||{};openDialog(clientEditor(c));return;}
+    if(b.hasAttribute("data-sl-item")){document.getElementById("item-rows").insertAdjacentHTML("beforeend",itemRow({desc:"",qty:1,price:0}));syncTotals(b.closest("form"));return;}
+    if(b.hasAttribute("data-sl-rmitem")){const form=b.closest("form");b.closest(".item").remove();syncTotals(form);return;}
+    if(b.hasAttribute("data-sl-copy")){try{await navigator.clipboard.writeText(b.previousElementSibling.value);toast(t("copied"));}catch{toast(t("unavailable"));}return;}
+    if(b.hasAttribute("data-sl-delete")){const id=b.closest("form").dataset.id;closeDialog();if(await confirmBox(L("Delete this document permanently?","حذف هذا المستند نهائياً؟"),L("Delete","حذف"))){await api.deleteDoc(id);await refreshSales();}return;}
+    if(b.hasAttribute("data-sl-convert")){const id=b.closest("form").dataset.id;busy(b,true);try{const inv=await api.convertDoc(id);await refreshSales();openDialog(docEditor(inv));syncTotals(document.getElementById("doc-form"));toast(L("Invoice created.","تم إنشاء الفاتورة."));}catch(error){toast(aiError(error));busy(b,false);}return;}
+    if(b.hasAttribute("data-sl-paid")){const form=b.closest("form");busy(b,true);try{await api.updateDoc(form.dataset.id,{...docValues(form),status:"paid"});closeDialog();await refreshSales();toast(L("Marked paid.","تم التحديد كمدفوع."));}catch(error){toast(aiError(error));busy(b,false);}return;}
+    if(b.hasAttribute("data-sl-delclient")){const id=b.closest("form").dataset.id;closeDialog();if(await confirmBox(L("Delete this client?","حذف هذا العميل؟"),L("Delete","حذف"))){await api.deleteClient(id);await refreshSales();}return;}
+    // follow-ups
+    if(d.fuWrite){const x=salesData.followups[Number(d.fuWrite)],out=b.closest(".fu").querySelector(".fu-out");busy(b,true,L("Writing…","جارٍ الكتابة…"));
+      try{const r=await api.writeReminder({kind:x.type,name:x.name,details:x.details});out.innerHTML=pairBox(r);if(x.phone)out.querySelectorAll("[data-wa-pair]").forEach(a=>a.href=a.href.replace("https://wa.me/","https://wa.me/"+x.phone.replace(/[^\d]/g,"")));}
+      catch(error){out.innerHTML=`<p class="error-text">${esc(aiError(error))}</p>`;}finally{busy(b,false);}return;}
+    if(d.fuPaid){busy(b,true);try{const doc=(await api.getSales()).docs.find(x=>x.id===d.fuPaid);await api.updateDoc(d.fuPaid,{...doc,client_id:doc.client_id||"",status:"paid"});await render();toast(L("Marked paid.","تم التحديد كمدفوع."));}catch(error){toast(aiError(error));busy(b,false);}return;}
+    // alerts
+    if(b.hasAttribute("data-al-on")){const st=document.getElementById("alert-status");busy(b,true);
+      try{if(await Notification.requestPermission()!=="granted")throw Object.assign(new Error("denied"),{detail:L("Notifications are blocked. Allow them in your browser or phone settings.","الإشعارات محظورة. اسمح بها من إعدادات المتصفح أو الهاتف.")});
+        const {key}=await api.pushKey();const reg=await swReg();const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64ToBytes(key)});
+        await api.pushSubscribe({subscription:sub.toJSON(),kinds:chosenKinds(),device:navigator.userAgent.slice(0,80)});try{localStorage.setItem("nx-alert-kinds",JSON.stringify(chosenKinds()));}catch{/* optional */}
+        await api.pushTest(sub.endpoint);await render();toast(L("Alerts are on. A test is on its way.","تم تفعيل التنبيهات. التجربة في الطريق."));}
+      catch(error){st.textContent=error.detail||String(error.message||error);busy(b,false);}return;}
+    if(b.hasAttribute("data-al-save")||b.hasAttribute("data-al-test")||b.hasAttribute("data-al-off")){const reg=await swReg(),sub=await reg.pushManager.getSubscription();if(!sub){await render();return;}busy(b,true);
+      try{if(b.hasAttribute("data-al-off")){await api.pushUnsubscribe(sub.endpoint);await sub.unsubscribe();await render();toast(L("Alerts turned off.","تم إيقاف التنبيهات."));return;}
+        if(b.hasAttribute("data-al-save")){await api.pushSubscribe({subscription:sub.toJSON(),kinds:chosenKinds(),device:navigator.userAgent.slice(0,80)});try{localStorage.setItem("nx-alert-kinds",JSON.stringify(chosenKinds()));}catch{/* optional */}toast(t("saved"));}
+        else{await api.pushTest(sub.endpoint);toast(L("Test sent.","تم إرسال التجربة."));}}
+      catch(error){toast(aiError(error));}finally{busy(b,false);}return;}
+  });
+  app.addEventListener("submit",async e=>{
+    const form=e.target;
+    if(form.id==="idea-form"){e.preventDefault();const v=form.elements.title.value.trim();if(!v)return;await api.createPost({title:v,status:"idea",platforms:["instagram"],kind:"reel"});form.reset();await refreshPlanner();return;}
+    if(form.id==="post-form"){e.preventDefault();const btn=form.querySelector('[type="submit"]');busy(btn,true);
+      try{const v=postValues(form);if(v.scheduled_at&&v.status==="idea")v.status="draft";const p=form.dataset.id?await api.updatePost(form.dataset.id,v):await api.createPost(v);
+        const file=form._image;if(file)await api.postImage(p.id,await toJpeg(file));closeDialog();await refreshPlanner();toast(t("saved"));}
+      catch(error){toast(aiError(error));busy(btn,false);}return;}
+    if(form.id==="reply-form"){e.preventDefault();const btn=form.querySelector('[type="submit"]'),st=document.getElementById("reply-status"),f=new FormData(form);busy(btn,true,L("Writing…","جارٍ الكتابة…"));st.textContent="";
+      try{const r=await api.writeReply({message:f.get("message"),channel:f.get("channel"),context:f.get("context")});document.getElementById("reply-out").innerHTML=pairBox(r,f.get("channel")==="whatsapp");}
+      catch(error){st.textContent=aiError(error);}finally{busy(btn,false);}return;}
+    if(form.id==="doc-form"){e.preventDefault();const btn=form.querySelector('[type="submit"]');busy(btn,true);
+      try{const v=docValues(form);if(!v.client_id&&!v.client.name)throw Object.assign(new Error("x"),{detail:L("Choose a client or type the client name.","اختر عميلاً أو اكتب اسمه.")});
+        const doc=form.dataset.id?await api.updateDoc(form.dataset.id,v):await api.createDoc(v);await refreshSales();
+        if(doc.status!=="draft"){openDialog(docEditor(doc));syncTotals(document.getElementById("doc-form"));}else closeDialog();toast(t("saved"));}
+      catch(error){toast(aiError(error));busy(btn,false);}return;}
+    if(form.id==="client-form"){e.preventDefault();const f=Object.fromEntries(new FormData(form));try{form.dataset.id?await api.updateClient(form.dataset.id,f):await api.createClient(f);closeDialog();await refreshSales();toast(t("saved"));}catch(error){toast(aiError(error));}return;}
+    if(form.id==="business-form"){e.preventDefault();try{await api.saveBusiness(Object.fromEntries(new FormData(form)));salesData.business=Object.fromEntries(new FormData(form));toast(t("saved"));}catch(error){toast(aiError(error));}return;}
+  });
+  app.addEventListener("input",e=>{const form=e.target.closest?.("#doc-form");if(form)syncTotals(form);});
+  app.addEventListener("change",e=>{
+    const f=e.target;
+    if(f.matches?.("[data-pl-image]")&&f.files[0]){const form=f.closest("form");form._image=f.files[0];const box=form.querySelector(".media-pick");const url=URL.createObjectURL(f.files[0]);const old=box.querySelector("img,.media-empty");old.outerHTML=`<img src="${url}" alt="">`;}
+    if(f.name==="client_id"&&f.closest("#doc-form")){const c=salesData.clients.find(x=>x.id===f.value);if(c){const form=f.closest("form");form.elements.c_name.value=c.name||"";form.elements.c_phone.value=c.phone||"";form.elements.c_email.value=c.email||"";}}
+  });
+  // Drag posts between board columns
+  app.addEventListener("dragstart",e=>{const c=e.target.closest?.("[data-pl-drag]");if(c){e.dataTransfer.setData("text/nx-post",c.dataset.plDrag);e.dataTransfer.effectAllowed="move";}});
+  app.addEventListener("dragover",e=>{const col=e.target.closest?.("[data-pl-drop]");if(col&&e.dataTransfer.types.includes("text/nx-post")){e.preventDefault();col.classList.add("drag-over");}});
+  app.addEventListener("dragleave",e=>{e.target.closest?.("[data-pl-drop]")?.classList.remove("drag-over");});
+  app.addEventListener("drop",async e=>{const col=e.target.closest?.("[data-pl-drop]");const id=e.dataTransfer?.getData("text/nx-post");if(!col||!id)return;e.preventDefault();col.classList.remove("drag-over");
+    const p=findPost(id);if(!p||p.status===col.dataset.plDrop)return;p.status=col.dataset.plDrop;drawPlanner();try{await api.updatePost(id,{status:p.status});}catch(error){toast(aiError(error));await refreshPlanner();}});
   // Social dashboard
   app.addEventListener("click",async e=>{
     const b=e.target.closest("[data-social-tab],[data-social-sort],[data-social-refresh],[data-social-disconnect],[data-social-open]");if(!b||!app.contains(b))return;

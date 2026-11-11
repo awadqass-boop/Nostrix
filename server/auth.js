@@ -21,7 +21,7 @@ export async function hashPassword(password) {
 
 export const publicUser = (u) => u && ({
   id: u.id, email: u.email, display_name: u.display_name, job_title: u.job_title,
-  is_admin: !!u.is_admin, website_access: !!(u.website_access || u.is_admin), active: !!u.active,
+  is_admin: !!u.is_admin, website_access: !!(u.website_access || u.is_admin), marketing_access: !!(u.marketing_access || u.is_admin), active: !!u.active,
   created_at: u.created_at, last_sign_in_at: u.last_sign_in_at
 });
 
@@ -53,6 +53,17 @@ export async function requireUser(ctx) {
 export async function requireAdmin(ctx) {
   const u = await requireUser(ctx);
   if (!u.is_admin) fail(403, 'adminOnly');
+  return u;
+}
+export async function requireMarketing(ctx) {
+  const u = await requireUser(ctx);
+  if (!u.is_admin && !u.marketing_access) fail(403, 'noAccess');
+  return u;
+}
+// Either dashboard (Website or Marketing hub), used by phone alerts.
+export async function requireStaffArea(ctx) {
+  const u = await requireUser(ctx);
+  if (!u.is_admin && !u.website_access && !u.marketing_access) fail(403, 'noAccess');
   return u;
 }
 export async function requireWebsite(ctx) {
@@ -160,10 +171,10 @@ export async function createUser(ctx, input) {
   const legacy = JSON.parse((await DB.prepare("SELECT value FROM settings WHERE key='legacy_people'").first())?.value || '{}')[address] || null;
   const taken = legacy && (await DB.prepare('SELECT id FROM users WHERE id=?').bind(legacy.id).first());
   const id = legacy && !taken ? legacy.id : uuid();
-  await DB.prepare('INSERT INTO users(id,email,display_name,job_title,pass_hash,pass_salt,pass_iter,is_admin,website_access,active,created_at) VALUES(?,?,?,?,?,?,?,?,?,1,?)')
+  await DB.prepare('INSERT INTO users(id,email,display_name,job_title,pass_hash,pass_salt,pass_iter,is_admin,website_access,marketing_access,active,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,1,?)')
     .bind(id, address, str(input.name, 80) || legacy?.name || address.split('@')[0], str(input.job_title, 80) || legacy?.job || null, pw.pass_hash, pw.pass_salt, pw.pass_iter,
-      input.is_admin ? 1 : 0, input.website_access ? 1 : 0, now()).run();
-  await audit(ctx.env, admin, 'accounts', 'Created account', address, [input.is_admin ? 'admin' : 'staff', input.website_access || input.is_admin ? 'Website section' : 'team only'].join(' · '));
+      input.is_admin ? 1 : 0, input.website_access ? 1 : 0, input.marketing_access ? 1 : 0, now()).run();
+  await audit(ctx.env, admin, 'accounts', 'Created account', address, [input.is_admin ? 'admin' : 'staff', input.website_access || input.is_admin ? 'Website section' : 'team only', input.marketing_access || input.is_admin ? 'Marketing hub' : ''].filter(Boolean).join(' · '));
   return publicUser(await DB.prepare('SELECT * FROM users WHERE id=?').bind(id).first());
 }
 
@@ -176,6 +187,7 @@ export async function updateUser(ctx, id, input) {
   if ('name' in input) { sets.push('display_name=?'); args.push(str(input.name, 80) || target.email.split('@')[0]); }
   if ('job_title' in input) { sets.push('job_title=?'); args.push(str(input.job_title, 80)); }
   if ('website_access' in input) { sets.push('website_access=?'); args.push(input.website_access ? 1 : 0); }
+  if ('marketing_access' in input) { sets.push('marketing_access=?'); args.push(input.marketing_access ? 1 : 0); }
   if ('is_admin' in input || 'active' in input) {
     const demoting = ('is_admin' in input && !input.is_admin) || ('active' in input && !input.active);
     if (demoting && target.is_admin) {
@@ -199,6 +211,7 @@ export async function updateUser(ctx, id, input) {
   if (input.password) changes.push('set a new password');
   if ('is_admin' in input) changes.push('admin ' + (input.is_admin ? 'on' : 'off'));
   if ('website_access' in input) changes.push('Website section ' + (input.website_access ? 'on' : 'off'));
+  if ('marketing_access' in input) changes.push('Marketing hub ' + (input.marketing_access ? 'on' : 'off'));
   if ('active' in input) changes.push(input.active ? 'enabled' : 'disabled');
   if ('name' in input || 'job_title' in input) changes.push('edited name/title');
   await audit(ctx.env, admin, 'accounts', 'Updated account', target.email, changes.join(' · '));

@@ -94,3 +94,59 @@ input:focus, textarea:focus, select:focus { outline: none !important; border-col
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+/* ===== Workspace redesign (2026-11): tasks first, dashboard-style tiles, calmer cards ===== */
+.main { display: flex; flex-direction: column; gap: 1.1rem; max-width: 92rem; }
+.main > .hero { order: 1; }
+.main > .stats { order: 2; }
+.main > .controls { order: 3; }
+.main > .board { order: 4; }
+.main > .calendar-overview { order: 5; }
+.main > .projects-overview { order: 6; }
+.main > .workspace-widgets { order: 7; }
+.main > section { margin-top: 0 !important; }
+
+.hero { padding: 1.6rem 1.8rem; border-radius: 26px; background: radial-gradient(120% 140% at 0% 0%, rgba(211,136,255,.16), transparent 55%), radial-gradient(90% 120% at 100% 100%, rgba(185,204,255,.10), transparent 55%), #0e0e10; border: 1px solid rgba(255,255,255,.08); }
+.hero h1 { font-size: clamp(2.2rem, 4.4vw, 3.4rem) !important; }
+
+.stats { display: grid !important; grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: .7rem !important; padding: 0 !important; border: 0 !important; background: none !important; }
+.stats article { padding: 1rem 1.05rem !important; border: 1px solid rgba(255,255,255,.08) !important; border-radius: 18px; background: #141416; transition: transform .2s var(--ease), border-color .2s var(--ease); }
+.stats article + article { border-left: 1px solid rgba(255,255,255,.08) !important; }
+.stats article:hover { transform: translateY(-2px); border-color: rgba(211,136,255,.35) !important; }
+.stats article > i { width: 2.5rem !important; height: 2.5rem !important; border-radius: 12px !important; font-size: 1.15rem; }
+.stats b { font-size: 1.7rem !important; letter-spacing: -.03em; line-height: 1.05; }
+.stats small { font-size: .62rem !important; }
+.stats article:nth-child(4) { background: linear-gradient(135deg, rgba(255,107,107,.08), #141416); }
+
+.controls { position: sticky; top: 62px; z-index: 30; padding: .55rem !important; border-radius: 18px !important; background: rgba(20,20,22,.86) !important; -webkit-backdrop-filter: saturate(160%) blur(16px); backdrop-filter: saturate(160%) blur(16px); }
+.tabs .view { border-radius: 980px !important; }
+.tabs .view.active { background: var(--grad) !important; color: #0b0b0d !important; }
+
+.board { gap: .8rem !important; }
+.column { border-radius: 20px !important; padding: .8rem !important; background: #111113 !important; }
+.column > header { padding: .3rem .35rem .8rem !important; }
+.column header b { font-size: .9rem; letter-spacing: -.01em; }
+.column header i { width: .55rem !important; height: .55rem !important; box-shadow: 0 0 0 4px rgba(255,255,255,.04); }
+.column[data-status=done] header i { background: var(--green, #7ee2a8) !important; }
+.column header em { font-style: normal; font-size: .72rem; font-weight: 700; padding: .15rem .55rem; border-radius: 980px; background: rgba(255,255,255,.06); color: var(--muted); }
+.task-list { display: grid; gap: .55rem; }
+.task { padding: .9rem !important; }
+.task:hover { box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+.task .chips .chip { border-radius: 980px !important; }
+.task h3, .task .task-title { letter-spacing: -.015em; }
+.task.overdue, .task:has(.overdue) { border-color: rgba(255,107,107,.28) !important; }
+
+.widget-card, .projects-overview, .team-calendar, .calendar-overview { border-radius: 22px !important; }
+.project-card { transition: transform .2s var(--ease), border-color .2s var(--ease); }
+.project-card:hover { transform: translateY(-2px); border-color: rgba(211,136,255,.35) !important; }
+.project-card .bar { height: 6px !important; border-radius: 980px !important; }
+
+@media (max-width: 1200px) { .stats { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
+@media (max-width: 760px) {
+  .hero { padding: 1.2rem; border-radius: 20px; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .stats article:last-child { grid-column: 1 / -1; }
+  .controls { top: 56px; }
+  .website-link span { display: none; }
+  .website-link { padding: 0 .6rem !important; }
+}

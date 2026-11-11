@@ -83,7 +83,7 @@ window.NostrixWebsite = (() => {
       await session(true);
     },
     async signOut() { try { await post("/auth/logout"); } finally { me = false; meAt = Date.now(); } },
-    async canAccessWebsiteArea() { const s = await session(); return !!(s && (s.website_access || s.is_admin)); },
+    async canAccessWebsiteArea() { const s = await session(); return !!(s && (s.is_admin || (window.NX_AREA === "marketing" ? s.marketing_access : s.website_access))); },
     async isAdmin() { const s = await session(); return !!(s && s.is_admin); },
 
     getVisitorStats(range = {}) {
@@ -174,11 +174,34 @@ window.NostrixWebsite = (() => {
     // Marketing hub: leads and the AI agent. Slow AI calls answer with spaces first, then JSON.
     // Start loading a page's data before it is opened (on hover or touch of a menu link).
     prefetch(page) {
-      const loads = { social: ["/social/overview"], leads: ["/ai/leads"], agent: ["/ai/profile"], enquiries: ["/site/enquiries"], reviews: ["/site/reviews"], notes: ["/site/notes"], portfolio: ["/site/portfolio"], overview: ["/site/reviews", "/site/enquiries"] }[page] || [];
+      const loads = { planner: ["/hub/posts"], social: ["/social/overview"], leads: ["/ai/leads"], agent: ["/ai/profile"], enquiries: ["/site/enquiries"], reviews: ["/site/reviews"], notes: ["/site/notes"], portfolio: ["/site/portfolio"], overview: ["/site/reviews", "/site/enquiries"] }[page] || [];
       loads.forEach(path => call(path).catch(() => {}));
     },
     getSocial(fresh) { return fresh ? send("/social/overview?fresh=1", {}) : call("/social/overview"); },
     disconnectSocial(platform) { return post("/social/" + encodeURIComponent(platform) + "/disconnect", {}); },
+    getPosts() { return call("/hub/posts"); },
+    createPost(v) { return post("/hub/posts", v); },
+    updatePost(id, v) { return post("/hub/posts/" + encodeURIComponent(id), v, "PATCH"); },
+    deletePost(id) { return call("/hub/posts/" + encodeURIComponent(id), { method: "DELETE" }); },
+    postImage(id, blob) { return call("/hub/posts/" + encodeURIComponent(id) + "/image", { method: "PUT", body: blob, headers: { "Content-Type": "image/jpeg" } }); },
+    getPublishStatus() { return call("/hub/publish-status"); },
+    publishPost(id, platform) { return post("/hub/posts/" + encodeURIComponent(id) + "/publish", { platform }); },
+    async writeCaption(v) { return slow(await call("/ai/caption", { method: "POST", body: JSON.stringify(v) })); },
+    async writeReply(v) { return slow(await call("/ai/reply", { method: "POST", body: JSON.stringify(v) })); },
+    async writeReminder(v) { return slow(await call("/ai/reminder", { method: "POST", body: JSON.stringify(v) })); },
+    getSales() { return send("/sales", {}); },
+    saveBusiness(v) { return post("/sales/business", v, "PUT"); },
+    createClient(v) { return post("/sales/clients", v); },
+    updateClient(id, v) { return post("/sales/clients/" + encodeURIComponent(id), v, "PATCH"); },
+    deleteClient(id) { return call("/sales/clients/" + encodeURIComponent(id), { method: "DELETE" }); },
+    createDoc(v) { return post("/sales/docs", v); },
+    updateDoc(id, v) { return post("/sales/docs/" + encodeURIComponent(id), v, "PATCH"); },
+    deleteDoc(id) { return call("/sales/docs/" + encodeURIComponent(id), { method: "DELETE" }); },
+    convertDoc(id) { return post("/sales/docs/" + encodeURIComponent(id) + "/convert", {}); },
+    pushKey() { return call("/push/key"); },
+    pushSubscribe(v) { return post("/push/subscribe", v); },
+    pushUnsubscribe(endpoint) { return post("/push/unsubscribe", { endpoint }); },
+    pushTest(endpoint) { return post("/push/test", { endpoint }); },
     getLeads() { return call("/ai/leads"); },
     async huntLeads(input) { return slow(await call("/ai/leads/hunt", { method: "POST", body: JSON.stringify(input || {}) })); },
     updateLead(id, input) { return post("/ai/leads/" + encodeURIComponent(id), input, "PATCH"); },
