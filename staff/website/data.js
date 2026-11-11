@@ -95,6 +95,7 @@ window.NostrixWebsite = (() => {
           message: both(message || "—"), date: r.created_at, handled: r.handled, color: color(r.email || r.phone || r.name) };
       });
     },
+    deleteEnquiry(id) { return call("/site/enquiries/" + encodeURIComponent(id), { method: "DELETE" }); },
     setEnquiryHandled(id, handled) { return post("/site/enquiries/" + encodeURIComponent(id), { handled }, "PATCH"); },
 
     async getReviews() {

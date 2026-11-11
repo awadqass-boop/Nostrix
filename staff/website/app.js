@@ -67,7 +67,7 @@
     total:["Total","الإجمالي"],toggleHandled:["Mark as handled","تمييز كمعالَج"],toggleOpen:["Mark as unhandled","إعادة فتح الاستفسار"],
     badLogin:["The email or password is incorrect.","البريد الإلكتروني أو كلمة المرور غير صحيحة."],tooMany:["Too many attempts. Wait 15 minutes and try again.","محاولات كثيرة. انتظر ١٥ دقيقة ثم حاول مرة أخرى."],
     signedOut:["Sign in to continue.","سجّل الدخول للمتابعة."],notConfigured:["The database is not connected yet.","قاعدة البيانات غير متصلة بعد."],
-    removeReview:["Remove","حذف"],removeReviewConfirm:["Remove this review from the website?","هل تريد حذف هذا التقييم من الموقع؟"],reviewRemoved:["Review removed.","تم حذف التقييم."],
+    deleteEnquiry:["Delete","حذف"],deleteEnquiryConfirm:["Delete this enquiry permanently?","هل تريد حذف هذا الاستفسار نهائياً؟"],enquiryDeleted:["Enquiry deleted.","تم حذف الاستفسار."],removeReview:["Remove","حذف"],removeReviewConfirm:["Remove this review from the website?","هل تريد حذف هذا التقييم من الموقع؟"],reviewRemoved:["Review removed.","تم حذف التقييم."],
     privateFeedback:["Private feedback","ملاحظات خاصة"],likedLabel:["Liked","ما أعجبه"],improveLabel:["Could improve","ما يمكن تحسينه"],service:["Service","الخدمة"],
     accountsHelp:["Only admins see this page. Passwords are stored encrypted: nobody, including admins, can read them.","هذه الصفحة للمسؤولين فقط. تُحفظ كلمات المرور مشفّرة ولا يمكن لأحد قراءتها، حتى المسؤولين."],
     newAccount:["New accounts · one email, or several separated by commas","حسابات جديدة · بريد واحد أو عدة عناوين مفصولة بفواصل"],displayName:["Name","الاسم"],newPassword:["Password (8+ characters)","كلمة المرور (٨ أحرف على الأقل)"],
@@ -265,13 +265,14 @@
       return matches && (state.enquiryFilter==="all" || row.handled===(state.enquiryFilter==="handled"));
     });
     return items.length?items.map(r=>`<tr><td>${person(r)}</td><td><bdi>${esc(r.contact)}</bdi></td><td data-label="${t("package")}">${esc(pick(r.package))}</td><td class="details">${esc(pick(r.message))}</td><td data-label="${t("date")}" class="date-cell">${date(r.date)}</td>
-    <td><button type="button" class="switch" role="switch" data-handled="${esc(r.id)}" aria-checked="${r.handled}" ${label(t(r.handled?"toggleOpen":"toggleHandled")+" · "+pick(r.name))}><span class="switch-track"></span>${t(r.handled?"handled":"open")}</button></td></tr>`).join(""):`<tr><td colspan="6" class="empty">${t("noMatches")}</td></tr>`;
+    <td><button type="button" class="switch" role="switch" data-handled="${esc(r.id)}" aria-checked="${r.handled}" ${label(t(r.handled?"toggleOpen":"toggleHandled")+" · "+pick(r.name))}><span class="switch-track"></span>${t(r.handled?"handled":"open")}</button>${session.is_admin?`<button type="button" class="icon-btn enquiry-delete" data-enquiry-delete="${esc(r.id)}" ${label(t("deleteEnquiry")+" · "+pick(r.name))}>${ic("trash")}</button>`:""}</td></tr>`).join(""):`<tr><td colspan="6" class="empty">${t("noMatches")}</td></tr>`;
   }
   async function enquiryPage() {
     allEnquiries=await api.getEnquiries();
     return sectionHead("enquiries")+`<div class="tools"><label class="search-box">${ic("search")}<input id="enquiry-search" type="search" value="${esc(state.search)}" ${label(t("search"))} placeholder="${t("search")}"></label>
     ${picker("enquiry-filter","status",[["all","all"],["unhandled","newOnly"],["handled","handled"]],state.enquiryFilter)}</div>
-    <div class="card table-wrap"><table class="enquiry-table"><thead><tr>${["name","contact","package","message","date","status"].map(k=>`<th>${t(k)}</th>`).join("")}</tr></thead><tbody id="enquiry-rows">${enquiryRows()}</tbody></table></div>`;
+    <div class="card table-wrap"><table class="enquiry-table"><thead><tr>${["name","contact","package","message","date","status"].map(k=>`<th>${t(k)}</th>`).join("")}</tr></thead><tbody id="enquiry-rows">${enquiryRows()}</tbody></table></div>
+    <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><h2 id="confirm-title"></h2><div class="tools"><button class="btn" value="cancel" autofocus>${t("cancel")}</button><button class="btn reject" value="ok" id="confirm-ok"></button></div></form></dialog>`;
   }
   function reviewPage(rows) {
     const cards=rows.map(r=>`<article class="review-item"><header>${person(r)}<time datetime="${r.date}">${date(r.date,{day:"numeric",month:"short",year:"numeric"})}</time></header><span class="stars" role="img" aria-label="${num(r.stars)} ${t("stars")}" dir="ltr">${"★".repeat(r.stars)}${"☆".repeat(5-r.stars)}</span>
@@ -696,6 +697,8 @@
     } else if (button.dataset.review) {
       const status=button.dataset.status;
       await mutate(()=>api.setReviewStatus(button.dataset.review,status),button,status==="approved"?"reviewApproved":"reviewRejected",'[data-tab="'+state.reviewTab+'"]');
+    } else if (button.dataset.enquiryDelete) {
+      if (await confirmBox(t("deleteEnquiryConfirm"),t("deleteEnquiry"))) await mutate(()=>api.deleteEnquiry(button.dataset.enquiryDelete),button,"enquiryDeleted");
     } else if (button.dataset.reviewRemove) {
       if (await confirmBox(t("removeReviewConfirm"),t("removeReview"))) await mutate(()=>api.removeReview(button.dataset.reviewRemove),button,"reviewRemoved");
     } else if (button.dataset.noteDelete) {
